@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/2002/xmlspec/dtd/2.10/xmlspec.dtd">
+<!-- Configuration 的属性
+	status="error"	该属性可以不设置.
+	用于设置log4j2自身内部的信息输出.
+
+	monitorInterval:log4j能够自动检测是否修改了
+	配置文件并重新配置本身.该属性用于设置间隔秒数.
+	这里没有设置该属性.
+ -->
+<Configuration status="error">
+	<Properties>
+        <Property name="logPath" >${sys:catalina.home}/logs/redcross</Property>
+    </Properties>
+
+  	<Appenders>
+		<RollingFile name="errorInfo" fileName="${logPath}/error.log" immediateFlush="true"
+			filePattern="logs/$${date:yyyy-MM-dd}/error-%d{MM-dd-yyyy}.log.zip">
+			<PatternLayout>
+				<Pattern>%d{HH:mm:ss} %p %c{1.} %t %m%n</Pattern>
+			</PatternLayout>
+			<ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="50 MB" />
+			</Policies>
+		</RollingFile>
+	</Appenders>
+	 <Loggers>
+	   <Root level="TRACE">
+	  		<AppenderRef ref="test"/>
+	   </Root>
+	   <Logger level="ALL" name="com.zx.redcross.exception.handler.GloblalExceptionHandler">
+	  		<AppenderRef ref="errorInfo"/>
+	   </Logger>
+	 </Loggers>
+</Configuration>
