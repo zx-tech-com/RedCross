@@ -10,6 +10,7 @@ public class Img implements Serializable {
 	private int foreignId;
 	private String imgType;
 	private String iname;
+	private byte iindex;
 	
 	public Img() {
 	}
@@ -50,6 +51,13 @@ public class Img implements Serializable {
 
 	public void setIname(String iname) {
 		this.iname = iname;
+	}
+	
+	public byte getIindex() {
+		return iindex;
+	}
+	public void setIindex(byte iindex) {
+		this.iindex = iindex;
 	}
 	@Override
 	public String toString() {

@@ -2,6 +2,8 @@ package com.zx.redcross.entity;
 
 import java.io.Serializable;
 
+import com.zx.redcross.tool.FileUtils;
+
 public class Customer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -32,7 +34,7 @@ public class Customer implements Serializable {
 
 
 	public String getAvatarUrl() {
-		return avatarUrl;
+		return FileUtils.getFullUrl(this.avatarUrl);
 	}
 
 

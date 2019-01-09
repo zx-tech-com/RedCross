@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.zx.redcross.tool.FileUtils;
+
 
 
 public class CourseSubject implements Serializable {
@@ -63,7 +65,7 @@ public class CourseSubject implements Serializable {
 	}
 
 	public String getThumbnailUrl() {
-		return this.thumbnailUrl;
+		return FileUtils.getFullUrl(this.thumbnailUrl);
 	}
 
 	public void setThumbnailUrl(String thumbnailUrl) {

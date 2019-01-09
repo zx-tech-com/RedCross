@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.zx.redcross.tool.FileUtils;
+
 
 public class VideoSubject implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -43,7 +45,7 @@ public class VideoSubject implements Serializable {
 	}
 
 	public String getThumbnailUrl() {
-		return this.thumbnailUrl;
+		return FileUtils.getFullUrl(this.thumbnailUrl);
 	}
 
 	public void setThumbnailUrl(String thumbnailUrl) {

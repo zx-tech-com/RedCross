@@ -3,6 +3,8 @@ package com.zx.redcross.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import com.zx.redcross.tool.FileUtils;
+
 
 public class Topic implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -62,7 +64,7 @@ public class Topic implements Serializable {
 	}
 
 	public String getVideoUrl() {
-		return this.videoUrl;
+		return FileUtils.getFullUrl(this.videoUrl);
 	}
 
 	public void setVideoUrl(String videoUrl) {

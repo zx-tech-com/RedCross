@@ -2,6 +2,8 @@ package com.zx.redcross.entity;
 
 import java.io.Serializable;
 
+import com.zx.redcross.tool.FileUtils;
+
 public class Course implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -59,7 +61,7 @@ public class Course implements Serializable {
 	}
 
 	public String getThumbnailUrl() {
-		return this.thumbnailUrl;
+		return FileUtils.getFullUrl(this.thumbnailUrl);
 	}
 
 	public void setThumbnailUrl(String thumbnailUrl) {
@@ -67,7 +69,7 @@ public class Course implements Serializable {
 	}
 
 	public String getVideoUrl() {
-		return this.videoUrl;
+		return FileUtils.getFullUrl(this.videoUrl);
 	}
 
 	public void setVideoUrl(String videoUrl) {
