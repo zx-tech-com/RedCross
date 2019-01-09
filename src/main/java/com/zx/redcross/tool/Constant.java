@@ -10,7 +10,7 @@ public class Constant {
 
 	
 	public static final String ABSOLUTE_BASE_PATH = "D:" + File.separator;
-	public static final String ACCESS_BASE_PATH = "http://localhost:8080/";
+	public static final String ACCESS_BASE_PATH = "http://192.168.1.177:8080/";
 	
 	// 所有视频均存储在该路径下
 	public static final String VIDEO_ABSOLUTE_BASE_PATH = ABSOLUTE_BASE_PATH + "videos" + File.separator;
