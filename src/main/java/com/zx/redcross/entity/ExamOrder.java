@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ExamOrder implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private Integer id;
 	private String coment;
 	private String detailAddress;
 	private String method;
@@ -22,11 +22,11 @@ public class ExamOrder implements Serializable {
 	public ExamOrder() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

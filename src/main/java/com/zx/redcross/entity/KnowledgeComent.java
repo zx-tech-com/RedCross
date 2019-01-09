@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class KnowledgeComent implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private Integer id;
 	private String comentTime;
 	private String content;
 	private Boolean isTopcoment;
@@ -24,11 +24,11 @@ public class KnowledgeComent implements Serializable {
 	public KnowledgeComent() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

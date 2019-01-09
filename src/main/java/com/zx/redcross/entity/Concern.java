@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Concern implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private Integer id;
 	private String concernTime;
 	private Customer aCustomer;//关注人
 	private Customer pCustomer;//被关注者
@@ -12,11 +12,11 @@ public class Concern implements Serializable {
 	public Concern() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

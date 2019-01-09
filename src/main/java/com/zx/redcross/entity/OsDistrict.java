@@ -6,21 +6,21 @@ import java.util.List;
 
 public class OsDistrict implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private Integer id;
 	private byte level;
 	private String name;
-	private int upid;
+	private Integer upid;
 	private List<Customer> customers;
 	private List<ExamOrder> examOrders;
 
 	public OsDistrict() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -40,11 +40,11 @@ public class OsDistrict implements Serializable {
 		this.name = name;
 	}
 
-	public int getUpid() {
+	public Integer getUpid() {
 		return this.upid;
 	}
 
-	public void setUpid(int upid) {
+	public void setUpid(Integer upid) {
 		this.upid = upid;
 	}
 

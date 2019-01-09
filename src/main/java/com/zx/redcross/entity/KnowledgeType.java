@@ -5,7 +5,7 @@ import java.util.List;
 
 public class KnowledgeType implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private Integer id;
 	private String description;
 	private String kname;
 	private List<Knowledge> knowledges;
@@ -13,11 +13,11 @@ public class KnowledgeType implements Serializable {
 	public KnowledgeType() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

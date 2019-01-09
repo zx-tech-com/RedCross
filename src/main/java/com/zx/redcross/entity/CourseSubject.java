@@ -11,7 +11,7 @@ import com.zx.redcross.tool.FileUtils;
 public class CourseSubject implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private int id;
+	private Integer id;
 	private String description;
 	private String period;
 	private BigDecimal price;
@@ -24,11 +24,11 @@ public class CourseSubject implements Serializable {
 	public CourseSubject() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
