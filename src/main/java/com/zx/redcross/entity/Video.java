@@ -7,22 +7,22 @@ import com.zx.redcross.tool.FileUtils;
 
 public class Video implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private Integer id;
 	private String description;
 	private String thumbnailUrl;
 	private String videoUrl;
-	private int vindex;
+	private Integer vindex;
 	private String vname;
 	private VideoSubject videoSubject;
 
 	public Video() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -50,11 +50,11 @@ public class Video implements Serializable {
 		this.videoUrl = videoUrl;
 	}
 
-	public int getVindex() {
+	public Integer getVindex() {
 		return this.vindex;
 	}
 
-	public void setVindex(int vindex) {
+	public void setVindex(Integer vindex) {
 		this.vindex = vindex;
 	}
 

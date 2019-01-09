@@ -7,8 +7,8 @@ import com.zx.redcross.tool.FileUtils;
 public class Course implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	private int id;
-	private int cindex;
+	private Integer id;
+	private Integer cindex;
 	private String cname;
 	private String description;
 	private Boolean isVideo;
@@ -19,19 +19,19 @@ public class Course implements Serializable {
 	public Course() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public int getCindex() {
+	public Integer getCindex() {
 		return this.cindex;
 	}
 
-	public void setCindex(int cindex) {
+	public void setCindex(Integer cindex) {
 		this.cindex = cindex;
 	}
 

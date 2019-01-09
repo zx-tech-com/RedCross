@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 public class VideoPayRecord implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private Integer id;
 	private BigDecimal amount;
 	private String payMethod;
 	private byte status;
@@ -15,11 +15,11 @@ public class VideoPayRecord implements Serializable {
 	public VideoPayRecord() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

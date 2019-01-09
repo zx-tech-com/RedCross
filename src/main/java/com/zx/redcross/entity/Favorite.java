@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 public class Favorite implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private Integer id;
 	private String favoriteTime;
 	private Customer customer;
 	private Topic topic;
@@ -13,11 +13,11 @@ public class Favorite implements Serializable {
 	public Favorite() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

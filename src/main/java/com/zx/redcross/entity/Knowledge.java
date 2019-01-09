@@ -7,7 +7,7 @@ import com.zx.redcross.tool.FileUtils;
 
 public class Knowledge implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private Integer id;
 	private String content;
 	private Boolean hasVideo;
 	private String publishTime;
@@ -21,12 +21,12 @@ public class Knowledge implements Serializable {
 	}
 
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

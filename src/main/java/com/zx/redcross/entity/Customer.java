@@ -7,11 +7,11 @@ import com.zx.redcross.tool.FileUtils;
 public class Customer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private int id;
+	private Integer id;
 	private String avatarUrl;
 	private String detailAddress;
 	private String gender;
-	private int isVisitor;
+	private Boolean isVisitor;
 	private String nickname;
 	private String password;
 	private String registerTime;
@@ -23,12 +23,12 @@ public class Customer implements Serializable {
 	}
 
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -63,12 +63,12 @@ public class Customer implements Serializable {
 	}
 
 
-	public int getIsVisitor() {
+	public Boolean getIsVisitor() {
 		return isVisitor;
 	}
 
 
-	public void setIsVisitor(int isVisitor) {
+	public void setIsVisitor(Boolean isVisitor) {
 		this.isVisitor = isVisitor;
 	}
 

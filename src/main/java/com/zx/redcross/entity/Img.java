@@ -5,19 +5,19 @@ import java.io.Serializable;
 
 public class Img implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private Integer id;
 	private String description;
-	private int foreignId;
+	private Integer foreignId;
 	private String imgType;
 	private String iname;
 	private byte iindex;
 	
 	public Img() {
 	}
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -29,11 +29,11 @@ public class Img implements Serializable {
 		this.description = description;
 	}
 
-	public int getForeignId() {
+	public Integer getForeignId() {
 		return this.foreignId;
 	}
 
-	public void setForeignId(int foreignId) {
+	public void setForeignId(Integer foreignId) {
 		this.foreignId = foreignId;
 	}
 

@@ -8,7 +8,7 @@ import java.util.List;
 public class VideoBuyRecord implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private Integer id;
 	private String coment;
 	private String orderNumber;
 	private byte status;
@@ -20,11 +20,11 @@ public class VideoBuyRecord implements Serializable {
 	public VideoBuyRecord() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
