@@ -8,6 +8,7 @@ public class Customer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
+	private Integer DistrictId;
 	private String avatarUrl;
 	private String detailAddress;
 	private String gender;
@@ -30,6 +31,16 @@ public class Customer implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	
+	public Integer getDistrictId() {
+		return DistrictId;
+	}
+
+
+	public void setDistrictId(Integer districtId) {
+		DistrictId = districtId;
 	}
 
 
@@ -125,10 +136,12 @@ public class Customer implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Customer [id=" + id + ", avatarUrl=" + avatarUrl + ", detailAddress=" + detailAddress + ", gender="
-				+ gender + ", isVisitor=" + isVisitor + ", nickname=" + nickname + ", password=" + password
-				+ ", registerTime=" + registerTime + ", tel=" + tel + ", osDistrict=" + osDistrict + "]";
+		return "Customer [id=" + id + ", DistrictId=" + DistrictId + ", avatarUrl=" + avatarUrl + ", detailAddress="
+				+ detailAddress + ", gender=" + gender + ", isVisitor=" + isVisitor + ", nickname=" + nickname
+				+ ", password=" + password + ", registerTime=" + registerTime + ", tel=" + tel + ", osDistrict="
+				+ osDistrict + "]";
 	}
+
 
 	
 }
