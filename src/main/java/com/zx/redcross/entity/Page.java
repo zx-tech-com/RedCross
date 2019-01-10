@@ -9,7 +9,7 @@ import com.zx.redcross.tool.Constant;
 public class Page {
 
 	private Integer pageSize = Constant.APP_PAGE_SIZE;
-	private Integer pageNo;
+	private Integer pageNo=1;
 	private Integer start;
 	
 	public Integer getPageSize() {
@@ -22,11 +22,10 @@ public class Page {
 		return pageNo;
 	}
 	public void setPageNo(Integer pageNo) {
-		this.pageNo = pageNo;
-		this.start = (pageNo-1) * pageSize;
+		this.pageNo = pageNo;	
 	}
 	public Integer getStart() {
-		return start;
+		return this.start = (pageNo-1) * pageSize;
 	}
 	
 	

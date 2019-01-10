@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zx.redcross.dao.index.SocialMapper;
+import com.zx.redcross.entity.Page;
 import com.zx.redcross.entity.Topic;
 import com.zx.redcross.entity.TopicType;
 import com.zx.redcross.service.SocialService;
@@ -21,15 +22,15 @@ public class SocialServiceImpl implements SocialService{
 	}
 
 	@Override
-	public List<Topic> findAllTopic() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Integer findAllCountTopic() {
 		// TODO Auto-generated method stub
 		return socialMapper.findAllTopicCount();
+	}
+
+	@Override
+	public List<Topic> findAllTopic(Page page) {
+		// TODO Auto-generated method stub
+		return socialMapper.findAllTopic(page);
 	}
 
 }

@@ -13,4 +13,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="findAllTopicCount" resultType="int">
 	 select count(*) from topic	
 	</select>
+	
+	<select id="findAllTopic" resultType="Topic" parameterType="Page">
+	  SELECT * FROM topic ORDER BY id DESC LIMIT #{start},#{pageSize}
+	</select>
 </mapper>
