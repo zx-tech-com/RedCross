@@ -8,6 +8,7 @@ public class TopicType implements Serializable {
 	private Integer id;
 	private String description;
 	private String tname;
+	private String timg;
 	private List<Topic> topics;
 
 	public TopicType() {
@@ -44,6 +45,15 @@ public class TopicType implements Serializable {
 	public void setTopics(List<Topic> topics) {
 		this.topics = topics;
 	}
+	
+
+	public String getTimg() {
+		return timg;
+	}
+
+	public void setTimg(String timg) {
+		this.timg = timg;
+	}
 
 	public Topic addTopic(Topic topic) {
 		getTopics().add(topic);
@@ -61,7 +71,8 @@ public class TopicType implements Serializable {
 
 	@Override
 	public String toString() {
-		return "TopicType [id=" + id + ", description=" + description + ", tname=" + tname + ", topics=" + topics + "]";
+		return "TopicType [id=" + id + ", description=" + description + ", tname=" + tname + ", timg=" + timg
+				+ ", topics=" + topics + "]";
 	}
 
 }

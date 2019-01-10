@@ -56,7 +56,6 @@ public class FileUtils {
 		} catch (IllegalStateException | IOException e) {
 			BusinessExceptionUtils.throwNewBusinessException("文件存储失败");
 		}
-		
 		return absoluteBasePath.replace(Constant.ABSOLUTE_BASE_PATH, "") + getFileName(file);
 	}
 	
@@ -64,6 +63,5 @@ public class FileUtils {
 		if(url != null && url.length() > 0)
 			return Constant.ACCESS_BASE_PATH + url;
 		return null;
-	}
-	
+	}	
 }
