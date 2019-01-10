@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zx.redcross.dao.course.ICourseMapper">
+	
+	<!-- <resultMap type="CourseSubject" id="courseSubject" autoMapping="true">
+		<id column="id" property="id"/>
+		<association property="courses" resultMap="course"></association>
+	</resultMap>
+	
+	<resultMap type="Course" id="course" autoMapping="true">
+		<id column="id" property="id"/>
+	</resultMap> -->
+	
+	
+	<select id="listCourseSubject" resultType="courseSubject">
+		SELECT 
+			id,sname,description,price,thumbnail_url,period
+		FROM course_subject
+	</select>
+	
+	<select id="listCourseBySubject" resultType="course">
+		SELECT 
+			course.id,cname,description,cindex,is_video,video_url,thumbnail_url
+		FROM course
+		WHERE subject_id = #{subjectId}
+		LIMIT ${page.start},${page.pageSize};
+	</select>
+	
+	<select id="getCourseById" resultMap="course">
+		SELECT 
+			course.id,cname,description,cindex,is_video,video_url,thumbnail_url
+		FROM course
+		WHERE id = #{id};
+	</select>
+	
+	<insert id="saveCourse" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO course(cname,description,cindex,is_video,video_url,thumbnail_url)
+		VALUES (
+			#{course.cname},
+			#{course.description},
+			#{course.cindex},
+			#{course.is_video},
+			#{course.video_url},
+			#{course.thumbnail_url}
+		);
+	</insert>
+	
+	
+	<insert id="saveCourseSubject" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO course_subject(sname,description,price,thumbnail_url,period)
+		VALUES(
+			#{courseSubject.sname},
+			#{courseSubject.description},
+			#{courseSubject.price},
+			#{courseSubject.thumbnail_url},
+			#{courseSubject.period}
+		);
+	</insert>
+	
+	
+	
+</mapper>

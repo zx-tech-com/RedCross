@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace指向mapper接口 -->
+<mapper namespace="com.zx.redcross.dao.my.CustomerMapper">
+	<!--查询所有会员，返回的是一个会员集合  -->
+	<select id="finAllCustomer" resultType="Customer">
+		select * from customer
+	</select>
+	<!--通过id查询会员，返回的是一个会员 -->
+	<select id="findCustomerById" parameterType="int" resultType="Customer">
+		select * from customer where id=#{id}
+	</select>
+	<!-- 添加会员 -->
+	<insert id="saveCustomer" parameterType="Customer">
+		INSERT INTO customer(district_id,`password`,tel,detail_address) 
+		VALUES(#{districtId},#{password},#{tel},#{detailAddress})	
+	</insert>
+</mapper>

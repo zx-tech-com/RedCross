@@ -30,6 +30,7 @@ public class Constant {
 	public static final String STATUS_SUCCESS = "success";
 	public static final String STATUS_FAILURE = "failure";
 	public static final String ERROR_MESSAGE = "message";
+	public static final String DATA = "data";
 	
 	
 	/**
