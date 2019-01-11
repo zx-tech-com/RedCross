@@ -73,5 +73,4 @@ public class TopicType implements Serializable {
 		return "TopicType [id=" + id + ", description=" + description + ", tname=" + tname + ", thumbnailUrl="
 				+ thumbnailUrl + ", topics=" + topics + "]";
 	}
-	
 }

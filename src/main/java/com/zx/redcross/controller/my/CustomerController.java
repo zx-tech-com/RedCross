@@ -11,6 +11,7 @@ import com.zx.redcross.entity.Customer;
 import com.zx.redcross.entity.OsDistrict;
 import com.zx.redcross.service.my.CustomerService;
 import com.zx.redcross.tool.Constant;
+import com.zx.redcross.tool.JWTUtils;
 import com.zx.redcross.tool.MapUtils;
 
 @RestController("")
@@ -80,7 +81,9 @@ public class CustomerController {
 			System.out.println(customer);
 			map.put(Constant.DATA, customer);
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+			map.put(Constant.TOKEN, JWTUtils.creatToken(JWTUtils.prepareTokenParams(customer.getId())));
 		}
 		return map;	
 	}
+	
 }

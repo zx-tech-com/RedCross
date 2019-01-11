@@ -21,11 +21,9 @@ import com.zx.redcross.entity.OsDistrict;
 @ContextConfiguration(locations={"classpath:applicationContext.xml"})
 public class TestCase {
 	@Resource
-	BasicDataSource dbcp2;
+	BasicDataSource c3p0;
 	@Resource
 	CustomerMapper customerMapper;
-	@Resource
-	SocialMapper socialMapper;
 	@Resource
 	OsDistrictMapper osDistrictMapper;
 	@Test
@@ -44,7 +42,7 @@ public class TestCase {
 	//通过id查找会员
 	@Test
 	public void findCustomerByid(){
-		Customer customer=customerMapper.findCustomerById(8);
+		Customer customer=customerMapper.findCustomerById(1);
 		System.out.println(customer.getDistrictId());
 		//根据获取的区域id来获取全部的地址名字
 		Boolean flage=true;
@@ -89,11 +87,5 @@ public class TestCase {
 		}
 		customer.setDetailAddress(path);
 		customerMapper.saveCustomer(customer);
-	}
-	//查询所有帖子的数量
-	@Test
-	public void test1(){
-	Integer count=socialMapper.findAllTopicCount();
-	System.out.println(count);	
 	}
 }

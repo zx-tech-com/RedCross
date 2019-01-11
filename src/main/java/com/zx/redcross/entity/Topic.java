@@ -14,11 +14,15 @@ public class Topic implements Serializable {
 	private String publishTime;
 	private String title;
 	private String videoUrl;
+	private Integer totalShare;
 	private List<Favorite> favorites;
 	private List<KnowledgeComent> knowledgeComents;
 	private Customer customer;
 	private TopicType topicType;
 	private List<TopicComent> topicComents;
+	//=============逻辑字段================
+	private Integer totalThumbsup;
+	private Integer totalComment;
 	
 	private Integer flag;
 
@@ -152,6 +156,39 @@ public class Topic implements Serializable {
 		this.topicComents = topicComents;
 	}
 
+	
+	
+	
+	public Integer getTotalShare() {
+		return totalShare;
+	}
+
+
+	public void setTotalShare(Integer totalShare) {
+		this.totalShare = totalShare;
+	}
+
+
+	public Integer getTotalThumbsup() {
+		return totalThumbsup;
+	}
+
+
+	public void setTotalThumbsup(Integer totalThumbsup) {
+		this.totalThumbsup = totalThumbsup;
+	}
+
+
+	public Integer getTotalComment() {
+		return totalComment;
+	}
+
+
+	public void setTotalComment(Integer totalComment) {
+		this.totalComment = totalComment;
+	}
+
+
 	public TopicComent addTopicComent(TopicComent topicComent) {
 		getTopicComents().add(topicComent);
 		topicComent.setTopic(this);
@@ -165,12 +202,16 @@ public class Topic implements Serializable {
 
 		return topicComent;
 	}
+
+
 	@Override
 	public String toString() {
 		return "Topic [id=" + id + ", content=" + content + ", hasVideo=" + hasVideo + ", publishTime=" + publishTime
-				+ ", title=" + title + ", videoUrl=" + videoUrl + ", favorites=" + favorites + ", knowledgeComents="
-				+ knowledgeComents + ", customer=" + customer + ", topicType=" + topicType + ", topicComents="
-				+ topicComents + ", flag=" + flag + "]";
+				+ ", title=" + title + ", videoUrl=" + videoUrl + ", totalShare=" + totalShare + ", favorites="
+				+ favorites + ", knowledgeComents=" + knowledgeComents + ", customer=" + customer + ", topicType="
+				+ topicType + ", topicComents=" + topicComents + ", totalThumbsup=" + totalThumbsup + ", totalComment="
+				+ totalComment + ", flag=" + flag + "]";
 	}
 
+	
 }

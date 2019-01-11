@@ -10,6 +10,7 @@ import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.JWSObject;
 import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.JWSVerifier;
+import com.nimbusds.jose.KeyLengthException;
 import com.nimbusds.jose.Payload;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
@@ -36,12 +37,21 @@ public class JWTUtils {
 	 * @return
 	 * @throws JOSEException
 	 */
-    public static String creatToken(Map<String,Object> payloadMap) throws JOSEException {
+    public static String creatToken(Map<String,Object> payloadMap){
         JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS256);
         Payload payload = new Payload(new JSONObject(payloadMap));
         JWSObject jwsObject = new JWSObject(jwsHeader, payload);
-        JWSSigner jwsSigner = new MACSigner(SECRET);
-        jwsObject.sign(jwsSigner);
+        JWSSigner jwsSigner;
+		try {
+			jwsSigner = new MACSigner(SECRET);
+			jwsObject.sign(jwsSigner);
+		} catch (KeyLengthException e) {
+			e.printStackTrace();
+			BusinessExceptionUtils.throwNewBusinessException("秘钥长度不合理");
+		} catch (JOSEException e) {
+			e.printStackTrace();
+			BusinessExceptionUtils.throwNewBusinessException("token生成错误");
+		}
         return jwsObject.serialize();
     }
     
@@ -52,7 +62,7 @@ public class JWTUtils {
 
     	Map<String, Object> resultMap = MapUtils.getHashMapInstance();
     	if(token == null) {//无token信息
-    		resultMap.put(Constant.TOKEN, Constant.TOKEN_INVALID);
+    		resultMap.put(Constant.TOKEN_STATUS, Constant.TOKEN_INVALID);
     		return resultMap;
     	}
     	
@@ -63,7 +73,7 @@ public class JWTUtils {
         if (jwsObject.verify(jwsVerifier)) {//验证通过
         	JWTUtils.checkIfTokenExpired(payload,resultMap);
         }else {
-        	resultMap.put(Constant.TOKEN, Constant.TOKEN_INVALID);
+        	resultMap.put(Constant.TOKEN_STATUS, Constant.TOKEN_INVALID);
         }
         return resultMap;
 
@@ -75,20 +85,23 @@ public class JWTUtils {
              Long expTime = Long.valueOf(jsonObject.get(Constant.EXPIRES).toString());
              Long nowTime = new Date().getTime();
              if (nowTime > expTime) {//已过期
-                 resultMap.put(Constant.TOKEN,Constant.TOKEN_EXPIRED);
+                 resultMap.put(Constant.TOKEN_STATUS,Constant.TOKEN_EXPIRED);
              }else {//未过期
-            	 resultMap.put(Constant.TOKEN,Constant.TOKEN_VALID);
+            	 resultMap.put(Constant.TOKEN_STATUS,Constant.TOKEN_VALID);
             	 resultMap.put(Constant.PAY_LOAD, jsonObject);
              }
             	 
          }else {//不包含过期时间
-         	resultMap.put(Constant.TOKEN,Constant.TOKEN_VALID);
+         	resultMap.put(Constant.TOKEN_STATUS,Constant.TOKEN_VALID);
          	resultMap.put(Constant.PAY_LOAD, jsonObject);
          }
     }
 
 	
-    public static Map<String,Object> prepareTokenParams(String customerId) {
+    public static Map<String,Object> prepareTokenParams(Integer customerId) {
+    	
+    	if(customerId == null)
+    		BusinessExceptionUtils.throwNewBusinessException("用户登录错误");
     	
     	Map<String,Object> map = MapUtils.getHashMapInstance();
     	map.put(Constant.CUSTOMERID, customerId);
