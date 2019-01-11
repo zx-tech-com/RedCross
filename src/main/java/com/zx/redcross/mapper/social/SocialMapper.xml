@@ -29,4 +29,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</where>
 	ORDER BY id DESC LIMIT #{page.start},#{page.pageSize}
 	</select>
+	<select id="findTopicById" parameterType="int" resultType="int">
+	select *  from topic	where	id=#{topicId}
+	</select>
+	
+	<select id="findTopicCustomerId"  resultType="int">
+	select count(id)  from concerns	where customer1_id=#{aCustomerId} and customer0_id={pCustomerId}
+	</select>
+	
+	<insert id="saveConcert">
+	INSERT INTO concerns(customer1_id,customer0_id)  VALUES(#{aCustomerId},#{pCustomerId});
+	</insert>
+	<delete id="deleteConcert">
+	DELETE FROM concerns WHERE customer1_id=#{aCustomerId} AND customer0_id=#{pCustomerId};
+	</delete>
 </mapper>

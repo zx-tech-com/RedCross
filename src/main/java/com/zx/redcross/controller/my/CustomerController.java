@@ -64,7 +64,7 @@ public class CustomerController {
 		Map<String,Object> map=MapUtils.getHashMapInstance();
 		List<OsDistrict> dis=customerService.findByUpid(id);
 		map.put(Constant.DATA, dis);
-		map.put(Constant.DATA, Constant.STATUS_SUCCESS);
+		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 		return map;
 	}
 	/**

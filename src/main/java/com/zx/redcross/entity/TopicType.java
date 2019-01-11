@@ -45,7 +45,6 @@ public class TopicType implements Serializable {
 	public void setTopics(List<Topic> topics) {
 		this.topics = topics;
 	}
-	
 
 	public Topic addTopic(Topic topic) {
 		getTopics().add(topic);
@@ -74,6 +73,4 @@ public class TopicType implements Serializable {
 		return "TopicType [id=" + id + ", description=" + description + ", tname=" + tname + ", thumbnailUrl="
 				+ thumbnailUrl + ", topics=" + topics + "]";
 	}
-
-
 }

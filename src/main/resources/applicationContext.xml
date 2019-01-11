@@ -57,6 +57,7 @@
 		<tx:attributes>
 			<tx:method name="get*" isolation="DEFAULT" timeout="5" read-only="true"/>
 			<tx:method name="list*" isolation="DEFAULT" timeout="5" read-only="true"/>
+			<tx:method name="find*" isolation="DEFAULT" timeout="5" read-only="true"/>
 			
 			<tx:method name="save*" rollback-for="Exception" propagation="REQUIRED"/>
 			<tx:method name="remove*" rollback-for="Exception" propagation="REQUIRED"/>
