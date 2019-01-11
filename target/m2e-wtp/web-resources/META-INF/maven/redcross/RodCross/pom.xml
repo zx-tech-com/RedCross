@@ -185,7 +185,15 @@
 		<artifactId>cors-filter</artifactId>
 		<version>2.6</version>
 	</dependency>     
+  	
+  	<dependency>
+		<groupId>com.nimbusds</groupId>
+		<artifactId>nimbus-jose-jwt</artifactId>
+		<version>4.23</version>
+  	</dependency>
   </dependencies>
+  
+  
   <build>
     <finalName>redcross</finalName>
      <plugins>

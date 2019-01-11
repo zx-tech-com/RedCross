@@ -15,13 +15,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap> -->
 	
 	
-	<select id="listCourseSubject" resultType="CourseSubject">
+	<select id="listCourseSubject" resultType="courseSubject">
 		SELECT 
 			id,sname,description,price,thumbnail_url,period
 		FROM course_subject
 	</select>
 	
-	<select id="listCourseBySubject" resultType="Course">
+	<select id="listCourseBySubject" resultType="course">
 		SELECT 
 			course.id,cname,description,cindex,is_video,video_url,thumbnail_url
 		FROM course
@@ -29,8 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		LIMIT ${page.start},${page.pageSize};
 	</select>
 	
-
-	<select id="getCourseById" resultType="Course">
+	<select id="getCourseById" resultType="course">
 		SELECT 
 			course.id,cname,description,cindex,is_video,video_url,thumbnail_url
 		FROM course

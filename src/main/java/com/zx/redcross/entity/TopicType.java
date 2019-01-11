@@ -8,7 +8,7 @@ public class TopicType implements Serializable {
 	private Integer id;
 	private String description;
 	private String tname;
-	private String timg;
+	private String thumbnailUrl;
 	private List<Topic> topics;
 
 	public TopicType() {
@@ -67,6 +67,14 @@ public class TopicType implements Serializable {
 		topic.setTopicType(null);
 
 		return topic;
+	}
+	
+	public String getThumbnailUrl() {
+		return thumbnailUrl;
+	}
+
+	public void setThumbnailUrl(String thumbnailUrl) {
+		this.thumbnailUrl = thumbnailUrl;
 	}
 
 	@Override

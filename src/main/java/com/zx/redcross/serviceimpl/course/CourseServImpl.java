@@ -33,12 +33,12 @@ public class CourseServImpl implements ICourseServ{
 	}
 
 	@Override
-	public Boolean saveCourse(Course course) {
+	public Boolean addCourse(Course course) {
 		return courseMapper.saveCourse(course);
 	}
 
 	@Override
-	public Boolean saveCourseSubject(CourseSubject courseSubject) {
+	public Boolean addCourseSubject(CourseSubject courseSubject) {
 		return courseMapper.saveCourseSubject(courseSubject);
 	}
 

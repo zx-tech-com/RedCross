@@ -14,7 +14,7 @@ public interface ICourseServ {
 	
 	Course getCourseById(Integer id);
 	
-	Boolean saveCourse(Course course);
+	Boolean addCourse(Course course);
 	
-	Boolean saveCourseSubject(CourseSubject courseSubject);
+	Boolean addCourseSubject(CourseSubject courseSubject);
 }
