@@ -39,4 +39,20 @@ public class Constant {
 	public static final Integer APP_PAGE_SIZE= 6;
 	
 	
+	/**
+	 * Token相关
+	 */
+	public static final String TOKEN= "token";
+	public static final String PAY_LOAD= "payLoad";
+	public static final String SECRET = "fb63cf7d-385c-4b2c-b89d-3d4c8a9f";
+	public static final String EXPIRES = "expires";
+	public static final String TOKEN_VALID = "valid";
+	public static final String TOKEN_INVALID = "invalid";
+	public static final String TOKEN_EXPIRED = "expired";
+	public static final String CUSTOMERID = "customerId";
+	public static final Integer NUMBER_8 = 8;
+	public static final Integer HOUR_FIELD = 11;
+	
+	
+	
 }

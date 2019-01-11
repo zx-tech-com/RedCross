@@ -27,7 +27,8 @@ public class TestCase {
 	OsDistrictMapper osDistrictMapper;
 	@Test
 	public void testDs() throws SQLException{
-		System.out.println(c3p0.getConnection());
+		
+//		System.out.println(c3p0.getConnection());
 	}
 	//查询所有会员
 	@Test
