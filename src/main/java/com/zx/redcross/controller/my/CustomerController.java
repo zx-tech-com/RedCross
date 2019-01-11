@@ -11,6 +11,7 @@ import com.zx.redcross.entity.Customer;
 import com.zx.redcross.entity.OsDistrict;
 import com.zx.redcross.service.my.CustomerService;
 import com.zx.redcross.tool.Constant;
+import com.zx.redcross.tool.JWTUtils;
 import com.zx.redcross.tool.MapUtils;
 
 @RestController("")
@@ -32,7 +33,7 @@ public class CustomerController {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Integer count=customerService.findCustomerByTel(customer.getTel());
 		if(count!=0){
-			map.put(Constant.DATA, Constant.STATUS_FAILURE);
+			map.put(Constant.STATUS, Constant.STATUS_FAILURE);
 			return map;		
 		}else{
 			OsDistrict osDistrict=customerService.findOsdistrictById(customer.getDistrictId());
@@ -51,7 +52,7 @@ public class CustomerController {
 			}
 			customer.setDetailAddress(path);
 			customerService.saveCustomer(customer);
-			map.put(Constant.DATA, Constant.STATUS_SUCCESS);
+			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 		}
 		return map;
 	}
@@ -75,12 +76,14 @@ public class CustomerController {
 		//通过手机号码和密码查询是否存在用户
 		Customer customer=customerService.findCustomer(tel,password);
 		if(customer==null){
-			map.put(Constant.DATA, Constant.STATUS_FAILURE);	
+			map.put(Constant.STATUS, Constant.STATUS_FAILURE);	
 		}else{
 			System.out.println(customer);
 			map.put(Constant.DATA, customer);
-			map.put(Constant.DATA, Constant.STATUS_SUCCESS);
+			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+			map.put(Constant.TOKEN, JWTUtils.creatToken(JWTUtils.prepareTokenParams(customer.getId())));
 		}
 		return map;	
 	}
+	
 }

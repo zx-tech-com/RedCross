@@ -13,9 +13,12 @@ public class Knowledge implements Serializable {
 	private String publishTime;
 	private String title;
 	private String videoUrl;
+	private Integer totalShare;
 	private KnowledgeType knowledgeType;
 	private List<KnowledgeThumbsup> knowledgeThumbsups;
-
+	//===========逻辑字段====================
+	private Integer totalThumbsup;
+	private Integer totalComent;
 	
 	public Knowledge() {
 	}
@@ -101,12 +104,43 @@ public class Knowledge implements Serializable {
 	}
 
 
+	public Integer getTotalShare() {
+		return totalShare;
+	}
+
+
+	public void setTotalShare(Integer totalShare) {
+		this.totalShare = totalShare;
+	}
+
+
+	public Integer getTotalThumbsup() {
+		return totalThumbsup;
+	}
+
+
+	public void setTotalThumbsup(Integer totalThumbsup) {
+		this.totalThumbsup = totalThumbsup;
+	}
+
+
+	public Integer getTotalComent() {
+		return totalComent;
+	}
+
+
+	public void setTotalComent(Integer totalComent) {
+		this.totalComent = totalComent;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Knowledge [id=" + id + ", content=" + content + ", hasVideo=" + hasVideo + ", publishTime="
-				+ publishTime + ", title=" + title + ", videoUrl=" + videoUrl + ", knowledgeType=" + knowledgeType
-				+ ", knowledgeThumbsups=" + knowledgeThumbsups + "]";
+				+ publishTime + ", title=" + title + ", videoUrl=" + videoUrl + ", totalShare=" + totalShare
+				+ ", knowledgeType=" + knowledgeType + ", knowledgeThumbsups=" + knowledgeThumbsups + ", totalThumbsup="
+				+ totalThumbsup + ", totalComent=" + totalComent + "]";
 	}
-	
+
 	
 }

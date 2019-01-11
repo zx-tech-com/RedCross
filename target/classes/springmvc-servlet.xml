@@ -58,9 +58,15 @@
  
      <!-- 配置interceptors -->
 	 <mvc:interceptors> 
+	 	<!-- 配置后台管理数据访问接口 -->
 		<mvc:interceptor>
 			<mvc:mapping path="/**/back/**"/>
 			<bean class="com.zx.redcross.interceptor.DataAccessInterceptor"/>
+		</mvc:interceptor>
+		<!-- 配置接口是否可被游客访问的拦截器 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="com.zx.redcross.interceptor.InterfaceOpenInterceptor"/>
 		</mvc:interceptor> 
 	</mvc:interceptors>
 

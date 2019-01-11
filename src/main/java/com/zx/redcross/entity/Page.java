@@ -25,7 +25,8 @@ public class Page {
 		this.pageNo = pageNo;	
 	}
 	public Integer getStart() {
-		return this.start = (pageNo-1) * pageSize;
+		this.start = (pageNo-1) * pageSize;
+		return this.start;
 	}
 	
 	
