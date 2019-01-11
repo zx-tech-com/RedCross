@@ -14,7 +14,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 select count(*) from topic	
 	</select>
 	
-	<select id="findAllTopic" resultType="Topic" parameterType="Page">
-	  SELECT * FROM topic ORDER BY id DESC LIMIT #{start},#{pageSize}
+	<select id="findAllTopic" resultType="Topic" >
+	SELECT 
+	topic.*
+	
+		<if test="coustemerId!=null">
+		,(SELECT COUNT(id) FROM concerns WHERE  concerns.customer0_id = topic.customer_id AND concerns.`customer1_id` =#{coustemerId})AS flag
+		</if>
+	FROM topic
+	<where>
+		<if test="topicTypeId!=null">
+		type_id=#{topicTypeId}
+		</if>
+	</where>
+	ORDER BY id DESC LIMIT #{page.start},#{page.pageSize}
 	</select>
 </mapper>

@@ -10,12 +10,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from customer
 	</select>
 	<!--通过id查询会员，返回的是一个会员 -->
-	<select id="findCustomerById" parameterType="int" resultType="Customer">
-		select * from customer where id=#{id}
+	<select id="findCustomer"  resultType="customer">
+		select * from customer where tel=#{tel} and password=#{password}
 	</select>
 	<!-- 添加会员 -->
 	<insert id="saveCustomer" parameterType="Customer">
-		INSERT INTO customer(district_id,`password`,tel,detail_address) 
+		INSERT INTO customer(district_id,password,tel,detail_address) 
 		VALUES(#{districtId},#{password},#{tel},#{detailAddress})	
 	</insert>
+	<!--通过手机号码查询会员，返回的是一个数量 -->
+	<select id="findCustomerByTel" parameterType="String" resultType="int">
+		select count(tel) from customer where tel=#{tel}
+	</select>
+	
+	
 </mapper>

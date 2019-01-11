@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		LIMIT ${page.start},${page.pageSize};
 	</select>
 	
-	<select id="getCourseById" resultMap="course">
+	<select id="getCourseById" resultType="course">
 		SELECT 
 			course.id,cname,description,cindex,is_video,video_url,thumbnail_url
 		FROM course

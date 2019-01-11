@@ -19,9 +19,22 @@ public class Topic implements Serializable {
 	private Customer customer;
 	private TopicType topicType;
 	private List<TopicComent> topicComents;
+	
+	private Integer flag;
 
 	public Topic() {
 	}
+	
+
+	public Integer getFlag() {
+		return flag;
+	}
+
+
+	public void setFlag(Integer flag) {
+		this.flag = flag;
+	}
+
 
 	public Integer getId() {
 		return this.id;
@@ -152,13 +165,12 @@ public class Topic implements Serializable {
 
 		return topicComent;
 	}
-
 	@Override
 	public String toString() {
 		return "Topic [id=" + id + ", content=" + content + ", hasVideo=" + hasVideo + ", publishTime=" + publishTime
 				+ ", title=" + title + ", videoUrl=" + videoUrl + ", favorites=" + favorites + ", knowledgeComents="
 				+ knowledgeComents + ", customer=" + customer + ", topicType=" + topicType + ", topicComents="
-				+ topicComents + "]";
+				+ topicComents + ", flag=" + flag + "]";
 	}
 
 }

@@ -9,4 +9,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="findOsdistrictById" resultType="OsDistrict" parameterType="int">
 		SELECT * FROM os_district WHERE id=#{id}
 	</select>
+	<!--根据得到的Id返回一个OsDistrict集合  -->
+	<select id="findByUpid" resultType="OsDistrict" parameterType="int">
+		SELECT * FROM os_district WHERE upid=#{id}
+	</select>
 </mapper>
