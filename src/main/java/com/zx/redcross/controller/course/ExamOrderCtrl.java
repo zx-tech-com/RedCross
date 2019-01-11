@@ -72,7 +72,6 @@ public class ExamOrderCtrl {
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 		}
 		return map;
-		
 	}
 	
 	@RequestMapping("addExamOrder")
