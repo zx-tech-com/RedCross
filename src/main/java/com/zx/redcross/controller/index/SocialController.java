@@ -3,12 +3,10 @@ package com.zx.redcross.controller.index;
 import java.util.List;
 import java.util.Map;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zx.redcross.entity.Customer;
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.entity.Topic;
 import com.zx.redcross.entity.TopicType;
@@ -36,8 +34,12 @@ public class SocialController {
 		 * 3.判断帖子的关注情况
 		 */	
 		List<Topic> topics=socialService.findAllTopic(page,coustemerId,topicTypeId);
-		map.put(Constant.DATA, topictypes);
-		map.put(Constant.DATA, topics);
+		Map<String,Object> subMap = MapUtils.getHashMapInstance();
+		
+		subMap.put("topicTypes", topictypes);
+		subMap.put("topics", topics);
+		map.put(Constant.DATA, subMap);
+		
 		map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
 		return map;
 	}

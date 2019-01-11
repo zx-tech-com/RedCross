@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.zx.redcross.dao.index.SocialMapper;
 import com.zx.redcross.dao.my.CustomerMapper;
 import com.zx.redcross.dao.my.OsDistrictMapper;
 import com.zx.redcross.entity.Customer;
@@ -21,17 +20,16 @@ import com.zx.redcross.entity.OsDistrict;
 @ContextConfiguration(locations={"classpath:applicationContext.xml"})
 public class TestCase {
 	@Resource
-	BasicDataSource dbcp2;
+	BasicDataSource c3p0;
 	@Resource
 	CustomerMapper customerMapper;
-	@Resource
-	SocialMapper socialMapper;
 	@Resource
 	OsDistrictMapper osDistrictMapper;
 	@Test
 	public void testDs() throws SQLException{
 		
-		System.out.println(c3p0.getConnection());
+		
+//		System.out.println(c3p0.getConnection());
 	}
 	//查询所有会员
 	@Test
@@ -44,7 +42,7 @@ public class TestCase {
 	//通过id查找会员
 	@Test
 	public void findCustomerByid(){
-		Customer customer=customerMapper.findCustomerById(8);
+		Customer customer=customerMapper.findCustomerById(1);
 		System.out.println(customer.getDistrictId());
 		//根据获取的区域id来获取全部的地址名字
 		Boolean flage=true;
@@ -89,11 +87,5 @@ public class TestCase {
 		}
 		customer.setDetailAddress(path);
 		customerMapper.saveCustomer(customer);
-	}
-	//查询所有帖子的数量
-	@Test
-	public void test1(){
-	Integer count=socialMapper.findAllTopicCount();
-	System.out.println(count);	
 	}
 }
