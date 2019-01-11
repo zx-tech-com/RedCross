@@ -11,9 +11,9 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.zx.redcross.dao.index.SocialMapper;
 import com.zx.redcross.dao.my.CustomerMapper;
 import com.zx.redcross.dao.my.OsDistrictMapper;
+import com.zx.redcross.dao.social.SocialMapper;
 import com.zx.redcross.entity.Customer;
 import com.zx.redcross.entity.OsDistrict;
 
@@ -31,7 +31,7 @@ public class TestCase {
 	@Test
 	public void testDs() throws SQLException{
 		
-		System.out.println(c3p0.getConnection());
+		System.out.println(dbcp2.getConnection());
 	}
 	//查询所有会员
 	@Test
