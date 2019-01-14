@@ -15,7 +15,7 @@ import com.zx.redcross.service.index.IKnowledgeServ;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.MapUtils;
 
-@RestController
+//@RestController
 @RequestMapping("/knowledge")
 public class KnowledgeCtrl {
 	

@@ -17,7 +17,7 @@ import com.zx.redcross.service.social.SocialService;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.MapUtils;
 
-@RestController("")
+//@RestController("")
 @RequestMapping("/social")
 public class SocialController {
 	

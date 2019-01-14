@@ -14,6 +14,7 @@ public class Course implements Serializable {
 	private Boolean isVideo;
 	private String thumbnailUrl;
 	private String videoUrl;
+	private String vdieoDuration;
 	private CourseSubject courseSubject;
 
 	public Course() {
@@ -66,6 +67,22 @@ public class Course implements Serializable {
 
 	public void setThumbnailUrl(String thumbnailUrl) {
 		this.thumbnailUrl = thumbnailUrl;
+	}
+	
+	public Boolean getIsVideo() {
+		return isVideo;
+	}
+
+	public void setIsVideo(Boolean isVideo) {
+		this.isVideo = isVideo;
+	}
+
+	public String getVdieoDuration() {
+		return vdieoDuration;
+	}
+
+	public void setVdieoDuration(String vdieoDuration) {
+		this.vdieoDuration = vdieoDuration;
 	}
 
 	public String getVideoUrl() {

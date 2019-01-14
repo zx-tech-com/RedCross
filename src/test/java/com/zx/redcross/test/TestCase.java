@@ -13,7 +13,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.zx.redcross.dao.my.CustomerMapper;
 import com.zx.redcross.dao.my.OsDistrictMapper;
-import com.zx.redcross.dao.social.SocialMapper;
 import com.zx.redcross.entity.Customer;
 import com.zx.redcross.entity.OsDistrict;
 
@@ -21,7 +20,7 @@ import com.zx.redcross.entity.OsDistrict;
 @ContextConfiguration(locations={"classpath:applicationContext.xml"})
 public class TestCase {
 	@Resource
-	BasicDataSource c3p0;
+	BasicDataSource dbcp2;
 	@Resource
 	CustomerMapper customerMapper;
 	@Resource

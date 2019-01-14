@@ -14,7 +14,7 @@ import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.JWTUtils;
 import com.zx.redcross.tool.MapUtils;
 
-@RestController("")
+//@RestController("")
 @RequestMapping("/customer")
 public class CustomerController {
 	@Autowired
