@@ -8,6 +8,7 @@ import com.zx.redcross.entity.Concern;
 import com.zx.redcross.entity.Customer;
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.entity.Topic;
+import com.zx.redcross.entity.TopicComent;
 import com.zx.redcross.entity.TopicType;
 
 public interface SocialMapper {
@@ -17,14 +18,40 @@ public interface SocialMapper {
 	//查询所有的帖子类型
 	public List<TopicType> findAllTopicType();
 	//分页查询帖子
-	public List<Topic> findAllTopic(@Param("page")Page page, @Param("coustemerId")Integer coustemerId, @Param("topicTypeId")Integer topicTypeId);
+	public List<Topic> findAllTopic(@Param("page")Page page, @Param("customerId")Integer customerId, @Param("topicTypeId")Integer topicTypeId);
 
-	
-	public Topic findTopicById(Integer topicId);
+	public Topic findTopicById(@Param("topicId")Integer topicId,@Param("customerId") Integer customerId);
 
 	public Integer findConcert(@Param("aCustomerId")Integer aCustomerId,@Param("pCustomerId") Integer pCustomerId);
 
 	public void saveConcert(@Param("aCustomerId")Integer aCustomerId, @Param("pCustomerId")Integer pCustomerId);
 
 	public void deleteConcert(@Param("aCustomerId")Integer aCustomerId, @Param("pCustomerId")Integer pCustomerId);
+	//查询会员全部信息
+	public Customer findCustomer(@Param("customerId")Integer customerId);
+	//通过帖子id获取一级评论全部信息及完成分页
+	public List<TopicComent> findTopicComent(@Param("topicId")Integer topicId,@Param("page") Page page,@Param("customerId") Integer customerId);
+	//通过帖子id获取二级评论全部信息及完成分页
+	public List<TopicComent> findTopicComent2(@Param("topicComentId")Integer topicComentId,@Param("page") Page page,@Param("customerId") Integer customerId);
+	//通过帖子id获取三级评论全部信息及完成分页
+	public List<TopicComent> findTopicComent3(@Param("topicComentId")Integer topicComentId,@Param("page") Page page,@Param("customerId") Integer customerId);
+	//插入一级评论
+	public void saveTopicComent(TopicComent topicComent);
+	//查询用户是否点过赞评论
+	public Integer findThunsup(@Param("coustomerId")Integer coustomerId,@Param("topicComentId") Integer topicComentId);
+	//加入点赞评论
+	public void saveThunsup(@Param("coustomerId")Integer coustomerId,@Param("topicComentId") Integer topicComentId);
+	//删除点赞评论
+	public void deleteThunsup(@Param("coustomerId")Integer coustomerId,@Param("topicComentId") Integer topicComentId);
+	//查询用户是否点过赞帖子
+	public Integer findTopicThunsup(@Param("coustomerId")Integer coustomerId,@Param("topicId") Integer topicId);
+	//加入点赞帖子
+	public void saveTopicThunsup(@Param("coustomerId")Integer coustomerId,@Param("topicId") Integer topicId);
+	//删除点赞帖子
+	public void deleteTopicThunsup(@Param("coustomerId")Integer coustomerId,@Param("topicId") Integer topicId);
+	//发表帖子
+	public void saveTopic(Topic topic);
+
+
+	
 }

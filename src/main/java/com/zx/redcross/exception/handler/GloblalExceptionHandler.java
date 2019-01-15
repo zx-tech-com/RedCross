@@ -38,6 +38,7 @@ public class GloblalExceptionHandler {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
 		map.put(Constant.ERROR_MESSAGE, "服务端错误");
+		e.printStackTrace();
 		return map;
 	}
 	

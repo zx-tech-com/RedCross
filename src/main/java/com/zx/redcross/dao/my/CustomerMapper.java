@@ -15,5 +15,6 @@ public interface CustomerMapper {
 	public void saveCustomer(Customer customer);
 	//通过手机号码查找
 	public Integer findCustomerByTel(String tel);
+	
 	public Customer findCustomer(@Param("tel")String tel,@Param("password") String password);
 }

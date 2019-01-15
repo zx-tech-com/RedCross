@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.zx.redcross.dao.my.CustomerMapper">
 	<!--查询所有会员，返回的是一个会员集合  -->
 	<select id="finAllCustomer" resultType="Customer">
-		select * from customer
+		select * from customer 
 	</select>
 	<!--通过id查询会员，返回的是一个会员 -->
 	<select id="findCustomer"  resultType="customer">

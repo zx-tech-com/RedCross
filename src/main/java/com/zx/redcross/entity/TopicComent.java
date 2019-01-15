@@ -12,14 +12,69 @@ public class TopicComent implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String comentTime;
+	private Integer topicId;
+	private Integer customerId;
 	private String content;
 	private Boolean isTopcoment;
+	private Integer comentId;
+	private Integer topcomentId;
+	
 	private Topic topic;
 	private Customer customer;
-	private TopicComent topicComent1;
+	
+	private List<Customer> customers;
+	
+	private TopicComent topicComent1;//topComent
 	private List<TopicComent> topicComents1;
-	private TopicComent topicComent2;
+	
+	private TopicComent topicComent2;//coment
 	private List<TopicComent> topicComents2;
+	//点赞数量
+	private Integer totalThumbsup;
+	//通过数量判断是否点过赞了
+	private Integer totalThumbsNum;
+	
+	public Integer getTotalThumbsNum() {
+		return totalThumbsNum;
+	}
+
+	public void setTotalThumbsNum(Integer totalThumbsNum) {
+		this.totalThumbsNum = totalThumbsNum;
+	}
+
+	public Integer getTotalThumbsup() {
+		return totalThumbsup;
+	}
+
+	public void setTotalThumbsup(Integer totalThumbsup) {
+		this.totalThumbsup = totalThumbsup;
+	}
+
+	public Integer getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
+	}
+
+	public List<Customer> getCustomers() {
+		return customers;
+	}
+
+	public void setCustomers(List<Customer> customers) {
+		this.customers = customers;
+	}
+
+	public Integer getTopicId() {
+		return topicId;
+	}
+
+	public void setTopicId(Integer topicId) {
+		this.topicId = topicId;
+	}
+
+
 
 	public TopicComent() {
 	}
@@ -131,13 +186,32 @@ public class TopicComent implements Serializable {
 
 		return topicComents2;
 	}
+	
+
+	public Integer getComentId() {
+		return comentId;
+	}
+
+	public void setComentId(Integer comentId) {
+		this.comentId = comentId;
+	}
+
+	public Integer getTopcomentId() {
+		return topcomentId;
+	}
+
+	public void setTopcomentId(Integer topcomentId) {
+		this.topcomentId = topcomentId;
+	}
 
 	@Override
 	public String toString() {
-		return "TopicComent [id=" + id + ", comentTime=" + comentTime + ", content=" + content + ", isTopcoment="
-				+ isTopcoment + ", topic=" + topic + ", customer=" + customer + ", topicComent1=" + topicComent1
-				+ ", topicComents1=" + topicComents1 + ", topicComent2=" + topicComent2 + ", topicComents2="
-				+ topicComents2 + "]";
+		return "TopicComent [id=" + id + ",  comentTime=" + comentTime + ", content="
+				+ content + ", isTopcoment=" + isTopcoment + ", topic=" + topic + ", customer=" + customer
+				+ ", topicComent1=" + topicComent1 + ", topicComents1=" + topicComents1 + ", topicComent2="
+				+ topicComent2 + ", topicComents2=" + topicComents2 + "]";
 	}
+
+	
 
 }

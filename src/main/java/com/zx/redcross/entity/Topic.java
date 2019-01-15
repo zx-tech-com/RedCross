@@ -10,9 +10,11 @@ public class Topic implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String content;
+	private Integer customerId;
 	private Boolean hasVideo;
 	private String publishTime;
 	private String title;
+	private String imagUrl;
 	private String videoUrl;
 	private Integer totalShare;
 	private List<Favorite> favorites;
@@ -23,8 +25,17 @@ public class Topic implements Serializable {
 	//=============逻辑字段================
 	private Integer totalThumbsup;
 	private Integer totalComment;
-	
-	private Integer flag;
+	private Integer flag;//判断是否关注
+
+	public String getImagUrl() {
+		return imagUrl;
+	}
+
+
+	public void setImagUrl(String imagUrl) {
+		this.imagUrl = imagUrl;
+	}
+
 
 	public Topic() {
 	}
@@ -159,6 +170,16 @@ public class Topic implements Serializable {
 	
 	
 	
+	public Integer getCustomerId() {
+		return customerId;
+	}
+
+
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
+	}
+
+
 	public Integer getTotalShare() {
 		return totalShare;
 	}
