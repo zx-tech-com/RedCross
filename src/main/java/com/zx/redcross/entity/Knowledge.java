@@ -14,6 +14,7 @@ public class Knowledge implements Serializable {
 	private String title;
 	private String videoUrl;
 	private Integer totalShare;
+	private Customer customer;
 	private KnowledgeType knowledgeType;
 	private List<KnowledgeThumbsup> knowledgeThumbsups;
 	private List<Img> imgs;
@@ -52,6 +53,18 @@ public class Knowledge implements Serializable {
 
 	public void setHasVideo(Boolean hasVideo) {
 		this.hasVideo = hasVideo;
+	}
+
+
+	
+	
+	public Customer getCustomer() {
+		return customer;
+	}
+
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 
@@ -135,17 +148,6 @@ public class Knowledge implements Serializable {
 	}
 
 
-
-
-	@Override
-	public String toString() {
-		return "Knowledge [id=" + id + ", content=" + content + ", hasVideo=" + hasVideo + ", publishTime="
-				+ publishTime + ", title=" + title + ", videoUrl=" + videoUrl + ", totalShare=" + totalShare
-				+ ", knowledgeType=" + knowledgeType + ", knowledgeThumbsups=" + knowledgeThumbsups + ", imgs=" + imgs
-				+ ", totalThumbsup=" + totalThumbsup + ", totalComent=" + totalComent + "]";
-	}
-
-
 	public List<Img> getImgs() {
 		return imgs;
 	}
@@ -155,5 +157,16 @@ public class Knowledge implements Serializable {
 		this.imgs = imgs;
 	}
 
+
+	@Override
+	public String toString() {
+		return "Knowledge [id=" + id + ", content=" + content + ", hasVideo=" + hasVideo + ", publishTime="
+				+ publishTime + ", title=" + title + ", videoUrl=" + videoUrl + ", totalShare=" + totalShare
+				+ ", customer=" + customer + ", knowledgeType=" + knowledgeType + ", knowledgeThumbsups="
+				+ knowledgeThumbsups + ", imgs=" + imgs + ", totalThumbsup=" + totalThumbsup + ", totalComent="
+				+ totalComent + "]";
+	}
+
+	
 	
 }

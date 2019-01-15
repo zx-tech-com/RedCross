@@ -18,7 +18,6 @@ public class Topic implements Serializable {
 	private String videoUrl;
 	private Integer totalShare;
 	private List<Favorite> favorites;
-	private List<KnowledgeComent> knowledgeComents;
 	private Customer customer;
 	private TopicType topicType;
 	private List<TopicComent> topicComents;
@@ -122,27 +121,7 @@ public class Topic implements Serializable {
 		return favorite;
 	}
 
-	public List<KnowledgeComent> getKnowledgeComents() {
-		return this.knowledgeComents;
-	}
 
-	public void setKnowledgeComents(List<KnowledgeComent> knowledgeComents) {
-		this.knowledgeComents = knowledgeComents;
-	}
-
-	public KnowledgeComent addKnowledgeComent(KnowledgeComent knowledgeComent) {
-		getKnowledgeComents().add(knowledgeComent);
-		knowledgeComent.setTopic(this);
-
-		return knowledgeComent;
-	}
-
-	public KnowledgeComent removeKnowledgeComent(KnowledgeComent knowledgeComent) {
-		getKnowledgeComents().remove(knowledgeComent);
-		knowledgeComent.setTopic(null);
-
-		return knowledgeComent;
-	}
 
 	public Customer getCustomer() {
 		return this.customer;
@@ -225,19 +204,6 @@ public class Topic implements Serializable {
 		return topicComent;
 	}
 
-
-
-
-	@Override
-	public String toString() {
-		return "Topic [id=" + id + ", content=" + content + ", hasVideo=" + hasVideo + ", publishTime=" + publishTime
-				+ ", title=" + title + ", videoUrl=" + videoUrl + ", totalShare=" + totalShare + ", favorites="
-				+ favorites + ", knowledgeComents=" + knowledgeComents + ", customer=" + customer + ", topicType="
-				+ topicType + ", topicComents=" + topicComents + ", imgs=" + imgs + ", totalThumbsup=" + totalThumbsup
-				+ ", totalComment=" + totalComment + ", flag=" + flag + "]";
-	}
-
-
 	public List<Img> getImgs() {
 		return imgs;
 	}
@@ -245,6 +211,16 @@ public class Topic implements Serializable {
 
 	public void setImgs(List<Img> imgs) {
 		this.imgs = imgs;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Topic [id=" + id + ", content=" + content + ", customerId=" + customerId + ", hasVideo=" + hasVideo
+				+ ", publishTime=" + publishTime + ", title=" + title + ", imagUrl=" + imagUrl + ", videoUrl="
+				+ videoUrl + ", totalShare=" + totalShare + ", favorites=" + favorites + ", customer=" + customer
+				+ ", topicType=" + topicType + ", topicComents=" + topicComents + ", imgs=" + imgs + ", totalThumbsup="
+				+ totalThumbsup + ", totalComment=" + totalComment + ", flag=" + flag + "]";
 	}
 
 	

@@ -1,6 +1,7 @@
 package com.zx.redcross.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import com.zx.redcross.tool.FileUtils;
 
@@ -12,6 +13,7 @@ public class Video implements Serializable {
 	private String thumbnailUrl;
 	private String videoUrl;
 	private Integer vindex;
+	private BigDecimal price;
 	private String vname;
 	private VideoSubject videoSubject;
 
@@ -74,10 +76,20 @@ public class Video implements Serializable {
 		this.videoSubject = videoSubject;
 	}
 
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
 	@Override
 	public String toString() {
 		return "Video [id=" + id + ", description=" + description + ", thumbnailUrl=" + thumbnailUrl + ", videoUrl="
-				+ videoUrl + ", vindex=" + vindex + ", vname=" + vname + ", videoSubject=" + videoSubject + "]";
+				+ videoUrl + ", vindex=" + vindex + ", price=" + price + ", vname=" + vname + ", videoSubject="
+				+ videoSubject + "]";
 	}
 
+	
 }

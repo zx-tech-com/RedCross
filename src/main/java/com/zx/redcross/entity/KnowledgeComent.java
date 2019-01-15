@@ -14,7 +14,7 @@ public class KnowledgeComent implements Serializable {
 	private String comentTime;
 	private String content;
 	private Boolean isTopcoment;
-	private Topic topic;
+	private Knowledge knowledge;
 	private Customer customer;
 	private KnowledgeComent knowledgeComent1;
 	private List<KnowledgeComent> knowledgeComents1;
@@ -58,13 +58,6 @@ public class KnowledgeComent implements Serializable {
 		this.isTopcoment = isTopcoment;
 	}
 
-	public Topic getTopic() {
-		return this.topic;
-	}
-
-	public void setTopic(Topic topic) {
-		this.topic = topic;
-	}
 
 	public Customer getCustomer() {
 		return this.customer;
@@ -134,12 +127,21 @@ public class KnowledgeComent implements Serializable {
 		return knowledgeComents2;
 	}
 
+	public Knowledge getKnowledge() {
+		return knowledge;
+	}
+
+	public void setKnowledge(Knowledge knowledge) {
+		this.knowledge = knowledge;
+	}
+
 	@Override
 	public String toString() {
 		return "KnowledgeComent [id=" + id + ", comentTime=" + comentTime + ", content=" + content + ", isTopcoment="
-				+ isTopcoment + ", topic=" + topic + ", customer=" + customer + ", knowledgeComent1=" + knowledgeComent1
-				+ ", knowledgeComents1=" + knowledgeComents1 + ", knowledgeComent2=" + knowledgeComent2
-				+ ", knowledgeComents2=" + knowledgeComents2 + "]";
+				+ isTopcoment + ", knowledge=" + knowledge + ", customer=" + customer + ", knowledgeComent1="
+				+ knowledgeComent1 + ", knowledgeComents1=" + knowledgeComents1 + ", knowledgeComent2="
+				+ knowledgeComent2 + ", knowledgeComents2=" + knowledgeComents2 + "]";
 	}
 
+	
 }
