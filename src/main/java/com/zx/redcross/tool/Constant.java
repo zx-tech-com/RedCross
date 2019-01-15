@@ -68,4 +68,14 @@ public class Constant {
 	public static final Integer HTTP_STATUS_302 = 302;
 	
 	
+	
+	/**
+	 * OrderMapper.xml中用到的几个常量
+	 */
+	public static final String VIDEO_ORDER_TITLE = "'付费视频购买-'";
+	public static final String VIDEO_ORDER_DESCRIPTION = "'购买'";
+	public static final String EXAM_ORDER_TITLE = "'考试项目购买-'";
+	
+	
+	
 }

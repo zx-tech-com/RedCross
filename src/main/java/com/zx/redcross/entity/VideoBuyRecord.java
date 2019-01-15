@@ -14,6 +14,7 @@ public class VideoBuyRecord implements Serializable {
 	private byte status;
 	private Timestamp submitTime;
 	private VideoSubject videoSubject;
+	private Video video;
 	private Customer customer;
 	private List<VideoPayRecord> videoPayRecords;
 
@@ -97,12 +98,21 @@ public class VideoBuyRecord implements Serializable {
 
 		return videoPayRecord;
 	}
+	
+	public Video getVideo() {
+		return video;
+	}
+
+	public void setVideo(Video video) {
+		this.video = video;
+	}
 
 	@Override
 	public String toString() {
 		return "VideoBuyRecord [id=" + id + ", coment=" + coment + ", orderNumber=" + orderNumber + ", status=" + status
-				+ ", submitTime=" + submitTime + ", videoSubject=" + videoSubject + ", customer=" + customer
-				+ ", videoPayRecords=" + videoPayRecords + "]";
+				+ ", submitTime=" + submitTime + ", videoSubject=" + videoSubject + ", video=" + video + ", customer="
+				+ customer + ", videoPayRecords=" + videoPayRecords + "]";
 	}
+
 
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace指向mapper接口 -->
+<mapper namespace="com.zx.redcross.dao.my.ITopicMapper">
+	
+	<resultMap type="Topic" id="topic" autoMapping="true">
+		<id column="id" property="id"/>
+		<association property="customer" javaType="Customer" autoMapping="true">
+			<id column="customer_id" property="id"/>
+		</association>
+		<collection property="imgs" ofType="Img" autoMapping="true">
+			<id column="img_id" property="id"/>
+		</collection>
+	</resultMap>
+	
+	<select id="listTopicByCustomerId" resultMap="topic">
+		SELECT 
+			topic.id ,
+			topic.title,
+			topic.content,
+			(SELECT COUNT(id) FROM topic_thumbsup WHERE topic_thumbsup.topic_id = topic.id)AS totalThumbsup,
+			(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id = topic.id)AS totalComment,
+			topic.total_share,
+			publish_time,
+			img.iindex,
+			img.img_url,
+			img.id AS img_id,
+			customer.id AS customer_id,
+			customer.avatar_url,
+			customer.nickname
+		FROM 
+			(
+				SELECT * FROM topic
+				WHERE topic.customer_id = #{customerId}
+				LIMIT #{page.start},#{page.pageSize}
+			)
+			topic 
+		LEFT JOIN customer ON topic.customer_id = customer.id
+		LEFT JOIN img ON img.img_type = 1 AND img.foreign_id = topic.id
+		ORDER BY topic.publish_time DESC;
+	</select>
+	
+	
+</mapper>
