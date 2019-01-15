@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,6 +32,17 @@ public class GloblalExceptionHandler {
 		map.put(Constant.ERROR_MESSAGE, e.getMessage());
 		return map;
 	}
+	
+	@ExceptionHandler(MissingServletRequestParameterException.class)
+	@ResponseBody
+	public Map<String,Object> missingServletRequestParameterHandler(MissingServletRequestParameterException e){
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
+		map.put(Constant.ERROR_MESSAGE, Constant.ERROR_MISSIN_GPARAMETER);
+		map.put(Constant.TIPS, e.getMessage());
+		return map;
+	}
+	
 	
 	@ExceptionHandler(Exception.class)
 	@ResponseBody

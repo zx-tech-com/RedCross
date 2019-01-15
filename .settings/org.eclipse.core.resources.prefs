@@ -1,4 +1,7 @@
 eclipse.preferences.version=1
+encoding//src/main/java/com/zx/redcross/controller/my/AuthenticationController.java=UTF-8
+encoding//src/main/java/com/zx/redcross/controller/my/CustomerController.java=UTF-8
+encoding//src/main/java/com/zx/redcross/controller/social/SocialController.java=UTF-8
 encoding//src/main/java/com/zx/redcross/dao/my/CustomerMapper.java=UTF-8
 encoding//src/main/java/com/zx/redcross/tool/Constant.java=UTF-8
 encoding//src/main/resources/modelMessages.properties=UTF-8

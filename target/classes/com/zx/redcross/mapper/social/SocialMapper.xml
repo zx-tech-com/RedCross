@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace指向mapper接口 -->
+<mapper namespace="com.zx.redcross.dao.index.SocialMapper">
+	<!--返回一个TopicType集合  -->
+	<select id="findAllTopicType" resultType="TopicType">
+	 select * from topic_type	
+	</select>
+	<!--返回一个int类型数据和  -->
+	<select id="findAllTopicCount" resultType="int">
+	 select count(*) from topic	
+	</select>
+	
+	<select id="findAllTopic" resultType="Topic" >
+	SELECT 
+	topic.*
+	
+		<if test="coustemerId!=null">
+		,(SELECT COUNT(id) FROM concerns WHERE  concerns.customer0_id = topic.customer_id AND concerns.`customer1_id` =#{coustemerId})AS flag
+		</if>
+	FROM topic
+	<where>
+		<if test="topicTypeId!=null">
+		type_id=#{topicTypeId}
+		</if>
+	</where>
+	ORDER BY id DESC LIMIT #{page.start},#{page.pageSize}
+	</select>
+	<select id="findTopicById" parameterType="int" resultType="int">
+	select *  from topic	where	id=#{topicId}
+	</select>
+	
+	<select id="findTopicCustomerId"  resultType="int">
+	select count(id)  from concerns	where customer1_id=#{aCustomerId} and customer0_id={pCustomerId}
+	</select>
+	
+	<insert id="saveConcert">
+	INSERT INTO concerns(customer1_id,customer0_id)  VALUES(#{aCustomerId},#{pCustomerId});
+	</insert>
+	<delete id="deleteConcert">
+	DELETE FROM concerns WHERE customer1_id=#{aCustomerId} AND customer0_id=#{pCustomerId};
+	</delete>
+</mapper>

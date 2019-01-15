@@ -1,6 +1,8 @@
 package com.zx.redcross.interceptor;
 
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,9 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.alibaba.fastjson.JSON;
 import com.zx.redcross.annotation.Open;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.JWTUtils;
+import com.zx.redcross.tool.MapUtils;
 
 /**
  * 检测是否需要登录才可访问该接口
@@ -30,16 +34,19 @@ public class InterfaceOpenInterceptor  extends HandlerInterceptorAdapter{
 			else {//验证token
 				String token = request.getHeader(Constant.TOKEN);
 				Map<String,Object> map = JWTUtils.validateToken(token);
+				response.setContentType("application/json;charset=UTF-8");
 				switch((String)map.get(Constant.TOKEN_STATUS)) {
 					case Constant.TOKEN_VALID :
 						return true;
 					case Constant.TOKEN_EXPIRED  :
-						response.setStatus(Constant.HTTP_STATUS_302);
-						response.sendRedirect("/RedCross/authentication/1");
+						addTokenExpiredInfo(response);
+//						response.setStatus(Constant.HTTP_STATUS_302);
+//						response.sendRedirect("/RedCross/authentication/1");
 						return false;
 					case Constant.TOKEN_INVALID  :
-						response.setStatus(Constant.HTTP_STATUS_302);
-						response.sendRedirect("/RedCross/authentication/0");
+						addTokenInvalidInfo(response);
+//						response.setStatus(Constant.HTTP_STATUS_302);
+//						response.sendRedirect("/RedCross/authentication/0");
 						return false;
 				}
 			}
@@ -47,5 +54,28 @@ public class InterfaceOpenInterceptor  extends HandlerInterceptorAdapter{
 		return true;
 	}
 	
+	private void addTokenInvalidInfo(HttpServletResponse response) {
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		try {
+			PrintWriter writer = response.getWriter();
+			map.put(Constant.TOKEN_STATUS,Constant.TOKEN_INVALID);
+			map.put(Constant.ERROR_MESSAGE, "请先登录");
+			writer.println(JSON.toJSONString(map));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void addTokenExpiredInfo(HttpServletResponse response) {
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		try {
+			PrintWriter writer = response.getWriter();
+			map.put(Constant.TOKEN_STATUS, Constant.TOKEN_EXPIRED);
+			map.put(Constant.ERROR_MESSAGE, "Token已过期，请重新登录");
+			writer.println(JSON.toJSONString(map));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 }

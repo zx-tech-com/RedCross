@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zx.redcross.dao.course.IExamOrderMapper">
+	
+	<select id="getExamOrderById" resultType="ExamOrder">
+		SELECT * 
+		FROM exam_order
+		WHERE id = #{id};
+	</select>
+	
+	<select id="listExamOrderByCustomerId" resultType="ExamOrder">
+		SELECT *
+		FROM exam_order
+		WHERE customer_id = #{id};
+	</select>
+	
+	<select id="listExamOrderByOsDistrictId" resultType="ExamOrder" statementType="CALLABLE">
+		CALL listAllExamOrderByDistrictId(#{districtId},#{page.start},#{page.pageSize});
+	</select>
+	
+	<select id="listExamOrder" resultType="ExamOrder">
+		SELECT *
+		FROM exam_order
+		LIMTIT ${page.start},${page.pageSize};
+	</select>
+	
+	<insert id="addExamOrder" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO exam_order(
+			coment,detailAddress,method,orderNumber,
+			payMethod,status,course_subject_id,
+			customer_id,district_id
+		)
+		VALUES(
+			#{examOrder.coment},
+			#{examOrder.detailAddress},
+			#{examOrder.method},
+			#{examOrder.orderNumber},
+			#{examOrder.payMethod},
+			#{examOrder.status},
+			#{examOrder.courseSubject.id},
+			#{examOrder.customer.id},
+			#{examOrder.osDistrict.id}
+		);
+	</insert>
+	
+</mapper>

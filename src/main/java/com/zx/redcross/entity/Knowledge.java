@@ -16,6 +16,7 @@ public class Knowledge implements Serializable {
 	private Integer totalShare;
 	private KnowledgeType knowledgeType;
 	private List<KnowledgeThumbsup> knowledgeThumbsups;
+	private List<Img> imgs;
 	//===========逻辑字段====================
 	private Integer totalThumbsup;
 	private Integer totalComent;
@@ -134,12 +135,24 @@ public class Knowledge implements Serializable {
 	}
 
 
+
+
 	@Override
 	public String toString() {
 		return "Knowledge [id=" + id + ", content=" + content + ", hasVideo=" + hasVideo + ", publishTime="
 				+ publishTime + ", title=" + title + ", videoUrl=" + videoUrl + ", totalShare=" + totalShare
-				+ ", knowledgeType=" + knowledgeType + ", knowledgeThumbsups=" + knowledgeThumbsups + ", totalThumbsup="
-				+ totalThumbsup + ", totalComent=" + totalComent + "]";
+				+ ", knowledgeType=" + knowledgeType + ", knowledgeThumbsups=" + knowledgeThumbsups + ", imgs=" + imgs
+				+ ", totalThumbsup=" + totalThumbsup + ", totalComent=" + totalComent + "]";
+	}
+
+
+	public List<Img> getImgs() {
+		return imgs;
+	}
+
+
+	public void setImgs(List<Img> imgs) {
+		this.imgs = imgs;
 	}
 
 	

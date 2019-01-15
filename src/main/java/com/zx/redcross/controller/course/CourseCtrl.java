@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zx.redcross.annotation.Open;
+import com.zx.redcross.annotation.BackEnd;
+import com.zx.redcross.annotation.FrontEnd;
 import com.zx.redcross.entity.Course;
 import com.zx.redcross.entity.CourseSubject;
 import com.zx.redcross.entity.Page;
@@ -17,14 +18,19 @@ import com.zx.redcross.service.course.ICourseServ;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.MapUtils;
 
+import io.swagger.annotations.Api;
+
 @RestController
 @RequestMapping("/course")
+@Api(tags="所有课程相关接口")
 public class CourseCtrl {
 
 	@Autowired
 	private ICourseServ courseServImpl;
 	
+	@FrontEnd
 	@RequestMapping("/listCourseSubject")
+//	@ApiOperation(value = "列举所有培训信息",httpMethod= "GET",produces="application/json")
 	public Map<String,Object> listCourseSubject() {
 		
 		Map<String,Object> map = MapUtils.getHashMapInstance();
@@ -37,9 +43,13 @@ public class CourseCtrl {
 		return map;
 	}
 
+	@FrontEnd
 	@RequestMapping("/listCourse")
-	public Map<String,Object> listCourseBySubject(
-			@RequestParam Integer subjectId,@RequestParam Page page) {
+	/*@ApiOperation(value = "列举某个培训下的所有课程信息",httpMethod= "GET",produces="application/json")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "subjectId", value = "课程(培训)id", required = true, paramType = "query", dataType = "String")
+	})*/
+	public Map<String,Object> listCourseBySubject(@RequestParam(required=true) Integer subjectId,Page page) {
 		
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
@@ -51,10 +61,11 @@ public class CourseCtrl {
 		return map;
 	}
 
-	@Open
-	@RequestMapping("/getCourse")
+	@FrontEnd
+//	@RequestMapping("/getCourse")
+//	@ApiOperation(value="获取课程的具体信息",httpMethod= "GET",produces="application/json")
 	public Map<String,Object> getCourseById(@RequestParam Integer id) {
-		
+			/*@ApiParam(name="id",value="课程id",required=true)*/ 
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Course course = courseServImpl.getCourseById(id);
 		map.put(Constant.STATUS,Constant.STATUS_FAILURE);
@@ -64,7 +75,9 @@ public class CourseCtrl {
 		}
 		return map;
 	}
-
+	
+	//===============================后台管理需要用到的接口===================================
+	@BackEnd
 	@RequestMapping("/addCourse")
 	public Map<String,Object> addCourse(@RequestBody Course course) {
 		
@@ -74,15 +87,15 @@ public class CourseCtrl {
 		return map;
 		
 	}
-
+	
+	@BackEnd
 	@RequestMapping("/addCourseSubject")
-	public Map<String,Object> saveCourseSubject(@RequestParam CourseSubject courseSubject) {
+	public Map<String,Object> saveCourseSubject(@RequestBody CourseSubject courseSubject) {
 		
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Boolean flag = courseServImpl.addCourseSubject(courseSubject);
 		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
-		return map;
-		
+		return map; 
 	}
 	
 }

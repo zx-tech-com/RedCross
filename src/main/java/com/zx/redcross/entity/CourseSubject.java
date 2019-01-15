@@ -17,6 +17,7 @@ public class CourseSubject implements Serializable {
 	private BigDecimal price;
 	private String sname;
 	private String thumbnailUrl;
+	private String certificateUrl;
 	private List<Course> courses;
 	private List<ExamOrder> examOrders;
 	
@@ -116,6 +117,14 @@ public class CourseSubject implements Serializable {
 		return examOrder;
 	}
 
+	public String getCertificateUrl() {
+		return certificateUrl;
+	}
+
+	public void setCertificateUrl(String certificateUrl) {
+		this.certificateUrl = certificateUrl;
+	}
+	
 	@Override
 	public String toString() {
 		return "CourseSubject [id=" + id + ", description=" + description + ", period=" + period + ", price=" + price

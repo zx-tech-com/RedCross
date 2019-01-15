@@ -30,7 +30,13 @@ public class Constant {
 	public static final String STATUS_SUCCESS = "success";
 	public static final String STATUS_FAILURE = "failure";
 	public static final String ERROR_MESSAGE = "message";
+	public static final String TIPS = "tips";
 	public static final String DATA = "data";
+	
+	/**
+	 * 返回错误信息
+	 */
+	public static final String ERROR_MISSIN_GPARAMETER = "缺少参数";
 	
 	
 	/**

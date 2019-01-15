@@ -77,9 +77,12 @@
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut"/>
 	</aop:config>
 	
+	
 	<!-- 自动扫描,将Mapper接口生成代理注入到spring -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
          <property name="basePackage" value="com.zx.redcross.dao" />  
     </bean>
+    
+<!--     <bean class="com.zx.redcross.tool.Swagger2Configure"></bean> -->
     
 </beans>
