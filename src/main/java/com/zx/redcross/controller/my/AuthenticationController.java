@@ -13,7 +13,7 @@ import com.zx.redcross.tool.MapUtils;
  * 用户Token不合法信息
  * @author Daryl
  */
-//@RestController
+@RestController
 public class AuthenticationController {
 	
 	@RequestMapping("authentication/{status}")

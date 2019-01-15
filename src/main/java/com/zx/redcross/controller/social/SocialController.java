@@ -3,13 +3,11 @@ package com.zx.redcross.controller.social;
 import java.util.List;
 import java.util.Map;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zx.redcross.entity.Concern;
-import com.zx.redcross.entity.Customer;
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.entity.Topic;
 import com.zx.redcross.entity.TopicType;
@@ -17,7 +15,7 @@ import com.zx.redcross.service.social.SocialService;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.MapUtils;
 
-//@RestController("")
+@RestController("")
 @RequestMapping("/social")
 public class SocialController {
 	

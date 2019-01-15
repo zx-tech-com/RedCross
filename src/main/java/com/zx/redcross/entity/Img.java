@@ -2,6 +2,8 @@ package com.zx.redcross.entity;
 
 import java.io.Serializable;
 
+import com.zx.redcross.tool.FileUtils;
+
 
 public class Img implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -11,6 +13,7 @@ public class Img implements Serializable {
 	private String imgType;
 	private String iname;
 	private byte iindex;
+	private String imgUrl;
 	
 	public Img() {
 	}
@@ -59,10 +62,17 @@ public class Img implements Serializable {
 	public void setIindex(byte iindex) {
 		this.iindex = iindex;
 	}
+	public String getImgUrl() {
+		return FileUtils.getFullUrl(this.imgUrl);
+	}
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
 	@Override
 	public String toString() {
 		return "Img [id=" + id + ", description=" + description + ", foreignId=" + foreignId + ", imgType=" + imgType
-				+ ", iname=" + iname + "]";
+				+ ", iname=" + iname + ", iindex=" + iindex + ", imgUrl=" + imgUrl + "]";
 	}
 
+	
 }

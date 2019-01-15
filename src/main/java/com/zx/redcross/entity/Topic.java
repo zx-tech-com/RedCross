@@ -20,6 +20,7 @@ public class Topic implements Serializable {
 	private Customer customer;
 	private TopicType topicType;
 	private List<TopicComent> topicComents;
+	private List<Img> imgs;
 	//=============逻辑字段================
 	private Integer totalThumbsup;
 	private Integer totalComment;
@@ -204,13 +205,25 @@ public class Topic implements Serializable {
 	}
 
 
+
+
 	@Override
 	public String toString() {
 		return "Topic [id=" + id + ", content=" + content + ", hasVideo=" + hasVideo + ", publishTime=" + publishTime
 				+ ", title=" + title + ", videoUrl=" + videoUrl + ", totalShare=" + totalShare + ", favorites="
 				+ favorites + ", knowledgeComents=" + knowledgeComents + ", customer=" + customer + ", topicType="
-				+ topicType + ", topicComents=" + topicComents + ", totalThumbsup=" + totalThumbsup + ", totalComment="
-				+ totalComment + ", flag=" + flag + "]";
+				+ topicType + ", topicComents=" + topicComents + ", imgs=" + imgs + ", totalThumbsup=" + totalThumbsup
+				+ ", totalComment=" + totalComment + ", flag=" + flag + "]";
+	}
+
+
+	public List<Img> getImgs() {
+		return imgs;
+	}
+
+
+	public void setImgs(List<Img> imgs) {
+		this.imgs = imgs;
 	}
 
 	

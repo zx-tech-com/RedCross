@@ -2,7 +2,6 @@ package com.zx.redcross.tool;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.fasterxml.classmate.TypeResolver;
@@ -22,7 +21,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@Configuration
+//@Configuration
 @EnableSwagger2
 @EnableWebMvc
 @ComponentScan(basePackages = {"com.zx.redcross"})

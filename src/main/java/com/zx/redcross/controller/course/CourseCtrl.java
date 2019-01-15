@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,10 +19,6 @@ import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.MapUtils;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping("/course")
@@ -35,7 +30,7 @@ public class CourseCtrl {
 	
 	@FrontEnd
 	@RequestMapping("/listCourseSubject")
-	@ApiOperation(value = "列举所有培训信息",httpMethod= "GET",produces="application/json")
+//	@ApiOperation(value = "列举所有培训信息",httpMethod= "GET",produces="application/json")
 	public Map<String,Object> listCourseSubject() {
 		
 		Map<String,Object> map = MapUtils.getHashMapInstance();
@@ -50,12 +45,11 @@ public class CourseCtrl {
 
 	@FrontEnd
 	@RequestMapping("/listCourse")
-	@ApiOperation(value = "列举某个培训下的所有课程信息",httpMethod= "GET",produces="application/json")
+	/*@ApiOperation(value = "列举某个培训下的所有课程信息",httpMethod= "GET",produces="application/json")
 	@ApiImplicitParams({
         @ApiImplicitParam(name = "subjectId", value = "课程(培训)id", required = true, paramType = "query", dataType = "String")
-	})
-	public Map<String,Object> listCourseBySubject(
-			Integer subjectId,@ModelAttribute Page page) {
+	})*/
+	public Map<String,Object> listCourseBySubject(@RequestParam(required=true) Integer subjectId,Page page) {
 		
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
@@ -68,10 +62,10 @@ public class CourseCtrl {
 	}
 
 	@FrontEnd
-	@RequestMapping("/getCourse")
-	@ApiOperation(value="获取课程的具体信息",httpMethod= "GET",produces="application/json")
-	public Map<String,Object> getCourseById(
-			@ApiParam(name="id",value="课程id",required=true) @RequestParam Integer id) {
+//	@RequestMapping("/getCourse")
+//	@ApiOperation(value="获取课程的具体信息",httpMethod= "GET",produces="application/json")
+	public Map<String,Object> getCourseById(@RequestParam Integer id) {
+			/*@ApiParam(name="id",value="课程id",required=true)*/ 
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Course course = courseServImpl.getCourseById(id);
 		map.put(Constant.STATUS,Constant.STATUS_FAILURE);

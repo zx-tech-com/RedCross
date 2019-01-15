@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zx.redcross.dao.my.IFavoriteMapper">
+	
+	<select id="listFavoriteByCustomerId" resultType="Favorite">
+		SELECT 
+			customer.id AS customer_id,
+			customer.avatarUrl,
+			customer.nickname,
+			
+			topic.id,
+			topic.content,
+			topic.title,
+			topic.total_share,
+			(SELECT COUNT(id) FROM topic_thumbsup WHERE topic_thumbsup.topic_id = topic.id)AS totalThumbsup,
+			(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id = topic.id)AS totalComment,
+			
+			img.id AS img_id,
+			img.url AS imgUrl,
+			
+			favorite.id,
+			favorite.favorite_time			
+		FROM
+			(
+				SELECT 
+					* 
+				FROM favorite
+				LIMIT #{page.start},#{page.pageSize}
+			) favorite
+		LEFT JOIN topic ON topic_id = topic.id
+		LEFT JOIN customer ON topic.customer_id = customer.id
+		LEFT JOIN img ON img.img_type = 1 AND img.foreign_id = topic.id
+		WHERE favorite.customer_id = #{customerId};
+	</select>
+	
+	
+	<resultMap type="Favorite" id="favorite" autoMapping="true">
+		<id column="id" property="id"/>
+		<association property="topic" javaType="Topic" autoMapping="true">
+			<id column="topic_id" property="id"/>
+			<association property="customer" javaType="Customer" autoMapping="true">
+				<id column="customer_id" property="id"/>
+			</association>
+			<collection property="imgs" ofType="Img" autoMapping="true">
+				<id column="img_id" property="id"/>
+			</collection>
+		</association>
+	</resultMap>
+</mapper>

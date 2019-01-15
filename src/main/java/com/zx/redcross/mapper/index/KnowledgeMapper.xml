@@ -19,7 +19,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			knowledge.id,content,title,type_id,kname
 		FROM knowledge
 		LEFT JOIN knowledge_type ON knowledge.type_id = knowledge_type.id	
-		WHERE type_id = #{typeId}
+		<where>
+			<if test="typeId != null">
+				type_id = #{typeId}
+			</if>
+		</where>
 		LIMIT ${page.start},${page.pageSize};
 	</select>
 	
@@ -40,11 +44,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	
-	<select id="listKnowledgeType" resultType="KnowledgeType">
+	<select id="listKnowledgeType" resultMap="knowledgeType">
 		SELECT 
 			id,kname,description
-		FROM knowledge;
+		FROM knowledge_type;
 	</select>
 	
+	<resultMap type="KnowledgeType" id="knowledgeType" autoMapping="false">
+		<id column="id" property="id"/>
+		<result column="kname" property="kname"/>
+		<result column="description" property="description"/>
+	</resultMap>
 	
 </mapper>
