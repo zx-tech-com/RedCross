@@ -8,6 +8,7 @@ import com.zx.redcross.entity.Course;
 import com.zx.redcross.entity.CourseSubject;
 import com.zx.redcross.entity.ExamOrder;
 import com.zx.redcross.entity.Page;
+import com.zx.redcross.entity.Video;
 
 public interface ICourseMapper {
 	
@@ -32,5 +33,15 @@ public interface ICourseMapper {
 	Boolean adminDeleteCourseSubject(@Param("courseSubjectId")Integer courseSubjectId);
 	//后台删除考试科目的课程
 	Boolean adminDeleteCourse(@Param("courseId")Integer courseId);
+	//后台查询所有付费视频
+	List<Video> adminListVideo();
+	//后台添加付费视频
+	Boolean adminSaveVideo(Video video);
+	//后台删除付费视频
+	Boolean adminDeleteVideo(Integer videoId);
+	//修改付费视频
+	Boolean adminUpdateVideo(Video video);
+
+	
 
 }

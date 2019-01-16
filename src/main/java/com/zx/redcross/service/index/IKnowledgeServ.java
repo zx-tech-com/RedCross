@@ -5,6 +5,8 @@ import java.util.List;
 import com.zx.redcross.entity.Knowledge;
 import com.zx.redcross.entity.KnowledgeType;
 import com.zx.redcross.entity.Page;
+import com.zx.redcross.entity.Video;
+import com.zx.redcross.entity.VideoBuyRecord;
 
 public interface IKnowledgeServ {
 	
@@ -25,4 +27,12 @@ public interface IKnowledgeServ {
 	Boolean adminDeleteKnowledge(Integer knowledgeId);
 	//后台修改知识
 	Boolean adminUpdateKnowledge(Knowledge knowledge);
+	//查询所有视频
+	List<Video> listVideo(Integer customerId);
+	//通过视频id查找一个视频的详细信息
+	Video getVideo(Integer customerId, Integer videoId);
+	//会员点击支付后会生成一条正在记录
+	Boolean saveVideoBuyRecord(VideoBuyRecord videoBuyRecord);
+	//会员点击支付后会生成一条支付成功记录
+	Boolean updateVideoBuyRecord(Integer videoBuyRecordId);
 }

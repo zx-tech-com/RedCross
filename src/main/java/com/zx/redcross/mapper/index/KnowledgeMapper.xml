@@ -80,6 +80,60 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	video_url=#{Knowledge.video_url}
 	WHERE id=#{Knowledge.id}
 	</update>
+	<!--查询所有付费视频 -->
+	<select id="listVideo" resultMap="videoMap">
+	SELECT v.id,v.vindex,v.vname,v.description,v.video_url,v.price
+	vb.`id` AS video_buy_record_id,
+	vb.`status` 
+	FROM video v
+	LEFT JOIN  video_buy_record vb
+	ON v.`id`=vb.`video_id` AND customer_id=#{customerId}
+ 	ORDER BY v.id DESC
+	</select>
+	
+	
+	
+	
+	
+	
+	<resultMap type="Video" id="videoMap" autoMapping="true">
+		 <id property= "id" column="id"/>
+		<association property="videoBuyRecord" javaType="VideoBuyRecord" autoMapping="true">		
+			<id column="video_buy_record_id" property="id"/>
+		</association>		
+	</resultMap>
+	
+	
+	
+	
+	
+	<!--查询一个付费视频 -->
+	<select id="getVideo" resultMap="videoMap">
+	SELECT v.id,v.vindex,v.vname,v.description,v.video_url,
+	vb.`id` AS video_buy_record_id,
+	vb.`status` 
+	FROM video v
+	LEFT JOIN  video_buy_record vb
+	ON v.`id`=vb.`video_id` AND vb.customer_id=#{customerId}
+ 	where v.id=#{videoId}
+	</select>
+	
+	
+	
+	<!--会员支付成功后会生成一条支付成功记录  -->
+	<insert id="saveVideoBuyRecord">
+	INSERT INTO video_buy_record(video_id,customer_id,order_number,coment,STATUS) 
+	VALUES(#{videoBuyRecord.video.id},
+	#{videoBuyRecord.customer.id},
+	#{videoBuyRecord.orderNumber},
+	#{videoBuyRecord.coment},
+	#{videoBuyRecord.status})
+	</insert>
+	
+	
+	
+	
+	
 	<resultMap type="KnowledgeType" id="knowledgeType" autoMapping="false">
 		<id column="id" property="id"/>
 		<result column="kname" property="kname"/>

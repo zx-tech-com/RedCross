@@ -15,9 +15,18 @@ public class Video implements Serializable {
 	private Integer vindex;
 	private BigDecimal price;
 	private String vname;
-	private VideoSubject videoSubject;
-
+	
+	private VideoBuyRecord videoBuyRecord;
 	public Video() {
+		
+	}
+	
+	public VideoBuyRecord getVideoBuyRecord() {
+		return videoBuyRecord;
+	}
+
+	public void setVideoBuyRecord(VideoBuyRecord videoBuyRecord) {
+		this.videoBuyRecord = videoBuyRecord;
 	}
 
 	public Integer getId() {
@@ -68,13 +77,7 @@ public class Video implements Serializable {
 		this.vname = vname;
 	}
 
-	public VideoSubject getVideoSubject() {
-		return this.videoSubject;
-	}
 
-	public void setVideoSubject(VideoSubject videoSubject) {
-		this.videoSubject = videoSubject;
-	}
 
 	public BigDecimal getPrice() {
 		return price;
@@ -87,9 +90,8 @@ public class Video implements Serializable {
 	@Override
 	public String toString() {
 		return "Video [id=" + id + ", description=" + description + ", thumbnailUrl=" + thumbnailUrl + ", videoUrl="
-				+ videoUrl + ", vindex=" + vindex + ", price=" + price + ", vname=" + vname + ", videoSubject="
-				+ videoSubject + "]";
+				+ videoUrl + ", vindex=" + vindex + ", price=" + price + ", vname=" + vname + ", videoBuyRecord="
+				+ videoBuyRecord + "]";
 	}
-
 	
 }

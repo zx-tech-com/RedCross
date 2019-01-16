@@ -6,6 +6,7 @@ import com.zx.redcross.entity.Course;
 import com.zx.redcross.entity.CourseSubject;
 import com.zx.redcross.entity.ExamOrder;
 import com.zx.redcross.entity.Page;
+import com.zx.redcross.entity.Video;
 
 public interface ICourseServ {
 	
@@ -30,8 +31,16 @@ public interface ICourseServ {
 	void saveCourseSubject(CourseSubject courseSubject);
 	//后台评论（删除考试科目）
 	Boolean adminDeleteCourseSubject(Integer courseSubjectId);
-	//删除科目下面的课程
+	//后台删除科目下面的课程
 	Boolean adminDeleteCourse(Integer courseId);
+	//后台查询所有付费视频
+	List<Video> adminListVideo();
+	//添加付费视频
+	Boolean adminSaveVideo(Video video);
+	//删除付费视频
+	Boolean adminDeleteVideo(Integer videoId);
+	//修改付费视频
+	Boolean adminUpdateVideo(Video video);
 
 
 
