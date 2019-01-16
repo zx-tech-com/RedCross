@@ -51,6 +51,13 @@ public interface SocialMapper {
 	public void deleteTopicThunsup(@Param("coustomerId")Integer coustomerId,@Param("topicId") Integer topicId);
 	//发表帖子
 	public void saveTopic(Topic topic);
+	
+	
+	//===============================后台管理需要用到的接口===================================
+	//删除帖子
+	public void adminDeleteTopic(@Param("topicId")Integer topicId);
+	//删除评论
+	public void adminDeleteTopicComent(@Param("topicComentId")Integer topicComentId);
 
 
 	

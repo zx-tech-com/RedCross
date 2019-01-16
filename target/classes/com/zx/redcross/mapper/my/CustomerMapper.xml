@@ -23,5 +23,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(tel) from customer where tel=#{tel}
 	</select>
 	
+	<!-- 删除自己的发帖 -->
+	<delete id="deleteMyTopic" >
+	DELETE FROM topic WHERE customer_id=#{customerId} AND id=#{topicId}
+	</delete>
+	
+	<!-- 删除自己的评论-->
+	<delete id="deleteMyTopicComent" >
+	DELETE FROM topic_coment WHERE customer_id=#{customerId} AND id=#{topicComentId}
+	</delete>
+	<!--查询结果返回判断是否是自己的评论  -->
+	<select id="findMyTopicComent" resultType="int">
+	select count(id) from topic_coment	WHERE customer_id=#{customerId} AND id=#{topicComentId}
+	</select>
+	
 	
 </mapper>

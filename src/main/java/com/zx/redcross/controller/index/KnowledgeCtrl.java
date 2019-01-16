@@ -50,7 +50,6 @@ public class KnowledgeCtrl {
 			map.put(Constant.DATA, knowledgeList);
 		}
 		return map;
-		
 	}
 	
 	
@@ -71,6 +70,83 @@ public class KnowledgeCtrl {
 	
 	
 	//===============================后台管理需要用到的接口===================================
+	/**
+	 * 后台管理（管理知识类型）
+	 * @param knowledgeType
+	 * @return
+	 */
+	/**
+	 * 查询所有知识的类型
+	 * @return
+	 */
+	@RequestMapping("/adminListKnowledgeType")
+	public Map<String,Object> adminListKnowledgeType() {
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		List<KnowledgeType> knowledgeTypeList = knowledgeServImpl.listKnowledgeType();
+		if(null != knowledgeTypeList) {
+			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
+			map.put(Constant.DATA, knowledgeTypeList);
+		}else {
+			map.put(Constant.STATUS,Constant.STATUS_FAILURE);
+		}
+		return map;
+	}
+	/**
+	 * 添加知识的类型
+	 */
+	@RequestMapping("/adminSaveKnowledgeType")
+	public Map<String,Object> adminSaveKnowledgeType(KnowledgeType knowledgeType) {
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		Boolean flag=knowledgeServImpl.adminSaveKnowledgeType(knowledgeType);
+		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
+		return map;
+	}
+	/**
+	 * 删除知识类型
+	 */
+	@RequestMapping("/adminDeleteKnowledgeType")
+	public Map<String,Object> adminDeleteKnowledgeType(Integer knowledgeTypeId) {
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		Boolean flag=knowledgeServImpl.adminDeleteKnowledgeType(knowledgeTypeId);
+		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
+		return map;
+	}
+	
+	/**
+	 * 修改知识类型
+	 */
+	@RequestMapping("/adminUpdateKnowledgeType")
+	public Map<String,Object> adminUpdateKnowledgeType(KnowledgeType knowledgeType) {
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		Boolean flag=knowledgeServImpl.adminUpdateKnowledgeType(knowledgeType);
+		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
+		return map;
+	}
+	
+	/**
+	 * 后台管理（管理知识）
+	 * @param knowledgeType
+	 * @return
+	 */
+	/**
+	 * 查询所有知识
+	 * @return
+	 */
+	@RequestMapping("/adminListKnowledge")
+	public Map<String,Object> adminListKnowledge(Integer typeId,Page page) {
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		List<Knowledge> knowledgeList = knowledgeServImpl.listKnowledgeByType(typeId, page);
+		if(null != knowledgeList) {
+			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
+			map.put(Constant.DATA, knowledgeList);
+		}else {
+			map.put(Constant.STATUS,Constant.STATUS_FAILURE);
+		}
+		return map;
+	}
+	/**
+	 * 添加知识
+	 */
 	@RequestMapping("/saveKnowledge")
 	public Map<String,Object> saveKnowledge(@RequestParam(required=true) Knowledge knowledge) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
@@ -78,5 +154,26 @@ public class KnowledgeCtrl {
 		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
 		return map;
 	}
+	/**
+	 * 删除知识
+	 */
+	@RequestMapping("/adminDeleteKnowledge")
+	public Map<String,Object> adminDeleteKnowledge(Integer knowledgeId) {
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		Boolean flag=knowledgeServImpl.adminDeleteKnowledge(knowledgeId);
+		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
+		return map;
+	}
 	
+	/**
+	 * 修改知识类型
+	 */
+	@RequestMapping("/adminUpdateKnowledge")
+	public Map<String,Object> adminUpdateKnowledge(Knowledge knowledge) {
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		Boolean flag=knowledgeServImpl.adminUpdateKnowledge(knowledge);
+		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
+		return map;
+	}
 }
+

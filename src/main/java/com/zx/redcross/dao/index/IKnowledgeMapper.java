@@ -21,5 +21,15 @@ public interface IKnowledgeMapper {
 	boolean saveKnowledge(@Param("knowledge")Knowledge knowledge);	
 	
 	List<KnowledgeType> listKnowledgeType();
+	//后台管理添加知识类型
+	Boolean adminSaveKnowledgeType(KnowledgeType knowledgeType);
+	//后台管理删除知识类型
+	Boolean adminDeleteKnowledgeType(@Param("knowledgeTypeId")Integer knowledgeTypeId);
+	////后台管理修改知识类型
+	Boolean adminUpdateKnowledgeType(KnowledgeType knowledgeType);
+	//后台删除知识
+	Boolean adminDeleteKnowledge(Integer knowledgeId);
+	//后台修改知识
+	Boolean adminUpdateKnowledge(@Param("knowledge")Knowledge knowledge);
 	
 }

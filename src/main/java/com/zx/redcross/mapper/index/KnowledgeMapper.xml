@@ -50,6 +50,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM knowledge_type;
 	</select>
 	
+	<!-- 后台添加知识类型 -->
+	<insert id="adminSaveKnowledgeType" parameterType="knowledgeType">
+	INSERT INTO knowledge_type(kname,description) VALUE(#{kname},#{description})
+	</insert>
+	
+	<!-- 后台删除知识类型 -->
+	<delete id="adminDeleteKnowledgeType" parameterType="int">
+	DELETE FROM knowledge_type WHERE id=#{knowledgeTypeId}
+	</delete>
+	
+	<!-- 后台修改知识类型 -->
+	<update id="adminUpdateKnowledgeType" parameterType="int">
+	UPDATE knowledge_type SET kname=#{kname},description=#{description} WHERE id=#{id}
+	</update>
+	
+	<!-- 后台删除知识 -->
+	<delete id="adminDeleteKnowledge" parameterType="int">
+	DELETE FROM knowledge WHERE id=#{knowledgeId}
+	</delete>
+	
+	<!-- 后台修改知识类型 -->
+	<update id="adminUpdateKnowledge" >
+	UPDATE knowledge SET 
+	type_id=#{Knowledge.knowledgeType.id},
+	title=#{Knowledge.title},
+	content=#{Knowledge.content},
+	has_video=#{Knowledge.has_video},
+	video_url=#{Knowledge.video_url}
+	WHERE id=#{Knowledge.id}
+	</update>
 	<resultMap type="KnowledgeType" id="knowledgeType" autoMapping="false">
 		<id column="id" property="id"/>
 		<result column="kname" property="kname"/>

@@ -18,11 +18,17 @@ import com.zx.redcross.entity.Page;
 import com.zx.redcross.entity.Topic;
 import com.zx.redcross.entity.TopicComent;
 import com.zx.redcross.entity.TopicType;
+import com.zx.redcross.service.my.CustomerService;
 import com.zx.redcross.service.social.SocialService;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.FileUtils;
 import com.zx.redcross.tool.MapUtils;
 
+/**
+ * 社交模块
+ * @author 罗勇
+ *
+ */
 @RestController("")
 @RequestMapping("/social")
 public class SocialController {
@@ -68,7 +74,7 @@ public class SocialController {
 			
 		return map;
 	}
-	/*
+	/**
 	 * 点击帖子,获取发布帖子的详情
 	 */
 	@RequestMapping("/findTopic")
@@ -117,7 +123,9 @@ public class SocialController {
 		map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
 		return map;
 	}
-	/*
+	
+	
+	/**
 	 * 评论点赞点击点赞再点击
 	 */
 	@RequestMapping("/updateComentThumbsup")
@@ -135,7 +143,7 @@ public class SocialController {
 		map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
 		return map;
 	}
-	/*
+	/**
 	 * 帖子点赞点击点赞再点击
 	 */
 	@RequestMapping("/updateTopicThumbsup")
@@ -153,7 +161,7 @@ public class SocialController {
 		map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
 		return map;
 	}
-	/*
+	/**
 	 * 获取所有帖子类型
 	 */
 	@RequestMapping("/findTopicType")
@@ -165,7 +173,7 @@ public class SocialController {
 		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 		return map;	
 	}
-	/*
+	/**
 	 * 完成发帖模块
 	 */
 	@RequestMapping("/pushTopic")
@@ -177,7 +185,24 @@ public class SocialController {
 		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 		return map;	
 	}
-	
-	
-			
+	//===============================后台管理需要用到的接口===================================
+	/**
+	 * 后台接口（管理员删除帖子）
+	 */
+	@RequestMapping("/adminDeleteTopic")
+	public Map<String,Object> adminDeleteTopic(Integer topicId){
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		socialService.adminDeleteTopic(topicId);
+		return map;	
+	}
+	/**
+	 * 后台接口（管理员删除评论）
+	 */
+	@RequestMapping("/adminDeleteTopicComent")
+	public Map<String,Object> adminDeleteTopicComent(Integer topicComentId){
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		socialService.adminDeleteTopicComent(topicComentId);
+		return map;	
+	}
+		
 }

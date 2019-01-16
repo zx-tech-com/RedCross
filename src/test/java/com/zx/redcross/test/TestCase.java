@@ -28,9 +28,9 @@ public class TestCase {
 	@Test
 	public void testDs() throws SQLException{
 		
-		System.out.println(c3p0.getConnection());
+		System.out.println(dbcp2.getConnection());
 	}
-	//查询所有会员
+	//鏌ヨ鎵�鏈変細鍛�
 	@Test
 	public void findAllCustmer(){
 		List<Customer> customers=customerMapper.finAllCustomer();
@@ -38,14 +38,14 @@ public class TestCase {
 			System.out.println(customer);
 		}
 	}
-	//通过id查找会员
+	//閫氳繃id鏌ユ壘浼氬憳
 	@Test
 	public void findCustomerByid(){
 		Customer customer=customerMapper.findCustomerById(1);
 		System.out.println(customer.getDistrictId());
-		//根据获取的区域id来获取全部的地址名字
+		//鏍规嵁鑾峰彇鐨勫尯鍩焛d鏉ヨ幏鍙栧叏閮ㄧ殑鍦板潃鍚嶅瓧
 		Boolean flage=true;
-		//根据外键关联获取一个地址
+		//鏍规嵁澶栭敭鍏宠仈鑾峰彇涓�涓湴鍧�
 		OsDistrict osDistrict=osDistrictMapper.findOsdistrictById(customer.getDistrictId());
 		Integer level=(int) osDistrict.getLevel();
 		String path=osDistrict.getName();
@@ -62,7 +62,7 @@ public class TestCase {
 		System.out.println(path);
 	}
 	/**
-	 * 注册会员
+	 * 娉ㄥ唽浼氬憳
 	 */
 	@Test
 	public void  register(){

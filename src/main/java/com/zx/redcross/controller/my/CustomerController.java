@@ -86,4 +86,39 @@ public class CustomerController {
 		return map;	
 	}
 	
+	/**
+	 * 删除自己的发帖
+	 */
+	@RequestMapping("/deleteMyTopic")
+	public Map<String,Object> deleteMyTopic(Integer topicId,Integer customerId){
+		Map<String,Object> map=MapUtils.getHashMapInstance();
+		customerService.deleteMyTopic(topicId,customerId);
+		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		return map;		
+	}
+	/**
+	 * 查询是否为自己的评论
+	 */
+	@RequestMapping("/findMyTopicComent")
+	public Map<String,Object> findMyTopicComent(Integer topicComentId,Integer customerId){
+		Map<String,Object> map=MapUtils.getHashMapInstance();
+		Integer count=customerService.findMyTopicComent(topicComentId,customerId);
+		if(count==1) {
+			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		}else {
+			map.put(Constant.STATUS, Constant.STATUS_FAILURE);
+		}
+		return map;		
+	}
+	
+	/**
+	 * 删除自己的评论
+	 */
+	@RequestMapping("/deleteMyTopicComent")
+	public Map<String,Object> deleteMyTopicComent(Integer topicId,Integer customerId){
+		Map<String,Object> map=MapUtils.getHashMapInstance();
+		customerService.deleteMyTopicComent(topicId,customerId);
+		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		return map;		
+	}
 }

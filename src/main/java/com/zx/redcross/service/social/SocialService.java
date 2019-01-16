@@ -45,5 +45,12 @@ public interface SocialService {
 	public void deleteTopicThunsup(Integer coustomerId, Integer topicId);
 	//发表帖子
 	public void saveTopic(Topic topic);
+	
+	
+	//===============================后台管理需要用到的接口===================================
+	//管理员删除帖子
+	public void adminDeleteTopic(Integer topicId);
+	//管理员删除评论
+	public void adminDeleteTopicComent(Integer topicComentId);
 
 }

@@ -37,4 +37,29 @@ public class KnowledgeServImpl implements IKnowledgeServ{
 		return mapper.listKnowledgeType();
 	}
 
+	@Override
+	public Boolean adminSaveKnowledgeType(KnowledgeType knowledgeType) {
+		return mapper.adminSaveKnowledgeType(knowledgeType);
+	}
+
+	@Override
+	public Boolean adminDeleteKnowledgeType(Integer knowledgeTypeId) {
+		return mapper.adminDeleteKnowledgeType(knowledgeTypeId);
+	}
+
+	@Override
+	public Boolean adminUpdateKnowledgeType(KnowledgeType knowledgeType) {
+		return mapper.adminUpdateKnowledgeType(knowledgeType);
+	}
+
+	@Override
+	public Boolean adminDeleteKnowledge(Integer knowledgeId) {
+		return mapper.adminDeleteKnowledge(knowledgeId);
+	}
+
+	@Override
+	public Boolean adminUpdateKnowledge(Knowledge knowledge) {
+		return mapper.adminUpdateKnowledge(knowledge);
+	}
+
 }

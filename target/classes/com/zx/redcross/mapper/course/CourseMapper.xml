@@ -5,36 +5,62 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.zx.redcross.dao.course.ICourseMapper">
 	
-	<!-- <resultMap type="CourseSubject" id="courseSubject" autoMapping="true">
+	<resultMap type="CourseSubject" id="courseSubject" autoMapping="true">
 		<id column="id" property="id"/>
-		<association property="courses" resultMap="course"></association>
+		
+		<collection property="courses" ofType="Course" javaType="list"
+							select="listCourseBySubject" column="subject_id">
+		</collection>
 	</resultMap>
 	
-	<resultMap type="Course" id="course" autoMapping="true">
+	<!-- <resultMap type="Course" id="course" autoMapping="true">
 		<id column="id" property="id"/>
 	</resultMap> -->
 	
 	
-	<select id="listCourseSubject" resultType="CourseSubject">
+	<select id="listCourseSubject" resultMap="courseSubject">
 		SELECT 
 			id,sname,description,price,thumbnail_url,period
 		FROM course_subject
 	</select>
+	
+	
+	
+	<select id="findCourseSubject" parameterType="int" resultType="CourseSubject">
+		SELECT 
+			id,sname,description,price,thumbnail_url,period
+		FROM course_subject where id=#{subjectId}
+	</select>
+	
+	
+	<!--查询观看完视频的集数  -->
+	<select id="getCountRecord" resultType="int">
+		SELECT 
+			count(course_record_id)
+		FROM course_record 
+		where customer_id=#{customerId} and course_id=#{courseId}
+	</select>
+	
 	
 	<select id="listCourseBySubject" resultType="Course">
 		SELECT 
 			course.id,cname,description,cindex,is_video,video_url,thumbnail_url
 		FROM course
 		WHERE subject_id = #{subjectId}
-		LIMIT ${page.start},${page.pageSize};
+		LIMIT ${page.start},${page.pageSize}
 	</select>
+	
+	<insert id="saveCountRecord">
+	INSERT INTO course_record(customer_id,course_id) 
+	VALUES(#{customerId},#{courseId})
+	</insert>
 	
 
 	<select id="getCourseById" resultType="Course">
 		SELECT 
 			course.id,cname,description,cindex,is_video,video_url,thumbnail_url
 		FROM course
-		WHERE id = #{id};
+		WHERE id = #{id}
 	</select>
 	
 	<insert id="saveCourse" useGeneratedKeys="true" keyProperty="id">
@@ -46,7 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{course.is_video},
 			#{course.video_url},
 			#{course.thumbnail_url}
-		);
+		)
 	</insert>
 	
 	
@@ -58,8 +84,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{courseSubject.price},
 			#{courseSubject.thumbnail_url},
 			#{courseSubject.period}
-		);
+		)
 	</insert>
+	<!--查询考试订单中所有会员  -->
+	<select id="adminListExamOrder">
+		SELECT id,course_subject_id,customer_id,order_number,tel,real_name,detail_address,coment
+		,submit_time,`status`
+ 		FROM exam_order
+	</select>
+	
+	<!--删除考试科目  -->
+	<delete id="adminDeleteCourseSubject"  >
+		delete from course_subject where id=#{courseSubjectId}
+	</delete>
+	
+	<!--删除考试科目课程  -->
+	<delete id="adminDeleteCourse"  >
+		delete from course where id=#{courseId}
+	</delete>
 	
 	
 	

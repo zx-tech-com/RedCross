@@ -19,33 +19,45 @@ public class CustomerServiceImpl implements CustomerService{
 	
 	@Override
 	public OsDistrict findOsdistrictById(Integer districtId) {
-		// TODO Auto-generated method stub
 		return osDistrictMapper.findOsdistrictById(districtId);
 	}
 
 	@Override
 	public void saveCustomer(Customer customer) {
-		// TODO Auto-generated method stub
 		customerMapper.saveCustomer(customer);
 	}
 
 	@Override
 	public Integer findCustomerByTel(String tel) {
-		// TODO Auto-generated method stub
 		return customerMapper.findCustomerByTel(tel);
 	}
 
 	@Override
 	public List<OsDistrict> findByUpid(Integer id) {
-		// TODO Auto-generated method stub
 		return osDistrictMapper.findByUpid(id);
 	}
 
 	@Override
 	public Customer findCustomer(String tel, String password) {
-		// TODO Auto-generated method stub
 		return customerMapper.findCustomer(tel,password);
 	}
+
+	@Override
+	public void deleteMyTopic(Integer topicId, Integer customerId) {
+		customerMapper.deleteMyTopic(topicId,customerId);
+		
+	}
+
+	@Override
+	public void deleteMyTopicComent(Integer topicComentId, Integer customerId) {
+		customerMapper.deleteMyTopicComent(topicComentId,customerId);
+	}
+
+	@Override
+	public Integer findMyTopicComent(Integer topicComentId, Integer customerId) {
+		return customerMapper.findMyTopicComent(topicComentId,customerId);
+	}
+
 
 
 }

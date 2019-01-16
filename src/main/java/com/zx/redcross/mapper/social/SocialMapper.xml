@@ -172,6 +172,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	
+	<!-- 后台管理 -->
+	<!-- 删除会员的发帖 -->
+	<delete id="adminDeleteTopic" >
+		DELETE FROM topic WHERE  id=#{topicId}
+	</delete>
+	<!-- 删除会员评论-->
+	<delete id="adminDeleteTopicComent" >
+	DELETE FROM topic_coment WHERE  id=#{topicComentId}
+	</delete>
+	
 	<!-- 关联映射 结果查询 -->
 	<!--会员  -->
 	<resultMap type="Customer" id="CustomerMap">

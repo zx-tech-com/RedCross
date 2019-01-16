@@ -23,6 +23,9 @@ public class Constant {
 	public static final String IMG_ACCESS_BASE_PATH = ACCESS_BASE_PATH + "imgs/";
 	
 	
+	public static final String COURSE_SUBJECT = "courseSubject" + File.separator;
+	
+	
 	/**
 	 * 返回状态信息
 	 */

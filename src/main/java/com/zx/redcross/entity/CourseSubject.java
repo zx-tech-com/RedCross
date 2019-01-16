@@ -18,9 +18,18 @@ public class CourseSubject implements Serializable {
 	private String sname;
 	private String thumbnailUrl;
 	private String certificateUrl;
+	private Course course;	
 	private List<Course> courses;
 	private List<ExamOrder> examOrders;
 	
+
+	public Course getCourse() {
+		return course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
+	}
 
 	public CourseSubject() {
 	}
