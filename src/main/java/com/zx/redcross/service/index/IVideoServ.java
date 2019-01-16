@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.zx.redcross.entity.Page;
+import com.zx.redcross.entity.Video;
 import com.zx.redcross.entity.VideoBuyRecord;
 
 public interface IVideoServ {
@@ -19,4 +20,22 @@ public interface IVideoServ {
 	
 	//会员点击支付后会生成一条支付成功记录
 	Boolean updateVideoBuyRecord(VideoBuyRecord videoBuyRecord);
+	
+	
+	
+	
+	
+	
+	
+	//===========================后台管理接口========================
+	//后台查询所有付费视频
+	List<Video> adminListVideo();
+	//添加付费视频
+	Boolean adminSaveVideo(Video video);
+	//删除付费视频
+	Boolean adminDeleteVideo(Integer videoId);
+	//修改付费视频
+	Boolean adminUpdateVideo(Video video);
+	
+	
 }

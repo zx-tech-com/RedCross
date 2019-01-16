@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.zx.redcross.dao.index.IVideoMapper;
 import com.zx.redcross.entity.Page;
+import com.zx.redcross.entity.Video;
 import com.zx.redcross.entity.VideoBuyRecord;
 import com.zx.redcross.service.index.IVideoServ;
 import com.zx.redcross.tool.BusinessExceptionUtils;
@@ -49,6 +50,31 @@ public class VideoServImpl implements IVideoServ {
 			BusinessExceptionUtils.throwNewBusinessException("状态不合法");
 		return mapper.updateVideoBuyRecord(videoBuyRecord);
 	}
+	
+	
+	//=========================后台管理接口================
+	
+
+	@Override
+	public List<Video> adminListVideo() {
+		return mapper.adminListVideo();
+	}
+
+	@Override
+	public Boolean adminSaveVideo(Video video) {
+		return mapper.adminSaveVideo(video);
+	}
+
+	@Override
+	public Boolean adminDeleteVideo(Integer videoId) {
+		return mapper.adminDeleteVideo(videoId);
+	}
+
+	@Override
+	public Boolean adminUpdateVideo(Video video) {
+		return mapper.adminUpdateVideo(video);
+	}
+	
 	
 
 }

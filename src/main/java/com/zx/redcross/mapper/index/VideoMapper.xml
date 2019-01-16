@@ -76,4 +76,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	
+	<!-- ==============================后台接口============================== -->
+	
+	<!--后台查询所有付费视频  -->
+	<select id="adminListVideo" resultType="Video">
+	SELECT id,vindex,vname,description,video_url
+     FROM video	ORDER BY id DESC
+	</select>
+	
+	<!--后台添加付费视频  -->
+	<insert id="adminSaveVideo" parameterType="video">
+	INSERT INTO video(vindex,vname,description,video_url) 
+	VALUES(#{vindex},#{vname},#{description},#{videoUrl})
+	</insert>
+	
+	
+	<!-- 删除付费视频 -->
+	<delete id="adminDeleteVideo" parameterType="int">
+	 DELETE FROM video WHERE id=#{video}
+	</delete>
+	
+	<!-- 修改付费视频 -->
+	<update id="adminUpdateVideo">
+	UPDATE video SET 
+	vindex=#{vindex},
+	vname=#{vname},
+	descripti#{description},
+	video_url=#{videoUrl}
+	WHERE id=#{id}
+	</update>
+	
 </mapper>

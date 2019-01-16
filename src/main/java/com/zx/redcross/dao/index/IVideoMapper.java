@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.zx.redcross.entity.Page;
+import com.zx.redcross.entity.Video;
 import com.zx.redcross.entity.VideoBuyRecord;
 
 public interface IVideoMapper {
@@ -22,5 +23,19 @@ public interface IVideoMapper {
 	
 	//会员点击支付后会生成一条支付成功记录
 	Boolean updateVideoBuyRecord(@Param("videoBuyRecord") VideoBuyRecord videoBuyRecord);
+	
+	
+	
+	// =================================付费视频后台管理==============================
+	
+	//后台查询所有付费视频
+	List<Video> adminListVideo();
+	//后台添加付费视频
+	Boolean adminSaveVideo(Video video);
+	//后台删除付费视频
+	Boolean adminDeleteVideo(Integer videoId);
+	//修改付费视频
+	Boolean adminUpdateVideo(Video video);
+	
 	
 }
