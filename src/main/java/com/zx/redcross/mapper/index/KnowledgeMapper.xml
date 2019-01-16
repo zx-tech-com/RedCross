@@ -5,16 +5,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.zx.redcross.dao.index.IKnowledgeMapper">
 	
-	<resultMap type="Knowledge" id="simpleKnowledge">
-		<id column="id" property="id"/>
-		<result column="content" property="content"/>
-		<result column="title" property="title"/>
-		<association property="knowledgeType" autoMapping="true" javaType="com.zx.redcross.entity.KnowledgeType">
-			<id column="type_id" property="id"/>
-		</association>
+	<resultMap type="HashMap" id="knowledgeType">
+		<result column="id" property="id"/>
+		<result column="kname" property="kname"/>
+		<result column="description" property="description"/>
 	</resultMap>
 	
-	<select id="listKnowledgeByType" resultType="Knowledge">
+	<select id="listKnowledgeType" resultMap="knowledgeType">
+		SELECT 
+			id,kname,description
+		FROM knowledge_type;
+	</select>
+	
+	
+	
+	<resultMap type="HashMap" id="knowledge">
+		<result column="id" property="id"/>
+		<result column="content" property="content"/>
+		<result column="title" property="title"/>
+		<result column="type_id" property="typeId"/>
+		<result column="kname" property="kname"/>
+	</resultMap>
+	
+	<select id="listKnowledgeByType" resultMap="Knowledge">
 		SELECT 
 			knowledge.id,content,title,type_id,kname
 		FROM knowledge
@@ -27,13 +40,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		LIMIT ${page.start},${page.pageSize};
 	</select>
 	
-	<select id="getKnowledgeById" resultType="Knowledge">
+	
+	<select id="getKnowledgeById" resultMap="knowledge">
 		SELECT 
 			knowledge.id,content,title,type_id,kname
 		FROM knowledge
 		LEFT JOIN knowledge_type ON knowledge.type_id = knowledge_type.id
 		WHERE knowledge.id = #{id};
 	</select>
+	
+	
+	
+	
 	
 	<insert id="saveKnowledge" useGeneratedKeys="true" keyColumn="id">
 		INSERT INTO 
@@ -43,12 +61,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{Knowledge.content},#{Knowledge.has_video},#{Knowledge.video_url});
 	</insert>
 	
-	
-	<select id="listKnowledgeType" resultMap="knowledgeType">
-		SELECT 
-			id,kname,description
-		FROM knowledge_type;
-	</select>
 	
 	<!-- 后台添加知识类型 -->
 	<insert id="adminSaveKnowledgeType" parameterType="knowledgeType">
@@ -80,64 +92,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	video_url=#{Knowledge.video_url}
 	WHERE id=#{Knowledge.id}
 	</update>
-	<!--查询所有付费视频 -->
-	<select id="listVideo" resultMap="videoMap">
-	SELECT v.id,v.vindex,v.vname,v.description,v.video_url,v.price
-	vb.`id` AS video_buy_record_id,
-	vb.`status` 
-	FROM video v
-	LEFT JOIN  video_buy_record vb
-	ON v.`id`=vb.`video_id` AND customer_id=#{customerId}
- 	ORDER BY v.id DESC
-	</select>
 	
-	
-	
-	
-	
-	
-	<resultMap type="Video" id="videoMap" autoMapping="true">
-		 <id property= "id" column="id"/>
-		<association property="videoBuyRecord" javaType="VideoBuyRecord" autoMapping="true">		
-			<id column="video_buy_record_id" property="id"/>
-		</association>		
-	</resultMap>
-	
-	
-	
-	
-	
-	<!--查询一个付费视频 -->
-	<select id="getVideo" resultMap="videoMap">
-	SELECT v.id,v.vindex,v.vname,v.description,v.video_url,
-	vb.`id` AS video_buy_record_id,
-	vb.`status` 
-	FROM video v
-	LEFT JOIN  video_buy_record vb
-	ON v.`id`=vb.`video_id` AND vb.customer_id=#{customerId}
- 	where v.id=#{videoId}
-	</select>
-	
-	
-	
-	<!--会员支付成功后会生成一条支付成功记录  -->
-	<insert id="saveVideoBuyRecord">
-	INSERT INTO video_buy_record(video_id,customer_id,order_number,coment,STATUS) 
-	VALUES(#{videoBuyRecord.video.id},
-	#{videoBuyRecord.customer.id},
-	#{videoBuyRecord.orderNumber},
-	#{videoBuyRecord.coment},
-	#{videoBuyRecord.status})
-	</insert>
-	
-	
-	
-	
-	
-	<resultMap type="KnowledgeType" id="knowledgeType" autoMapping="false">
-		<id column="id" property="id"/>
-		<result column="kname" property="kname"/>
-		<result column="description" property="description"/>
-	</resultMap>
 	
 </mapper>

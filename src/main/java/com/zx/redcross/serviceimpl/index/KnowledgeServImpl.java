@@ -1,6 +1,7 @@
 package com.zx.redcross.serviceimpl.index;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,8 +10,6 @@ import com.zx.redcross.dao.index.IKnowledgeMapper;
 import com.zx.redcross.entity.Knowledge;
 import com.zx.redcross.entity.KnowledgeType;
 import com.zx.redcross.entity.Page;
-import com.zx.redcross.entity.Video;
-import com.zx.redcross.entity.VideoBuyRecord;
 import com.zx.redcross.service.index.IKnowledgeServ;
 
 @Service
@@ -20,12 +19,12 @@ public class KnowledgeServImpl implements IKnowledgeServ{
 	private IKnowledgeMapper mapper;
 	
 	@Override
-	public Knowledge getKnowledgeById(Integer id) {
+	public Map<String, Object> getKnowledgeById(Integer id) {
 		return mapper.getKnowledgeById(id);
 	}
 
 	@Override
-	public List<Knowledge> listKnowledgeByType(Integer typeId, Page page) {
+	public List<Map<String, Object>> listKnowledgeByType(Integer typeId, Page page) {
 		return mapper.listKnowledgeByType(typeId, page);
 	}
 
@@ -35,7 +34,7 @@ public class KnowledgeServImpl implements IKnowledgeServ{
 	}
 
 	@Override
-	public List<KnowledgeType> listKnowledgeType() {
+	public List<Map<String, Object>> listKnowledgeType() {
 		return mapper.listKnowledgeType();
 	}
 
@@ -64,25 +63,6 @@ public class KnowledgeServImpl implements IKnowledgeServ{
 		return mapper.adminUpdateKnowledge(knowledge);
 	}
 
-	@Override
-	public List<Video> listVideo(Integer customerId) {
-		return mapper.listVideo(customerId);
-	}
-
-	@Override
-	public Video getVideo(Integer customerId, Integer videoId) {
-		return mapper.getVideo(customerId,videoId);
-	}
-
-	@Override
-	public Boolean saveVideoBuyRecord(VideoBuyRecord videoBuyRecord) {
-		videoBuyRecord.setStatus((byte) 1);
-		return mapper.saveVideoBuyRecord(videoBuyRecord);
-	}
-
-	@Override
-	public Boolean updateVideoBuyRecord(Integer videoBuyRecordId) {
-		return mapper.uptateVideoBuyRecord(videoBuyRecordId);
-	}
+	
 
 }

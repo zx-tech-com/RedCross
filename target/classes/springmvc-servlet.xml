@@ -29,11 +29,7 @@
                 	<bean class="com.alibaba.fastjson.support.config.FastJsonConfig">
 				 		<property name="serializerFeatures">
 					       <array>
-<<<<<<< HEAD
 				              	<value>WriteMapNullValue</value>
-=======
-				              	 <value>WriteMapNullValue</value> 
->>>>>>> 131575d194f060a274d218a336c3d16ab3339d38
 				               <!-- 如果不添加WriteDateUseDateFormat,
 				               		输出的日期是这样的:1531536958391
 				               		添加后是这样的:2018-07-14 10:55:23	
