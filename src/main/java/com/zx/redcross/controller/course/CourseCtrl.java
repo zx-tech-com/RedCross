@@ -3,6 +3,7 @@ package com.zx.redcross.controller.course;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,6 @@ import com.zx.redcross.entity.ExamOrder;
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.service.course.ICourseServ;
 import com.zx.redcross.tool.Constant;
-import com.zx.redcross.tool.FileUtils;
 import com.zx.redcross.tool.MapUtils;
 
 @RestController
@@ -79,6 +79,8 @@ public class CourseCtrl {
 		}
 		return map;
 	}
+	
+	
 	/**
 	 * 判断用户看的课程视频多少集，以及那些集看了
 	 * @param course
@@ -166,12 +168,10 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminAddCourseSubject")
-	public Map<String,Object> adminAddCourseSubject(@RequestBody CourseSubject courseSubject,MultipartFile file) {
+	public Map<String,Object> adminAddCourseSubject(@RequestBody CourseSubject courseSubject,
+					@Param(value = "thumbnailUrl")MultipartFile thumbnailUrl,@Param(value = "certificateUrl")MultipartFile certificateUrl ) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		String	absoluteBasePath=Constant.IMG_ABSOLUTE_BASE_PATH+ Constant.COURSE_SUBJECT;
-		String path=FileUtils.saveFile(absoluteBasePath, file);
-		courseSubject.setThumbnailUrl(path);
-		Boolean flag = courseServImpl.addCourseSubject(courseSubject);
+		Boolean flag = courseServImpl.addCourseSubject(courseSubject,thumbnailUrl,certificateUrl);
 		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
 		return map; 
 	}
@@ -188,20 +188,21 @@ public class CourseCtrl {
 		return map; 
 	}
 	
-//	/**
-//	 * 修改考试科目
-//	 * @return
-//	 */
-//	@BackEnd
-//	@RequestMapping("/adminUpdateCourseSubject")
-//	public Map<String,Object> adminUpdateCourseSubject(@RequestBody CourseSubject courseSubject,MultipartFile file) {
-//		Map<String,Object> map = MapUtils.getHashMapInstance();
-//		//通过科目id查询修改到科目
-//		CourseSubject courseSubject2=
-//		
-//		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
-//		return map; 
-//	}
+	/**
+	 * 修改考试科目
+	 * @return
+	 */
+	@BackEnd
+	@RequestMapping("/adminUpdateCourseSubject")
+	public Map<String,Object> adminUpdateCourseSubject(@RequestBody CourseSubject courseSubject,
+			@Param(value = "thumbnailUrl")MultipartFile thumbnailUrl,@Param(value = "certificateUrl")MultipartFile certificateUrl) {
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		Boolean flag=courseServImpl.adminUpdateCourseSubject(courseSubject,thumbnailUrl,certificateUrl);
+		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
+		return map; 
+	}
+	
+	
 	/**
 	 * 处理科目课程
 	 * @param 

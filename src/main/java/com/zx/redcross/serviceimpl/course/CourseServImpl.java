@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.zx.redcross.dao.course.ICourseMapper;
 import com.zx.redcross.entity.Course;
@@ -12,6 +13,8 @@ import com.zx.redcross.entity.CourseSubject;
 import com.zx.redcross.entity.ExamOrder;
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.service.course.ICourseServ;
+import com.zx.redcross.tool.Constant;
+import com.zx.redcross.tool.FileUtils;
 
 @Service
 public class CourseServImpl implements ICourseServ{
@@ -40,8 +43,24 @@ public class CourseServImpl implements ICourseServ{
 	}
 
 	@Override
-	public Boolean addCourseSubject(CourseSubject courseSubject) {
-		return courseMapper.saveCourseSubject(courseSubject);
+	public Boolean addCourseSubject(CourseSubject courseSubject,MultipartFile thumbnailUrl, MultipartFile certificateUrl) {
+		String imgAbsoluteBasePath = Constant.IMG_ABSOLUTE_BASE_PATH + Constant.COURSESUBJECT;		
+		
+		//存储图片
+		if(thumbnailUrl!=null) {
+			courseSubject.setThumbnailUrl(FileUtils.saveFile(imgAbsoluteBasePath, thumbnailUrl));
+		}
+		
+		if(thumbnailUrl!=null) {
+			courseSubject.setCertificateUrl(FileUtils.saveFile(imgAbsoluteBasePath, certificateUrl));
+		}
+		
+		if(!courseMapper.saveCourseSubject(courseSubject)) {
+			FileUtils.removeFile(courseSubject.getThumbnailUrl());
+			FileUtils.removeFile(courseSubject.getCertificateUrl());
+			return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -73,13 +92,31 @@ public class CourseServImpl implements ICourseServ{
 
 	@Override
 	public Boolean adminDeleteCourseSubject(Integer courseSubjectId) {
-		return courseMapper.adminDeleteCourseSubject(courseSubjectId);
+		Boolean flag=courseMapper.adminDeleteCourseSubject(courseSubjectId);
+		CourseSubject courseSubject=courseMapper.findCourseSubject(courseSubjectId);
+		if(courseSubject.getThumbnailUrl()!=null
+				&&courseSubject.getThumbnailUrl().length()>0) {
+			FileUtils.removeFile(courseSubject.getThumbnailUrl());	
+		}
+		if(courseSubject.getCertificateUrl()!=null
+				&&courseSubject.getCertificateUrl().length()>0) {
+			FileUtils.removeFile(courseSubject.getCertificateUrl());	
+		}
+		return flag;
 	}
 
+	
+	
 	@Override
 	public Boolean adminDeleteCourse(Integer courseId) {
-		return courseMapper.adminDeleteCourse(courseId);
+		if(!courseMapper.adminDeleteCourse(courseId)) {
+			return false;
+			};
+		Course course=courseMapper.getCourseById(courseId);
+		if(course.getVideoUrl()!=null&&course.getVideoUrl().length()>0) {
+			FileUtils.removeFile(course.getVideoUrl());
+		}
+		return true;
 	}
-
 
 }

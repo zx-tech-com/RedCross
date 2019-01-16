@@ -4,6 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.zx.redcross.dao.course.ICourseMapper">
+
 	
 	<resultMap type="HashMap" id="courseSubject">
 		<result column="id" property="id"/>
@@ -56,7 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		LIMIT ${page.start},${page.pageSize}
 	</select>
 	
-	
+
 	<insert id="saveCountRecord">
 	INSERT INTO course_record(customer_id,course_id) 
 	VALUES(#{customerId},#{courseId})
@@ -84,13 +85,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<insert id="saveCourseSubject" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO course_subject(sname,description,price,thumbnail_url,period)
+		INSERT INTO course_subject(sname,description,price,thumbnail_url,period,certificate_url)
 		VALUES(
 			#{courseSubject.sname},
 			#{courseSubject.description},
 			#{courseSubject.price},
 			#{courseSubject.thumbnail_url},
-			#{courseSubject.period}
+			#{courseSubject.period},
+			#{courseSubject.certificateUrl}
 		)
 	</insert>
 	<!--查询考试订单中所有会员  -->
@@ -109,5 +111,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="adminDeleteCourse"  >
 		delete from course where id=#{courseId}
 	</delete>
+	
+	<!-- 修改考试科目 -->
+	<update id="adminUpdateCourseSubject" parameterType="courseSubject">
+	UPDATE course_subject SET 
+	sname=#{sname},
+	description=#{description},
+	price#{price},
+	thumbnail_url=#{thumbnailUrl},
+	certificate_url=#{id},
+	period=#{certificateUrl} where id=#{id}
+	</update>
 	
 </mapper>
