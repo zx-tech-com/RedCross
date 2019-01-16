@@ -21,7 +21,7 @@ public class KnowledgeComentCtrl {
 	@Autowired
 	private IKnowledgeComentServ KnowledgeComentServImpl;
 	
-	@RequestMapping("/listComentByCustomerId")
+	@RequestMapping("/listKComent")
 	public Map<String,Object> listComentByCustomerId(@RequestParam(required=true)Integer customerId, Page page) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
@@ -29,6 +29,7 @@ public class KnowledgeComentCtrl {
 		if(null != comentList) {
 			map.put(Constant.DATA, comentList);
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+			map.put(Constant.PAGE_SIZE, page.getPageSize());
 		}
 		return map;
 	}

@@ -13,6 +13,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<association property="customer"  columnPrefix="customer_" javaType="Customer" autoMapping="true">
 				<id column="id" property="id"/>
 			</association>
+			<collection property="imgs" ofType="Img" columnPrefix="img_" autoMapping="true">
+				<id column="id" property="id"/>
+			</collection>
 		</association>
 		<association property="topicComent2" columnPrefix="last_level_coment_" javaType="TopicComent" autoMapping="true">
 			<id column="id" property="id"/>
@@ -25,122 +28,150 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<select id="listTopicComentByCustomerId" resultMap="topicComent">
-		SELECT 
-			customer.id AS topic_customer_id,
-			customer.avatar_url AS topic_customer_avatar_url,
-			customer.nickname AS topic_customer_nickname,
+		SELECT *
+		FROM(
+			SELECT 
+				customer.id AS topic_customer_id,
+				customer.avatar_url AS topic_customer_avatar_url,
+				customer.nickname AS topic_customer_nickname,
+				
+				topic.id AS topic_id,
+				topic.title AS topic_title,
+				topic.content AS topic_content,
+				(SELECT COUNT(id) FROM topic_thumbsup WHERE topic_thumbsup.topic_id = topic.id)AS topic_totalThumbsup,
+				(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id = topic.id)AS topic_totalComment,
+				topic.total_share AS topic_total_share,
+				
+				topic.has_video AS topic_has_video,
+				topic.video_url AS topic_video_url,
+				img.id AS topic_img_id,
+				img.iindex AS topic_img_iindex,
+				img.img_url AS topic_img_img_url,
+				
+				
+				topic_coment.id,
+				topic_coment.content,
+				topic_coment.coment_time,
+				
+				NULL AS last_level_coment_customer_id,
+				NULL AS last_level_coment_customer_nickname,
+				
+				NULL AS last_level_coment_id,
+				NULL AS last_level_coment_content
+				
+			FROM 
+				(
+					SELECT 
+						* 
+					FROM 
+						topic_coment
+					WHERE customer_id = #{customerId}
+					ORDER BY topic_coment.coment_time DESC
+					LIMIT #{page.start},#{page.pageSize}
+				)topic_coment
+			LEFT JOIN topic ON topic_coment.topic_id = topic.id
+			LEFT JOIN img ON img.img_type = '1' AND topic.id = img.foreign_id
+			LEFT JOIN customer ON topic.customer_id = customer.id
+			WHERE topic_coment.is_topcoment = 1
 			
-			topic.id AS topic_id,
-			topic.title AS topic_title,
-			topic.content AS topic_content,
-			(SELECT COUNT(id) FROM topic_thumbsup WHERE topic_thumbsup.topic_id = topic.id)AS topic_totalThumbsup,
-			(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id = topic.id)AS topic_totalComment,
-			topic.total_share AS topic_total_share,
+			UNION ALL
 			
-			topic_coment.id,
-			topic_coment.content,
-			topic_coment.coment_time,
+			SELECT 
+				
+				customer.id AS topic_customer_id,
+				customer.avatar_url AS topic_customer_avatar_url,
+				customer.nickname AS topic_customer_nickname,
+				
+				topic.id AS topic_id,
+				topic.title AS topic_title,
+				topic.content AS topic_content,
+				(SELECT COUNT(id) FROM topic_thumbsup WHERE topic_thumbsup.topic_id = topic.id)AS topic_totalThumbsup,
+				(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id = topic.id)AS topic_totalComment,
+				topic.total_share AS topic_total_share,
+				
+				
+				topic.has_video AS topic_has_video,
+				topic.video_url AS topic_video_url,
+				img.id AS topic_img_id,
+				img.iindex AS topic_img_iindex,
+				img.img_url AS topic_img_img_url,
+				
+				
+				topic_coment.id,
+				topic_coment.content,
+				topic_coment.coment_time,
+				
+				customer2.id AS last_level_coment_customer_id,
+				customer2.nickname AS last_level_coment_customer_nickname,
+				
+				top_coment.id AS last_level_coment_id,
+				top_coment.content AS last_level_coment_content
+				
+			FROM 
+				(
+					SELECT 
+						* 
+					FROM 
+						topic_coment
+					WHERE customer_id = #{customerId}
+					ORDER BY topic_coment.coment_time DESC
+					LIMIT #{page.start},#{page.pageSize}
+				)topic_coment
+			LEFT JOIN topic ON topic_coment.topic_id = topic.id
+			LEFT JOIN img ON img.img_type = '1' AND topic.id = img.foreign_id
+			LEFT JOIN customer ON topic.customer_id = customer.id
+			LEFT JOIN topic_coment top_coment ON topic_coment.topcoment_id = top_coment.id
+			LEFT JOIN customer customer2 ON top_coment.customer_id = customer2.id
+			WHERE topic_coment.is_topcoment = 0 AND topic_coment.coment_id IS NULL
 			
-			NULL AS last_level_coment_customer_id,
-			NULL AS last_level_coment_customer_nickname,
+			UNION ALL
 			
-			NULL AS last_level_coment_id,
-			NULL AS last_level_coment_content
-			
-		FROM 
-			(
-				SELECT 
-					* 
-				FROM 
-					topic_coment
-				WHERE customer_id = #{customerId}
-				ORDER BY topic_coment.coment_time DESC
-				LIMIT #{page.start},#{page.pageSize}
-			)topic_coment
-		LEFT JOIN topic ON topic_coment.topic_id = topic.id
-		LEFT JOIN customer ON topic.customer_id = customer.id
-		WHERE topic_coment.is_topcoment = 1
-		
-		UNION ALL
-		
-		SELECT 
-			
-			customer.id AS topic_customer_id,
-			customer.avatar_url AS topic_customer_avatar_url,
-			customer.nickname AS topic_customer_nickname,
-			
-			topic.id AS topic_id,
-			topic.title AS topic_title,
-			topic.content AS topic_content,
-			(SELECT COUNT(id) FROM topic_thumbsup WHERE topic_thumbsup.topic_id = topic.id)AS topic_totalThumbsup,
-			(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id = topic.id)AS topic_totalComment,
-			topic.total_share AS topic_total_share,
-			
-			topic_coment.id,
-			topic_coment.content,
-			topic_coment.coment_time,
-			
-			customer2.id AS last_level_coment_customer_id,
-			customer2.nickname AS last_level_coment_customer_nickname,
-			
-			top_coment.id AS last_level_coment_id,
-			top_coment.content AS last_level_coment_content
-			
-		FROM 
-			(
-				SELECT 
-					* 
-				FROM 
-					topic_coment
-				WHERE customer_id = #{customerId}
-				ORDER BY topic_coment.coment_time DESC
-				LIMIT #{page.start},#{page.pageSize}
-			)topic_coment
-		LEFT JOIN topic ON topic_coment.topic_id = topic.id
-		LEFT JOIN customer ON topic.customer_id = customer.id
-		LEFT JOIN topic_coment top_coment ON topic_coment.topcoment_id = top_coment.id
-		LEFT JOIN customer customer2 ON top_coment.customer_id = customer2.id
-		WHERE topic_coment.is_topcoment = 0 AND topic_coment.coment_id IS NULL
-		
-		UNION ALL
-		
-		SELECT 
-			customer.id AS topic_customer_id,
-			customer.avatar_url AS topic_customer_avatar_url,
-			customer.nickname AS topic_customer_nickname,
-			
-			topic.id AS topic_id,
-			topic.title AS topic_title,
-			topic.content AS topic_content,
-			(SELECT COUNT(id) FROM topic_thumbsup WHERE topic_thumbsup.topic_id = topic.id)AS topic_totalThumbsup,
-			(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id = topic.id)AS topic_totalComment,
-			topic.total_share AS topic_total_share,
-			
-			topic_coment.id,
-			topic_coment.content,
-			topic_coment.coment_time,
-			
-			customer2.id AS last_level_coment_customer_id,
-			customer2.nickname AS last_level_coment_customer_nickname,
-			
-			second_coment.id AS last_level_coment_id,
-			second_coment.content AS last_level_coment_content2
-			
-		FROM 
-			(
-				SELECT 
-					* 
-				FROM 
-					topic_coment
-				WHERE customer_id = #{customerId}
-				ORDER BY topic_coment.coment_time DESC
-				LIMIT #{page.start},#{page.pageSize}
-			)topic_coment
-		LEFT JOIN topic ON topic_coment.topic_id = topic.id
-		LEFT JOIN customer ON topic.customer_id = customer.id
-		LEFT JOIN topic_coment second_coment ON topic_coment.coment_id = second_coment.id
-		LEFT JOIN customer customer2 ON second_coment.customer_id = customer2.id
-		WHERE topic_coment.is_topcoment = 0 AND topic_coment.coment_id IS NOT NULL
+			SELECT 
+				customer.id AS topic_customer_id,
+				customer.avatar_url AS topic_customer_avatar_url,
+				customer.nickname AS topic_customer_nickname,
+				
+				topic.id AS topic_id,
+				topic.title AS topic_title,
+				topic.content AS topic_content,
+				(SELECT COUNT(id) FROM topic_thumbsup WHERE topic_thumbsup.topic_id = topic.id)AS topic_totalThumbsup,
+				(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id = topic.id)AS topic_totalComment,
+				topic.total_share AS topic_total_share,
+				
+				topic.has_video AS topic_has_video,
+				topic.video_url AS topic_video_url,
+				img.id AS topic_img_id,
+				img.iindex AS topic_img_iindex,
+				img.img_url AS topic_img_img_url,
+				
+				topic_coment.id,
+				topic_coment.content,
+				topic_coment.coment_time,
+				
+				customer2.id AS last_level_coment_customer_id,
+				customer2.nickname AS last_level_coment_customer_nickname,
+				
+				second_coment.id AS last_level_coment_id,
+				second_coment.content AS last_level_coment_content2
+				
+			FROM 
+				(
+					SELECT 
+						* 
+					FROM 
+						topic_coment
+					WHERE customer_id = #{customerId}
+					ORDER BY topic_coment.coment_time DESC
+					LIMIT #{page.start},#{page.pageSize}
+				)topic_coment
+			LEFT JOIN topic ON topic_coment.topic_id = topic.id
+			LEFT JOIN img ON img.img_type = '1' AND topic.id = img.foreign_id
+			LEFT JOIN customer ON topic.customer_id = customer.id
+			LEFT JOIN topic_coment second_coment ON topic_coment.coment_id = second_coment.id
+			LEFT JOIN customer customer2 ON second_coment.customer_id = customer2.id
+			WHERE topic_coment.is_topcoment = 0 AND topic_coment.coment_id IS NOT NULL
+		)tmp
+		ORDER BY coment_time DESC,topic_img_iindex ASC;
 	</select>
 	
 	

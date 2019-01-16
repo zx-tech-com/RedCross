@@ -13,6 +13,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<association property="customer"  columnPrefix="customer_" javaType="Customer" autoMapping="true">
 				<id column="id" property="id"/>
 			</association>
+			<collection property="imgs" ofType="Img" columnPrefix="img_" autoMapping="true">
+				<id column="id" property="id"/>
+			</collection>
 		</association>
 		<association property="knowledgeComent2" columnPrefix="last_level_coment_" javaType="KnowledgeComent" autoMapping="true">
 			<id column="id" property="id"/>
@@ -25,127 +28,155 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<select id="listKnowledgeComentByCustomerId" resultMap="knowledgeComent">
-		SELECT 
-			customer.id AS knowledge_customer_id,
-			customer.avatar_url AS knowledge_customer_avatar_url,
-			customer.nickname AS knowledge_customer_nickname,
+		select 
+			*
+		from
+		(
+			SELECT 
+				customer.id AS knowledge_customer_id,
+				customer.avatar_url AS knowledge_customer_avatar_url,
+				customer.nickname AS knowledge_customer_nickname,
+				
+				knowledge.id AS knowledge_id,
+				knowledge.title AS knowledge_title,
+				knowledge.content AS knowledge_content,
+				(SELECT COUNT(id) FROM knowledge_thumbsup WHERE knowledge_thumbsup.knowledge_id = knowledge.id)AS knowledge_totalThumbsup,
+				(SELECT COUNT(id) FROM knowledge_coment WHERE knowledge_coment.knowledge_id = knowledge.id)AS knowledge_totalComment,
+				knowledge.total_share AS knowledge_total_share,
+				
+				knowledge.has_video AS knowledge_has_video,
+				knowledge.video_url AS knowledge_video_url,
+				img.id AS knowledge_img_id,
+				img.iindex AS knowledge_img_iindex,
+				img.img_url AS knowledge_img_img_url,
+				
+				knowledge_coment.id,
+				knowledge_coment.content,
+				knowledge_coment.coment_time,
+				
+				NULL AS last_level_coment_customer_id,
+				NULL AS last_level_coment_customer_nickname,
+				
+				NULL AS last_level_coment_id,
+				NULL AS last_level_coment_content
+				
+			FROM 
+				(
+					SELECT 
+						* 
+					FROM 
+						knowledge_coment
+					WHERE customer_id = #{customerId}
+					ORDER BY knowledge_coment.coment_time DESC
+					LIMIT #{page.start},#{page.pageSize}
+				)knowledge_coment
+			LEFT JOIN knowledge ON knowledge_coment.knowledge_id = knowledge.id
+			LEFT JOIN img ON img.img_type = '0' AND knowledge.id = img.foreign_id
+			LEFT JOIN customer ON knowledge.customer_id = customer.id
+			WHERE knowledge_coment.is_topcoment = 1
 			
-			knowledge.id AS knowledge_id,
-			knowledge.title AS knowledge_title,
-			knowledge.content AS knowledge_content,
-			(SELECT COUNT(id) FROM knowledge_thumbsup WHERE knowledge_thumbsup.knowledge_id = knowledge.id)AS knowledge_totalThumbsup,
-			(SELECT COUNT(id) FROM knowledge_coment WHERE knowledge_coment.knowledge_id = knowledge.id)AS knowledge_totalComment,
-			knowledge.total_share AS knowledge_total_share,
+			UNION ALL
 			
-			knowledge_coment.id,
-			knowledge_coment.content,
-			knowledge_coment.coment_time,
+			SELECT 
+				
+				customer.id AS knowledge_customer_id,
+				customer.avatar_url AS knowledge_customer_avatar_url,
+				customer.nickname AS knowledge_customer_nickname,
+				
+				knowledge.id AS knowledge_id,
+				knowledge.title AS knowledge_title,
+				knowledge.content AS knowledge_content,
+				(SELECT COUNT(id) FROM knowledge_thumbsup WHERE knowledge_thumbsup.knowledge_id = knowledge.id)AS knowledge_totalThumbsup,
+				(SELECT COUNT(id) FROM knowledge_coment WHERE knowledge_coment.knowledge_id = knowledge.id)AS knowledge_totalComment,
+				knowledge.total_share AS knowledge_total_share,
+				
+				knowledge.has_video AS knowledge_has_video,
+				knowledge.video_url AS knowledge_video_url,
+				img.id AS knowledge_img_id,
+				img.iindex AS knowledge_img_iindex,
+				img.img_url AS knowledge_img_img_url,
+				
+				knowledge_coment.id,
+				knowledge_coment.content,
+				knowledge_coment.coment_time,
+				
+				customer2.id AS last_level_coment_customer_id,
+				customer2.nickname AS last_level_coment_customer_nickname,
+				
+				top_coment.id AS last_level_coment_id,
+				top_coment.content AS last_level_coment_content
+				
+			FROM 
+				(
+					SELECT 
+						* 
+					FROM 
+						knowledge_coment
+					WHERE customer_id = #{customerId}
+					ORDER BY knowledge_coment.coment_time DESC
+					LIMIT #{page.start},#{page.pageSize}
+				)knowledge_coment
+			LEFT JOIN knowledge ON knowledge_coment.knowledge_id = knowledge.id
+			LEFT JOIN img ON img.img_type = '0' AND knowledge.id = img.foreign_id
+			LEFT JOIN customer ON knowledge.customer_id = customer.id
+			LEFT JOIN knowledge_coment top_coment ON knowledge_coment.topcoment_id = top_coment.id
+			LEFT JOIN customer customer2 ON top_coment.customer_id = customer2.id
+			WHERE knowledge_coment.is_topcoment = 0 AND knowledge_coment.coment_id IS NULL
 			
-			NULL AS last_level_coment_customer_id,
-			NULL AS last_level_coment_customer_nickname,
+			UNION ALL
 			
-			NULL AS last_level_coment_id,
-			NULL AS last_level_coment_content
 			
-		FROM 
-			(
-				SELECT 
-					* 
-				FROM 
-					knowledge_coment
-				WHERE customer_id = #{customerId}
-				ORDER BY knowledge_coment.coment_time DESC
-				LIMIT #{page.start},#{page.pageSize}
-			)knowledge_coment
-		LEFT JOIN knowledge ON knowledge_coment.knowledge_id = knowledge.id
-		LEFT JOIN customer ON knowledge.customer_id = customer.id
-		WHERE knowledge_coment.is_topcoment = 1
-		
-		UNION ALL
-		
-		SELECT 
 			
-			customer.id AS knowledge_customer_id,
-			customer.avatar_url AS knowledge_customer_avatar_url,
-			customer.nickname AS knowledge_customer_nickname,
 			
-			knowledge.id AS knowledge_id,
-			knowledge.title AS knowledge_title,
-			knowledge.content AS knowledge_content,
-			(SELECT COUNT(id) FROM knowledge_thumbsup WHERE knowledge_thumbsup.knowledge_id = knowledge.id)AS knowledge_totalThumbsup,
-			(SELECT COUNT(id) FROM knowledge_coment WHERE knowledge_coment.knowledge_id = knowledge.id)AS knowledge_totalComment,
-			knowledge.total_share AS knowledge_total_share,
 			
-			knowledge_coment.id,
-			knowledge_coment.content,
-			knowledge_coment.coment_time,
-			
-			customer2.id AS last_level_coment_customer_id,
-			customer2.nickname AS last_level_coment_customer_nickname,
-			
-			top_coment.id AS last_level_coment_id,
-			top_coment.content AS last_level_coment_content
-			
-		FROM 
-			(
-				SELECT 
-					* 
-				FROM 
-					knowledge_coment
-				WHERE customer_id = #{customerId}
-				ORDER BY knowledge_coment.coment_time DESC
-				LIMIT #{page.start},#{page.pageSize}
-			)knowledge_coment
-		LEFT JOIN knowledge ON knowledge_coment.knowledge_id = knowledge.id
-		LEFT JOIN customer ON knowledge.customer_id = customer.id
-		LEFT JOIN knowledge_coment top_coment ON knowledge_coment.topcoment_id = top_coment.id
-		LEFT JOIN customer customer2 ON top_coment.customer_id = customer2.id
-		WHERE knowledge_coment.is_topcoment = 0 AND knowledge_coment.coment_id IS NULL
-		
-		UNION ALL
-		
-		
-		
-		
-		
-		SELECT 
-			customer.id AS knowledge_customer_id,
-			customer.avatar_url AS knowledge_customer_avatar_url,
-			customer.nickname AS knowledge_customer_nickname,
-			
-			knowledge.id AS knowledge_id,
-			knowledge.title AS knowledge_title,
-			knowledge.content AS knowledge_content,
-			(SELECT COUNT(id) FROM knowledge_thumbsup WHERE knowledge_thumbsup.knowledge_id = knowledge.id)AS knowledge_totalThumbsup,
-			(SELECT COUNT(id) FROM knowledge_coment WHERE knowledge_coment.knowledge_id = knowledge.id)AS knowledge_totalComment,
-			knowledge.total_share AS knowledge_total_share,
-			
-			knowledge_coment.id,
-			knowledge_coment.content,
-			knowledge_coment.coment_time,
-			
-			customer2.id AS last_level_coment_customer_id,
-			customer2.nickname AS last_level_coment_customer_nickname,
-			
-			second_coment.id AS last_level_coment_id,
-			second_coment.content AS last_level_coment_content2
-			
-		FROM 
-			(
-				SELECT 
-					* 
-				FROM 
-					knowledge_coment
-				WHERE customer_id = #{customerId}
-				ORDER BY knowledge_coment.coment_time DESC
-				LIMIT #{page.start},#{page.pageSize}
-			)knowledge_coment
-		LEFT JOIN knowledge ON knowledge_coment.knowledge_id = knowledge.id
-		LEFT JOIN customer ON knowledge.customer_id = customer.id
-		LEFT JOIN knowledge_coment second_coment ON knowledge_coment.coment_id = second_coment.id
-		LEFT JOIN customer customer2 ON second_coment.customer_id = customer2.id
-		WHERE knowledge_coment.is_topcoment = 0 AND knowledge_coment.coment_id IS NOT NULL
-	
+			SELECT 
+				customer.id AS knowledge_customer_id,
+				customer.avatar_url AS knowledge_customer_avatar_url,
+				customer.nickname AS knowledge_customer_nickname,
+				
+				knowledge.id AS knowledge_id,
+				knowledge.title AS knowledge_title,
+				knowledge.content AS knowledge_content,
+				(SELECT COUNT(id) FROM knowledge_thumbsup WHERE knowledge_thumbsup.knowledge_id = knowledge.id)AS knowledge_totalThumbsup,
+				(SELECT COUNT(id) FROM knowledge_coment WHERE knowledge_coment.knowledge_id = knowledge.id)AS knowledge_totalComment,
+				knowledge.total_share AS knowledge_total_share,
+				
+				
+				knowledge.has_video AS knowledge_has_video,
+				knowledge.video_url AS knowledge_video_url,
+				img.id AS knowledge_img_id,
+				img.iindex AS knowledge_img_iindex,
+				img.img_url AS knowledge_img_img_url,
+				
+				
+				knowledge_coment.id,
+				knowledge_coment.content,
+				knowledge_coment.coment_time,
+				
+				customer2.id AS last_level_coment_customer_id,
+				customer2.nickname AS last_level_coment_customer_nickname,
+				
+				second_coment.id AS last_level_coment_id,
+				second_coment.content AS last_level_coment_content2
+				
+			FROM 
+				(
+					SELECT 
+						* 
+					FROM 
+						knowledge_coment
+					WHERE customer_id = #{customerId}
+					ORDER BY knowledge_coment.coment_time DESC
+					LIMIT #{page.start},#{page.pageSize}
+				)knowledge_coment
+			LEFT JOIN knowledge ON knowledge_coment.knowledge_id = knowledge.id
+			LEFT JOIN img ON img.img_type = '0' AND knowledge.id = img.foreign_id
+			LEFT JOIN customer ON knowledge.customer_id = customer.id
+			LEFT JOIN knowledge_coment second_coment ON knowledge_coment.coment_id = second_coment.id
+			LEFT JOIN customer customer2 ON second_coment.customer_id = customer2.id
+			WHERE knowledge_coment.is_topcoment = 0 AND knowledge_coment.coment_id IS NOT NULL
+		)tmp
+		ORDER BY coment_time DESC,knowledge_img_iindex ASC;
 	</select>
 
 </mapper>

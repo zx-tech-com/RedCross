@@ -29,6 +29,7 @@ public class TopicController {
 		if(null != topicList) {
 			map.put(Constant.DATA, topicList);
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+			map.put(Constant.PAGE_SIZE, page.getPageSize());
 		}
 		return map;
 	}

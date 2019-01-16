@@ -45,6 +45,7 @@ public class Constant {
 	 * 分页信息
 	 */
 	public static final Integer APP_PAGE_SIZE= 6;
+	public static final String PAGE_SIZE = "pageSize";
 	
 	
 	/**

@@ -39,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			)
 			topic 
 		LEFT JOIN customer ON topic.customer_id = customer.id
-		LEFT JOIN img ON img.img_type = 1 AND img.foreign_id = topic.id
+		LEFT JOIN img ON img.img_type = '1' AND img.foreign_id = topic.id
 		ORDER BY topic.publish_time DESC;
 	</select>
 	
