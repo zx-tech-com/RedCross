@@ -9,6 +9,8 @@ import com.zx.redcross.dao.index.IKnowledgeMapper;
 import com.zx.redcross.entity.Knowledge;
 import com.zx.redcross.entity.KnowledgeType;
 import com.zx.redcross.entity.Page;
+import com.zx.redcross.entity.Video;
+import com.zx.redcross.entity.VideoBuyRecord;
 import com.zx.redcross.service.index.IKnowledgeServ;
 
 @Service
@@ -60,6 +62,27 @@ public class KnowledgeServImpl implements IKnowledgeServ{
 	@Override
 	public Boolean adminUpdateKnowledge(Knowledge knowledge) {
 		return mapper.adminUpdateKnowledge(knowledge);
+	}
+
+	@Override
+	public List<Video> listVideo(Integer customerId) {
+		return mapper.listVideo(customerId);
+	}
+
+	@Override
+	public Video getVideo(Integer customerId, Integer videoId) {
+		return mapper.getVideo(customerId,videoId);
+	}
+
+	@Override
+	public Boolean saveVideoBuyRecord(VideoBuyRecord videoBuyRecord) {
+		videoBuyRecord.setStatus((byte) 1);
+		return mapper.saveVideoBuyRecord(videoBuyRecord);
+	}
+
+	@Override
+	public Boolean updateVideoBuyRecord(Integer videoBuyRecordId) {
+		return mapper.uptateVideoBuyRecord(videoBuyRecordId);
 	}
 
 }

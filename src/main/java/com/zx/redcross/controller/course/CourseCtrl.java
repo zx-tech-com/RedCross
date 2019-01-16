@@ -16,6 +16,7 @@ import com.zx.redcross.entity.Course;
 import com.zx.redcross.entity.CourseSubject;
 import com.zx.redcross.entity.ExamOrder;
 import com.zx.redcross.entity.Page;
+import com.zx.redcross.entity.Video;
 import com.zx.redcross.service.course.ICourseServ;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.FileUtils;
@@ -248,14 +249,53 @@ public class CourseCtrl {
 	/**
 	 * 付费视频列表
 	 */
+	@BackEnd
+	@RequestMapping("/adminListVideo")
+	public Map<String,Object> adminListVideo(){
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		List<Video> videos= courseServImpl.adminListVideo();
+		if(null!=videos) {
+			map.put(Constant.DATA, videos);
+			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		}else {
+			map.put(Constant.STATUS, Constant.STATUS_FAILURE);
+		}
+		return map;
+	}
 	/**
 	 * 添加付费视频
 	 */
+	@BackEnd
+	@RequestMapping("/adminSaveVideo")
+	public Map<String,Object> adminSaveVideo(Video video){
+		//未处理视频上传过程
+		
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		Boolean flag= courseServImpl.adminSaveVideo(video);
+		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
+		return map;
+	}
 	/**
 	 * 删除付费视频
 	 */
+	@BackEnd
+	@RequestMapping("/adminDeleteVideo")
+	public Map<String,Object> adminDeleteVideo(@RequestBody Integer videoId) {
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		Boolean flag = courseServImpl.adminDeleteVideo(videoId);
+		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
+		return map; 
+	}	
 	/**
 	 * 修改付费视频
 	 */
+	@BackEnd
+	@RequestMapping("/adminUpdateVideo")
+	public Map<String,Object> adminUpdateVideo(@RequestBody Video video) {
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		Boolean flag = courseServImpl.adminUpdateVideo(video);
+		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
+		return map; 
+	}
 	
 }

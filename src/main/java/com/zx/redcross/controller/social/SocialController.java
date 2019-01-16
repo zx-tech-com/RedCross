@@ -18,7 +18,6 @@ import com.zx.redcross.entity.Page;
 import com.zx.redcross.entity.Topic;
 import com.zx.redcross.entity.TopicComent;
 import com.zx.redcross.entity.TopicType;
-import com.zx.redcross.service.my.CustomerService;
 import com.zx.redcross.service.social.SocialService;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.FileUtils;

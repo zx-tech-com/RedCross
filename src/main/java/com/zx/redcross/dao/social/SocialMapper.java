@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.zx.redcross.entity.Concern;
 import com.zx.redcross.entity.Customer;
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.entity.Topic;

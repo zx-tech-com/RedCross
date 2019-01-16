@@ -10,6 +10,7 @@ import com.zx.redcross.entity.Course;
 import com.zx.redcross.entity.CourseSubject;
 import com.zx.redcross.entity.ExamOrder;
 import com.zx.redcross.entity.Page;
+import com.zx.redcross.entity.Video;
 import com.zx.redcross.service.course.ICourseServ;
 
 @Service
@@ -78,6 +79,26 @@ public class CourseServImpl implements ICourseServ{
 	@Override
 	public Boolean adminDeleteCourse(Integer courseId) {
 		return courseMapper.adminDeleteCourse(courseId);
+	}
+
+	@Override
+	public List<Video> adminListVideo() {
+		return courseMapper.adminListVideo();
+	}
+
+	@Override
+	public Boolean adminSaveVideo(Video video) {
+		return courseMapper.adminSaveVideo(video);
+	}
+
+	@Override
+	public Boolean adminDeleteVideo(Integer videoId) {
+		return courseMapper.adminDeleteVideo(videoId);
+	}
+
+	@Override
+	public Boolean adminUpdateVideo(Video video) {
+		return courseMapper.adminUpdateVideo(video);
 	}
 
 

@@ -68,20 +68,6 @@ public class VideoSubject implements Serializable {
 		this.videos = videos;
 	}
 
-	public Video addVideo(Video video) {
-		getVideos().add(video);
-		video.setVideoSubject(this);
-
-		return video;
-	}
-
-	public Video removeVideo(Video video) {
-		getVideos().remove(video);
-		video.setVideoSubject(null);
-
-		return video;
-	}
-
 	public List<VideoBuyRecord> getVideoBuyRecords() {
 		return this.videoBuyRecords;
 	}
