@@ -69,6 +69,7 @@ public class CourseCtrl {
 	}
 
 	@FrontEnd
+	@RequestMapping("/getCourse")
 	public Map<String,Object> getCourseById(@RequestParam Integer id) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Course course = courseServImpl.getCourseById(id);
