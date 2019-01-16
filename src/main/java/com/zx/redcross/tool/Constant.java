@@ -10,7 +10,7 @@ public class Constant {
 
 	
 	public static final String ABSOLUTE_BASE_PATH = "D:" + File.separator;
-	public static final String ACCESS_BASE_PATH = "http://192.168.1.177:8080/";
+	public static final String ACCESS_BASE_PATH = "http://192.168.1.177:8080/RedCross";
 	
 	// 所有视频均存储在该路径下
 	public static final String VIDEO_ABSOLUTE_BASE_PATH = ABSOLUTE_BASE_PATH + "videos" + File.separator;
@@ -22,8 +22,11 @@ public class Constant {
 	// 图片的访问路径的前缀
 	public static final String IMG_ACCESS_BASE_PATH = ACCESS_BASE_PATH + "imgs/";
 	
-	
+	/**
+	 * 存储图片视频用到的几个文件夹名称
+	 */
 	public static final String COURSE_SUBJECT = "courseSubject" + File.separator;
+	public static final String TOPIC = "topic" + File.separator;
 	
 	
 	/**
@@ -80,6 +83,12 @@ public class Constant {
 	public static final String VIDEO_ORDER_DESCRIPTION = "'购买'";
 	public static final String EXAM_ORDER_TITLE = "'考试项目购买-'";
 	
+	
+	/**
+	 * img的imgType的两个类型
+	 */
+	public static final String IMG_TYPE_TOPIC = "1";
+	public static final String IMG_TYPE_KNOWLEDGE = "0";
 	
 	
 }

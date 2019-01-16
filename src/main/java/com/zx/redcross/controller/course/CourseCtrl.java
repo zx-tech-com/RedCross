@@ -21,11 +21,8 @@ import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.FileUtils;
 import com.zx.redcross.tool.MapUtils;
 
-import io.swagger.annotations.Api;
-
 @RestController
 @RequestMapping("/course")
-@Api(tags="所有课程相关接口")
 public class CourseCtrl {
 
 	@Autowired
@@ -33,7 +30,6 @@ public class CourseCtrl {
 	
 	@FrontEnd
 	@RequestMapping("/listCourseSubject")
-//	@ApiOperation(value = "列举所有培训信息",httpMethod= "GET",produces="application/json")
 	public Map<String,Object> listCourseSubject() {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
@@ -60,10 +56,6 @@ public class CourseCtrl {
 
 	@FrontEnd
 	@RequestMapping("/listCourse")
-	/*@ApiOperation(value = "列举某个培训下的所有课程信息",httpMethod= "GET",produces="application/json")
-	@ApiImplicitParams({
-        @ApiImplicitParam(name = "subjectId", value = "课程(培训)id", required = true, paramType = "query", dataType = "String")
-	})*/
 	public Map<String,Object> listCourseBySubject(@RequestParam(required=true) Integer subjectId,Page page) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
@@ -76,10 +68,7 @@ public class CourseCtrl {
 	}
 
 	@FrontEnd
-//	@RequestMapping("/getCourse")
-//	@ApiOperation(value="获取课程的具体信息",httpMethod= "GET",produces="application/json")
 	public Map<String,Object> getCourseById(@RequestParam Integer id) {
-			/*@ApiParam(name="id",value="课程id",required=true)*/ 
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Course course = courseServImpl.getCourseById(id);
 		map.put(Constant.STATUS,Constant.STATUS_FAILURE);

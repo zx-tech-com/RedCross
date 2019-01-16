@@ -29,7 +29,7 @@ public class FileUtils {
 		if(file == null)
 			BusinessExceptionUtils.throwNewBusinessException("文件为空");
 		String fileName = file.getOriginalFilename();
-		String name = fileName.substring(fileName.lastIndexOf('.'), fileName.length()-1);
+		String name = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
 		return name;
 	}
 	
@@ -56,12 +56,28 @@ public class FileUtils {
 		} catch (IllegalStateException | IOException e) {
 			BusinessExceptionUtils.throwNewBusinessException("文件存储失败");
 		}
-		return absoluteBasePath.replace(Constant.ABSOLUTE_BASE_PATH, "") + getFileName(file);
+		return new String(absoluteBasePath.replace(Constant.ABSOLUTE_BASE_PATH, "") + getFileName(file)).replace("\\", "/");
+	}
+	
+	/**
+	 * 
+	 * @param path 通过实体类调用相应的getXxxUrl()返回的字符串
+	 * @return
+	 */
+	public static boolean removeFile(String path) {
+		path = path.replace(Constant.ACCESS_BASE_PATH, Constant.ABSOLUTE_BASE_PATH);
+		File file = new File(path);
+		if(file.exists() && !file.isDirectory())
+			return file.delete();
+		else {
+			BusinessExceptionUtils.throwNewBusinessException("文件不存在");
+			return false;
+		}
 	}
 	
 	public static String getFullUrl(String url) {
-		if(url != null && url.length() > 0)
-			return Constant.ACCESS_BASE_PATH + url;
-		return null;
+		/*if(url != null && url.length() > 0)
+			return Constant.ACCESS_BASE_PATH + url;*/
+		return url;
 	}	
 }

@@ -1,8 +1,10 @@
 package com.zx.redcross.service.social;
 
 import java.util.List;
+import java.util.Map;
 
-import com.zx.redcross.entity.Concern;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.entity.Topic;
 import com.zx.redcross.entity.TopicComent;
@@ -25,10 +27,13 @@ public interface SocialService {
 	public void deleteConcert(Integer aCustomerId, Integer pCustomerId);
 	//通过帖子id获取一级评论的全面信息
 	public List<TopicComent> findTopicComent(Integer topicId, Page page, Integer customerId);
+	
 	//通过帖子id获取二级评论的全面信息
-	public List<TopicComent> findTopicComent2(Integer topicComentId, Page page, Integer customerId);
+	public List<Map<String,Object>> findLowerComent(Integer topicComentId, Page page, Integer customerId);
+	
 	//通过帖子id获取二级评论的全面信息
-	public List<TopicComent> findTopicComent3(Integer topicComentId, Page page, Integer customerId);
+	//public List<TopicComent> findTopicComent3(Integer topicComentId, Page page, Integer customerId);
+	
 	//插入一级评论
 	public void saveTopicComent(TopicComent topicComent);
 	//查询用户在评论上是否点赞了
@@ -45,7 +50,15 @@ public interface SocialService {
 	public void deleteTopicThunsup(Integer coustomerId, Integer topicId);
 	//发表帖子
 	public void saveTopic(Topic topic);
+	//发表帖子
+	public Boolean saveTopic(MultipartFile[] images, MultipartFile video, Topic topic);
 	
+	/**
+	 * 帖子的分享数+1
+	 * @param topicId
+	 * @return
+	 */
+	public Boolean updateTopicSetShareAdd1(Integer topicId);
 	
 	//===============================后台管理需要用到的接口===================================
 	//管理员删除帖子

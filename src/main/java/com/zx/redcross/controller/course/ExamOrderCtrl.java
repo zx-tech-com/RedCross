@@ -15,11 +15,7 @@ import com.zx.redcross.service.course.IExamOrderServ;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.MapUtils;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
 @RestController
-@Api(tags="考试相关接口")
 public class ExamOrderCtrl {
 	
 	@Autowired
@@ -81,8 +77,6 @@ public class ExamOrderCtrl {
 	
 	@FrontEnd
 	@RequestMapping("addExamOrder")
-	@ApiOperation(value = "提交考试报名",
-		httpMethod= "POST",produces="application/json",consumes="application/json")
 	public Map<String,Object> addExamOrder(@RequestBody ExamOrder examOrder){
 		
 		Map<String,Object> map = MapUtils.getHashMapInstance();

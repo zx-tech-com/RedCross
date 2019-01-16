@@ -3,13 +3,9 @@ package com.zx.redcross.controller.social;
 import java.util.List;
 import java.util.Map;
 
-
-import javax.servlet.http.HttpServletRequest;
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,10 +14,9 @@ import com.zx.redcross.entity.Page;
 import com.zx.redcross.entity.Topic;
 import com.zx.redcross.entity.TopicComent;
 import com.zx.redcross.entity.TopicType;
-import com.zx.redcross.service.my.CustomerService;
 import com.zx.redcross.service.social.SocialService;
+import com.zx.redcross.tool.BusinessExceptionUtils;
 import com.zx.redcross.tool.Constant;
-import com.zx.redcross.tool.FileUtils;
 import com.zx.redcross.tool.MapUtils;
 
 /**
@@ -49,6 +44,7 @@ public class SocialController {
 		List<Topic> topics=socialService.findAllTopic(page,customerId,topicTypeId);
 		map.put(Constant.DATA,topics);
 		map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
+		map.put(Constant.PAGE_SIZE, page.getPageSize());
 		return map;
 	}
 	/**
@@ -91,28 +87,41 @@ public class SocialController {
 		map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
 		return map;
 	}
+
 	/**
-	 * 查询帖子的评论第二层评论
+	 * @param page
+	 * @param topicComentId
+	 * @param customerId
+	 * @return
 	 */
-	@RequestMapping("/findTopicComent2")
-	public Map<String,Object> findTopicComent2(Page page,Integer topicComentId,Integer customerId){
+	@RequestMapping("/findLowerComent")
+	public Map<String,Object> findLowerComent(Page page,Integer topicComentId
+			,@RequestParam(required=false) Integer customerId){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		List<TopicComent> topicComents= socialService.findTopicComent2(topicComentId,page,customerId);
-		map.put(Constant.DATA, topicComents);
-		map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
+		map.put(Constant.STATUS,Constant.STATUS_FAILURE);
+		List<Map<String,Object>> comentList = socialService.findLowerComent(topicComentId, page, customerId);
+		if(comentList != null);{
+			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
+			map.put(Constant.DATA, comentList);
+		}
 		return map;
 	}
+	
 	/**
-	 * 查询帖子的评论第三层评论
+	 * 分享帖子
+	 * @param topicId
+	 * @return
 	 */
-	@RequestMapping("/findTopicComent3")
-	public Map<String,Object> findTopicComent3(Page page,Integer topicComentId,Integer customerId){
+	@RequestMapping("/share")
+	public Map<String,Object> topicShare(@RequestParam(required = true) Integer topicId){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		List<TopicComent> topicComents= socialService.findTopicComent3(topicComentId,page,customerId);
-		map.put(Constant.DATA, topicComents);
-		map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
+		if(topicId == null)
+			BusinessExceptionUtils.throwNewBusinessException("id为必须字段");
+		map.put(Constant.STATUS,socialService.updateTopicSetShareAdd1(topicId)?
+				Constant.STATUS_SUCCESS:Constant.STATUS_FAILURE);
 		return map;
 	}
+	
 	/**
 	 * 插入评论
 	 */
@@ -177,12 +186,15 @@ public class SocialController {
 	 * 完成发帖模块
 	 */
 	@RequestMapping("/pushTopic")
-	public Map<String,Object> pushTopic(MultipartFile file,Topic topic,HttpServletRequest req){
+	public Map<String,Object> pushTopic(MultipartFile[] images,MultipartFile video,
+			Topic topic,@RequestParam(required=true) Integer topicTypeId){
+		
+		TopicType type = new TopicType();
+		type.setId(topicTypeId);
+		topic.setTopicType(type);
+		
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		String absoluteBasePath = Constant.IMG_ABSOLUTE_BASE_PATH+"topic/";
-		topic.setImagUrl(FileUtils.saveFile(absoluteBasePath, file));
-		socialService.saveTopic(topic);
-		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		map.put(Constant.STATUS, socialService.saveTopic(images,video,topic)?Constant.STATUS_SUCCESS:Constant.STATUS_FAILURE);
 		return map;	
 	}
 	//===============================后台管理需要用到的接口===================================

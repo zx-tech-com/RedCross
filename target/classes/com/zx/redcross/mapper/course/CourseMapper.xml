@@ -18,11 +18,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap> -->
 	
 	
-<<<<<<< HEAD
-	<select id="listCourseSubject" resultMap="courseSubject">
-=======
+
 	<select id="listCourseSubject" resultType="com.zx.redcross.entity.CourseSubject">
->>>>>>> 03d3ea2fb7f539b8156d2cf1d0c86d5c099bb1fb
+
 		SELECT 
 			id,sname,description,price,thumbnail_url,period
 		FROM course_subject

@@ -1,10 +1,10 @@
 package com.zx.redcross.dao.social;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.zx.redcross.entity.Concern;
 import com.zx.redcross.entity.Customer;
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.entity.Topic;
@@ -31,10 +31,11 @@ public interface SocialMapper {
 	public Customer findCustomer(@Param("customerId")Integer customerId);
 	//通过帖子id获取一级评论全部信息及完成分页
 	public List<TopicComent> findTopicComent(@Param("topicId")Integer topicId,@Param("page") Page page,@Param("customerId") Integer customerId);
-	//通过帖子id获取二级评论全部信息及完成分页
-	public List<TopicComent> findTopicComent2(@Param("topicComentId")Integer topicComentId,@Param("page") Page page,@Param("customerId") Integer customerId);
-	//通过帖子id获取三级评论全部信息及完成分页
-	public List<TopicComent> findTopicComent3(@Param("topicComentId")Integer topicComentId,@Param("page") Page page,@Param("customerId") Integer customerId);
+	
+	//获取非顶层评论
+	public List<Map<String, Object>> findLowerComent(@Param("topicComentId")Integer topicComentId, 
+			@Param("page")Page page, @Param("customerId")Integer customerId);
+	
 	//插入一级评论
 	public void saveTopicComent(TopicComent topicComent);
 	//查询用户是否点过赞评论
@@ -50,7 +51,7 @@ public interface SocialMapper {
 	//删除点赞帖子
 	public void deleteTopicThunsup(@Param("coustomerId")Integer coustomerId,@Param("topicId") Integer topicId);
 	//发表帖子
-	public void saveTopic(Topic topic);
+	public Boolean saveTopic(@Param("topic") Topic topic);
 	
 	
 	//===============================后台管理需要用到的接口===================================
@@ -58,6 +59,8 @@ public interface SocialMapper {
 	public void adminDeleteTopic(@Param("topicId")Integer topicId);
 	//删除评论
 	public void adminDeleteTopicComent(@Param("topicComentId")Integer topicComentId);
+
+	public Boolean updateTopicSetShareAdd1(@Param("topicId")Integer topicId);
 
 
 	

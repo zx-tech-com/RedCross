@@ -166,9 +166,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<!--发布帖子  -->
-	<insert id="saveTopic" parameterType="topic">
-	 insert into topic(customer_id,type_id,title,content,has_video,video_url,img_url)
-	values(#{customerId},#{typeId},#{title},#{content},#{hasVideo},#{videoUrl},#{imagUrl})	
+	<insert id="saveTopic" useGeneratedKeys="true" keyProperty="topic.id">
+	 	insert into topic(customer_id,type_id,title,content,has_video,video_url,img_url)
+		values(#{topic.customerId},#{topic.topicType.id},#{topic.title},#{topic.content},
+		#{topic.hasVideo},#{topic.videoUrl},#{topic.imagUrl})	
 	</insert>
 	
 	
@@ -181,6 +182,117 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="adminDeleteTopicComent" >
 	DELETE FROM topic_coment WHERE  id=#{topicComentId}
 	</delete>
+	
+	
+	<!-- 分享数+1 -->
+	<update id="updateTopicSetShareAdd1" >
+		UPDATE 
+			topic 
+		SET topic.total_share = total_share + 1 
+		WHERE
+			topic.id = #{topicId}
+	</update>
+	
+	
+	
+	<select id="findLowerComent" resultMap="lowerComent">
+		SELECT
+			tmp.*,
+			(SELECT COUNT(coment_thumbsup_id) FROM coment_thumbsup WHERE coment_thumbsup.topic_coment_id = tmp.active_coment_id) AS total_thumbsup,
+		<if test="customerId != null">
+			(SELECT COUNT(coment_thumbsup_id) FROM coment_thumbsup WHERE coment_thumbsup.topic_coment_id = tmp.active_coment_id AND coment_thumbsup.customer_id = #{customerId}) AS flag
+		</if>
+		<if test="customerId == null">
+			0 AS flag
+		</if>
+		FROM(
+			
+			SELECT 
+		
+				active_customer.id AS active_customer_id,
+				active_customer.avatar_url AS active_customer_avatar_url,
+				active_customer.nickname AS active_customer_nickname,
+			
+				active_coment.id AS active_coment_id,
+				active_coment.content AS active_coment_content,
+				active_coment.coment_time AS active_coment_coment_time,
+				
+				NULL AS passive_customer_id,
+				NULL AS passive_customer_avatar_url,
+				NULL AS passive_customer_nickname,
+			
+				NULL AS passive_coment_id,
+				NULL AS passive_coment_content
+				
+			FROM 
+					(
+						SELECT 
+							* 
+						FROM 
+							topic_coment
+						ORDER BY topic_coment.coment_time DESC
+						LIMIT #{page.start},#{page.pageSize}
+					)active_coment
+			LEFT JOIN customer active_customer ON active_coment.customer_id = active_customer.id
+			WHERE active_coment.is_topcoment = 0 AND active_coment.coment_id IS NULL -- 二级评论
+			
+			UNION ALL
+			
+			SELECT 
+			
+				active_customer.id AS active_customer_id,
+				active_customer.avatar_url AS active_customer_avatar_url,
+				active_customer.nickname AS active_customer_nickname,
+			
+				active_coment.id AS active_coment_id,
+				active_coment.content AS active_coment_content,
+				active_coment.coment_time AS active_coment_coment_time,
+				
+				passive_customer.id AS passive_customer_id,
+				passive_customer.avatar_url AS passive_customer_avatar_url,
+				passive_customer.nickname AS passive_customer_nickname,
+			
+				passive_coment.id AS passive_coment_id,
+				passive_coment.content AS passive_coment_content
+				
+			FROM 
+					(
+						SELECT 
+							* 
+						FROM 
+							topic_coment
+						ORDER BY topic_coment.coment_time DESC
+						LIMIT #{page.start},#{page.pageSize}
+					)active_coment
+			LEFT JOIN customer active_customer ON active_coment.customer_id = active_customer.id
+			LEFT JOIN topic_coment passive_coment ON active_coment.coment_id = passive_coment.id
+			LEFT JOIN customer passive_customer ON passive_coment.customer_id = passive_customer.id
+			WHERE active_coment.is_topcoment = 0 AND active_coment.coment_id IS NOT NULL -- 三级评论
+			
+		)tmp
+		ORDER BY tmp.active_coment_coment_time DESC;
+	</select>
+	
+	<!-- 非顶层评论 -->
+	<resultMap type="HashMap" id="lowerComent">
+		<result column="active_customer_id" property="activeCustomerId"/>
+		<result column="active_customer_avatar_url" property="activeCustomerAvatarUrl"/>
+		<result column="active_customer_nickname" property="activeCustomerNickname"/>
+		<result column="active_coment_id" property="activeComentId"/>
+		<result column="active_coment_content" property="activeComentContent"/>
+		<result column="active_coment_coment_time" property="activeComentComentTime"/>
+		<result column="passive_customer_id" property="passiveCustomerId"/>
+		<result column="passive_customer_avatar_url" property="passiveCustomerAvatarUrl"/>
+		<result column="passive_customer_nickname" property="passiveCustomerNickname"/>
+		<result column="passive_coment_id" property="passiveComentId"/>
+		<result column="passive_coment_content" property="passiveComentContent"/>
+		<result column="total_thumbsup" property="totalThumbsup"/>
+		<result column="flag" property="flag"/>
+	</resultMap>
+	
+	
+	
+	
 	
 	<!-- 关联映射 结果查询 -->
 	<!--会员  -->
@@ -234,6 +346,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</association>
         </association>
 	</resultMap> 
+	
+	
+	
 	
 	
 </mapper>
