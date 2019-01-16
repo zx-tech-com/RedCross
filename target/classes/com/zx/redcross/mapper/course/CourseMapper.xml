@@ -5,35 +5,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.zx.redcross.dao.course.ICourseMapper">
 	
-	<resultMap type="CourseSubject" id="courseSubject" autoMapping="true">
-		<id column="id" property="id"/>
-		
-		<collection property="courses" ofType="Course" javaType="list"
-							select="listCourseBySubject" column="subject_id">
-		</collection>
+	<resultMap type="HashMap" id="courseSubject">
+		<result column="id" property="id"/>
+		<result column="sname" property="sname"/>
+		<result column="description" property="description"/>
+		<result column="price" property="price"/>
+		<result column="thumbnail_url" property="thumbnail_url"/>
+		<result column="certificateUrl" property="certificateUrl"/>
+		<result column="period" property="period"/>
 	</resultMap>
-	
-	<!-- <resultMap type="Course" id="course" autoMapping="true">
-		<id column="id" property="id"/>
-	</resultMap> -->
-	
-	
 
-	<select id="listCourseSubject" resultType="com.zx.redcross.entity.CourseSubject">
-
+	<select id="listCourseSubject" resultMap="courseSubject">
 		SELECT 
-			id,sname,description,price,thumbnail_url,period
+			id,sname,description,price,thumbnail_url,period,certificate_url
 		FROM course_subject
 	</select>
 	
 	
 	
-	<select id="findCourseSubject" parameterType="int" resultType="CourseSubject">
+	<select id="findCourseSubject" parameterType="int" resultMap="courseSubject">
 		SELECT 
-			id,sname,description,price,thumbnail_url,period
+			id,sname,description,price,thumbnail_url,period,certificate_url
 		FROM course_subject where id=#{subjectId}
 	</select>
-	
 	
 	<!--查询观看完视频的集数  -->
 	<select id="getCountRecord" resultType="int">
@@ -44,13 +38,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
-	<select id="listCourseBySubject" resultType="Course">
+	<resultMap type="HashMap" id="course">
+		<result column="id" property="id"/>
+		<result column="cindex" property="cindex"/>
+		<result column="cname" property="cname"/>
+		<result column="description" property="description"/>
+		<result column="video_url" property="videoUrl"/>
+		<result column="video_duration" property="videoDuration"/>
+	</resultMap>
+	
+	
+	<select id="listCourseBySubject" resultMap="course">
 		SELECT 
-			course.id,cname,description,cindex,is_video,video_url,thumbnail_url
+			course.id,cname,description,cindex,video_url,video_duration
 		FROM course
 		WHERE subject_id = #{subjectId}
 		LIMIT ${page.start},${page.pageSize}
 	</select>
+	
 	
 	<insert id="saveCountRecord">
 	INSERT INTO course_record(customer_id,course_id) 
@@ -58,9 +63,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 
-	<select id="getCourseById" resultType="Course">
+	<select id="getCourseById" resultMap="course">
 		SELECT 
-			course.id,cname,description,cindex,is_video,video_url,thumbnail_url
+			course.id,cname,description,cindex,video_url,video_duration
 		FROM course
 		WHERE id = #{id}
 	</select>

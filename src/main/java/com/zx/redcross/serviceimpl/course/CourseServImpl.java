@@ -1,6 +1,7 @@
 package com.zx.redcross.serviceimpl.course;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,17 +20,17 @@ public class CourseServImpl implements ICourseServ{
 	private ICourseMapper courseMapper;
 	
 	@Override
-	public List<CourseSubject> listCourseSubject() {
+	public List<Map<String, Object>> listCourseSubject() {
 		return courseMapper.listCourseSubject();
 	}
 
 	@Override
-	public List<Course> listCourseBySubject(Integer subjectId,Page page) {
+	public List<Map<String, Object>> listCourseBySubject(Integer subjectId,Page page) {
 		return courseMapper.listCourseBySubject(subjectId,page);
 	}
 
 	@Override
-	public Course getCourseById(Integer id) {
+	public Map<String, Object> getCourseById(Integer id) {
 		return courseMapper.getCourseById(id);
 	}
 

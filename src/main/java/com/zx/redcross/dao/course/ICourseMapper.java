@@ -1,6 +1,7 @@
 package com.zx.redcross.dao.course;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -11,11 +12,11 @@ import com.zx.redcross.entity.Page;
 
 public interface ICourseMapper {
 	
-	List<CourseSubject> listCourseSubject();
+	List<Map<String,Object>> listCourseSubject();
 	
-	List<Course> listCourseBySubject(@Param("subjectId") Integer subjectId,@Param("page") Page page);
+	List<Map<String,Object>> listCourseBySubject(@Param("subjectId") Integer subjectId,@Param("page") Page page);
 	
-	Course getCourseById(@Param("id") Integer id);
+	Map<String,Object> getCourseById(@Param("id") Integer id);
 	
 	Boolean saveCourse(@Param("course") Course course);
 	

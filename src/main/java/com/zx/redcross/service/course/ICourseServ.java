@@ -1,6 +1,7 @@
 package com.zx.redcross.service.course;
 
 import java.util.List;
+import java.util.Map;
 
 import com.zx.redcross.entity.Course;
 import com.zx.redcross.entity.CourseSubject;
@@ -9,11 +10,11 @@ import com.zx.redcross.entity.Page;
 
 public interface ICourseServ {
 	
-	List<CourseSubject> listCourseSubject();
+	List<Map<String, Object>> listCourseSubject();
 	
-	List<Course> listCourseBySubject(Integer subjectId,Page page);
+	List<Map<String, Object>> listCourseBySubject(Integer subjectId,Page page);
 	
-	Course getCourseById(Integer id);
+	Map<String, Object> getCourseById(Integer id);
 	
 	Boolean addCourse(Course course);
 	

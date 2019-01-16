@@ -33,7 +33,7 @@ public class CourseCtrl {
 	public Map<String,Object> listCourseSubject() {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
-		List<CourseSubject> courseSubjectList = courseServImpl.listCourseSubject();
+		List<Map<String, Object>> courseSubjectList = courseServImpl.listCourseSubject();
 		if(null != courseSubjectList) {
 			map.put(Constant.DATA, courseSubjectList);
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
@@ -59,7 +59,7 @@ public class CourseCtrl {
 	public Map<String,Object> listCourseBySubject(@RequestParam(required=true) Integer subjectId,Page page) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
-		List<Course> courseList = courseServImpl.listCourseBySubject(subjectId,page);
+		List<Map<String, Object>> courseList = courseServImpl.listCourseBySubject(subjectId,page);
 		if(null != courseList) {
 			map.put(Constant.DATA, courseList);
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
@@ -71,7 +71,7 @@ public class CourseCtrl {
 	@RequestMapping("/getCourse")
 	public Map<String,Object> getCourseById(@RequestParam Integer id) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		Course course = courseServImpl.getCourseById(id);
+		Map<String, Object> course = courseServImpl.getCourseById(id);
 		map.put(Constant.STATUS,Constant.STATUS_FAILURE);
 		if(null != course) {
 			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
@@ -155,7 +155,7 @@ public class CourseCtrl {
 	@RequestMapping("/adminListCourseSubject")
 	public Map<String,Object> adminListCourseSubject() {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		List<CourseSubject> courseSubjectList=courseServImpl.listCourseSubject();
+		List<Map<String, Object>> courseSubjectList=courseServImpl.listCourseSubject();
 		map.put(Constant.DATA, courseSubjectList);
 		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 		return map;
@@ -214,7 +214,7 @@ public class CourseCtrl {
 	@RequestMapping("/adminListCourse")
 	public Map<String,Object> adminListCourse(@RequestBody Integer subjectId,Page page) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		List<Course> Courses = courseServImpl.listCourseBySubject(subjectId,page);
+		List<Map<String, Object>> Courses = courseServImpl.listCourseBySubject(subjectId,page);
 		map.put(Constant.DATA,Courses);
 		map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
 		return map; 
