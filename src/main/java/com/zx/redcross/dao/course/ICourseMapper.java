@@ -41,7 +41,6 @@ public interface ICourseMapper {
 	Boolean adminDeleteVideo(Integer videoId);
 	//修改付费视频
 	Boolean adminUpdateVideo(Video video);
-
-	
-
+	//后台修改科目
+	Boolean adminUpdateCourseSubject(CourseSubject courseSubject);
 }

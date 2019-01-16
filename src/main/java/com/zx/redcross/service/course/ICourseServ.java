@@ -2,6 +2,8 @@ package com.zx.redcross.service.course;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.zx.redcross.entity.Course;
 import com.zx.redcross.entity.CourseSubject;
 import com.zx.redcross.entity.ExamOrder;
@@ -18,7 +20,7 @@ public interface ICourseServ {
 	
 	Boolean addCourse(Course course);
 	
-	Boolean addCourseSubject(CourseSubject courseSubject);
+	Boolean addCourseSubject(CourseSubject courseSubject, MultipartFile thumbnailUrl, MultipartFile certificateUrl);
 	//通过subjectId查找到科目类型
 	CourseSubject findCourseSubject(Integer subjectId);
 	//统计完成课时
@@ -41,6 +43,8 @@ public interface ICourseServ {
 	Boolean adminDeleteVideo(Integer videoId);
 	//修改付费视频
 	Boolean adminUpdateVideo(Video video);
+	//后台修改考试科目
+	Boolean adminUpdateCourseSubject(CourseSubject courseSubject, MultipartFile thumbnailUrl, MultipartFile certificateUrl);
 
 
 

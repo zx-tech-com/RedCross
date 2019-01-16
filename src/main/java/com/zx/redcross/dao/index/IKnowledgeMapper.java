@@ -39,8 +39,6 @@ public interface IKnowledgeMapper {
 	Video getVideo(@Param("customerId")Integer customerId, @Param("videoId")Integer videoId);
 	//会员点击支付后会生成一条正在记录
 	Boolean saveVideoBuyRecord(@Param("videoBuyRecord")VideoBuyRecord videoBuyRecord);
-	//会员点击支付后会生成一条支付成功记录
-	Boolean uptateVideoBuyRecord(Integer videoBuyRecordId);
-
-
+	//会员点击支付后会生成一条正在记录
+	Boolean uptateVideoBuyRecord(@Param("videoBuyRecordId")Integer videoBuyRecordId);
 }

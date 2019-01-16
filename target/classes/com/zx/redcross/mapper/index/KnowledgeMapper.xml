@@ -120,7 +120,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	
-	<!--会员支付成功后会生成一条支付成功记录  -->
+	<!--会员点击支付后会生成一条正在记录  -->
 	<insert id="saveVideoBuyRecord">
 	INSERT INTO video_buy_record(video_id,customer_id,order_number,coment,STATUS) 
 	VALUES(#{videoBuyRecord.video.id},
@@ -129,6 +129,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	#{videoBuyRecord.coment},
 	#{videoBuyRecord.status})
 	</insert>
+	
+	
+	<!-- 会员点击支付成功后会生成一条支付成功记录 -->
+	<update id="uptateVideoBuyRecord" parameterType="int">
+		update video_buy_record set status=2 where id=#{videoBuyRecordId}
+	</update>
 	
 	
 	
