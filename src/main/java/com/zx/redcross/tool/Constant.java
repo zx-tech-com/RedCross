@@ -40,12 +40,15 @@ public class Constant {
 	 * 返回错误信息
 	 */
 	public static final String ERROR_MISSIN_GPARAMETER = "缺少参数";
+	public static final String ERROR_UNKNOW = "服务端错误";
+	
 	
 	
 	/**
 	 * 分页信息
 	 */
 	public static final Integer APP_PAGE_SIZE= 6;
+	public static final String PAGE_SIZE = "pageSize";
 	
 	
 	/**
@@ -67,6 +70,16 @@ public class Constant {
 	 * HTTP重定向
 	 */
 	public static final Integer HTTP_STATUS_302 = 302;
+	
+	
+	
+	/**
+	 * OrderMapper.xml中用到的几个常量
+	 */
+	public static final String VIDEO_ORDER_TITLE = "'付费视频购买-'";
+	public static final String VIDEO_ORDER_DESCRIPTION = "'购买'";
+	public static final String EXAM_ORDER_TITLE = "'考试项目购买-'";
+	
 	
 	
 }

@@ -22,7 +22,7 @@ public class FavoriteCtrl {
 	@Autowired
 	private IFavoriteService favoriteServimpl;
 	
-	@RequestMapping(value = "/saveFavorite",method=RequestMethod.POST)
+	@RequestMapping(value = "/saveFavoriteTopic",method=RequestMethod.POST)
 	public Map<String,Object> saveFavorite(@RequestBody Favorite favorite){
 		
 		Map<String,Object> map = MapUtils.getHashMapInstance();

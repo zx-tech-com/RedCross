@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace指向mapper接口 -->
+<mapper namespace="com.zx.redcross.dao.my.IOrderMapper">
+	
+	<resultMap type="HashMap" id="order">
+		<result column="order_type" property="orderType"/>
+		<result column="id" property="id"/>
+		<result column="order_number" property="orderNumber"/>
+		<result column="status" property="status"/>
+		<result column="title" property="title"/>
+		<result column="description" property="description"/>
+		<result column="price" property="price"/>
+		<result column="submit_time" property="submitTime"/>
+	</resultMap>
+
+	<select id="ListOrderByCustomerId" resultMap="order">
+		SELECT * FROM
+		(
+			SELECT 
+				1 AS order_type,
+				video_buy_record.id,
+				order_number,
+				`status`,
+				CONCAT(${@com.zx.redcross.tool.Constant@VIDEO_ORDER_TITLE},vname) AS title,
+				CONCAT(${@com.zx.redcross.tool.Constant@VIDEO_ORDER_DESCRIPTION},vname) AS description,
+				price,
+				submit_time,
+				video_buy_record.customer_id
+			FROM 
+				video_buy_record
+			LEFT JOIN video ON video_id = video.id
+			UNION ALL
+			SELECT
+				0 AS order_type,
+				course_subject.id,
+				order_number,
+				`status`,
+				CONCAT(${@com.zx.redcross.tool.Constant@EXAM_ORDER_TITLE},sname) AS title,
+				description,
+					price,
+					submit_time,
+					exam_order.customer_id
+			FROM
+				exam_order
+			LEFT JOIN course_subject ON course_subject_id = course_subject.id
+		)	tmp
+		WHERE tmp.customer_id = #{customerId}
+		LIMIT #{page.start},#{page.pageSize}
+	</select>
+</mapper>

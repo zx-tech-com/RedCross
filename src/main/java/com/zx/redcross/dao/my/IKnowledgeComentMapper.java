@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.zx.redcross.entity.KnowledgeComent;
 import com.zx.redcross.entity.Page;
-import com.zx.redcross.entity.TopicComent;
 
-public interface ITopicComentMapper{
+public interface IKnowledgeComentMapper {
 	
-	List<TopicComent> listTopicComentByCustomerId(
+	List<KnowledgeComent> listKnowledgeComentByCustomerId(
 			@Param("customerId")Integer customerId,@Param("page") Page page);
 	
 }

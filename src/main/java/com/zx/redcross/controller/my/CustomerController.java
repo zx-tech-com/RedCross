@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.zx.redcross.entity.Customer;
 import com.zx.redcross.entity.OsDistrict;
 import com.zx.redcross.service.my.CustomerService;
+import com.zx.redcross.tool.BusinessExceptionUtils;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.JWTUtils;
 import com.zx.redcross.tool.MapUtils;
@@ -76,7 +77,8 @@ public class CustomerController {
 		//通过手机号码和密码查询是否存在用户
 		Customer customer=customerService.findCustomer(tel,password);
 		if(customer==null){
-			map.put(Constant.STATUS, Constant.STATUS_FAILURE);	
+			BusinessExceptionUtils.throwNewBusinessException("账号密码不匹配");
+			//map.put(Constant.STATUS, Constant.STATUS_FAILURE);	
 		}else{
 			System.out.println(customer);
 			map.put(Constant.DATA, customer);
