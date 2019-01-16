@@ -91,5 +91,10 @@ public class Constant {
 	public static final String IMG_TYPE_TOPIC = "1";
 	public static final String IMG_TYPE_KNOWLEDGE = "0";
 	
-	
+	/**
+	 * 购买记录的三种状态
+	 */
+	public static final byte WAIT_TO_PAY = 1;
+	public static final byte PAY_COMPLETE = 2;
+	public static final byte PAY_CANCEL = 3;
 }

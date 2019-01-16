@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zx.redcross.dao.index.IKnowledgeMapper">
+	<!--查询所有付费视频 -->
+	<select id="listVideo" resultMap="videoMap">
+		SELECT
+			v.id,
+			v.vindex,
+			v.vname,
+			v.description,
+			v.video_url,
+			v.price,
+			vb.`status` 
+		FROM
+			video v
+			LEFT JOIN video_buy_record vb ON v.`id` = vb.`video_id` 
+			AND customer_id = #{customerId}
+		ORDER BY
+			v.id DESC
+		LIMIT　#{page.start},#{page.pageSize}
+	</select>
+	
+	
+	
+	<!--查询一个付费视频 -->
+	<select id="getVideo" resultMap="videoMap">
+		SELECT
+			v.id,
+			v.vindex,
+			v.vname,
+			v.description,
+			v.video_url,
+			v.price,
+			vb.`status` 
+		FROM
+			video v
+			LEFT JOIN video_buy_record vb ON v.`id` = vb.`video_id` 
+			AND vb.customer_id = #{customerId}
+		WHERE
+			v.id = #{videoId}
+	</select>
+	
+	
+	
+	<!--会员支付成功后会生成一条支付成功记录  -->
+	<insert id="saveVideoBuyRecord">
+		INSERT INTO 
+			video_buy_record (video_id, customer_id, order_number, coment, `status`)
+		VALUES
+			(#{videoBuyRecord.video.id},
+			#{videoBuyRecord.customer.id},
+			#{videoBuyRecord.orderNumber},
+			#{videoBuyRecord.coment},
+			#{videoBuyRecord.status})
+	</insert>
+	
+	
+	<update id="updateVideoBuyRecord">
+		UPDATE video_buy_record 
+		SET `status` = #{videoBuyRecord.status}
+		WHERE
+			customer_id = #{videoBuyRecord.customer.id} AND id = #{videoBuyRecord.id}
+	</update>
+	
+	
+	<resultMap type="HashMap" id="videoMap" autoMapping="true">
+		<result column="id" property="id" />
+		<result column="vname" property="vname" />
+		<result column="description" property="description" />
+		<result column="video_url" property="videoUrl" />
+		<result column="price" property="price" />
+		<result column="status" property="status" />
+	</resultMap>
+	
+	
+</mapper>
