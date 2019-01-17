@@ -47,6 +47,7 @@ public class KnowledgeCtrl {
 		map.put(Constant.STATUS,Constant.STATUS_FAILURE);
 		if(null != knowledgeList) {
 			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
+			map.put(Constant.PAGE_SIZE,page.getPageSize());
 			map.put(Constant.DATA, knowledgeList);
 		}
 		return map;

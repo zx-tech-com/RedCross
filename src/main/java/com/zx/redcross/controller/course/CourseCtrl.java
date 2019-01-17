@@ -43,7 +43,7 @@ public class CourseCtrl {
 	public Map<String,Object> findCourseSubject(@RequestParam(required=true) Integer subjectId) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
-		CourseSubject coSubject = courseServImpl.findCourseSubject(subjectId);
+		Map<String, Object> coSubject = courseServImpl.findCourseSubject(subjectId);
 		if(null != coSubject) {
 			map.put(Constant.DATA, coSubject);
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
@@ -61,6 +61,7 @@ public class CourseCtrl {
 		List<Map<String, Object>> courseList = courseServImpl.listCourseBySubject(subjectId,page);
 		if(null != courseList) {
 			map.put(Constant.DATA, courseList);
+			map.put(Constant.PAGE_SIZE, page.getPageSize());
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 		}
 		return map;

@@ -22,7 +22,7 @@ public interface ICourseServ {
 	
 	Boolean addCourseSubject(CourseSubject courseSubject,MultipartFile imgUrl,MultipartFile ccieUrl);
 	//通过subjectId查找到科目类型
-	CourseSubject findCourseSubject(Integer subjectId);
+	Map<String, Object> findCourseSubject(Integer subjectId);
 	//统计完成课时
 	Integer getCountRecord(Integer customerId, Integer courseId);
 	//保存观看结束的课程视频记录

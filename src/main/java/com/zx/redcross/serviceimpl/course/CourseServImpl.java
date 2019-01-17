@@ -65,9 +65,9 @@ public class CourseServImpl implements ICourseServ{
 	}
 
 	@Override
-	public CourseSubject findCourseSubject(Integer subjectId) {
+	public Map<String, Object> findCourseSubject(Integer subjectId) {
 
-		return (CourseSubject) courseMapper.findCourseSubject(subjectId);
+		return courseMapper.findCourseSubject(subjectId);
 	}
 
 	@Override
