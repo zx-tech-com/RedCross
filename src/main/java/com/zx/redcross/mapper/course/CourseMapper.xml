@@ -11,8 +11,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="sname" property="sname"/>
 		<result column="description" property="description"/>
 		<result column="price" property="price"/>
-		<result column="thumbnail_url" property="thumbnail_url"/>
-		<result column="certificateUrl" property="certificateUrl"/>
+		<result column="thumbnail_url" property="thumbnailUrl"/>
+		<result column="certificate_url" property="certificateUrl"/>
 		<result column="period" property="period"/>
 	</resultMap>
 
@@ -72,16 +72,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<insert id="saveCourse" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO course(cname,description,cindex,is_video,video_url,thumbnail_url)
+		INSERT INTO course(subject_id,cname,description,cindex,is_video,video_url,thumbnail_url)
 		VALUES (
+			#{course.courseSubject.id},
 			#{course.cname},
 			#{course.description},
 			#{course.cindex},
-			#{course.is_video},
-			#{course.video_url},
-			#{course.thumbnail_url}
+			#{course.isVideo},
+			#{course.videoUrl},
+			#{course.thumbnailUrl}
 		)
 	</insert>
+	
+	<update id="adminUpdateCourse">
+		update course set
+		subject_id=#{course.courseSubject.id},
+		cindex=#{course.cindex},
+		cname=#{course.cname},
+		description=#{course.cname}
+		where id=#{course.id}
+	</update>
 	
 	
 	<insert id="saveCourseSubject" useGeneratedKeys="true" keyProperty="id">
@@ -90,19 +100,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{courseSubject.sname},
 			#{courseSubject.description},
 			#{courseSubject.price},
-			#{courseSubject.thumbnail_url},
+			#{courseSubject.thumbnailUrl},
 			#{courseSubject.period},
 			#{courseSubject.certificateUrl}
 		)
 	</insert>
 	<!--查询考试订单中所有会员  -->
-	<select id="adminListExamOrder">
-		SELECT id,course_subject_id,customer_id,order_number,tel,real_name,detail_address,coment
-		,submit_time,`status`
- 		FROM exam_order
+	<select id="adminListExamOrder" resultMap="ExamOrderMap">
+		SELECT e.id,e.order_number,e.tel,e.real_name,e.detail_address,e.coment
+		,e.submit_time,e.`status`,cs.id AS course_subject_id,cs.sname
+	 	FROM exam_order e
+		LEFT JOIN course_subject cs
+		ON cs.id=e.`course_subject_id`
 	</select>
+	<resultMap type="ExamOrder" id="ExamOrderMap" autoMapping="true">
+		<id column="id" property="id"/>
+		<association property="courseSubject" javaType="CourseSubject" autoMapping="true">
+			<id column="course_subject_id" property="id"/>
+		</association>
 	
-	<!--删除考试科目  -->
+	</resultMap>
+	
+	<!--删除科目  -->
 	<delete id="adminDeleteCourseSubject"  >
 		delete from course_subject where id=#{courseSubjectId}
 	</delete>
@@ -112,15 +131,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from course where id=#{courseId}
 	</delete>
 	
-	<!-- 修改考试科目 -->
+	<!-- 修改科目 -->
 	<update id="adminUpdateCourseSubject" parameterType="courseSubject">
 	UPDATE course_subject SET 
 	sname=#{sname},
 	description=#{description},
-	price#{price},
+	price=#{price},
 	thumbnail_url=#{thumbnailUrl},
-	certificate_url=#{id},
-	period=#{certificateUrl} where id=#{id}
+	certificate_url=#{certificateUrl},
+	period=#{period} where id=#{id}
 	</update>
 	
 </mapper>

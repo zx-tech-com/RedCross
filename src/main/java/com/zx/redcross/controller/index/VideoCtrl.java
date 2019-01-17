@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.zx.redcross.annotation.BackEnd;
 import com.zx.redcross.annotation.FrontEnd;
@@ -105,11 +106,10 @@ public class VideoCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminSaveVideo")
-	public Map<String, Object> adminSaveVideo(Video video) {
+	public Map<String, Object> adminSaveVideo(Video video,MultipartFile file) {
 		// 未处理视频上传过程
-
 		Map<String, Object> map = MapUtils.getHashMapInstance();
-		Boolean flag = videoServImpl.adminSaveVideo(video);
+		Boolean flag = videoServImpl.adminSaveVideo(video,file);
 		map.put(Constant.STATUS, flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
 		return map;
 	}
@@ -119,7 +119,7 @@ public class VideoCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminDeleteVideo")
-	public Map<String, Object> adminDeleteVideo(@RequestBody Integer videoId) {
+	public Map<String, Object> adminDeleteVideo( Integer videoId) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		Boolean flag = videoServImpl.adminDeleteVideo(videoId);
 		map.put(Constant.STATUS, flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
@@ -131,10 +131,19 @@ public class VideoCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminUpdateVideo")
-	public Map<String, Object> adminUpdateVideo(@RequestBody Video video) {
+	public Map<String, Object> adminUpdateVideo(Video video) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		Boolean flag = videoServImpl.adminUpdateVideo(video);
 		map.put(Constant.STATUS, flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
+		return map;
+	}
+	
+	@BackEnd
+	@RequestMapping("/adminListVideoBuyRecord")
+	 public Map<String, Object> adminListVideoBuyRecord(){
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		List<VideoBuyRecord> videoBuyRecords=videoServImpl.adminListVideoBuyRecord();
+		map.put(Constant.DATA, videoBuyRecords);
 		return map;
 	}
 

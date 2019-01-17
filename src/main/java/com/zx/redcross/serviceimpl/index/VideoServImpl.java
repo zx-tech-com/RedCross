@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.zx.redcross.dao.index.IVideoMapper;
 import com.zx.redcross.entity.Page;
@@ -13,6 +14,7 @@ import com.zx.redcross.entity.VideoBuyRecord;
 import com.zx.redcross.service.index.IVideoServ;
 import com.zx.redcross.tool.BusinessExceptionUtils;
 import com.zx.redcross.tool.Constant;
+import com.zx.redcross.tool.FileUtils;
 
 @Service
 public class VideoServImpl implements IVideoServ {
@@ -61,18 +63,41 @@ public class VideoServImpl implements IVideoServ {
 	}
 
 	@Override
-	public Boolean adminSaveVideo(Video video) {
-		return mapper.adminSaveVideo(video);
+	public Boolean adminSaveVideo(Video video,MultipartFile file) {
+		String videoAbsoluteBasePath = Constant.VIDEO_ABSOLUTE_BASE_PATH + Constant.PAYVIDEO;
+		//存储视频
+		if(file != null) {
+			video.setVideoUrl(FileUtils.saveFile(videoAbsoluteBasePath, file));
+		}
+		//插入video
+		if(!mapper.adminSaveVideo(video)) {
+			FileUtils.removeFile(video.getVideoUrl());
+			return false;
+		}
+		return true;
 	}
 
 	@Override
 	public Boolean adminDeleteVideo(Integer videoId) {
-		return mapper.adminDeleteVideo(videoId);
+		Video video=mapper.getVideoById(videoId);
+		if(!mapper.adminDeleteVideo(videoId)) {
+			return false;
+		}
+		String videoUrl =video.getVideoUrl();
+		if(null != videoUrl && videoUrl.length() >0) {
+			FileUtils.removeFile(videoUrl);
+		}
+		return true;
 	}
 
 	@Override
 	public Boolean adminUpdateVideo(Video video) {
 		return mapper.adminUpdateVideo(video);
+	}
+
+	@Override
+	public List<VideoBuyRecord> adminListVideoBuyRecord() {
+		return mapper.adminListVideoBuyRecord();
 	}
 	
 	

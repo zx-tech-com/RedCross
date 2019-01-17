@@ -164,7 +164,7 @@ public class KnowledgeCtrl {
 	}
 	
 	/**
-	 * 修改知识类型
+	 * 修改知识
 	 */
 	@RequestMapping("/adminUpdateKnowledge")
 	public Map<String,Object> adminUpdateKnowledge(Knowledge knowledge) {

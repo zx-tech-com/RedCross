@@ -43,16 +43,16 @@ public class CourseServImpl implements ICourseServ{
 	}
 
 	@Override
-	public Boolean addCourseSubject(CourseSubject courseSubject,MultipartFile thumbnailUrl, MultipartFile certificateUrl) {
-		String imgAbsoluteBasePath = Constant.IMG_ABSOLUTE_BASE_PATH + Constant.COURSESUBJECT;		
+	public Boolean addCourseSubject(CourseSubject courseSubject,MultipartFile imgUrl, MultipartFile ccieUrl) {
+		String imgAbsoluteBasePath = Constant.IMG_ABSOLUTE_BASE_PATH + Constant.COURSE_SUBJECT;		
 		
 		//存储图片
-		if(thumbnailUrl!=null) {
-			courseSubject.setThumbnailUrl(FileUtils.saveFile(imgAbsoluteBasePath, thumbnailUrl));
+		if(imgUrl!=null) {
+			courseSubject.setThumbnailUrl(FileUtils.saveFile(imgAbsoluteBasePath, imgUrl));
 		}
 		
-		if(thumbnailUrl!=null) {
-			courseSubject.setCertificateUrl(FileUtils.saveFile(imgAbsoluteBasePath, certificateUrl));
+		if(ccieUrl!=null) {
+			courseSubject.setCertificateUrl(FileUtils.saveFile(imgAbsoluteBasePath, ccieUrl));
 		}
 		
 		if(!courseMapper.saveCourseSubject(courseSubject)) {
@@ -66,7 +66,7 @@ public class CourseServImpl implements ICourseServ{
 	@Override
 	public CourseSubject findCourseSubject(Integer subjectId) {
 
-		return courseMapper.findCourseSubject(subjectId);
+		return (CourseSubject) courseMapper.findCourseSubject(subjectId);
 	}
 
 	@Override
@@ -92,27 +92,28 @@ public class CourseServImpl implements ICourseServ{
 
 	@Override
 	public Boolean adminDeleteCourseSubject(Integer courseSubjectId) {
-		Boolean flag=courseMapper.adminDeleteCourseSubject(courseSubjectId);
-		CourseSubject courseSubject=courseMapper.findCourseSubject(courseSubjectId);
-		if(courseSubject.getThumbnailUrl()!=null
-				&&courseSubject.getThumbnailUrl().length()>0) {
-			FileUtils.removeFile(courseSubject.getThumbnailUrl());	
+		Map<String, Object> courseSubject=courseMapper.findCourseSubject(courseSubjectId);
+		if(!courseMapper.adminDeleteCourseSubject(courseSubjectId)) {
+			return false;
 		}
-		if(courseSubject.getCertificateUrl()!=null
-				&&courseSubject.getCertificateUrl().length()>0) {
-			FileUtils.removeFile(courseSubject.getCertificateUrl());	
+		//删除之前的图片
+		if(null!=courseSubject.get("thumbnailUrl")
+				&&((String) courseSubject.get("thumbnailUrl")).length()>0) {
+			FileUtils.removeFile((String)courseSubject.get("thumbnailUrl"));	
 		}
-		return flag;
+		if(courseSubject.get("certificateUrl")!=null
+				&&((String) courseSubject.get("certificateUrl")).length()>0) {
+			FileUtils.removeFile((String) courseSubject.get("certificateUrl"));
+		}
+		return true;
 	}
 
-	
-	
 	@Override
 	public Boolean adminDeleteCourse(Integer courseId) {
+		Map<String, Object> course=courseMapper.getCourseById(courseId);
 		if(!courseMapper.adminDeleteCourse(courseId)) {
 			return false;
-			};
-		Map<String, Object> course=courseMapper.getCourseById(courseId);
+		};
 		String videoUrl =(String) course.get("videoUrl");
 		if(null != videoUrl && videoUrl.length() >0) {
 			FileUtils.removeFile(videoUrl);
@@ -122,34 +123,40 @@ public class CourseServImpl implements ICourseServ{
 
 	@Override
 	public Boolean adminUpdateCourseSubject(CourseSubject courseSubject
-			,MultipartFile thumbnailUrl, MultipartFile certificateUrl) {
-		String imgAbsoluteBasePath = Constant.IMG_ABSOLUTE_BASE_PATH + Constant.COURSESUBJECT;		
+			,MultipartFile imgUrl, MultipartFile ccieUrl) {
+		String imgAbsoluteBasePath = Constant.IMG_ABSOLUTE_BASE_PATH + Constant.COURSE_SUBJECT;		
 		//存储图片
-		if(thumbnailUrl!=null) {
-			courseSubject.setThumbnailUrl(FileUtils.saveFile(imgAbsoluteBasePath, thumbnailUrl));
+		if(imgUrl!=null) {
+			courseSubject.setThumbnailUrl(FileUtils.saveFile(imgAbsoluteBasePath, imgUrl));
 		}
 				
-		if(thumbnailUrl!=null) {
-			courseSubject.setCertificateUrl(FileUtils.saveFile(imgAbsoluteBasePath, certificateUrl));
+		if(ccieUrl!=null) {
+			courseSubject.setCertificateUrl(FileUtils.saveFile(imgAbsoluteBasePath, ccieUrl));
 		}
-		CourseSubject courseSubjectSub=courseMapper.findCourseSubject(courseSubject.getId());
+		Map<String, Object> courseSubjectSub=courseMapper.findCourseSubject(courseSubject.getId());
 		
 		if(!courseMapper.adminUpdateCourseSubject(courseSubject)) {
 			FileUtils.removeFile(courseSubject.getThumbnailUrl());
 			FileUtils.removeFile(courseSubject.getCertificateUrl());
 			return false;
 		}
+		
+		String thumbnailUrl = (String) courseSubjectSub.get("thumbnailUrl");
 		//删除之前的图片
-		if(courseSubjectSub.getThumbnailUrl()!=null
-				&&courseSubjectSub.getThumbnailUrl().length()>0) {
-			FileUtils.removeFile(courseSubjectSub.getThumbnailUrl());	
+		if(thumbnailUrl!=null
+				&&thumbnailUrl.length()>0) {
+			FileUtils.removeFile(thumbnailUrl);	
 		}
-		if(courseSubjectSub.getCertificateUrl()!=null
-				&&courseSubjectSub.getCertificateUrl().length()>0) {
-			FileUtils.removeFile(courseSubjectSub.getCertificateUrl());;	
+		String certificateUrl = (String) courseSubjectSub.get("certificateUrl");
+		if(certificateUrl!=null
+				&&certificateUrl.length()>0) {
+			FileUtils.removeFile(certificateUrl);
 		}
 		return true;
 	}
 
-
+	@Override
+	public Boolean adminUpdateCourse(Course course) {
+		return courseMapper.adminUpdateCourse(course);
+	}
 }

@@ -3,6 +3,8 @@ package com.zx.redcross.service.index;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.entity.Video;
 import com.zx.redcross.entity.VideoBuyRecord;
@@ -31,11 +33,13 @@ public interface IVideoServ {
 	//后台查询所有付费视频
 	List<Video> adminListVideo();
 	//添加付费视频
-	Boolean adminSaveVideo(Video video);
+	Boolean adminSaveVideo(Video video, MultipartFile file);
 	//删除付费视频
 	Boolean adminDeleteVideo(Integer videoId);
 	//修改付费视频
 	Boolean adminUpdateVideo(Video video);
+    //后台查询付费视频订单
+	List<VideoBuyRecord> adminListVideoBuyRecord();
 	
 	
 }

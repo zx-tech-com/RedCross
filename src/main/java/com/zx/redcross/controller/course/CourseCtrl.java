@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -118,17 +117,7 @@ public class CourseCtrl {
 	
 	
 	//===============================后台管理需要用到的接口===================================
-	@BackEnd
-	@RequestMapping("/addCourse")
-	public Map<String,Object> addCourse(@RequestBody Course course) {
-		Map<String,Object> map = MapUtils.getHashMapInstance();
-		Boolean flag = courseServImpl.addCourse(course);
-		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
-		return map;
-	}
-	
-	
-	
+
 	/**
 	 * 后台查询报考人员信息
 	 * @param 
@@ -168,10 +157,10 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminAddCourseSubject")
-	public Map<String,Object> adminAddCourseSubject(@RequestBody CourseSubject courseSubject,
-					@Param(value = "thumbnailUrl")MultipartFile thumbnailUrl,@Param(value = "certificateUrl")MultipartFile certificateUrl ) {
+	public Map<String,Object> adminAddCourseSubject( CourseSubject courseSubject,
+					@Param(value = "imgUrl")MultipartFile imgUrl,@Param(value = "ccieUrl")MultipartFile ccieUrl ) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		Boolean flag = courseServImpl.addCourseSubject(courseSubject,thumbnailUrl,certificateUrl);
+		Boolean flag = courseServImpl.addCourseSubject(courseSubject,imgUrl,ccieUrl);
 		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
 		return map; 
 	}
@@ -181,7 +170,7 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminDeleteCourseSubject")
-	public Map<String,Object> adminDeleteCourseSubject(@RequestBody Integer courseSubjectId) {
+	public Map<String,Object> adminDeleteCourseSubject(Integer courseSubjectId) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Boolean flag = courseServImpl.adminDeleteCourseSubject(courseSubjectId);
 		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
@@ -194,10 +183,10 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminUpdateCourseSubject")
-	public Map<String,Object> adminUpdateCourseSubject(@RequestBody CourseSubject courseSubject,
-			@Param(value = "thumbnailUrl")MultipartFile thumbnailUrl,@Param(value = "certificateUrl")MultipartFile certificateUrl) {
+	public Map<String,Object> adminUpdateCourseSubject(CourseSubject courseSubject,
+			@Param(value = "imgUrl")MultipartFile imgUrl,@Param(value = "ccieUrl")MultipartFile ccieUrl) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		Boolean flag=courseServImpl.adminUpdateCourseSubject(courseSubject,thumbnailUrl,certificateUrl);
+		Boolean flag=courseServImpl.adminUpdateCourseSubject(courseSubject,imgUrl,ccieUrl);
 		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
 		return map; 
 	}
@@ -213,7 +202,7 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminListCourse")
-	public Map<String,Object> adminListCourse(@RequestBody Integer subjectId,Page page) {
+	public Map<String,Object> adminListCourse( Integer subjectId,Page page) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		List<Map<String, Object>> Courses = courseServImpl.listCourseBySubject(subjectId,page);
 		map.put(Constant.DATA,Courses);
@@ -221,16 +210,37 @@ public class CourseCtrl {
 		return map; 
 	}
 	/**
+	 * 添加课程
+	 */
+	@BackEnd
+	@RequestMapping("/addCourse")
+	public Map<String,Object> addCourse(Course course) {
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		Boolean flag = courseServImpl.addCourse(course);
+		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
+		return map;
+	}
+	/**
 	 * 删除课程
 	 */
 	@BackEnd
 	@RequestMapping("/adminDeleteCourse")
-	public Map<String,Object> adminDeleteCourse(@RequestBody Integer courseId) {
+	public Map<String,Object> adminDeleteCourse( Integer courseId) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Boolean flag = courseServImpl.adminDeleteCourse(courseId);
 		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
 		return map; 
 	}
 	
-	
+	/**
+	 * 修改课程
+	 */
+	@BackEnd
+	@RequestMapping("/adminUpdateCourse")
+	public Map<String,Object> adminUpdateCourse( Course course) {
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		Boolean flag = courseServImpl.adminUpdateCourse(course);
+		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
+		return map; 
+	}
 }

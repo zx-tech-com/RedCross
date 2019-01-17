@@ -74,7 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<!-- 后台修改知识类型 -->
-	<update id="adminUpdateKnowledgeType" parameterType="int">
+	<update id="adminUpdateKnowledgeType" parameterType="knowledgeType">
 	UPDATE knowledge_type SET kname=#{kname},description=#{description} WHERE id=#{id}
 	</update>
 	

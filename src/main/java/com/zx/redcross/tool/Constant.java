@@ -27,7 +27,7 @@ public class Constant {
 	 */
 	public static final String COURSE_SUBJECT = "courseSubject" + File.separator;
 	public static final String TOPIC = "topic" + File.separator;
-	public static final String COURSESUBJECT = "courseSubject" + File.separator;
+	public static final String PAYVIDEO = "payVideo" + File.separator;
 	
 	
 	/**

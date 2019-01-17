@@ -36,6 +36,10 @@ public interface IVideoMapper {
 	Boolean adminDeleteVideo(Integer videoId);
 	//修改付费视频
 	Boolean adminUpdateVideo(Video video);
+	//后台查询付费视频订单
+	List<VideoBuyRecord> adminListVideoBuyRecord();
+
+	Video getVideoById(Integer videoId);
 	
 	
 }

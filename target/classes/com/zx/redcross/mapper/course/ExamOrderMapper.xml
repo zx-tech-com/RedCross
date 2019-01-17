@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="listExamOrder" resultType="ExamOrder">
 		SELECT *
 		FROM exam_order
-		LIMTIT ${page.start},${page.pageSize};
+		limit ${page.start},${page.pageSize}
 	</select>
 	
 	<insert id="addExamOrder" useGeneratedKeys="true" keyProperty="id">

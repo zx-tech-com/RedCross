@@ -9,6 +9,8 @@ public class ExamOrder implements Serializable {
 	private Integer id;
 	private String coment;
 	private String detailAddress;
+	private String tel;
+	private String realName;
 	private String method;
 	private String orderNumber;
 	private String payMethod;
@@ -20,6 +22,22 @@ public class ExamOrder implements Serializable {
 	private List<ExamPayRecord> examPayRecords;
 
 	public ExamOrder() {
+	}
+	
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	public String getRealName() {
+		return realName;
+	}
+
+	public void setRealName(String realName) {
+		this.realName = realName;
 	}
 
 	public Integer getId() {
@@ -136,10 +154,12 @@ public class ExamOrder implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ExamOrder [id=" + id + ", coment=" + coment + ", detailAddress=" + detailAddress + ", method=" + method
-				+ ", orderNumber=" + orderNumber + ", payMethod=" + payMethod + ", status=" + status + ", submitTime="
-				+ submitTime + ", courseSubject=" + courseSubject + ", customer=" + customer + ", osDistrict="
-				+ osDistrict + ", examPayRecords=" + examPayRecords + "]";
+		return "ExamOrder [id=" + id + ", coment=" + coment + ", detailAddress=" + detailAddress + ", tel=" + tel
+				+ ", realName=" + realName + ", method=" + method + ", orderNumber=" + orderNumber + ", payMethod="
+				+ payMethod + ", status=" + status + ", submitTime=" + submitTime + ", courseSubject=" + courseSubject
+				+ ", customer=" + customer + ", osDistrict=" + osDistrict + ", examPayRecords=" + examPayRecords + "]";
 	}
+
+	
 
 }

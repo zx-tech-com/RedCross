@@ -22,7 +22,7 @@ public interface ICourseMapper {
 	
 	Boolean saveCourseSubject(@Param("courseSubject") CourseSubject courseSubject);
 	//通过subjectId查找到科目类型
-	CourseSubject findCourseSubject(@Param("subjectId")Integer subjectId);
+	Map<String,Object> findCourseSubject(@Param("subjectId")Integer subjectId);
 	//查询观看完视频的集数
 	Integer getCountRecord(@Param("customerId")Integer customerId, @Param("courseId")Integer courseId);
 	//保存观看结束的课程视频记录
@@ -35,5 +35,7 @@ public interface ICourseMapper {
 	Boolean adminDeleteCourse(@Param("courseId")Integer courseId);
 
 	boolean adminUpdateCourseSubject(CourseSubject courseSubject);
+	//后台修改考试科目的课程
+	Boolean adminUpdateCourse(@Param("course")Course course);
 
 }

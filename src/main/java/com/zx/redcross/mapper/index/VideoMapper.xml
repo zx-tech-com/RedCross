@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.zx.redcross.dao.index.IKnowledgeMapper">
+<mapper namespace="com.zx.redcross.dao.index.IVideoMapper">
 	<!--查询所有付费视频 -->
 	<select id="listVideo" resultMap="videoMap">
 		SELECT
@@ -41,6 +41,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND vb.customer_id = #{customerId}
 		WHERE
 			v.id = #{videoId}
+	</select>
+	
+	<select id="getVideoById" resultType="Video">
+		SELECT
+			v.id,
+			v.vindex,
+			v.vname,
+			v.description,
+			v.video_url,
+			v.price
+		FROM
+			video v
+		where v.id = #{videoId}
 	</select>
 	
 	
@@ -101,9 +114,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	UPDATE video SET 
 	vindex=#{vindex},
 	vname=#{vname},
-	descripti#{description},
+	description=#{description},
 	video_url=#{videoUrl}
 	WHERE id=#{id}
 	</update>
+	
+	<!-- 后台查询一条付费视频订单记录 -->
+	<select id="adminListVideoBuyRecord" resultMap="videoBuyRecordMap">
+	SELECT vb.*,v.`price`,v.id AS video_id,
+	v.`vname`,c.id AS customer_id,c.`nickname` FROM 
+ 	video_buy_record vb LEFT JOIN 
+ 	video v ON vb.video_id=v.id
+ 	LEFT JOIN customer c
+ 	ON vb.`customer_id`=c.`id`
+ 	WHERE vb.status=1
+	</select>
+	<resultMap type="VideoBuyRecord" id="videoBuyRecordMap" autoMapping="true">
+		<id column="id" property="id"/>
+		<association property="video" javaType="Video" autoMapping="true">
+		<id column="video_id" property="id"/>
+		</association>
+		<association property="customer" javaType="Customer" autoMapping="true">
+		<id column="customer_id" property="id"/>
+		</association>
+	</resultMap>
 	
 </mapper>
