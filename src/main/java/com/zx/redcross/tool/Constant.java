@@ -27,7 +27,7 @@ public class Constant {
 	 */
 	public static final String COURSE_SUBJECT = "courseSubject" + File.separator;
 	public static final String TOPIC = "topic" + File.separator;
-	public static final String COURSESUBJECT = "courseSubject" + File.separator;
+	public static final String AVATAR_URL = "avatarurl" + File.separator;
 	
 	
 	/**
@@ -97,4 +97,9 @@ public class Constant {
 	public static final byte WAIT_TO_PAY = 1;
 	public static final byte PAY_COMPLETE = 2;
 	public static final byte PAY_CANCEL = 3;
+	
+	/**
+	 * 用户默认头像的地址
+	 */
+	public static final String CUSTOMER_DEFAULT_AVATAR_URL = "";
 }

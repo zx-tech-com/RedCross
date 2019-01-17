@@ -38,4 +38,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
+	<update id="updatePersonalInfo">
+		UPDATE 
+			customer 
+		SET
+		<if test="customer.osDistrict != null AND customer.osDistrict.id != null">
+			district_id =  #{customer.osDistrict.id},
+		</if>
+		<if test="customer.nickname != null">
+			nickname =  #{customer.nickname},
+		</if>
+		<if test="customer.avatarUrl != null">
+			avatar_url =  #{customer.avatarUrl},
+		</if>
+		<if test="customer.password != null">
+			`password` =  #{customer.password},
+		</if>
+		<if test="customer.detailAddress != null">
+			detail_address =  #{customer.detailAddress},
+		</if>
+			gender = gender
+		WHERE customer.id = #{customer.id}
+	</update>
+	
 </mapper>

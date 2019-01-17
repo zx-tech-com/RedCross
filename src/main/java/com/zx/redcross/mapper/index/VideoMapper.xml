@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.zx.redcross.dao.index.IKnowledgeMapper">
+<mapper namespace="com.zx.redcross.dao.index.IVideoMapper">
 	<!--查询所有付费视频 -->
 	<select id="listVideo" resultMap="videoMap">
 		SELECT

@@ -87,10 +87,10 @@ public class CourseCtrl {
 	 * @return
 	 */
 	@RequestMapping("/getCourseRecord")
-	public Map<String,Object> getCourseRecord(Integer customerId,Integer courseId) {
+	public Map<String,Object> getCourseRecord(Integer customerId,Integer courseSubjectId) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		//统计完成了多少课时
-		Integer count=courseServImpl.getCountRecord(customerId,courseId);
+		Integer count=courseServImpl.getCountRecord(customerId,courseSubjectId);
 		map.put(Constant.DATA, count);
 		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 //		//查询课程那一集是否观看了

@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT 
 			count(course_record_id)
 		FROM course_record 
-		where customer_id=#{customerId} and course_id=#{courseId}
+		where customer_id=#{customerId} and course_subject_id=#{courseSubjectId}
 	</select>
 	
 	

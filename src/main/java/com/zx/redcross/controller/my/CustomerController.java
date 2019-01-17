@@ -6,9 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.zx.redcross.entity.Customer;
-import com.zx.redcross.entity.OsDistrict;
 import com.zx.redcross.service.my.CustomerService;
 import com.zx.redcross.tool.BusinessExceptionUtils;
 import com.zx.redcross.tool.Constant;
@@ -24,52 +24,35 @@ public class CustomerController {
 	 * 注册用户
 	 */
 	@RequestMapping("/register")
-	public Map<String,Object> registerCustomer(Customer customer,String adress){
-		customer.setTel("13625667522");
-		customer.setPassword("123456");
-		customer.setDistrictId(3562);		
+	public Map<String,Object> registerCustomer(Customer customer){
 		/**
 		 * 获取注册用户的手机号码，判断是否已经注册过了
 		 */
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Integer count=customerService.findCustomerByTel(customer.getTel());
 		if(count!=0){
-			map.put(Constant.STATUS, Constant.STATUS_FAILURE);
-			return map;		
+			BusinessExceptionUtils.throwNewBusinessException("改手机号已注册");
 		}else{
-			OsDistrict osDistrict=customerService.findOsdistrictById(customer.getDistrictId());
-			Integer level=(int) osDistrict.getLevel();
-			String path=osDistrict.getName();
-			System.out.println(osDistrict);
-			Boolean flage=true;
-			while(flage){
-				if(level!=1){
-					 osDistrict=customerService.findOsdistrictById(osDistrict.getUpid());
-					path=osDistrict.getName()+path;
-					level--;
-				}else {
-					flage=false;
-				}
-			}
-			customer.setDetailAddress(path);
+			customer.setDetailAddress(customerService.getDetailAddress(customer));
 			customerService.saveCustomer(customer);
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 		}
 		return map;
 	}
+	
 	/**
 	 * 已知选择的省份是安徽省，获取下一级的市/县
 	 */
 	@RequestMapping("/district")
 	public Map<String,Object> getDistrict(Integer id){
 		Map<String,Object> map=MapUtils.getHashMapInstance();
-		List<OsDistrict> dis=customerService.findByUpid(id);
+		List<Map<String, Object>> dis=customerService.findByUpid(id);
 		map.put(Constant.DATA, dis);
 		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 		return map;
 	}
 	/**
-	 * 登录
+	 * 账号密码登录 
 	 */
 	@RequestMapping("/login")
 	public Map<String,Object> login(String tel,String password){
@@ -78,15 +61,47 @@ public class CustomerController {
 		Customer customer=customerService.findCustomer(tel,password);
 		if(customer==null){
 			BusinessExceptionUtils.throwNewBusinessException("账号密码不匹配");
-			//map.put(Constant.STATUS, Constant.STATUS_FAILURE);	
 		}else{
-			System.out.println(customer);
 			map.put(Constant.DATA, customer);
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 			map.put(Constant.TOKEN, JWTUtils.creatToken(JWTUtils.prepareTokenParams(customer.getId())));
 		}
 		return map;	
 	}
+	/**
+	 * 查询改手机号是否已注册
+	 * @param tel
+	 * @return
+	 */
+	@RequestMapping("/register/options")
+	public Map<String,Object> checkIfRegisterBefore(String tel){
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		Integer count=customerService.findCustomerByTel(tel);
+		if(count > 0)
+			BusinessExceptionUtils.throwNewBusinessException("改手机号已注册");
+		return map;
+	}
+	
+	@RequestMapping("/loginWithAuthCode")
+	public Map<String,Object> loginWithAuthCode(String tel,String authCode){
+		Map<String,Object> map=MapUtils.getHashMapInstance();
+		return map;	
+	}
+	
+	
+	public Map<String,Object> updatePersonalInfoWithNoAvatarUrl(Customer customer){
+		
+		return null;
+	}
+	
+	public Map<String,Object> updatePersonalAvatarUrl(Integer customerId,MultipartFile avatar){
+		
+		return null;
+	}
+	
+	
+	
 	
 	/**
 	 * 删除自己的发帖

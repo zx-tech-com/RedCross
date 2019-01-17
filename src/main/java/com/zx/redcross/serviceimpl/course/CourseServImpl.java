@@ -44,7 +44,7 @@ public class CourseServImpl implements ICourseServ{
 
 	@Override
 	public Boolean addCourseSubject(CourseSubject courseSubject,MultipartFile thumbnailUrl, MultipartFile certificateUrl) {
-		String imgAbsoluteBasePath = Constant.IMG_ABSOLUTE_BASE_PATH + Constant.COURSESUBJECT;		
+		String imgAbsoluteBasePath = Constant.IMG_ABSOLUTE_BASE_PATH + Constant.COURSE_SUBJECT;		
 		
 		//存储图片
 		if(thumbnailUrl!=null) {
@@ -123,7 +123,7 @@ public class CourseServImpl implements ICourseServ{
 	@Override
 	public Boolean adminUpdateCourseSubject(CourseSubject courseSubject
 			,MultipartFile thumbnailUrl, MultipartFile certificateUrl) {
-		String imgAbsoluteBasePath = Constant.IMG_ABSOLUTE_BASE_PATH + Constant.COURSESUBJECT;		
+		String imgAbsoluteBasePath = Constant.IMG_ABSOLUTE_BASE_PATH + Constant.COURSE_SUBJECT;		
 		//存储图片
 		if(thumbnailUrl!=null) {
 			courseSubject.setThumbnailUrl(FileUtils.saveFile(imgAbsoluteBasePath, thumbnailUrl));

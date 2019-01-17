@@ -19,4 +19,7 @@ public interface IExamOrderMapper {
 	List<ExamOrder> listExamOrder (@Param("page") Page page);
 	
 	Boolean addExamOrder(@Param("examOrder") ExamOrder examOrder);
+	
+	Boolean updateExamOrderStatus(@Param("examOrder") ExamOrder examOrder);
+	
 }
