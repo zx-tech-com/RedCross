@@ -45,6 +45,8 @@ public class Constant {
 	 */
 	public static final String ERROR_MISSIN_GPARAMETER = "缺少参数";
 	public static final String ERROR_UNKNOW = "服务端错误";
+	public static final String ERROR_PARAMETER_TYPE_ILEGAL = "参数类型不匹配";
+	public static final String ERROR_REQUEST_METHOD_ILEGAL = "请求方法不匹配";
 	
 	
 	

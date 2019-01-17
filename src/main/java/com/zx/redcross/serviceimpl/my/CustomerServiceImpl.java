@@ -88,7 +88,11 @@ public class CustomerServiceImpl implements CustomerService{
 
 	
 	public String getDetailAddress(Customer customer) {
-		Map<String, Object> osDistrict=osDistrictMapper.findOsdistrictById(customer.getDistrictId());
+		if(customer.getDistrictId() == null)
+			customer.setDistrictId(customer.getOsDistrict().getId());
+		if(customer.getOsDistrict().getId() == null)
+			customer.getOsDistrict().setId(customer.getDistrictId());
+		Map<String, Object> osDistrict=osDistrictMapper.findOsdistrictById(customer.getOsDistrict().getId());
 		Integer level=(int) osDistrict.get("level");
 		String path=(String) osDistrict.get("name");
 		Boolean flage=true;

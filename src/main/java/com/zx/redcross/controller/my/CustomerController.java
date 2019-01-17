@@ -4,10 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.zx.redcross.annotation.FrontEnd;
 import com.zx.redcross.entity.Customer;
 import com.zx.redcross.service.my.CustomerService;
 import com.zx.redcross.tool.BusinessExceptionUtils;
@@ -23,15 +27,15 @@ public class CustomerController {
 	/**
 	 * 注册用户
 	 */
-	@RequestMapping("/register")
-	public Map<String,Object> registerCustomer(Customer customer){
+	@RequestMapping(value="/register",method=RequestMethod.POST)
+	public Map<String,Object> registerCustomer(@RequestBody Customer customer){
 		/**
 		 * 获取注册用户的手机号码，判断是否已经注册过了
 		 */
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Integer count=customerService.findCustomerByTel(customer.getTel());
 		if(count!=0){
-			BusinessExceptionUtils.throwNewBusinessException("改手机号已注册");
+			BusinessExceptionUtils.throwNewBusinessException("该手机号已注册");
 		}else{
 			customer.setDetailAddress(customerService.getDetailAddress(customer));
 			customerService.saveCustomer(customer);
@@ -44,7 +48,7 @@ public class CustomerController {
 	 * 已知选择的省份是安徽省，获取下一级的市/县
 	 */
 	@RequestMapping("/district")
-	public Map<String,Object> getDistrict(Integer id){
+	public Map<String,Object> getDistrict(@RequestParam Integer id){
 		Map<String,Object> map=MapUtils.getHashMapInstance();
 		List<Map<String, Object>> dis=customerService.findByUpid(id);
 		map.put(Constant.DATA, dis);
@@ -54,8 +58,9 @@ public class CustomerController {
 	/**
 	 * 账号密码登录 
 	 */
-	@RequestMapping("/login")
-	public Map<String,Object> login(String tel,String password){
+	@FrontEnd
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public Map<String,Object> login(@RequestParam String tel,@RequestParam String password){
 		Map<String,Object> map=MapUtils.getHashMapInstance();
 		//通过手机号码和密码查询是否存在用户
 		Customer customer=customerService.findCustomer(tel,password);
@@ -74,12 +79,12 @@ public class CustomerController {
 	 * @return
 	 */
 	@RequestMapping("/register/options")
-	public Map<String,Object> checkIfRegisterBefore(String tel){
+	public Map<String,Object> checkIfRegisterBefore(@RequestParam(required=true)String tel){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 		Integer count=customerService.findCustomerByTel(tel);
 		if(count > 0)
-			BusinessExceptionUtils.throwNewBusinessException("改手机号已注册");
+			BusinessExceptionUtils.throwNewBusinessException("该手机号已注册");
 		return map;
 	}
 	
@@ -89,15 +94,27 @@ public class CustomerController {
 		return map;	
 	}
 	
-	
+	@RequestMapping("/udpateCustomerInfo")
 	public Map<String,Object> updatePersonalInfoWithNoAvatarUrl(Customer customer){
-		
-		return null;
+		Map<String,Object> map=MapUtils.getHashMapInstance();
+		if(customerService.updatePersonalInfoWithNoAvatarUrl(customer))
+			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		else
+			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+			
+		return map;
 	}
 	
-	public Map<String,Object> updatePersonalAvatarUrl(Integer customerId,MultipartFile avatar){
-		
-		return null;
+	@RequestMapping("/updateAvatar")
+	public Map<String,Object> updatePersonalAvatarUrl(
+			@RequestParam Integer customerId,@RequestParam MultipartFile avatar){
+		Map<String,Object> map=MapUtils.getHashMapInstance();
+		if(customerService.updatePersonalAvatarUrl(customerId, avatar))
+			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		else
+			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+			
+		return map;
 	}
 	
 	

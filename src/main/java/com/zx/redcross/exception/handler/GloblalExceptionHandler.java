@@ -4,10 +4,12 @@ import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.zx.redcross.exception.BusinessException;
 import com.zx.redcross.tool.Constant;
@@ -43,6 +45,26 @@ public class GloblalExceptionHandler {
 		return map;
 	}
 	
+	
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	@ResponseBody
+	public Map<String,Object> methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException e){
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
+		map.put(Constant.ERROR_MESSAGE, Constant.ERROR_PARAMETER_TYPE_ILEGAL);
+		map.put(Constant.TIPS, e.getMessage());
+		return map;
+	}
+	
+	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+	@ResponseBody
+	public Map<String,Object> httpRequestMethodNotSupportedExceptionHandler(HttpRequestMethodNotSupportedException e){
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
+		map.put(Constant.ERROR_MESSAGE, Constant.ERROR_REQUEST_METHOD_ILEGAL);
+		map.put(Constant.TIPS, e.getMessage());
+		return map;
+	}
 	
 	@ExceptionHandler(Exception.class)
 	@ResponseBody
