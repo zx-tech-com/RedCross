@@ -5,12 +5,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- namespace指向mapper接口 -->
 <mapper namespace="com.zx.redcross.dao.my.OsDistrictMapper">
+	<resultMap type="HashMap" id="osDistrict">
+		<result column="id" property="id"/>
+		<result column="level" property="level"/>
+		<result column="name" property="name"/>
+		<result column="upid" property="upid"/>
+	</resultMap>
+	
 	<!--根据得到的Id返回一个OsDistrict对象  -->
-	<select id="findOsdistrictById" resultType="OsDistrict" parameterType="int">
+	<!-- <select id="findOsdistrictById" resultType="OsDistrict" parameterType="int">
+		SELECT * FROM os_district WHERE id=#{id}
+	</select> -->
+	<!--根据得到的Id返回一个OsDistrict集合  -->
+	<!-- <select id="findByUpid" resultType="OsDistrict" parameterType="int">
+		SELECT * FROM os_district WHERE upid=#{id}
+	</select> -->
+	
+	<select id="findOsdistrictById" resultMap="osDistrict" parameterType="int">
 		SELECT * FROM os_district WHERE id=#{id}
 	</select>
-	<!--根据得到的Id返回一个OsDistrict集合  -->
-	<select id="findByUpid" resultType="OsDistrict" parameterType="int">
+	<select id="findByUpid" resultMap="osDistrict" parameterType="int">
 		SELECT * FROM os_district WHERE upid=#{id}
 	</select>
+	
 </mapper>

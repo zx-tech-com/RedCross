@@ -16,6 +16,8 @@ public class ExamOrder implements Serializable {
 	private String payMethod;
 	private byte status;
 	private String submitTime;
+	private String tel;
+	private String realName;
 	private CourseSubject courseSubject;
 	private Customer customer;
 	private OsDistrict osDistrict;
@@ -152,13 +154,32 @@ public class ExamOrder implements Serializable {
 		return examPayRecord;
 	}
 
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	public String getRealName() {
+		return realName;
+	}
+
+	public void setRealName(String realName) {
+		this.realName = realName;
+	}
+
 	@Override
 	public String toString() {
-		return "ExamOrder [id=" + id + ", coment=" + coment + ", detailAddress=" + detailAddress + ", tel=" + tel
-				+ ", realName=" + realName + ", method=" + method + ", orderNumber=" + orderNumber + ", payMethod="
-				+ payMethod + ", status=" + status + ", submitTime=" + submitTime + ", courseSubject=" + courseSubject
+
+		return "ExamOrder [id=" + id + ", coment=" + coment + ", detailAddress=" + detailAddress + ", method=" + method
+				+ ", orderNumber=" + orderNumber + ", payMethod=" + payMethod + ", status=" + status + ", submitTime="
+				+ submitTime + ", tel=" + tel + ", realName=" + realName + ", courseSubject=" + courseSubject
 				+ ", customer=" + customer + ", osDistrict=" + osDistrict + ", examPayRecords=" + examPayRecords + "]";
 	}
+	
+	
 
 	
 

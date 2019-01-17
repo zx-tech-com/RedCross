@@ -69,8 +69,13 @@ public class VideoCtrl {
 	public Map<String, Object> saveVideoBuyRecord(@RequestBody VideoBuyRecord videoBuyRecord) {
 		// 保存购买记录（实际保存的是正在购买状态为1）
 		Map<String, Object> map = MapUtils.getHashMapInstance();
+		Map<String, Object> dataMap = MapUtils.getHashMapInstance();
 		Boolean flag = videoServImpl.saveVideoBuyRecord(videoBuyRecord);
-		map.put(Constant.STATUS, flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
+		if(flag) {
+			dataMap.put("id", videoBuyRecord.getId());
+			map.put(Constant.DATA, dataMap);
+			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
+		}
 		return map;
 	}
 

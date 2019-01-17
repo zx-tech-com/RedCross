@@ -24,4 +24,6 @@ public interface CustomerMapper {
 	//判断是否是自己的评论
 	public Integer findMyTopicComent(@Param("topicComentId")Integer topicComentId,@Param("customerId") Integer customerId);
 	
+	Boolean updatePersonalInfo(@Param("customer")Customer customer);
+	
 }

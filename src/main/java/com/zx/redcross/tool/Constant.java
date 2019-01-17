@@ -27,7 +27,11 @@ public class Constant {
 	 */
 	public static final String COURSE_SUBJECT = "courseSubject" + File.separator;
 	public static final String TOPIC = "topic" + File.separator;
+
 	public static final String PAYVIDEO = "payVideo" + File.separator;
+
+	public static final String AVATAR_URL = "avatarurl" + File.separator;
+
 	
 	
 	/**
@@ -45,6 +49,8 @@ public class Constant {
 	 */
 	public static final String ERROR_MISSIN_GPARAMETER = "缺少参数";
 	public static final String ERROR_UNKNOW = "服务端错误";
+	public static final String ERROR_PARAMETER_TYPE_ILEGAL = "参数类型不匹配";
+	public static final String ERROR_REQUEST_METHOD_ILEGAL = "请求方法不匹配";
 	
 	
 	
@@ -97,4 +103,9 @@ public class Constant {
 	public static final byte WAIT_TO_PAY = 1;
 	public static final byte PAY_COMPLETE = 2;
 	public static final byte PAY_CANCEL = 3;
+	
+	/**
+	 * 用户默认头像的地址
+	 */
+	public static final String CUSTOMER_DEFAULT_AVATAR_URL = "";
 }

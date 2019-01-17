@@ -3,6 +3,7 @@ package com.zx.redcross.entity;
 public class CourseRecord {
 	private Integer courseRecordId;
 	private Integer customerId;
+	private Integer courseSubjectId;
 	private Integer courseId; 
 	private String  recordTime;
 	
@@ -39,9 +40,18 @@ public class CourseRecord {
 	public void setRecordTime(String recordTime) {
 		this.recordTime = recordTime;
 	}
+	public Integer getCourseSubjectId() {
+		return courseSubjectId;
+	}
+	public void setCourseSubjectId(Integer courseSubjectId) {
+		this.courseSubjectId = courseSubjectId;
+	}
 	@Override
 	public String toString() {
-		return "CourseRecord [courseRecordId=" + courseRecordId + ", customerId=" + customerId + ", courseId="
-				+ courseId + ", recordTime=" + recordTime + "]";
-	}	
+		return "CourseRecord [courseRecordId=" + courseRecordId + ", customerId=" + customerId + ", courseSubjectId="
+				+ courseSubjectId + ", courseId=" + courseId + ", recordTime=" + recordTime + ", cosrse=" + cosrse
+				+ "]";
+	}
+	
+	
 }
