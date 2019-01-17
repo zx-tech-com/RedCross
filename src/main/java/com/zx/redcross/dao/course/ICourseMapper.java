@@ -34,4 +34,6 @@ public interface ICourseMapper {
 	//后台删除考试科目的课程
 	Boolean adminDeleteCourse(@Param("courseId")Integer courseId);
 
+	boolean adminUpdateCourseSubject(CourseSubject courseSubject);
+
 }

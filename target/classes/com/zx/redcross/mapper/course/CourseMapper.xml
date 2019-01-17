@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.zx.redcross.dao.course.ICourseMapper">
-<<<<<<< HEAD
+
 	
 	<resultMap type="HashMap" id="courseSubject">
 		<result column="id" property="id"/>
@@ -17,15 +17,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 
 	<select id="listCourseSubject" resultMap="courseSubject">
-=======
-	<!-- <resultMap type="Course" id="course" autoMapping="true">
-		<id column="id" property="id"/>
-	</resultMap> -->
-	
-	
-
-	<select id="listCourseSubject" resultType="com.zx.redcross.entity.CourseSubject">
->>>>>>> ef36e01923c29a59a6d6b3a5de205209a633d7aa
 		SELECT 
 			id,sname,description,price,thumbnail_url,period,certificate_url
 		FROM course_subject
@@ -66,11 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		LIMIT ${page.start},${page.pageSize}
 	</select>
 	
-	
-<<<<<<< HEAD
-=======
-	
->>>>>>> ef36e01923c29a59a6d6b3a5de205209a633d7aa
+
 	<insert id="saveCountRecord">
 	INSERT INTO course_record(customer_id,course_id) 
 	VALUES(#{customerId},#{courseId})

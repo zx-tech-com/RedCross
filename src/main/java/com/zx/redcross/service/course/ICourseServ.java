@@ -36,6 +36,9 @@ public interface ICourseServ {
 	//后台删除科目下面的课程
 	Boolean adminDeleteCourse(Integer courseId);
 
+	Boolean adminUpdateCourseSubject(CourseSubject courseSubject, MultipartFile thumbnailUrl,
+			MultipartFile certificateUrl);
+
 
 
 }

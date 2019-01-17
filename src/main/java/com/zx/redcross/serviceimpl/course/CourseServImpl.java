@@ -112,11 +112,44 @@ public class CourseServImpl implements ICourseServ{
 		if(!courseMapper.adminDeleteCourse(courseId)) {
 			return false;
 			};
-		Course course=courseMapper.getCourseById(courseId);
-		if(course.getVideoUrl()!=null&&course.getVideoUrl().length()>0) {
-			FileUtils.removeFile(course.getVideoUrl());
+		Map<String, Object> course=courseMapper.getCourseById(courseId);
+		String videoUrl =(String) course.get("videoUrl");
+		if(null != videoUrl && videoUrl.length() >0) {
+			FileUtils.removeFile(videoUrl);
 		}
 		return true;
 	}
+
+	@Override
+	public Boolean adminUpdateCourseSubject(CourseSubject courseSubject
+			,MultipartFile thumbnailUrl, MultipartFile certificateUrl) {
+		String imgAbsoluteBasePath = Constant.IMG_ABSOLUTE_BASE_PATH + Constant.COURSESUBJECT;		
+		//存储图片
+		if(thumbnailUrl!=null) {
+			courseSubject.setThumbnailUrl(FileUtils.saveFile(imgAbsoluteBasePath, thumbnailUrl));
+		}
+				
+		if(thumbnailUrl!=null) {
+			courseSubject.setCertificateUrl(FileUtils.saveFile(imgAbsoluteBasePath, certificateUrl));
+		}
+		CourseSubject courseSubjectSub=courseMapper.findCourseSubject(courseSubject.getId());
+		
+		if(!courseMapper.adminUpdateCourseSubject(courseSubject)) {
+			FileUtils.removeFile(courseSubject.getThumbnailUrl());
+			FileUtils.removeFile(courseSubject.getCertificateUrl());
+			return false;
+		}
+		//删除之前的图片
+		if(courseSubjectSub.getThumbnailUrl()!=null
+				&&courseSubjectSub.getThumbnailUrl().length()>0) {
+			FileUtils.removeFile(courseSubjectSub.getThumbnailUrl());	
+		}
+		if(courseSubjectSub.getCertificateUrl()!=null
+				&&courseSubjectSub.getCertificateUrl().length()>0) {
+			FileUtils.removeFile(courseSubjectSub.getCertificateUrl());;	
+		}
+		return true;
+	}
+
 
 }
