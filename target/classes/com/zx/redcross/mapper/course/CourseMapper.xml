@@ -4,26 +4,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.zx.redcross.dao.course.ICourseMapper">
-	<!-- <resultMap type="Course" id="course" autoMapping="true">
-		<id column="id" property="id"/>
-	</resultMap> -->
-	
-	
 
-	<select id="listCourseSubject" resultType="com.zx.redcross.entity.CourseSubject">
+	
+	<resultMap type="HashMap" id="courseSubject">
+		<result column="id" property="id"/>
+		<result column="sname" property="sname"/>
+		<result column="description" property="description"/>
+		<result column="price" property="price"/>
+		<result column="thumbnail_url" property="thumbnail_url"/>
+		<result column="certificateUrl" property="certificateUrl"/>
+		<result column="period" property="period"/>
+	</resultMap>
+
+	<select id="listCourseSubject" resultMap="courseSubject">
 		SELECT 
-			id,sname,description,price,thumbnail_url,period
+			id,sname,description,price,thumbnail_url,period,certificate_url
 		FROM course_subject
 	</select>
 	
 	
 	
-	<select id="findCourseSubject" parameterType="int" resultType="CourseSubject">
+	<select id="findCourseSubject" parameterType="int" resultMap="courseSubject">
 		SELECT 
-			id,sname,description,price,thumbnail_url,period
+			id,sname,description,price,thumbnail_url,period,certificate_url
 		FROM course_subject where id=#{subjectId}
 	</select>
-	
 	
 	<!--查询观看完视频的集数  -->
 	<select id="getCountRecord" resultType="int">
@@ -34,25 +39,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
-	<select id="listCourseBySubject" resultType="Course">
+	<resultMap type="HashMap" id="course">
+		<result column="id" property="id"/>
+		<result column="cindex" property="cindex"/>
+		<result column="cname" property="cname"/>
+		<result column="description" property="description"/>
+		<result column="video_url" property="videoUrl"/>
+		<result column="video_duration" property="videoDuration"/>
+	</resultMap>
+	
+	
+	<select id="listCourseBySubject" resultMap="course">
 		SELECT 
-			course.id,cname,description,cindex,is_video,video_url,thumbnail_url
+			course.id,cname,description,cindex,video_url,video_duration
 		FROM course
 		WHERE subject_id = #{subjectId}
 		LIMIT ${page.start},${page.pageSize}
 	</select>
 	
-	
-	
+
 	<insert id="saveCountRecord">
 	INSERT INTO course_record(customer_id,course_id) 
 	VALUES(#{customerId},#{courseId})
 	</insert>
 	
 
-	<select id="getCourseById" resultType="Course">
+	<select id="getCourseById" resultMap="course">
 		SELECT 
-			course.id,cname,description,cindex,is_video,video_url,thumbnail_url
+			course.id,cname,description,cindex,video_url,video_duration
 		FROM course
 		WHERE id = #{id}
 	</select>
@@ -97,33 +111,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="adminDeleteCourse"  >
 		delete from course where id=#{courseId}
 	</delete>
-	<!--后台查询所有付费视频  -->
-	<select id="adminListVideo" resultType="Video">
-	SELECT id,vindex,vname,description,video_url
-     FROM video	ORDER BY id DESC
-	</select>
-	
-	<!--后台添加付费视频  -->
-	<insert id="adminSaveVideo" parameterType="video">
-	INSERT INTO video(vindex,vname,description,video_url) 
-	VALUES(#{vindex},#{vname},#{description},#{videoUrl})
-	</insert>
-	
-	
-	<!-- 删除付费视频 -->
-	<delete id="adminDeleteVideo" parameterType="int">
-	 DELETE FROM video WHERE id=#{video}
-	</delete>
-	
-	<!-- 修改付费视频 -->
-	<update id="adminUpdateVideo">
-	UPDATE video SET 
-	vindex=#{vindex},
-	vname=#{vname},
-	descripti#{description},
-	video_url=#{videoUrl}
-	WHERE id=#{id}
-	</update>
 	
 	<!-- 修改考试科目 -->
 	<update id="adminUpdateCourseSubject" parameterType="courseSubject">

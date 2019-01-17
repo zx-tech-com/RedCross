@@ -1,6 +1,7 @@
 package com.zx.redcross.serviceimpl.course;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,6 @@ import com.zx.redcross.entity.Course;
 import com.zx.redcross.entity.CourseSubject;
 import com.zx.redcross.entity.ExamOrder;
 import com.zx.redcross.entity.Page;
-import com.zx.redcross.entity.Video;
 import com.zx.redcross.service.course.ICourseServ;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.FileUtils;
@@ -23,17 +23,17 @@ public class CourseServImpl implements ICourseServ{
 	private ICourseMapper courseMapper;
 	
 	@Override
-	public List<CourseSubject> listCourseSubject() {
+	public List<Map<String, Object>> listCourseSubject() {
 		return courseMapper.listCourseSubject();
 	}
 
 	@Override
-	public List<Course> listCourseBySubject(Integer subjectId,Page page) {
+	public List<Map<String, Object>> listCourseBySubject(Integer subjectId,Page page) {
 		return courseMapper.listCourseBySubject(subjectId,page);
 	}
 
 	@Override
-	public Course getCourseById(Integer id) {
+	public Map<String, Object> getCourseById(Integer id) {
 		return courseMapper.getCourseById(id);
 	}
 
@@ -112,31 +112,12 @@ public class CourseServImpl implements ICourseServ{
 		if(!courseMapper.adminDeleteCourse(courseId)) {
 			return false;
 			};
-		Course course=courseMapper.getCourseById(courseId);
-		if(course.getVideoUrl()!=null&&course.getVideoUrl().length()>0) {
-			FileUtils.removeFile(course.getVideoUrl());
+		Map<String, Object> course=courseMapper.getCourseById(courseId);
+		String videoUrl =(String) course.get("videoUrl");
+		if(null != videoUrl && videoUrl.length() >0) {
+			FileUtils.removeFile(videoUrl);
 		}
 		return true;
-	}
-
-	@Override
-	public List<Video> adminListVideo() {
-		return courseMapper.adminListVideo();
-	}
-
-	@Override
-	public Boolean adminSaveVideo(Video video) {
-		return courseMapper.adminSaveVideo(video);
-	}
-
-	@Override
-	public Boolean adminDeleteVideo(Integer videoId) {
-		return courseMapper.adminDeleteVideo(videoId);
-	}
-
-	@Override
-	public Boolean adminUpdateVideo(Video video) {
-		return courseMapper.adminUpdateVideo(video);
 	}
 
 	@Override
@@ -152,6 +133,12 @@ public class CourseServImpl implements ICourseServ{
 			courseSubject.setCertificateUrl(FileUtils.saveFile(imgAbsoluteBasePath, certificateUrl));
 		}
 		CourseSubject courseSubjectSub=courseMapper.findCourseSubject(courseSubject.getId());
+		
+		if(!courseMapper.adminUpdateCourseSubject(courseSubject)) {
+			FileUtils.removeFile(courseSubject.getThumbnailUrl());
+			FileUtils.removeFile(courseSubject.getCertificateUrl());
+			return false;
+		}
 		//删除之前的图片
 		if(courseSubjectSub.getThumbnailUrl()!=null
 				&&courseSubjectSub.getThumbnailUrl().length()>0) {
@@ -161,11 +148,8 @@ public class CourseServImpl implements ICourseServ{
 				&&courseSubjectSub.getCertificateUrl().length()>0) {
 			FileUtils.removeFile(courseSubjectSub.getCertificateUrl());;	
 		}
-		if(!courseMapper.adminUpdateCourseSubject(courseSubject)) {
-			FileUtils.removeFile(courseSubject.getThumbnailUrl());
-			FileUtils.removeFile(courseSubject.getCertificateUrl());
-			return false;
-		}
 		return true;
 	}
+
+
 }
