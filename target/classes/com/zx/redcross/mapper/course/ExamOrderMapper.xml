@@ -18,6 +18,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="real_name" property="realName"/>
 	</resultMap>
 	
+	<!-- 携带科目信息 -->
+	<resultMap type="ExamOrder" id="examOrder2" autoMapping="true">
+		<id column="id" property="id"/>
+		<association property="courseSubject" javaType="CourseSubject" columnPrefix="course_subject_">
+			<id column="id" property="id"/>
+		</association>
+	</resultMap>
+	
 	
 	<select id="getExamOrderById" resultType="ExamOrder">
 		SELECT * 
@@ -25,9 +33,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE id = #{id};
 	</select>
 	
-	<select id="listExamOrderByCustomerId" resultType="ExamOrder">
-		SELECT *
+	<select id="listExamOrderByCustomerId" resultMap="examOrder2">
+		SELECT 
+			exam_order.*,
+			course_subject.id AS course_subject_id,
+			course_subject.sname AS course_subject_sname
 		FROM exam_order
+		LEFT JOIN course_subject ON course_subject_id = course_subject.id
 		WHERE customer_id = #{id};
 	</select>
 	
@@ -43,8 +55,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="addExamOrder" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO exam_order(
-			coment,detailAddress,method,orderNumber,
-			payMethod,status,course_subject_id,
+			coment,detail_address,method,order_number,
+			pay_method,status,course_subject_id,
 			customer_id,district_id
 		)
 		VALUES(
@@ -64,7 +76,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE 
 			exam_order 
 		SET 
-			exam_order.`status` = #{examOrder.status}
+			exam_order.`status` = #{examOrder.status},
+			submit_time = NOW()
 		WHERE
 			exam_order.id = #{examOrder.id}
 			AND customer_id = #{examOrder.customer.id}

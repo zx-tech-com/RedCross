@@ -12,7 +12,7 @@ import com.zx.redcross.entity.VideoBuyRecord;
 public interface IVideoMapper {
 
 	//查询所有付费视频
-	List<Map<String,Object>> listVideo(Integer customerId,
+	List<Map<String,Object>> listVideo(@Param("customerId")Integer customerId,
 			@Param("page") Page page);
 	
 	//通过视频id查找该视屏的详细信息
@@ -24,6 +24,7 @@ public interface IVideoMapper {
 	//会员点击支付后会生成一条支付成功记录
 	Boolean updateVideoBuyRecord(@Param("videoBuyRecord") VideoBuyRecord videoBuyRecord);
 	
+	VideoBuyRecord getVideoBuyRecordByCustomerAndVideoId(@Param("customerId")Integer customerId, @Param("videoId")Integer videoId);
 	
 	
 	// =================================付费视频后台管理==============================

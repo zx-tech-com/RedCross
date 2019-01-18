@@ -48,7 +48,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				exam_order
 			LEFT JOIN course_subject ON course_subject_id = course_subject.id
 		)	tmp
-		WHERE tmp.customer_id = #{customerId}
+		WHERE 
+			tmp.customer_id = #{customerId}
+		<if test="status != null and status.length > 0">
+			AND status = #{status}
+		</if>
 		LIMIT #{page.start},#{page.pageSize}
 	</select>
 </mapper>

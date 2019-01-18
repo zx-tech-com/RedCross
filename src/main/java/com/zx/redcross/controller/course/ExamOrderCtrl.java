@@ -16,6 +16,7 @@ import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.MapUtils;
 
 @RestController
+@RequestMapping("examorder")
 public class ExamOrderCtrl {
 	
 	@Autowired
@@ -79,8 +80,27 @@ public class ExamOrderCtrl {
 	@RequestMapping("addExamOrder")
 	public Map<String,Object> addExamOrder(@RequestBody ExamOrder examOrder){
 		
-		Map<String,Object> map = MapUtils.getHashMapInstance();
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		Map<String, Object> dataMap = MapUtils.getHashMapInstance();
+		
+		map.put(Constant.STATUS,Constant.STATUS_FAILURE);
+		
 		Boolean flag = examOrderServImpl.addExamOrder(examOrder);
+		if(flag) {
+			dataMap.put(Constant.ID, examOrder.getId());
+			map.put(Constant.DATA, dataMap);
+			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
+		}
+		return map;
+	}
+	
+	
+	@FrontEnd
+	@RequestMapping("updateExamOrder")
+	public Map<String,Object> updateExamOrderStatus(@RequestBody ExamOrder examOrder){
+		
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		Boolean flag = examOrderServImpl.updateExamOrderStatus(examOrder);
 		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
 		return map;
 	}

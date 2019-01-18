@@ -65,9 +65,12 @@ public class CustomerServiceImpl implements CustomerService{
 	
 	@Override
 	public Boolean updatePersonalInfoWithNoAvatarUrl(Customer customer) {
+		Customer oldCustomer = customerMapper.findCustomerById(customer.getId());
+		if(oldCustomer == null)
+			BusinessExceptionUtils.throwNewBusinessException("用户Id不正确");
 		if(customer.getOsDistrict() != null
 				&& customer.getOsDistrict() != null)
-		customer.setDetailAddress(getDetailAddress(customer));
+			customer.setDetailAddress(getDetailAddress(customer));
 		return customerMapper.updatePersonalInfo(customer);
 	}
 

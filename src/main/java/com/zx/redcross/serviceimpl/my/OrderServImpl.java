@@ -18,9 +18,9 @@ public class OrderServImpl implements IOrderServ{
 	
 	
 	@Override
-	public List<Map<String, Object>> ListOrderByCustomerId(Integer customerId, Page page) {
+	public List<Map<String, Object>> ListOrderByCustomerId(String status,Integer customerId, Page page) {
 		
-		return mapper.ListOrderByCustomerId(customerId, page);
+		return mapper.ListOrderByCustomerId(status,customerId, page);
 	}
 
 }

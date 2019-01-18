@@ -8,6 +8,8 @@ import java.io.File;
  */
 public class Constant {
 
+	public static final String ID = "id";
+	
 	
 	public static final String ABSOLUTE_BASE_PATH = "D:" + File.separator;
 	public static final String ACCESS_BASE_PATH = "http://192.168.1.177:8080/RedCross";
@@ -59,6 +61,8 @@ public class Constant {
 	 */
 	public static final Integer APP_PAGE_SIZE= 6;
 	public static final String PAGE_SIZE = "pageSize";
+	public static final String TOTAL_COUNT = "totalCount";
+	
 	
 	
 	/**
@@ -109,6 +113,7 @@ public class Constant {
 	 */
 	public static final String CUSTOMER_DEFAULT_AVATAR_URL = "";
 	
+
 	/**
 	 * 发帖的视频或图片或多张图片状态
 	 */
@@ -116,4 +121,19 @@ public class Constant {
 	public static final String POPIC_STATUS1 = "1";
 	public static final String POPIC_STATUS2 = "2";
 	public static final String POPIC_STATUS3 = "3";
+
+	
+	/**
+	 * 生成的订单号相关 
+	 */
+	public static final int STAMP_LENGTH = 6;
+	public static final int TEL_LENGTH = 4;
+	public static final String BUSINESS_TYPE_EXAM_ORDER = "01";
+	public static final String BUSINESS_TYPE_VIDEO_ORDER = "10";
+	public static final String PAY_TYPE_WECHAT = "01";
+	public static final String PAY_TYPE_ZFB = "10";
+	public static final String PAY_TYPE_OTHERS = "00";
+
+	
+
 }

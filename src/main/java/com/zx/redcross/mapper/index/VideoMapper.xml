@@ -20,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND customer_id = #{customerId}
 		ORDER BY
 			v.id DESC
-		LIMIT　#{page.start},#{page.pageSize}
+		LIMIT #{page.start},#{page.pageSize}
 	</select>
 	
 	
@@ -57,9 +57,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
+	<!-- 查找该用户是否购买过该视频 -->
+	<select id="getVideoBuyRecordByCustomerAndVideoId" resultType="VideoBuyRecord">
+		SELECT
+			*
+		FROM
+			video_buy_record
+		WHERE customer_id = #{customerId} AND video_id = #{videoId}
+	</select>
+	
 	
 	<!--会员支付成功后会生成一条支付成功记录  -->
-	<insert id="saveVideoBuyRecord">
+	<insert id="saveVideoBuyRecord" useGeneratedKeys="true" keyProperty="videoBuyRecord.id">
 		INSERT INTO 
 			video_buy_record (video_id, customer_id, order_number, coment, `status`)
 		VALUES
@@ -73,7 +82,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<update id="updateVideoBuyRecord">
 		UPDATE video_buy_record 
-		SET `status` = #{videoBuyRecord.status}
+		SET `status` = #{videoBuyRecord.status},
+		submit_time = NOW()
 		WHERE
 			customer_id = #{videoBuyRecord.customer.id} AND id = #{videoBuyRecord.id}
 	</update>

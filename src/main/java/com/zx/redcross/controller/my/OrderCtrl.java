@@ -25,10 +25,11 @@ public class OrderCtrl {
 	private IOrderServ orderServImpl;
 	
 	@RequestMapping("/listOrder")
-	public Map<String,Object> listComentByCustomerId(@RequestParam(required=true)Integer customerId, Page page) {
+	public Map<String,Object> listComentByCustomerId(@RequestParam(required=false)String status,
+			@RequestParam(required=true)Integer customerId, Page page) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
-		List<Map<String,Object>> orderList = orderServImpl.ListOrderByCustomerId(customerId, page);
+		List<Map<String,Object>> orderList = orderServImpl.ListOrderByCustomerId(status,customerId, page);
 		if(null != orderList) {
 			map.put(Constant.DATA, orderList);
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);

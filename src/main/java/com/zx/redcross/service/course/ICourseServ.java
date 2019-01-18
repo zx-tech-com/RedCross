@@ -22,11 +22,20 @@ public interface ICourseServ {
 	
 	Boolean addCourseSubject(CourseSubject courseSubject,MultipartFile imgUrl,MultipartFile ccieUrl);
 	//通过subjectId查找到科目类型
-	CourseSubject findCourseSubject(Integer subjectId);
+	Map<String, Object> findCourseSubject(Integer subjectId);
 	//统计完成课时
-	Integer getCountRecord(Integer customerId, Integer courseId);
+	Integer getCountRecord(Integer customerId, Integer courseSubjectId);
 	//保存观看结束的课程视频记录
 	void saveCountRecord(Integer customerId, Integer courseId);
+	
+	/**
+	 * @param subjectId
+	 * @param customerId 可选的，用于表示该用户是否已经购买该科目
+	 * @return
+	 */
+	Map<String,Object> getCourseSubjectAndPayStatus(Integer subjectId,Integer customerId);
+	
+	
 	//后台管理（查询考试订单人员信息）
 	List<ExamOrder> adminListExamOrder();
 	//后台管理（添加考试科目）

@@ -94,14 +94,13 @@ public class CustomerController {
 		return map;	
 	}
 	
-	@RequestMapping("/udpateCustomerInfo")
-	public Map<String,Object> updatePersonalInfoWithNoAvatarUrl(Customer customer){
+	@RequestMapping(value="/updateCustomerInfo", method=RequestMethod.POST)
+	public Map<String,Object> updatePersonalInfoWithNoAvatarUrl(@RequestBody Customer customer){
 		Map<String,Object> map=MapUtils.getHashMapInstance();
 		if(customerService.updatePersonalInfoWithNoAvatarUrl(customer))
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 		else
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
-			
 		return map;
 	}
 	

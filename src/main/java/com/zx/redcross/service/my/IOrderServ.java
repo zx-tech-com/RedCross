@@ -7,6 +7,6 @@ import com.zx.redcross.entity.Page;
 
 public interface IOrderServ {
 	
-	List<Map<String,Object>> ListOrderByCustomerId(
+	List<Map<String,Object>> ListOrderByCustomerId(String status,
 			Integer customerId,Page page);
 }
