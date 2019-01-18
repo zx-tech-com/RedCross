@@ -5,11 +5,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- namespace指向mapper接口 -->
 <mapper namespace="com.zx.redcross.dao.social.SocialMapper">
-	<!--返回一个TopicType集合  -->
-	<select id="findCustomer" resultType="Customer">
-	 select id,nickname,avatar_url,detail_address,tel,is_visitor 
-	 from customer where id=#{customerId}	
-	</select>
 
 
 
@@ -25,11 +20,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!--查询所有发布帖子的信息，包括发帖人的信息 -->
 	<select id="findAllTopic" resultMap="topic" >
 	SELECT 
-	topic.*,customer.id,customer.nickname,customer.avatar_url,
-		(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id=topic.`id`) AS totalComment,
-		(SELECT COUNT(id) FROM topic_thumbsup WHERE topic_thumbsup.topic_id=topic.`id`) AS totalThumbsup
+	topic.id	AS	topic_id
+	,topic.has_video AS topic_has_video
+	,topic.video_url AS topic_video_url
+	,topic.title AS	topic_title
+	,topic.content As	topic_content
+	,topic.publish_time As	topic_publish_time
+	,topic.status As	topic_status
+	,customer.id AS	customer_id
+	,customer.nickname AS	customer_nickName
+	,customer.avatar_url AS customer_avatarUrl
+	,img.id AS img_id
+	,img.`img_url` AS img_url
+	,(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id=topic.`id`) AS totalComment
+	,(SELECT COUNT(id) FROM topic_thumbsup WHERE topic_thumbsup.topic_id=topic.`id`) AS totalThumbsup
 		<if test="customerId!=null">
-		,(SELECT COUNT(id) FROM concerns WHERE  concerns.customer0_id = topic.customer_id AND concerns.`customer1_id` =#{customerId})AS flag
+		,(SELECT COUNT(id) FROM topic_thumbsup  WHERE  topic_thumbsup.topic_id = topic.id AND topic_thumbsup.customer_id =#{customerId})AS flag
 		</if>
 		<if test="customerId == null" >
 		,0 AS flag
@@ -37,29 +43,46 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	FROM topic
 	LEFT JOIN customer
 	ON customer.`id`=topic.`customer_id`
+	LEFT JOIN img 
+	ON img.`foreign_id`=topic.id AND img.`img_type`='1'
 	<where>
 		<if test="topicTypeId!=null">
 		topic.type_id=#{topicTypeId}
 		</if>
 	</where>
-	ORDER BY topic.`id` DESC LIMIT #{page.start},#{page.pageSize}
+	ORDER BY topic.`id` DESC,img.`id` ASC  LIMIT ${page.start},${page.pageSize}
 	</select>
 	
 	
 	<!--点击帖子缩略图获取一则帖子的全部信息包括发帖人信息  -->
 	<select id="findTopicById" resultMap="topic">
-	select topic.*,customer.id,customer.nickname,customer.avatar_url,
-	(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id=topic.`id`) AS totalComment,
-		(SELECT COUNT(id) FROM topic_thumbsup WHERE topic_thumbsup.topic_id=topic.`id`) AS totalThumbsup
-	<if test="customerId!=null" >
-		,(SELECT COUNT(id) FROM concerns WHERE  concerns.customer0_id = topic.customer_id AND concerns.`customer1_id` =#{customerId})AS flag
-	</if>
-	<if test="customerId == null" >
+	SELECT 
+	topic.id	AS	topic_id
+	,topic.has_video AS topic_has_video
+	,topic.video_url AS topic_video_url
+	,topic.title AS	topic_title
+	,topic.content As	topic_content
+	,topic.publish_time As	topic_publish_time
+	,topic.status As	topic_status
+	,customer.id AS	customer_id
+	,customer.nickname AS	customer_nickName
+	,customer.avatar_url AS customer_avatarUrl
+	,img.id AS img_id
+	,img.`img_url` AS img_url
+	,(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id=topic.`id`) AS totalComment
+	,(SELECT COUNT(id) FROM topic_thumbsup WHERE topic_thumbsup.topic_id=topic.`id`) AS totalThumbsup
+	<if test="customerId!=null">
+		,(SELECT COUNT(id) FROM topic_thumbsup  WHERE  topic_thumbsup.topic_id = topic.id AND topic_thumbsup.customer_id =#{customerId})AS flag
+		</if>
+		<if test="customerId == null" >
 		,0 AS flag
 	</if>
 	  FROM topic
  	LEFT JOIN customer
-	ON customer.`id`=topic.`customer_id`	where	topic.id=#{topicId}
+	ON customer.`id`=topic.`customer_id`
+	LEFT JOIN img 
+	ON img.`foreign_id`=topic.id AND img.`img_type`='1'	
+	where topic.id=#{topicId} ORDER BY	img.`id` ASC
 	</select>
 	
 	
@@ -74,9 +97,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteConcert">
 	DELETE FROM concerns WHERE customer1_id=#{aCustomerId} AND customer0_id=#{pCustomerId};
 	</delete>	
-	<!--获取一级评论的全部信息  -->
+	<!--获取一级评论的全部信息 
+<id property= "id" column="id"/>
+         <result property= "comentId" column= "coment_id"/>
+         <result property= "content" column= "content"/>
+         <result property= "topcomentId" column= "topcoment_id"  />
+         <result property= "content" column="content"/>
+		 <result property= "comentTime" column="coment_time" />
+		 <result property= "isTopcoment" column="is_topcoment"/>
+		<association property="customer" javaType="HashMap" >		
+
+
+	-->
 	<select id="findTopicComent" resultMap="topicComent">
-	SELECT topic_coment.*,customer.id,customer.nickname,customer.avatar_url
+	SELECT 
+	topic_coment.id AS id
+	,topic_coment.coment_id AS coment_id
+	,topic_coment.content	AS content
+	,topic_coment.coment_time AS coment_time
+	,topic_coment.is_topcoment AS is_topcoment
+	,customer.id AS	customer_id
+	,customer.nickname AS	customer_nickName
+	,customer.avatar_url AS customer_avatarUrl
 		,(SELECT COUNT(coment_thumbsup_id) FROM coment_thumbsup WHERE coment_thumbsup.`topic_coment_id`=topic_coment.id) AS totalThumbsup
 		<if test="customerId!=null" >
 		,(SELECT COUNT(coment_thumbsup_id) FROM coment_thumbsup WHERE coment_thumbsup.`topic_coment_id`=topic_coment.id AND coment_thumbsup.`customer_id`=#{customerId}) AS totalThumbsNum
@@ -127,8 +169,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!--插入评论  -->
 	<insert id="saveTopicComent">
-	INSERT INTO topic_coment(topic_id,customer_id,content,is_topcoment,coment_id,topcoment_id) 
-	VALUES(#{topicId},#{customerId},#{content},#{isTopcoment},#{comentId},#{topcomentId}); 
+	INSERT INTO 
+	topic_coment(topic_id,customer_id,content,is_topcoment,coment_id,topcoment_id) 
+	VALUES(
+	#{topicId},
+	#{id},
+	#{content},
+	#{isTopcoment},
+	#{comentId},
+	#{topcomentId}); 
 	</insert>
 	
 	<!-- 查询用户是否点过赞 -->
@@ -154,12 +203,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where topic_id=#{topicId} and customer_id=#{coustomerId}
 	</select>
 	
-	<!--插入评论点赞  -->
+	<!--插入帖子点赞  -->
 	<insert id="saveTopicThunsup" >
 		insert into  topic_thumbsup(topic_id,customer_id)  VALUES(#{topicId},#{coustomerId})
 	</insert>
 	
-	<!--删除评论点赞  -->
+	<!--删除帖子点赞  -->
 	<delete id="deleteTopicThunsup">
 	delete from	topic_thumbsup
 	where topic_id=#{topicId} and customer_id=#{coustomerId}
@@ -167,9 +216,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!--发布帖子  -->
 	<insert id="saveTopic" useGeneratedKeys="true" keyProperty="topic.id">
-	 	insert into topic(customer_id,type_id,title,content,has_video,video_url,img_url)
-		values(#{topic.customerId},#{topic.topicType.id},#{topic.title},#{topic.content},
-		#{topic.hasVideo},#{topic.videoUrl},#{topic.imagUrl})	
+	 	insert into topic
+	 	(customer_id
+	 	,type_id,title
+	 	,content
+	 	,has_video
+	 	,video_url
+	 	,status)
+		values(
+		#{topic.customerId}
+		,#{topic.topicType.id}
+		,#{topic.title}
+		,#{topic.content},
+		#{topic.hasVideo}
+		,#{topic.videoUrl}
+		,#{topic.status})	
 	</insert>
 	
 	
@@ -303,23 +364,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap> 
 	
 	<!--帖子  -->
-	<resultMap type="Topic" id="topic">
-		 <id property= "id" column="id"/>
-         <result property= "title" column= "topic_id"/>
-         <result property= "content" column= "customer_id"/>
-         <result property= "publishTime" column= "publish_time"  />
-         <result property= "hasVideo" column="has_video"/>
-		 <result property= "videoUrl" column="video_url" />
+	<resultMap type="HashMap" id="topic">
+		 <id property= "id" column="topic_id"/>
+         <result property= "title" column= "topic_title"/>
+         <result property= "content" column= "topic_content"/>
+         <result property= "publishTime" column= "topic_publish_time"  />
+         <result property= "hasVideo" column="topic_has_video"/>
+		 <result property= "videoUrl" column="topic_video_url" />
+		 <result property= "status" column="topic_status" />
 		 <result property= "totalThumbsup" column="totalThumbsup"/>
 		 <result property= "totalComment" column="totalComment" />
 		 <result property= "flag" column="flag" />
-		<association property="customer" javaType="Customer" autoMapping="true">		
+		<!-- <association property="customer" javaType="Customer" autoMapping="true"> -->		
+		<association property="customer" javaType="HashMap" >		
 			<id column="customer_id" property="id"/>
-		</association>	
+			<result property= "nickname" column="customer_nickName"/>
+			<result property= "avatarUrl" column="customer_avatarUrl"/>
+		</association>
+		<collection property="imgs" ofType="HashMap"  javaType="list">
+			<id column="img_id" property="id"/>
+			<result column="img_url" property="imgUrl"/>
+		</collection>	
 	</resultMap>
-	
  	<!--帖子评论表  -->
-	<resultMap type="TopicComent" id="topicComent">
+	<resultMap type="HashMap" id="topicComent">
 		 <id property= "id" column="id"/>
          <result property= "comentId" column= "coment_id"/>
          <result property= "content" column= "content"/>
@@ -327,9 +395,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          <result property= "content" column="content"/>
 		 <result property= "comentTime" column="coment_time" />
 		 <result property= "isTopcoment" column="is_topcoment"/>
-		<association property="customer" javaType="Customer" autoMapping="true">		
+		<association property="customer" javaType="HashMap" >		
 			<id column="customer_id" property="id"/>
-		</association>		
+			<result property= "nickname" column="customer_nickName"/>
+			<result property= "avatarUrl" column="customer_avatarUrl"/>
+		</association>
+				
 	</resultMap>
 	
 	

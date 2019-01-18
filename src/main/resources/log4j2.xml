@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- Configuration 的属性
 	status="error"	该属性可以不设置.
 	用于设置log4j2自身内部的信息输出.

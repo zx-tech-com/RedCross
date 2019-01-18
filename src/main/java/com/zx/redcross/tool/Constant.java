@@ -108,4 +108,12 @@ public class Constant {
 	 * 用户默认头像的地址
 	 */
 	public static final String CUSTOMER_DEFAULT_AVATAR_URL = "";
+	
+	/**
+	 * 发帖的视频或图片或多张图片状态
+	 */
+	public static final String POPIC_STATUS0 = "0";
+	public static final String POPIC_STATUS1 = "1";
+	public static final String POPIC_STATUS2 = "2";
+	public static final String POPIC_STATUS3 = "3";
 }

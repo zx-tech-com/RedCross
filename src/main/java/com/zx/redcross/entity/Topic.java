@@ -17,6 +17,7 @@ public class Topic implements Serializable {
 	private String imagUrl;
 	private String videoUrl;
 	private Integer totalShare;
+	private String status;
 	private List<Favorite> favorites;
 	private Customer customer;
 	private TopicType topicType;
@@ -27,6 +28,9 @@ public class Topic implements Serializable {
 	private Integer totalComment;
 	private Integer flag;//判断是否关注
 
+	public Topic() {
+	}
+	
 	public String getImagUrl() {
 		return imagUrl;
 	}
@@ -36,10 +40,15 @@ public class Topic implements Serializable {
 		this.imagUrl = imagUrl;
 	}
 
-
-	public Topic() {
+	public String getStatus() {
+		return status;
 	}
-	
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 
 	public Integer getFlag() {
 		return flag;
@@ -213,15 +222,16 @@ public class Topic implements Serializable {
 		this.imgs = imgs;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Topic [id=" + id + ", content=" + content + ", customerId=" + customerId + ", hasVideo=" + hasVideo
 				+ ", publishTime=" + publishTime + ", title=" + title + ", imagUrl=" + imagUrl + ", videoUrl="
-				+ videoUrl + ", totalShare=" + totalShare + ", favorites=" + favorites + ", customer=" + customer
-				+ ", topicType=" + topicType + ", topicComents=" + topicComents + ", imgs=" + imgs + ", totalThumbsup="
-				+ totalThumbsup + ", totalComment=" + totalComment + ", flag=" + flag + "]";
+				+ videoUrl + ", totalShare=" + totalShare + ", status=" + status + ", favorites=" + favorites
+				+ ", customer=" + customer + ", topicType=" + topicType + ", topicComents=" + topicComents + ", imgs="
+				+ imgs + ", totalThumbsup=" + totalThumbsup + ", totalComment=" + totalComment + ", flag=" + flag + "]";
 	}
+	
+	
 
 	
 }

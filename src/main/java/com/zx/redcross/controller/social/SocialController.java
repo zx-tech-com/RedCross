@@ -41,7 +41,7 @@ public class SocialController {
 		 * 查询所有帖子(分页的处理)
 		 * 判断帖子的关注情况
 		 */	
-		List<Topic> topics=socialService.findAllTopic(page,customerId,topicTypeId);
+		List<Map<String, Object>> topics=socialService.findAllTopic(page,customerId,topicTypeId);
 		map.put(Constant.DATA,topics);
 		map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
 		map.put(Constant.PAGE_SIZE, page.getPageSize());
@@ -54,8 +54,8 @@ public class SocialController {
 	public	Map<String,Object>	updateConcerns(Concern concert,Integer topicId,Integer customerId){
 		    Map<String,Object> map = MapUtils.getHashMapInstance();
 			//通过帖子id，查找发帖人id
-			Topic topic=socialService.findToicById(topicId,customerId);
-			Integer pCustomerId=topic.getCustomer().getId();
+			Map<String, Object> topic=socialService.findToicById(topicId,customerId);
+			Integer pCustomerId=((Topic) topic).getCustomer().getId();
 			Integer aCustomerId=concert.getaCustomer().getId();
 			//通过用户id和获取的发帖人id查询其关系
 			Integer count=socialService.findConcert(aCustomerId,pCustomerId);
@@ -74,17 +74,28 @@ public class SocialController {
 	 * 点击帖子,获取发布帖子的详情
 	 */
 	@RequestMapping("/findTopic")
-	public Map<String,Object> findTopic(Page page,Integer topicId,Integer customerId){
+	public Map<String,Object> findTopic(Integer topicId,Integer customerId){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		Map<String,Object> submap = MapUtils.getHashMapInstance();
 		//根据一条帖子ID查询帖子信息
-		Topic topic=socialService.findToicById(topicId,customerId);
-		submap.put("topic", topic);
+		Map<String,Object> topic= socialService.findToicById(topicId,customerId);
+		map.put(Constant.DATA, topic);
+		return map;
+	}
+	/**
+	 * 获取帖子第一层评论信息
+	 * @param page（用于分页）
+	 * @param topicId（帖子ID）
+	 * @param customerId（登录用户信息，判断是点赞）
+	 * @return
+	 */
+	@RequestMapping("/findOnceTopicComent")
+	public Map<String,Object> findOnceTopic(Page page,Integer topicId,Integer customerId){
+		Map<String,Object> map = MapUtils.getHashMapInstance();
 		//通过帖子id获取评论信息（包含分页）(第一层评论)
-		List<TopicComent> topicComent= socialService.findTopicComent(topicId,page,customerId);		
-		submap.put("topicComent", topicComent);
-		map.put(Constant.DATA, submap);
+		List<Map<String, Object>> topicComents= socialService.findTopicComent(topicId,page,customerId);		
+		map.put(Constant.DATA, topicComents);
 		map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
+		map.put(Constant.PAGE_SIZE, page.getPageSize());
 		return map;
 	}
 
@@ -100,10 +111,11 @@ public class SocialController {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS,Constant.STATUS_FAILURE);
 		List<Map<String,Object>> comentList = socialService.findLowerComent(topicComentId, page, customerId);
-		if(comentList != null);{
+		if(comentList != null){
 			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
 			map.put(Constant.DATA, comentList);
 		}
+		map.put(Constant.PAGE_SIZE, page.getPageSize());
 		return map;
 	}
 	
@@ -115,8 +127,9 @@ public class SocialController {
 	@RequestMapping("/share")
 	public Map<String,Object> topicShare(@RequestParam(required = true) Integer topicId){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		if(topicId == null)
+		if(topicId == null) {
 			BusinessExceptionUtils.throwNewBusinessException("id为必须字段");
+		}
 		map.put(Constant.STATUS,socialService.updateTopicSetShareAdd1(topicId)?
 				Constant.STATUS_SUCCESS:Constant.STATUS_FAILURE);
 		return map;
@@ -152,6 +165,7 @@ public class SocialController {
 		map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
 		return map;
 	}
+	
 	/**
 	 * 帖子点赞点击点赞再点击
 	 */
@@ -188,11 +202,9 @@ public class SocialController {
 	@RequestMapping("/pushTopic")
 	public Map<String,Object> pushTopic(MultipartFile[] images,MultipartFile video,
 			Topic topic,@RequestParam(required=true) Integer topicTypeId){
-		
 		TopicType type = new TopicType();
 		type.setId(topicTypeId);
-		topic.setTopicType(type);
-		
+		topic.setTopicType(type);		
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, socialService.saveTopic(images,video,topic)?Constant.STATUS_SUCCESS:Constant.STATUS_FAILURE);
 		return map;	
@@ -204,8 +216,9 @@ public class SocialController {
 	@RequestMapping("/adminDeleteTopic")
 	public Map<String,Object> adminDeleteTopic(Integer topicId){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		socialService.adminDeleteTopic(topicId);
-		return map;	
+		Boolean flag=socialService.adminDeleteTopic(topicId);
+		map.put(Constant.STATUS, flag?Constant.STATUS_SUCCESS:Constant.STATUS_FAILURE);
+		return map;
 	}
 	/**
 	 * 后台接口（管理员删除评论）
@@ -213,7 +226,8 @@ public class SocialController {
 	@RequestMapping("/adminDeleteTopicComent")
 	public Map<String,Object> adminDeleteTopicComent(Integer topicComentId){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		socialService.adminDeleteTopicComent(topicComentId);
+		Boolean flag=socialService.adminDeleteTopicComent(topicComentId);
+		map.put(Constant.STATUS, flag?Constant.STATUS_SUCCESS:Constant.STATUS_FAILURE);
 		return map;	
 	}
 		

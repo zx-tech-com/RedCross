@@ -14,7 +14,7 @@ public class TopicComent implements Serializable {
 	private String comentTime;
 	private Integer topicId;
 	private Integer customerId;
-	private String content;
+	private String  content;
 	private Boolean isTopcoment;
 	private Integer comentId;
 	private Integer topcomentId;

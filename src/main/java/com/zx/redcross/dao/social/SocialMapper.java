@@ -18,9 +18,9 @@ public interface SocialMapper {
 	//查询所有的帖子类型
 	public List<TopicType> findAllTopicType();
 	//分页查询帖子
-	public List<Topic> findAllTopic(@Param("page")Page page, @Param("customerId")Integer customerId, @Param("topicTypeId")Integer topicTypeId);
+	public List<Map<String, Object>> findAllTopic(@Param("page")Page page, @Param("customerId")Integer customerId, @Param("topicTypeId")Integer topicTypeId);
 
-	public Topic findTopicById(@Param("topicId")Integer topicId,@Param("customerId") Integer customerId);
+	public Map<String, Object> findTopicById(@Param("topicId")Integer topicId,@Param("customerId") Integer customerId);
 
 	public Integer findConcert(@Param("aCustomerId")Integer aCustomerId,@Param("pCustomerId") Integer pCustomerId);
 
@@ -30,14 +30,14 @@ public interface SocialMapper {
 	//查询会员全部信息
 	public Customer findCustomer(@Param("customerId")Integer customerId);
 	//通过帖子id获取一级评论全部信息及完成分页
-	public List<TopicComent> findTopicComent(@Param("topicId")Integer topicId,@Param("page") Page page,@Param("customerId") Integer customerId);
+	public List<Map<String, Object>> findTopicComent(@Param("topicId")Integer topicId,@Param("page") Page page,@Param("customerId") Integer customerId);
 	
 	//获取非顶层评论
 	public List<Map<String, Object>> findLowerComent(@Param("topicComentId")Integer topicComentId, 
 			@Param("page")Page page, @Param("customerId")Integer customerId);
 	
-	//插入一级评论
-	public void saveTopicComent(TopicComent topicComent);
+	//插入评论
+	public Boolean saveTopicComent(TopicComent topicComent);
 	//查询用户是否点过赞评论
 	public Integer findThunsup(@Param("coustomerId")Integer coustomerId,@Param("topicComentId") Integer topicComentId);
 	//加入点赞评论
@@ -56,9 +56,9 @@ public interface SocialMapper {
 	
 	//===============================后台管理需要用到的接口===================================
 	//删除帖子
-	public void adminDeleteTopic(@Param("topicId")Integer topicId);
+	public Boolean adminDeleteTopic(@Param("topicId")Integer topicId);
 	//删除评论
-	public void adminDeleteTopicComent(@Param("topicComentId")Integer topicComentId);
+	public Boolean adminDeleteTopicComent(@Param("topicComentId")Integer topicComentId);
 
 	public Boolean updateTopicSetShareAdd1(@Param("topicId")Integer topicId);
 

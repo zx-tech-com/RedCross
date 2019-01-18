@@ -36,13 +36,13 @@ public class SocialServiceImpl implements SocialService{
 	}
 
 	@Override
-	public List<Topic> findAllTopic(Page page, Integer customerId, Integer topicTypeId) {
+	public List<Map<String, Object>> findAllTopic(Page page, Integer customerId, Integer topicTypeId) {
 		return socialMapper.findAllTopic(page, customerId, topicTypeId);
 	}
 
 
 	@Override
-	public Topic findToicById(Integer topicId,Integer customerId) {
+	public Map<String, Object> findToicById(Integer topicId,Integer customerId) {
 		return socialMapper.findTopicById(topicId,customerId);
 	}
 
@@ -67,7 +67,7 @@ public class SocialServiceImpl implements SocialService{
 	}
 
 	@Override
-	public List<TopicComent> findTopicComent(Integer topicId, Page page, Integer customerId) {
+	public List<Map<String, Object>> findTopicComent(Integer topicId, Page page, Integer customerId) {
 		return socialMapper.findTopicComent(topicId, page,customerId);
 	}
 
@@ -119,11 +119,17 @@ public class SocialServiceImpl implements SocialService{
 	public Boolean saveTopic(MultipartFile[] images, MultipartFile video, Topic topic) {
 		String imgAbsoluteBasePath = Constant.IMG_ABSOLUTE_BASE_PATH + Constant.TOPIC;
 		String videoAbsoluteBasePath = Constant.VIDEO_ABSOLUTE_BASE_PATH + Constant.TOPIC;
-		
+		topic.setHasVideo(false);
 		//存储视频
 		if(video != null) {
+			topic.setStatus(Constant.POPIC_STATUS3);
 			topic.setHasVideo(true);
 			topic.setVideoUrl(FileUtils.saveFile(videoAbsoluteBasePath, video));
+		}
+		if(images.length == 1) {
+			topic.setStatus(Constant.POPIC_STATUS1);
+		}else {
+			topic.setStatus(Constant.POPIC_STATUS2);
 		}
 		
 		//插入topic
@@ -158,14 +164,30 @@ public class SocialServiceImpl implements SocialService{
 	
 	//===============================后台管理需要用到的接口===================================
 	@Override
-	public void adminDeleteTopic(Integer topicId) {
-		socialMapper.adminDeleteTopic(topicId);
+	public Boolean adminDeleteTopic(Integer topicId) {
+		Integer customerId=null;
+		Map<String,Object> topic=socialMapper.findTopicById(topicId,customerId);
+		if(!socialMapper.adminDeleteTopic(topicId)) {
+			return false;
+		}
+		if((boolean) topic.get("status")) {
+			FileUtils.removeFile((String)topic.get("videoUrl"));
+		}else {
+/* 
+			if(((List<Img>) topic.get("imgs")).size()>0) {
+				for(int i=0;i<imgs.size();i++) {}
+				FileUtils.removeFile(img.get(i).);
+			}
+			*/
+		}
+		return true;
 	}
 
 	@Override
-	public void adminDeleteTopicComent(Integer topicComentId) {
-		socialMapper.adminDeleteTopicComent(topicComentId);
+	public Boolean adminDeleteTopicComent(Integer topicComentId) {
+		return socialMapper.adminDeleteTopicComent(topicComentId);
 	}
+	
 
 
 }

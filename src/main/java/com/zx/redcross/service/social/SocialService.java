@@ -16,9 +16,9 @@ public interface SocialService {
 	//查询帖子所有条数
 	public Integer findAllCountTopic();
 	
-	public List<Topic> findAllTopic(Page page, Integer customerId, Integer topicTypeId);
+	public List<Map<String, Object>> findAllTopic(Page page, Integer customerId, Integer topicTypeId);
 	//通过帖子id查找帖子全部信息
-	public Topic findToicById(Integer topicId, Integer coustomerId);
+	public Map<String, Object> findToicById(Integer topicId, Integer coustomerId);
 	//通过用户id和被关注者id查询数据库是否关注
 	public Integer findConcert(Integer aCustomerId, Integer pCustomerId);
 	//添加关注
@@ -26,7 +26,7 @@ public interface SocialService {
 	//取消关注
 	public void deleteConcert(Integer aCustomerId, Integer pCustomerId);
 	//通过帖子id获取一级评论的全面信息
-	public List<TopicComent> findTopicComent(Integer topicId, Page page, Integer customerId);
+	public List<Map<String, Object>> findTopicComent(Integer topicId, Page page, Integer customerId);
 	
 	//通过帖子id获取二级评论的全面信息
 	public List<Map<String,Object>> findLowerComent(Integer topicComentId, Page page, Integer customerId);
@@ -62,8 +62,8 @@ public interface SocialService {
 	
 	//===============================后台管理需要用到的接口===================================
 	//管理员删除帖子
-	public void adminDeleteTopic(Integer topicId);
+	public Boolean adminDeleteTopic(Integer topicId);
 	//管理员删除评论
-	public void adminDeleteTopicComent(Integer topicComentId);
+	public Boolean adminDeleteTopicComent(Integer topicComentId);
 
 }
