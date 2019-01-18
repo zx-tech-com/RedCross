@@ -23,6 +23,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(tel) from customer where tel=#{tel}
 	</select>
 	
+	<select id="findCustomerById" resultType="Customer">
+		SELECT 
+			*
+		FROM 
+			customer
+		WHERE id = #{id}
+	</select>
+	
+	
 	<!-- 删除自己的发帖 -->
 	<delete id="deleteMyTopic" >
 	DELETE FROM topic WHERE customer_id=#{customerId} AND id=#{topicId}
@@ -42,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE 
 			customer 
 		SET
-		<if test="customer.osDistrict != null AND customer.osDistrict.id != null">
+		<if test="customer.osDistrict != null and customer.osDistrict.id != null">
 			district_id =  #{customer.osDistrict.id},
 		</if>
 		<if test="customer.nickname != null">

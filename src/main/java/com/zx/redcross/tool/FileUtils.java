@@ -65,6 +65,8 @@ public class FileUtils {
 	 * @return
 	 */
 	public static boolean removeFile(String path) {
+		if(path == null || path.length() == 0)//不理会，认为删除成功
+			return true;
 		path = path.replace(Constant.ACCESS_BASE_PATH, Constant.ABSOLUTE_BASE_PATH);
 		File file = new File(path);
 		if(file.exists() && !file.isDirectory())

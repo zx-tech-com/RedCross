@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="listFavoriteByCustomerId" resultType="Favorite">
 		SELECT 
 			customer.id AS customer_id,
-			customer.avatarUrl,
+			customer.avatar_url,
 			customer.nickname,
 			
 			topic.id,
@@ -19,9 +19,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id = topic.id)AS totalComment,
 			
 			img.id AS img_id,
-			img.url AS imgUrl,
+			img.img_url AS imgUrl,
 			
-			favorite.id,
+			favorite.id AS favorite_id,
 			favorite.favorite_time			
 		FROM
 			(
@@ -37,16 +37,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
-	<resultMap type="Favorite" id="favorite" autoMapping="true">
-		<id column="id" property="id"/>
-		<association property="topic" javaType="Topic" autoMapping="true">
-			<id column="topic_id" property="id"/>
-			<association property="customer" javaType="Customer" autoMapping="true">
-				<id column="customer_id" property="id"/>
-			</association>
-			<collection property="imgs" ofType="Img" autoMapping="true">
-				<id column="img_id" property="id"/>
-			</collection>
+	<resultMap type="HashMap" id="favorite">
+		<result column="customer_id" property="customer_id"/>
+		<result column="avatar_url" property="avatarUrl"/>
+		<result column="nickname" property="nickname"/>
+		
+		<result column="id" property="id"/>
+		<result column="content" property="content"/>
+		<result column="title" property="title"/>
+		<result column="total_share" property="totalShare"/>
+		<result column="totalThumbsup" property="totalThumbsup"/>
+		<result column="totalComment" property="totalComment"/>
+		<result column="favorite_id" property="favoriteId"/>
+		<result column="favorite_time" property="favoriteTime"/>
+		
+		<association property="imgs" javaType="HashMap">
+			<result column="img_id" property="imgId"/>
+			<result column="imgUrl" property="imgUrl"/>
 		</association>
 	</resultMap>
 </mapper>

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +16,7 @@ import com.zx.redcross.entity.Page;
 import com.zx.redcross.entity.Video;
 import com.zx.redcross.entity.VideoBuyRecord;
 import com.zx.redcross.service.index.IVideoServ;
+import com.zx.redcross.tool.BusinessExceptionUtils;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.MapUtils;
 
@@ -52,7 +54,9 @@ public class VideoCtrl {
 
 	@FrontEnd
 	@RequestMapping("/getVideo")
-	public Map<String, Object> getVideo(Integer customerId, Integer videoId) {
+	public Map<String, Object> getVideo(Integer customerId, @RequestParam Integer videoId) {
+		if(videoId == null)
+			BusinessExceptionUtils.throwNewBusinessException("videoId必填");
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		Map<String, Object> video = videoServImpl.getVideo(customerId, videoId);
 		if (null != video) {
@@ -70,9 +74,12 @@ public class VideoCtrl {
 		// 保存购买记录（实际保存的是正在购买状态为1）
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		Map<String, Object> dataMap = MapUtils.getHashMapInstance();
+		
+		map.put(Constant.STATUS,Constant.STATUS_FAILURE);
+		
 		Boolean flag = videoServImpl.saveVideoBuyRecord(videoBuyRecord);
 		if(flag) {
-			dataMap.put("id", videoBuyRecord.getId());
+			dataMap.put(Constant.ID, videoBuyRecord.getId());
 			map.put(Constant.DATA, dataMap);
 			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
 		}

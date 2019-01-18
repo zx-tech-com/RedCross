@@ -42,6 +42,7 @@ public class GloblalExceptionHandler {
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
 		map.put(Constant.ERROR_MESSAGE, Constant.ERROR_MISSIN_GPARAMETER);
 		map.put(Constant.TIPS, e.getMessage());
+		e.printStackTrace();
 		return map;
 	}
 	

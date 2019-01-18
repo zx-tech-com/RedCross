@@ -15,6 +15,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="certificate_url" property="certificateUrl"/>
 		<result column="period" property="period"/>
 	</resultMap>
+	
+	<!-- 添加当前用户是否购买状态信息 -->
+	<resultMap type="HashMap" id="courseSubject2" extends="courseSubject">
+		<result column="status" property="status"/>
+	</resultMap>
+	
 
 	<select id="listCourseSubject" resultMap="courseSubject">
 		SELECT 
@@ -22,6 +28,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM course_subject
 	</select>
 	
+	
+	<select id="getCourseSubjectAndPayStatus" resultMap="courseSubject2">
+		SELECT
+			course_subject.id,
+			sname,
+			description,
+			price,
+			thumbnail_url,
+			period,
+			certificate_url,
+			( 
+				SELECT 
+					`status` 
+				FROM 
+					exam_order 
+				WHERE 
+					exam_order.customer_id = #{customerId} 
+					AND exam_order.course_subject_id = course_subject.id 
+			) AS `status` 
+		FROM
+			course_subject 
+		WHERE
+			id = #{subjectId}
+	</select>
 	
 	
 	<select id="findCourseSubject" parameterType="int" resultMap="courseSubject">

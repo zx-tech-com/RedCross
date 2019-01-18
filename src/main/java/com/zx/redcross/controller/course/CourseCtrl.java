@@ -17,6 +17,7 @@ import com.zx.redcross.entity.CourseSubject;
 import com.zx.redcross.entity.ExamOrder;
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.service.course.ICourseServ;
+import com.zx.redcross.tool.BusinessExceptionUtils;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.MapUtils;
 
@@ -44,6 +45,19 @@ public class CourseCtrl {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
 		Map<String, Object> coSubject = courseServImpl.findCourseSubject(subjectId);
+		if(null != coSubject) {
+			map.put(Constant.DATA, coSubject);
+			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		}
+		return map;
+	}
+	
+	@RequestMapping("/getCourseSubject")
+	public Map<String,Object> getdCourseSubject(
+			@RequestParam(required=true) Integer subjectId,Integer customerId) {
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
+		Map<String, Object> coSubject = courseServImpl.getCourseSubjectAndPayStatus(subjectId, customerId);
 		if(null != coSubject) {
 			map.put(Constant.DATA, coSubject);
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
@@ -87,14 +101,27 @@ public class CourseCtrl {
 	 * @return
 	 */
 	@RequestMapping("/getCourseRecord")
-	public Map<String,Object> getCourseRecord(Integer customerId,Integer courseSubjectId) {
+	public Map<String,Object> getCourseRecord(
+			@RequestParam Integer customerId,@RequestParam Integer courseSubjectId) {
+		if(customerId == null || courseSubjectId == null)
+			BusinessExceptionUtils.throwNewBusinessException(Constant.ERROR_MISSIN_GPARAMETER);
 		Map<String,Object> map = MapUtils.getHashMapInstance();
+		Map<String,Object> data = MapUtils.getHashMapInstance();
 		//统计完成了多少课时
 		Integer count=courseServImpl.getCountRecord(customerId,courseSubjectId);
-		map.put(Constant.DATA, count);
+		
+		//统计总共有多少课时
+		Page page = new Page();
+		page.setPageNo(1);
+		page.setPageSize(Integer.MAX_VALUE);
+		int toalCount = courseServImpl.listCourseBySubject(courseSubjectId, page).size();
+		
+		data.put(Constant.TOTAL_COUNT, toalCount);
+		data.put("watch", count);
+		
+		map.put(Constant.DATA, data);
 		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
-//		//查询课程那一集是否观看了
-//		List<CourseRecord> courseRecords=courseServImpl.findAllRecord(customerId,course);
+
 		return map;
 	}
 	/**

@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.zx.redcross.dao.index.IVideoMapper;
+import com.zx.redcross.dao.my.CustomerMapper;
+import com.zx.redcross.entity.Customer;
+import com.zx.redcross.entity.OrderNumber;
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.entity.Video;
 import com.zx.redcross.entity.VideoBuyRecord;
@@ -15,32 +18,49 @@ import com.zx.redcross.service.index.IVideoServ;
 import com.zx.redcross.tool.BusinessExceptionUtils;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.FileUtils;
+import com.zx.redcross.tool.Utils;
 
 @Service
 public class VideoServImpl implements IVideoServ {
 
 	
 	@Autowired
-	private IVideoMapper mapper;
+	private IVideoMapper videoMapper;
+	@Autowired
+	private CustomerMapper customerMapper;
 	
 	@Override
 	public List<Map<String,Object>> listVideo(Integer customerId,Page page) {
-		return mapper.listVideo(customerId,page);
+		return videoMapper.listVideo(customerId,page);
 	}
 
 	@Override
 	public Map<String,Object> getVideo(Integer customerId, Integer videoId) {
-		return mapper.getVideo(customerId, videoId);
+		return videoMapper.getVideo(customerId, videoId);
 	}
 
 	@Override
 	public Boolean saveVideoBuyRecord(VideoBuyRecord videoBuyRecord) {
 		
+		if(null == videoMapper.getVideo(videoBuyRecord.getCustomer().getId(), videoBuyRecord.getVideo().getId()))
+			BusinessExceptionUtils.throwNewBusinessException("所购买的视频不存在");
 		videoBuyRecord.setStatus(Constant.WAIT_TO_PAY);
-		if(mapper.getVideo(videoBuyRecord.getCustomer().getId(), videoBuyRecord.getVideo().getId()) != null)
-			return mapper.updateVideoBuyRecord(videoBuyRecord);
-		else 
-			return mapper.saveVideoBuyRecord(videoBuyRecord);
+		VideoBuyRecord oldRecord = videoMapper.getVideoBuyRecordByCustomerAndVideoId(videoBuyRecord.getCustomer().getId(), videoBuyRecord.getVideo().getId());
+		if(oldRecord != null ) {//已完成订单
+			if(oldRecord.getStatus() == Constant.PAY_COMPLETE) {
+				BusinessExceptionUtils.throwNewBusinessException("已购买此视频，不可重复购买");
+				return true;
+			}
+			else {
+				videoBuyRecord.setId(oldRecord.getId());
+				return updateVideoBuyRecord(videoBuyRecord);
+			}
+		}else {
+			videoBuyRecord.setOrderNumber(
+					getVideoOrderNumber(videoBuyRecord.getCustomer().getId())
+					);
+			return videoMapper.saveVideoBuyRecord(videoBuyRecord);
+		}
 	}
 
 	@Override
@@ -50,7 +70,20 @@ public class VideoServImpl implements IVideoServ {
 				&& videoBuyRecord.getStatus() != Constant.WAIT_TO_PAY
 				)
 			BusinessExceptionUtils.throwNewBusinessException("状态不合法");
-		return mapper.updateVideoBuyRecord(videoBuyRecord);
+		return videoMapper.updateVideoBuyRecord(videoBuyRecord);
+	}
+	
+	
+	private String getVideoOrderNumber(Integer customerId) {
+		Customer customer = null;
+		if(customerId == null || (customer = customerMapper.findCustomerById(customerId)) == null)
+			BusinessExceptionUtils.throwNewBusinessException("下单失败，用户id不合法");
+		OrderNumber orderNumber = new OrderNumber();
+		orderNumber.setBusinessType(Constant.BUSINESS_TYPE_VIDEO_ORDER);
+		String tel = customer.getTel();
+		orderNumber.setTel(tel.substring(tel.length() - Constant.TEL_LENGTH, tel.length()));
+		orderNumber.setTimeStamp(Utils.newTimeStamp());
+		return orderNumber.getOrderNumber();
 	}
 	
 	
@@ -59,7 +92,7 @@ public class VideoServImpl implements IVideoServ {
 
 	@Override
 	public List<Video> adminListVideo() {
-		return mapper.adminListVideo();
+		return videoMapper.adminListVideo();
 	}
 
 	@Override
@@ -70,7 +103,7 @@ public class VideoServImpl implements IVideoServ {
 			video.setVideoUrl(FileUtils.saveFile(videoAbsoluteBasePath, file));
 		}
 		//插入video
-		if(!mapper.adminSaveVideo(video)) {
+		if(!videoMapper.adminSaveVideo(video)) {
 			FileUtils.removeFile(video.getVideoUrl());
 			return false;
 		}
@@ -79,8 +112,8 @@ public class VideoServImpl implements IVideoServ {
 
 	@Override
 	public Boolean adminDeleteVideo(Integer videoId) {
-		Video video=mapper.getVideoById(videoId);
-		if(!mapper.adminDeleteVideo(videoId)) {
+		Video video=videoMapper.getVideoById(videoId);
+		if(!videoMapper.adminDeleteVideo(videoId)) {
 			return false;
 		}
 		String videoUrl =video.getVideoUrl();
@@ -92,12 +125,12 @@ public class VideoServImpl implements IVideoServ {
 
 	@Override
 	public Boolean adminUpdateVideo(Video video) {
-		return mapper.adminUpdateVideo(video);
+		return videoMapper.adminUpdateVideo(video);
 	}
 
 	@Override
 	public List<VideoBuyRecord> adminListVideoBuyRecord() {
-		return mapper.adminListVideoBuyRecord();
+		return videoMapper.adminListVideoBuyRecord();
 	}
 	
 	

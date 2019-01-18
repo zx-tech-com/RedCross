@@ -9,7 +9,7 @@ import com.zx.redcross.entity.Page;
 
 public interface IOrderMapper {
 	
-	List<Map<String,Object>> ListOrderByCustomerId(
+	List<Map<String,Object>> ListOrderByCustomerId(@Param("status") String status,
 			@Param("customerId") Integer customerId,@Param("page") Page page);
 	
 	

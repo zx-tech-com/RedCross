@@ -66,14 +66,13 @@ public class CourseServImpl implements ICourseServ{
 
 	@Override
 	public Map<String, Object> findCourseSubject(Integer subjectId) {
-
 		return courseMapper.findCourseSubject(subjectId);
 	}
 
 	@Override
-	public Integer getCountRecord(Integer customerId, Integer courseId) {
+	public Integer getCountRecord(Integer customerId, Integer courseSubjectId) {
 
-		return courseMapper.getCountRecord(customerId,courseId);
+		return courseMapper.getCountRecord(customerId,courseSubjectId);
 	}
 
 	@Override
@@ -159,5 +158,10 @@ public class CourseServImpl implements ICourseServ{
 	@Override
 	public Boolean adminUpdateCourse(Course course) {
 		return courseMapper.adminUpdateCourse(course);
+	}
+
+	@Override
+	public Map<String, Object> getCourseSubjectAndPayStatus(Integer subjectId, Integer customerId) {
+		return courseMapper.getCourseSubjectAndPayStatus(subjectId, customerId);
 	}
 }
