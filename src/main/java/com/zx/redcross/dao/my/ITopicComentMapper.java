@@ -1,15 +1,15 @@
 package com.zx.redcross.dao.my;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.zx.redcross.entity.Page;
-import com.zx.redcross.entity.TopicComent;
 
 public interface ITopicComentMapper{
 	
-	List<TopicComent> listTopicComentByCustomerId(
+	List<Map<String,Object>> listTopicComentByCustomerId(
 			@Param("customerId")Integer customerId,@Param("page") Page page);
 	
 }

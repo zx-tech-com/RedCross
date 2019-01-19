@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.zx.redcross.dao.my.IFavoriteMapper">
 	
-	<select id="listFavoriteByCustomerId" resultType="Favorite">
+	<select id="listFavoriteByCustomerId" resultMap="favorite">
 		SELECT 
 			customer.id AS customer_id,
 			customer.avatar_url,
@@ -15,6 +15,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			topic.content,
 			topic.title,
 			topic.total_share,
+			topic.`status`,
+			topic.video_url,
 			(SELECT COUNT(id) FROM topic_thumbsup WHERE topic_thumbsup.topic_id = topic.id)AS totalThumbsup,
 			(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id = topic.id)AS totalComment,
 			
@@ -32,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			) favorite
 		LEFT JOIN topic ON topic_id = topic.id
 		LEFT JOIN customer ON topic.customer_id = customer.id
-		LEFT JOIN img ON img.img_type = 1 AND img.foreign_id = topic.id
+		LEFT JOIN img ON img.img_type = '${@com.zx.redcross.tool.Constant@IMG_TYPE_TOPIC}' AND img.foreign_id = topic.id
 		WHERE favorite.customer_id = #{customerId};
 	</select>
 	
@@ -45,15 +47,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="id" property="id"/>
 		<result column="content" property="content"/>
 		<result column="title" property="title"/>
+		<result column="status" property="status"/>
+		<result column="video_url" property="videoUrl"/>
 		<result column="total_share" property="totalShare"/>
 		<result column="totalThumbsup" property="totalThumbsup"/>
 		<result column="totalComment" property="totalComment"/>
 		<result column="favorite_id" property="favoriteId"/>
 		<result column="favorite_time" property="favoriteTime"/>
-		
-		<association property="imgs" javaType="HashMap">
+		<collection property="imgs" javaType="list" ofType="HashMap" >
 			<result column="img_id" property="imgId"/>
 			<result column="imgUrl" property="imgUrl"/>
-		</association>
+		</collection>
 	</resultMap>
 </mapper>

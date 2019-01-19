@@ -45,7 +45,7 @@ public class FavoriteCtrl {
 		return map;
 	}
 	
-	@RequestMapping(value = "/removeFavorite",method=RequestMethod.POST)
+	@RequestMapping(value = "/removeFavorite")
 	public Map<String,Object>  removeFavorite(@RequestBody Favorite favorite){
 		
 		Map<String,Object> map = MapUtils.getHashMapInstance();

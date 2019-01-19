@@ -1,9 +1,9 @@
 package com.zx.redcross.service.my;
 
 import java.util.List;
+import java.util.Map;
 
 import com.zx.redcross.entity.Page;
-import com.zx.redcross.entity.TopicComent;
 
 public interface ITopicComentServ {
 	
@@ -13,6 +13,6 @@ public interface ITopicComentServ {
 	 * @param page		分页信息
 	 * @return
 	 */
-	List<TopicComent> listTopicComentByCustomerId(Integer customerId,Page page);
+	List<Map<String, Object>> listTopicComentByCustomerId(Integer customerId,Page page);
 	
 }

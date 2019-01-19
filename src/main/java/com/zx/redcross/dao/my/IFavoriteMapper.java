@@ -15,7 +15,7 @@ public interface IFavoriteMapper {
 	
 	
 	@Insert("insert into favorite(customer_id,topic_id) "
-			+ "values(#{favorite.customer.id}),#{favorite.topic.id}")
+			+ "values(#{favorite.customer.id},#{favorite.topic.id})")
 	@Options(useGeneratedKeys=true,keyProperty="id")
 	Boolean saveFavorite(@Param("favorite") Favorite favorite);
 	
@@ -27,7 +27,7 @@ public interface IFavoriteMapper {
 	Boolean removeFavorite(@Param("favorite") Favorite favorite);
 	
 	@Select("select * FROM favorite where customer_id "
-			+ "= #{favorite.customer.id}) AND topic_id = #{favorite.topic.id}")
+			+ "= #{favorite.customer.id} AND topic_id = #{favorite.topic.id}")
 	Favorite getFavoriteByCustomerIdAndTopicId(@Param("favorite") Favorite favorite);
 	
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zx.redcross.dao.my.IFavoriteMapper;
+import com.zx.redcross.dao.social.SocialMapper;
 import com.zx.redcross.entity.Favorite;
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.service.my.IFavoriteService;
@@ -16,11 +17,15 @@ public class FavoriteServiceImpl implements IFavoriteService {
 
 	@Autowired
 	private IFavoriteMapper favoriteMapper;
+	@Autowired
+	private SocialMapper topicMapper;
 	
 	@Override
 	public Boolean saveFavorite(Favorite favorite) {
 		if(favoriteMapper.getFavoriteByCustomerIdAndTopicId(favorite) != null)
 			BusinessExceptionUtils.throwNewBusinessException("不可重复收藏");
+		if(topicMapper.findTopicById(favorite.getTopic().getId(), null) == null)
+			BusinessExceptionUtils.throwNewBusinessException("帖子不存在");
 		return favoriteMapper.saveFavorite(favorite);
 	}
 
@@ -33,6 +38,8 @@ public class FavoriteServiceImpl implements IFavoriteService {
 	public Boolean removeFavorite(Favorite favorite) {
 		if(favoriteMapper.getFavoriteByCustomerIdAndTopicId(favorite) == null)
 			BusinessExceptionUtils.throwNewBusinessException("尚未收藏该动态");
+		if(topicMapper.findTopicById(favorite.getTopic().getId(), null) == null)
+			BusinessExceptionUtils.throwNewBusinessException("帖子不存在");
 		return favoriteMapper.removeFavorite(favorite);
 	}
 
