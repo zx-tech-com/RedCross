@@ -42,8 +42,12 @@ public class SocialController {
 		 * 判断帖子的关注情况
 		 */	
 		List<Map<String, Object>> topics=socialService.findAllTopic(page,customerId,topicTypeId);
-		map.put(Constant.DATA,topics);
-		map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
+		if(topics!=null) {
+			map.put(Constant.DATA,topics);
+			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
+		}else {
+			map.put(Constant.STATUS, Constant.STATUS_FAILURE);
+		}
 		map.put(Constant.PAGE_SIZE, page.getPageSize());
 		return map;
 	}
@@ -78,7 +82,12 @@ public class SocialController {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		//根据一条帖子ID查询帖子信息
 		Map<String,Object> topic= socialService.findToicById(topicId,customerId);
-		map.put(Constant.DATA, topic);
+		if(topic!=null) {
+			map.put(Constant.DATA, topic);
+			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		}else {
+			map.put(Constant.STATUS, Constant.STATUS_FAILURE);
+		}
 		return map;
 	}
 	/**
@@ -93,8 +102,12 @@ public class SocialController {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		//通过帖子id获取评论信息（包含分页）(第一层评论)
 		List<Map<String, Object>> topicComents= socialService.findTopicComent(topicId,page,customerId);		
-		map.put(Constant.DATA, topicComents);
-		map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
+		if(topicComents!=null) {
+			map.put(Constant.DATA, topicComents);
+			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
+		}else {
+			map.put(Constant.STATUS, Constant.STATUS_FAILURE);
+		}
 		map.put(Constant.PAGE_SIZE, page.getPageSize());
 		return map;
 	}
@@ -114,6 +127,8 @@ public class SocialController {
 		if(comentList != null){
 			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
 			map.put(Constant.DATA, comentList);
+		}else {
+			map.put(Constant.STATUS, Constant.STATUS_FAILURE);
 		}
 		map.put(Constant.PAGE_SIZE, page.getPageSize());
 		return map;
@@ -141,8 +156,9 @@ public class SocialController {
 	@RequestMapping("/saveTopicComent")
 	public Map<String,Object> saveTopicComent(TopicComent topicComent){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		socialService.saveTopicComent(topicComent);
-		map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
+		Boolean flag=socialService.saveTopicComent(topicComent);
+		map.put(Constant.STATUS,flag?
+				Constant.STATUS_SUCCESS:Constant.STATUS_FAILURE);
 		return map;
 	}
 	
@@ -192,8 +208,13 @@ public class SocialController {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		//查询发布帖子的类别
 		List<TopicType> topictypes=socialService.findAllTopicType();
-		map.put(Constant.DATA,topictypes);
-		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		if(topictypes!=null) {
+			map.put(Constant.DATA,topictypes);
+			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		}else {
+			map.put(Constant.STATUS, Constant.STATUS_FAILURE);
+		}
+		
 		return map;	
 	}
 	/**

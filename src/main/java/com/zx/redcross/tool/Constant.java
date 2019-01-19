@@ -116,6 +116,7 @@ public class Constant {
 
 	/**
 	 * 发帖的视频或图片或多张图片状态
+	 * 0啥都没有，1一张图片，2多张图片，3视频
 	 */
 	public static final String POPIC_STATUS0 = "0";
 	public static final String POPIC_STATUS1 = "1";

@@ -22,7 +22,7 @@ public class ExamOrderCtrl {
 	@Autowired
 	private IExamOrderServ examOrderServImpl;
 	
-	@RequestMapping("getExamOrderById")
+	@RequestMapping("/getExamOrderById")
 	public Map<String,Object> getExamOrderById (Integer id) {
 		
 		Map<String,Object> map = MapUtils.getHashMapInstance();
@@ -35,7 +35,7 @@ public class ExamOrderCtrl {
 		return map;
 	}
 	
-	@RequestMapping("listExamOrderByCustomerId")
+	@RequestMapping("/listExamOrderByCustomerId")
 	public Map<String,Object> listExamOrderByCustomerId (Integer customerId){
 		
 		Map<String,Object> map = MapUtils.getHashMapInstance();
@@ -49,7 +49,7 @@ public class ExamOrderCtrl {
 		
 	}
 	
-	@RequestMapping("listExamOrderByOsDistrictId")
+	@RequestMapping("/listExamOrderByOsDistrictId")
 	public Map<String,Object> listExamOrderByOsDistrictId (Integer districtId,Page page){
 		
 		Map<String,Object> map = MapUtils.getHashMapInstance();
@@ -63,7 +63,7 @@ public class ExamOrderCtrl {
 		
 	}
 	
-	@RequestMapping("listExamOrder")
+	@RequestMapping("/listExamOrder")
 	public Map<String,Object> listExamOrder (Page page){
 		
 		Map<String,Object> map = MapUtils.getHashMapInstance();
@@ -77,7 +77,7 @@ public class ExamOrderCtrl {
 	}
 	
 	@FrontEnd
-	@RequestMapping("addExamOrder")
+	@RequestMapping("/addExamOrder")
 	public Map<String,Object> addExamOrder(@RequestBody ExamOrder examOrder){
 		
 		Map<String, Object> map = MapUtils.getHashMapInstance();
@@ -96,7 +96,7 @@ public class ExamOrderCtrl {
 	
 	
 	@FrontEnd
-	@RequestMapping("updateExamOrder")
+	@RequestMapping("/updateExamOrder")
 	public Map<String,Object> updateExamOrderStatus(@RequestBody ExamOrder examOrder){
 		
 		Map<String,Object> map = MapUtils.getHashMapInstance();
