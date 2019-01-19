@@ -6,13 +6,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- namespace指向mapper接口 -->
 <mapper namespace="com.zx.redcross.dao.my.ITopicMapper">
 	
-	<resultMap type="Topic" id="topic" autoMapping="true">
-		<id column="id" property="id"/>
-		<association property="customer" javaType="Customer" autoMapping="true">
-			<id column="customer_id" property="id"/>
-		</association>
-		<collection property="imgs" ofType="Img" autoMapping="true">
-			<id column="img_id" property="id"/>
+	<resultMap type="HashMap" id="topic">
+		<result column="customer_id" property="customer_id"/>
+		<result column="avatar_url" property="avatarUrl"/>
+		<result column="nickname" property="nickname"/>
+		
+		<result column="id" property="id"/>
+		<result column="content" property="content"/>
+		<result column="title" property="title"/>
+		<result column="total_share" property="totalShare"/>
+		<result column="totalThumbsup" property="totalThumbsup"/>
+		<result column="totalComment" property="totalComment"/>
+		<result column="pulish_time" property="pulishTime"/>
+		
+		<collection property="imgs" javaType="list" ofType="HashMap" >
+			<result column="img_id" property="imgId"/>
+			<result column="img_url" property="imgUrl"/>
+			<result column="iindex" property="iindex"/>
 		</collection>
 	</resultMap>
 	
@@ -39,7 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			)
 			topic 
 		LEFT JOIN customer ON topic.customer_id = customer.id
-		LEFT JOIN img ON img.img_type = '1' AND img.foreign_id = topic.id
+		LEFT JOIN img ON img.img_type = '${@com.zx.redcross.tool.Constant@IMG_TYPE_TOPIC}' AND img.foreign_id = topic.id
 		ORDER BY topic.publish_time DESC;
 	</select>
 	

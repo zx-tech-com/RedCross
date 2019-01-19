@@ -1,10 +1,10 @@
 package com.zx.redcross.service.my;
 
 import java.util.List;
+import java.util.Map;
 
 import com.zx.redcross.entity.Page;
-import com.zx.redcross.entity.Topic;
 
 public interface ITopicServ {
-	List<Topic> listTopicByCustomerId(Integer customerId,Page page);
+	List<Map<String, Object>> listTopicByCustomerId(Integer customerId,Page page);
 }

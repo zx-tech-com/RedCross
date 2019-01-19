@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zx.redcross.entity.Page;
-import com.zx.redcross.entity.TopicComent;
 import com.zx.redcross.service.my.ITopicComentServ;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.MapUtils;
@@ -25,7 +24,7 @@ public class TopicComentCtrl {
 	public Map<String,Object> listComentByCustomerId(@RequestParam(required=true)Integer customerId, Page page) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
-		List<TopicComent> comentList = topicComentServImpl.listTopicComentByCustomerId(customerId, page);
+		List<Map<String, Object>> comentList = topicComentServImpl.listTopicComentByCustomerId(customerId, page);
 		if(null != comentList) {
 			map.put(Constant.DATA, comentList);
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
