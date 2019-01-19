@@ -62,8 +62,8 @@ public class SocialServiceImpl implements SocialService{
 	}
 	
 	@Override
-	public void saveTopicComent(TopicComent topicComent) {
-		socialMapper.saveTopicComent(topicComent);
+	public Boolean saveTopicComent(TopicComent topicComent) {
+		return socialMapper.saveTopicComent(topicComent);
 	}
 
 	@Override
@@ -170,15 +170,13 @@ public class SocialServiceImpl implements SocialService{
 		if(!socialMapper.adminDeleteTopic(topicId)) {
 			return false;
 		}
-		if((boolean) topic.get("status")) {
+		if((boolean) topic.get("hasVideo")) {
 			FileUtils.removeFile((String)topic.get("videoUrl"));
 		}else {
-/* 
 			if(((List<Img>) topic.get("imgs")).size()>0) {
-				for(int i=0;i<imgs.size();i++) {}
-				FileUtils.removeFile(img.get(i).);
+				
+				
 			}
-			*/
 		}
 		return true;
 	}

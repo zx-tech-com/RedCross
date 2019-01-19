@@ -150,6 +150,10 @@ public class VideoCtrl {
 		return map;
 	}
 	
+	/**
+	 * 付费视频订单列表
+	 * @return
+	 */
 	@BackEnd
 	@RequestMapping("/adminListVideoBuyRecord")
 	 public Map<String, Object> adminListVideoBuyRecord(){

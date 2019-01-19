@@ -35,7 +35,7 @@ public interface SocialService {
 	//public List<TopicComent> findTopicComent3(Integer topicComentId, Page page, Integer customerId);
 	
 	//插入一级评论
-	public void saveTopicComent(TopicComent topicComent);
+	public Boolean saveTopicComent(TopicComent topicComent);
 	//查询用户在评论上是否点赞了
 	public Integer findThunsup(Integer coustomerId, Integer topicComentId);
 	//添加评论点赞
