@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zx.redcross.annotation.FrontEnd;
+import com.zx.redcross.annotation.Open;
 import com.zx.redcross.entity.Knowledge;
 import com.zx.redcross.entity.KnowledgeType;
 import com.zx.redcross.entity.Page;
@@ -27,6 +28,7 @@ public class KnowledgeCtrl {
 	
 	@FrontEnd
 	@RequestMapping("/getKnowledge")
+	@Open
 	public Map<String,Object> getKnowledgeById(@RequestParam(required=true)Integer id) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Map<String, Object> knowledge = knowledgeServImpl.getKnowledgeById(id);
@@ -40,6 +42,7 @@ public class KnowledgeCtrl {
 
 	@FrontEnd
 	@RequestMapping("/listKnowledge")
+	@Open
 	public Map<String,Object> listKnowledgeByType(@RequestParam(required=false) Integer typeId,Page page) {
 		
 		Map<String,Object> map = MapUtils.getHashMapInstance();
@@ -56,6 +59,7 @@ public class KnowledgeCtrl {
 	
 	@FrontEnd
 	@RequestMapping("/listKnowledgeType")
+	@Open
 	public Map<String,Object> listKnowledgeType() {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		List<Map<String, Object>> knowledgeTypeList = knowledgeServImpl.listKnowledgeType();

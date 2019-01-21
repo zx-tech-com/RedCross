@@ -12,10 +12,13 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.alibaba.fastjson.JSON;
+import com.nimbusds.jose.JOSEException;
 import com.zx.redcross.annotation.Open;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.JWTUtils;
 import com.zx.redcross.tool.MapUtils;
+
+import net.minidev.json.parser.ParseException;
 
 /**
  * 检测是否需要登录才可访问该接口
@@ -29,12 +32,18 @@ public class InterfaceOpenInterceptor  extends HandlerInterceptorAdapter{
 			throws Exception {
 		if(handler instanceof HandlerMethod) {
 			HandlerMethod method = (HandlerMethod)handler;
-			if(null == method.getMethodAnnotation(Open.class))//未被@Open修饰直接返回true
+			if(null != method.getMethodAnnotation(Open.class))//未被@Open修饰直接返回true
 				return true;
 			else {//验证token
-				String token = request.getHeader(Constant.TOKEN);
-				Map<String,Object> map = JWTUtils.validateToken(token);
 				response.setContentType("application/json;charset=UTF-8");
+				String token = getToken(request);
+				Map<String,Object> map = null;
+				try {
+					map = JWTUtils.validateToken(token);
+				}catch(ParseException | JOSEException | java.text.ParseException e) {
+					addTokenInvalidInfo(response);
+					return false;
+				}
 				switch((String)map.get(Constant.TOKEN_STATUS)) {
 					case Constant.TOKEN_VALID :
 						return true;
@@ -76,6 +85,16 @@ public class InterfaceOpenInterceptor  extends HandlerInterceptorAdapter{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private String getToken(HttpServletRequest request) {
+		//尝试从header中获取token
+		String token = request.getHeader(Constant.TOKEN);
+		if(token == null) {
+			//从url中获取
+			token = request.getParameter(Constant.TOKEN);
+		}
+		return token;
 	}
 	
 }

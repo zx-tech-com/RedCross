@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.zx.redcross.annotation.FrontEnd;
+import com.zx.redcross.annotation.Open;
 import com.zx.redcross.entity.Customer;
 import com.zx.redcross.service.my.CustomerService;
 import com.zx.redcross.tool.BusinessExceptionUtils;
@@ -28,6 +29,7 @@ public class CustomerController {
 	 * 注册用户
 	 */
 	@RequestMapping(value="/register",method=RequestMethod.POST)
+	@Open
 	public Map<String,Object> registerCustomer(@RequestBody Customer customer){
 		/**
 		 * 获取注册用户的手机号码，判断是否已经注册过了
@@ -48,6 +50,7 @@ public class CustomerController {
 	 * 已知选择的省份是安徽省，获取下一级的市/县
 	 */
 	@RequestMapping("/district")
+	@Open
 	public Map<String,Object> getDistrict(@RequestParam Integer id){
 		Map<String,Object> map=MapUtils.getHashMapInstance();
 		List<Map<String, Object>> dis=customerService.findByUpid(id);
@@ -60,6 +63,7 @@ public class CustomerController {
 	 */
 	@FrontEnd
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@Open
 	public Map<String,Object> login(@RequestParam String tel,@RequestParam String password){
 		Map<String,Object> map=MapUtils.getHashMapInstance();
 		//通过手机号码和密码查询是否存在用户
@@ -79,6 +83,7 @@ public class CustomerController {
 	 * @return
 	 */
 	@RequestMapping("/register/options")
+	@Open
 	public Map<String,Object> checkIfRegisterBefore(@RequestParam(required=true)String tel){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
@@ -89,6 +94,7 @@ public class CustomerController {
 	}
 	
 	@RequestMapping("/loginWithAuthCode")
+	@Open
 	public Map<String,Object> loginWithAuthCode(String tel,String authCode){
 		Map<String,Object> map=MapUtils.getHashMapInstance();
 		return map;	

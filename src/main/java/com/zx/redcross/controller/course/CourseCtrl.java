@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.zx.redcross.annotation.BackEnd;
 import com.zx.redcross.annotation.FrontEnd;
+import com.zx.redcross.annotation.Open;
 import com.zx.redcross.entity.Course;
 import com.zx.redcross.entity.CourseSubject;
 import com.zx.redcross.entity.ExamOrder;
@@ -30,6 +31,7 @@ public class CourseCtrl {
 	
 	@FrontEnd
 	@RequestMapping("/listCourseSubject")
+	@Open
 	public Map<String,Object> listCourseSubject() {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
@@ -41,6 +43,7 @@ public class CourseCtrl {
 		return map;
 	}
 	@RequestMapping("/findCourseSubject")
+	@Open
 	public Map<String,Object> findCourseSubject(@RequestParam(required=true) Integer subjectId) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
@@ -53,6 +56,7 @@ public class CourseCtrl {
 	}
 	
 	@RequestMapping("/getCourseSubject")
+	@Open
 	public Map<String,Object> getdCourseSubject(
 			@RequestParam(required=true) Integer subjectId,Integer customerId) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
@@ -69,6 +73,7 @@ public class CourseCtrl {
 
 	@FrontEnd
 	@RequestMapping("/listCourse")
+	@Open
 	public Map<String,Object> listCourseBySubject(@RequestParam(required=true) Integer subjectId,Page page) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
@@ -83,6 +88,7 @@ public class CourseCtrl {
 
 	@FrontEnd
 	@RequestMapping("/getCourse")
+	@Open
 	public Map<String,Object> getCourseById(@RequestParam Integer id) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Map<String, Object> course = courseServImpl.getCourseById(id);

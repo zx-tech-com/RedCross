@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.zx.redcross.annotation.BackEnd;
 import com.zx.redcross.annotation.FrontEnd;
+import com.zx.redcross.annotation.Open;
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.entity.Video;
 import com.zx.redcross.entity.VideoBuyRecord;
@@ -40,6 +41,7 @@ public class VideoCtrl {
 	 */
 	@FrontEnd
 	@RequestMapping("/listVideo")
+	@Open
 	public Map<String, Object> listVideo(Integer customerId, Page page) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		List<Map<String, Object>> videos = videoServImpl.listVideo(customerId, page);
@@ -54,6 +56,7 @@ public class VideoCtrl {
 
 	@FrontEnd
 	@RequestMapping("/getVideo")
+	@Open
 	public Map<String, Object> getVideo(Integer customerId, @RequestParam Integer videoId) {
 		if(videoId == null)
 			BusinessExceptionUtils.throwNewBusinessException("videoId必填");
