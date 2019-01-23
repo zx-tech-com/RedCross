@@ -123,9 +123,29 @@ public class VideoServImpl implements IVideoServ {
 		return true;
 	}
 
+	/**
+	 * 记得先保存视频，然后修改记录，最后删除旧视频
+	 */
 	@Override
-	public Boolean adminUpdateVideo(Video video) {
-		return videoMapper.adminUpdateVideo(video);
+	public Boolean adminUpdateVideo(Video video, MultipartFile file) {
+		
+		Map<String, Object> oldVideo = videoMapper.getVideo(null, video.getId());
+		if(oldVideo == null)
+			BusinessExceptionUtils.throwNewBusinessException("该视频不存在");
+		String oldVideoUrl = (String) oldVideo.get("videoUrl");
+		//先保存视频
+		String newVideoUrl = FileUtils.saveFile(Constant.VIDEO_ABSOLUTE_BASE_PATH + Constant.PAYVIDEO, file);
+		
+		//修改记录
+		video.setVideoUrl(newVideoUrl);
+		boolean flag = videoMapper.adminUpdateVideo(video);
+		
+		if(flag)
+			FileUtils.removeFile(oldVideoUrl);//修改成功，移除旧视频
+		else
+			FileUtils.removeFile(newVideoUrl);//修改失败，移除新视频
+		
+		return flag;
 	}
 
 	@Override

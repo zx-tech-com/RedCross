@@ -146,9 +146,9 @@ public class VideoCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminUpdateVideo")
-	public Map<String, Object> adminUpdateVideo(Video video) {
+	public Map<String, Object> adminUpdateVideo(Video video,MultipartFile file) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
-		Boolean flag = videoServImpl.adminUpdateVideo(video);
+		Boolean flag = videoServImpl.adminUpdateVideo(video,file);
 		map.put(Constant.STATUS, flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
 		return map;
 	}
