@@ -103,14 +103,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!--后台查询所有付费视频  -->
 	<select id="adminListVideo" resultType="Video">
-	SELECT id,vindex,vname,description,video_url
+	SELECT id,vindex,vname,description,video_url,price
      FROM video	ORDER BY id DESC
 	</select>
 	
 	<!--后台添加付费视频  -->
 	<insert id="adminSaveVideo" parameterType="video">
-	INSERT INTO video(vindex,vname,description,video_url) 
-	VALUES(#{vindex},#{vname},#{description},#{videoUrl})
+	INSERT INTO video(vindex,vname,description,video_url,price) 
+	VALUES(#{vindex},#{vname},#{description},#{videoUrl},#{price})
 	</insert>
 	
 	
@@ -125,7 +125,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	vindex=#{vindex},
 	vname=#{vname},
 	description=#{description},
-	video_url=#{videoUrl}
+	video_url=#{videoUrl},
+	price=#{price}
 	WHERE id=#{id}
 	</update>
 	

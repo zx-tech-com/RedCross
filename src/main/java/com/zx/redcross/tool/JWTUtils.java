@@ -107,7 +107,7 @@ public class JWTUtils {
     	map.put(Constant.CUSTOMERID, customerId);
     	Calendar date = Calendar.getInstance();
 		date.add(Constant.HOUR_FIELD, Constant.NUMBER_8);
-		map.put(Constant.EXPIRES, date.getTime());
+		map.put(Constant.EXPIRES, date.getTime().getTime());
     	return map;
     	
     }

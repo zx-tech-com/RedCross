@@ -49,14 +49,15 @@ public class FileUtils {
 			path.mkdirs();//创建
 		}
 		
-		path = new File(absoluteBasePath + getFileName(file));
+		String fileName = getFileName(file);
+		path = new File(absoluteBasePath + fileName);
 		
 		try {
 			file.transferTo(path);
 		} catch (IllegalStateException | IOException e) {
 			BusinessExceptionUtils.throwNewBusinessException("文件存储失败");
 		}
-		return new String(absoluteBasePath.replace(Constant.ABSOLUTE_BASE_PATH, "") + getFileName(file)).replace("\\", "/");
+		return new String(absoluteBasePath.replace(Constant.ABSOLUTE_BASE_PATH, "") + fileName).replace("\\", "/");
 	}
 	
 	/**
