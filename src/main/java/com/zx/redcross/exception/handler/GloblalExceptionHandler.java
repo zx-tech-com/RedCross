@@ -23,12 +23,12 @@ import com.zx.redcross.tool.MapUtils;
 @ControllerAdvice
 public class GloblalExceptionHandler {
 	
-	@SuppressWarnings("unused")
 	private Logger logger = LogManager.getLogger(GloblalExceptionHandler.class);
 	
 	@ExceptionHandler(BusinessException.class)
 	@ResponseBody
 	public Map<String,Object> businessExceptionHandler(BusinessException e){
+		logger.error("业务异常" + e.getMessage());
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
 		map.put(Constant.ERROR_MESSAGE, e.getMessage());
@@ -38,6 +38,7 @@ public class GloblalExceptionHandler {
 	@ExceptionHandler(MissingServletRequestParameterException.class)
 	@ResponseBody
 	public Map<String,Object> missingServletRequestParameterHandler(MissingServletRequestParameterException e){
+		logger.error(Constant.ERROR_MISSIN_GPARAMETER + e.getMessage());
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
 		map.put(Constant.ERROR_MESSAGE, Constant.ERROR_MISSIN_GPARAMETER);
@@ -50,6 +51,7 @@ public class GloblalExceptionHandler {
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	@ResponseBody
 	public Map<String,Object> methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException e){
+		logger.error(Constant.ERROR_PARAMETER_TYPE_ILEGAL + e.getMessage());
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
 		map.put(Constant.ERROR_MESSAGE, Constant.ERROR_PARAMETER_TYPE_ILEGAL);
@@ -60,6 +62,7 @@ public class GloblalExceptionHandler {
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	@ResponseBody
 	public Map<String,Object> httpRequestMethodNotSupportedExceptionHandler(HttpRequestMethodNotSupportedException e){
+		logger.error(Constant.ERROR_REQUEST_METHOD_ILEGAL + e.getMessage());
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
 		map.put(Constant.ERROR_MESSAGE, Constant.ERROR_REQUEST_METHOD_ILEGAL);
@@ -70,6 +73,7 @@ public class GloblalExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	@ResponseBody
 	public Map<String,Object> defaultExceptionHandler(Exception e){
+		logger.error(Constant.ERROR_UNKNOW + e.getMessage());
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
 		map.put(Constant.ERROR_MESSAGE, Constant.ERROR_UNKNOW);

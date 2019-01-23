@@ -9,7 +9,7 @@
  -->
 <Configuration status="error">
 	<Properties>
-        <Property name="logPath" >${sys:catalina.home}/logs/redcross</Property>
+        <Property name="logPath" >${sys:catalina.home}/log-redcross</Property>
     </Properties>
 
   	<Appenders>
@@ -26,9 +26,6 @@
 		</RollingFile>
 	</Appenders>
 	 <Loggers>
-	   <Root level="TRACE">
-	  		<AppenderRef ref="test"/>
-	   </Root>
 	   <Logger level="ALL" name="com.zx.redcross.exception.handler.GloblalExceptionHandler">
 	  		<AppenderRef ref="errorInfo"/>
 	   </Logger>

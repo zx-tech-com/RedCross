@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.zx.redcross.annotation.BackEnd;
 import com.zx.redcross.annotation.FrontEnd;
+import com.zx.redcross.annotation.Open;
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.entity.Video;
 import com.zx.redcross.entity.VideoBuyRecord;
@@ -40,6 +41,7 @@ public class VideoCtrl {
 	 */
 	@FrontEnd
 	@RequestMapping("/listVideo")
+	@Open
 	public Map<String, Object> listVideo(Integer customerId, Page page) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		List<Map<String, Object>> videos = videoServImpl.listVideo(customerId, page);
@@ -54,8 +56,9 @@ public class VideoCtrl {
 
 	@FrontEnd
 	@RequestMapping("/getVideo")
+	@Open
 	public Map<String, Object> getVideo(Integer customerId, @RequestParam Integer videoId) {
-		if(videoId == null)
+		if (videoId == null)
 			BusinessExceptionUtils.throwNewBusinessException("videoId必填");
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		Map<String, Object> video = videoServImpl.getVideo(customerId, videoId);
@@ -74,14 +77,14 @@ public class VideoCtrl {
 		// 保存购买记录（实际保存的是正在购买状态为1）
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		Map<String, Object> dataMap = MapUtils.getHashMapInstance();
-		
-		map.put(Constant.STATUS,Constant.STATUS_FAILURE);
-		
+
+		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
+
 		Boolean flag = videoServImpl.saveVideoBuyRecord(videoBuyRecord);
-		if(flag) {
+		if (flag) {
 			dataMap.put(Constant.ID, videoBuyRecord.getId());
 			map.put(Constant.DATA, dataMap);
-			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
+			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 		}
 		return map;
 	}
@@ -118,10 +121,10 @@ public class VideoCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminSaveVideo")
-	public Map<String, Object> adminSaveVideo(Video video,MultipartFile file) {
+	public Map<String, Object> adminSaveVideo(Video video, MultipartFile file) {
 		// 未处理视频上传过程
 		Map<String, Object> map = MapUtils.getHashMapInstance();
-		Boolean flag = videoServImpl.adminSaveVideo(video,file);
+		Boolean flag = videoServImpl.adminSaveVideo(video, file);
 		map.put(Constant.STATUS, flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
 		return map;
 	}
@@ -131,7 +134,7 @@ public class VideoCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminDeleteVideo")
-	public Map<String, Object> adminDeleteVideo( Integer videoId) {
+	public Map<String, Object> adminDeleteVideo(Integer videoId) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		Boolean flag = videoServImpl.adminDeleteVideo(videoId);
 		map.put(Constant.STATUS, flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
@@ -149,16 +152,17 @@ public class VideoCtrl {
 		map.put(Constant.STATUS, flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
 		return map;
 	}
-	
+
 	/**
 	 * 付费视频订单列表
+	 * 
 	 * @return
 	 */
 	@BackEnd
 	@RequestMapping("/adminListVideoBuyRecord")
-	 public Map<String, Object> adminListVideoBuyRecord(){
+	public Map<String, Object> adminListVideoBuyRecord() {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
-		List<VideoBuyRecord> videoBuyRecords=videoServImpl.adminListVideoBuyRecord();
+		List<VideoBuyRecord> videoBuyRecords = videoServImpl.adminListVideoBuyRecord();
 		map.put(Constant.DATA, videoBuyRecords);
 		return map;
 	}

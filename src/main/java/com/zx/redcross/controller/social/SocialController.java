@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.zx.redcross.annotation.Open;
 import com.zx.redcross.entity.Concern;
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.entity.Topic;
@@ -35,6 +36,7 @@ public class SocialController {
 	 * 社交主页面
 	 */
 	@RequestMapping("/findAllTopic")
+	@Open
 	public Map<String, Object> listTopic(Page page,Integer customerId,Integer topicTypeId) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();	
 		/**
@@ -51,8 +53,13 @@ public class SocialController {
 		map.put(Constant.PAGE_SIZE, page.getPageSize());
 		return map;
 	}
+	
 	/**
-	 * 关注
+	 * @deprecated 关注功能已取消
+	 * @param concert
+	 * @param topicId
+	 * @param customerId
+	 * @return
 	 */
 	@RequestMapping("/concerns")
 	public	Map<String,Object>	updateConcerns(Concern concert,Integer topicId,Integer customerId){
@@ -78,6 +85,7 @@ public class SocialController {
 	 * 点击帖子,获取发布帖子的详情
 	 */
 	@RequestMapping("/findTopic")
+	@Open
 	public Map<String,Object> findTopic(Integer topicId,Integer customerId){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		//根据一条帖子ID查询帖子信息
@@ -98,6 +106,7 @@ public class SocialController {
 	 * @return
 	 */
 	@RequestMapping("/findOnceTopicComent")
+	@Open
 	public Map<String,Object> findOnceTopic(Page page,Integer topicId,Integer customerId){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		//通过帖子id获取评论信息（包含分页）(第一层评论)
@@ -119,6 +128,7 @@ public class SocialController {
 	 * @return
 	 */
 	@RequestMapping("/findLowerComent")
+	@Open
 	public Map<String,Object> findLowerComent(Page page,Integer topicComentId
 			,@RequestParam(required=false) Integer customerId){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
@@ -140,6 +150,7 @@ public class SocialController {
 	 * @return
 	 */
 	@RequestMapping("/share")
+	@Open
 	public Map<String,Object> topicShare(@RequestParam(required = true) Integer topicId){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		if(topicId == null) {
@@ -204,6 +215,7 @@ public class SocialController {
 	 * 获取所有帖子类型
 	 */
 	@RequestMapping("/findTopicType")
+	@Open
 	public Map<String,Object> findTopicType(){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		//查询发布帖子的类别

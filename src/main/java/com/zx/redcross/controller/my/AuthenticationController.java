@@ -11,6 +11,7 @@ import com.zx.redcross.tool.MapUtils;
 
 /**
  * 用户Token不合法信息
+ * @deprecated 已经不使用了
  * @author Daryl
  */
 @RestController
