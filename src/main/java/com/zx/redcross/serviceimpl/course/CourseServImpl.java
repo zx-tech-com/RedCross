@@ -142,12 +142,14 @@ public class CourseServImpl implements ICourseServ{
 		}
 		
 		String thumbnailUrl = (String) courseSubjectSub.get("thumbnailUrl");
+		System.out.println(thumbnailUrl);
 		//删除之前的图片
 		if(thumbnailUrl!=null
 				&&thumbnailUrl.length()>0) {
 			FileUtils.removeFile(thumbnailUrl);	
 		}
 		String certificateUrl = (String) courseSubjectSub.get("certificateUrl");
+		System.out.println(certificateUrl);
 		if(certificateUrl!=null
 				&&certificateUrl.length()>0) {
 			FileUtils.removeFile(certificateUrl);

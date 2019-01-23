@@ -178,6 +178,7 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminListCourseSubject")
+	@Open
 	public Map<String,Object> adminListCourseSubject() {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		List<Map<String, Object>> courseSubjectList=courseServImpl.listCourseSubject();
@@ -191,6 +192,7 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminAddCourseSubject")
+	@Open
 	public Map<String,Object> adminAddCourseSubject(CourseSubject courseSubject,
 					@Param(value = "imgUrl")MultipartFile imgUrl,@Param(value = "ccieUrl")MultipartFile ccieUrl ) {
 		
@@ -205,6 +207,7 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminDeleteCourseSubject")
+	@Open
 	public Map<String,Object> adminDeleteCourseSubject(Integer courseSubjectId) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Boolean flag = courseServImpl.adminDeleteCourseSubject(courseSubjectId);
@@ -218,6 +221,7 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminUpdateCourseSubject")
+	@Open
 	public Map<String,Object> adminUpdateCourseSubject(CourseSubject courseSubject,
 			@Param(value = "imgUrl")MultipartFile imgUrl,@Param(value = "ccieUrl")MultipartFile ccieUrl) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
@@ -237,6 +241,7 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminListCourse")
+	@Open
 	public Map<String,Object> adminListCourse( Integer subjectId,Page page) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		List<Map<String, Object>> Courses = courseServImpl.listCourseBySubject(subjectId,page);
@@ -249,6 +254,7 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/addCourse")
+	@Open
 	public Map<String,Object> addCourse(Course course) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Boolean flag = courseServImpl.addCourse(course);
@@ -260,6 +266,7 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminDeleteCourse")
+	@Open
 	public Map<String,Object> adminDeleteCourse( Integer courseId) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Boolean flag = courseServImpl.adminDeleteCourse(courseId);
@@ -272,6 +279,7 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminUpdateCourse")
+	@Open
 	public Map<String,Object> adminUpdateCourse( Course course) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Boolean flag = courseServImpl.adminUpdateCourse(course);
