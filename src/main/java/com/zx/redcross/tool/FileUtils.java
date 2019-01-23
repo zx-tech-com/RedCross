@@ -48,8 +48,7 @@ public class FileUtils {
 		if(!path.exists()) {//不存在
 			path.mkdirs();//创建
 		}
-		
-		String fileName = getFileName(file);
+		String fileName=getFileName(file);
 		path = new File(absoluteBasePath + fileName);
 		
 		try {
@@ -68,7 +67,7 @@ public class FileUtils {
 	public static boolean removeFile(String path) {
 		if(path == null || path.length() == 0)//不理会，认为删除成功
 			return true;
-		path = path.replace(Constant.ACCESS_BASE_PATH, Constant.ABSOLUTE_BASE_PATH);
+		path = Constant.ABSOLUTE_BASE_PATH + path;
 		File file = new File(path);
 		if(file.exists() && !file.isDirectory())
 			return file.delete();
