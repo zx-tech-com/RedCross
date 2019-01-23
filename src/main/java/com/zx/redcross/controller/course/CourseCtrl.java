@@ -185,8 +185,9 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminAddCourseSubject")
-	public Map<String,Object> adminAddCourseSubject( CourseSubject courseSubject,
+	public Map<String,Object> adminAddCourseSubject(CourseSubject courseSubject,
 					@Param(value = "imgUrl")MultipartFile imgUrl,@Param(value = "ccieUrl")MultipartFile ccieUrl ) {
+		
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Boolean flag = courseServImpl.addCourseSubject(courseSubject,imgUrl,ccieUrl);
 		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
