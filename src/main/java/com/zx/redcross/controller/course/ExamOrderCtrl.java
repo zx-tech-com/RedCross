@@ -37,7 +37,6 @@ public class ExamOrderCtrl {
 	
 	@RequestMapping("/listExamOrderByCustomerId")
 	public Map<String,Object> listExamOrderByCustomerId (Integer customerId){
-		
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
 		List<ExamOrder> examOrderList = examOrderServImpl.listExamOrderByCustomerId(customerId);
@@ -68,7 +67,7 @@ public class ExamOrderCtrl {
 		
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
-		List<ExamOrder> examOrderList = examOrderServImpl.listExamOrder(page);
+		List<Map<String, Object>> examOrderList = examOrderServImpl.listExamOrder(page);
 		if(null != examOrderList) {
 			map.put(Constant.DATA, examOrderList);
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);

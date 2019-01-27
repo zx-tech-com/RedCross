@@ -10,6 +10,7 @@ public class Course implements Serializable {
 	private Integer id;
 	private Integer cindex;
 	private String cname;
+	private String subjectId;
 	private String description;
 	private Boolean isVideo;
 	private String thumbnailUrl;
@@ -18,6 +19,14 @@ public class Course implements Serializable {
 	private CourseSubject courseSubject;
 
 	public Course() {
+	}
+	
+	public String getSubjectId() {
+		return subjectId;
+	}
+
+	public void setSubjectId(String subjectId) {
+		this.subjectId = subjectId;
 	}
 
 	public Integer getId() {
@@ -103,10 +112,13 @@ public class Course implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Course [id=" + id + ", cindex=" + cindex + ", cname=" + cname + ", description=" + description
-				+ ", isVideo=" + isVideo + ", thumbnailUrl=" + thumbnailUrl + ", videoUrl=" + videoUrl
-				+ ", courseSubject=" + courseSubject + "]";
+		return "Course [id=" + id + ", cindex=" + cindex + ", cname=" + cname + ", subjectId=" + subjectId
+				+ ", description=" + description + ", isVideo=" + isVideo + ", thumbnailUrl=" + thumbnailUrl
+				+ ", videoUrl=" + videoUrl + ", vdieoDuration=" + vdieoDuration + ", courseSubject=" + courseSubject
+				+ "]";
 	}
+
+	
 
 	
 	

@@ -8,10 +8,22 @@ public class KnowledgeType implements Serializable {
 	private Integer id;
 	private String description;
 	private String kname;
+	private String thumbnailUrl;
 	private List<Knowledge> knowledges;
 
 	public KnowledgeType() {
 	}
+
+	
+	public String getThumbnailUrl() {
+		return thumbnailUrl;
+	}
+
+
+	public void setThumbnailUrl(String thumbnailUrl) {
+		this.thumbnailUrl = thumbnailUrl;
+	}
+
 
 	public Integer getId() {
 		return this.id;
@@ -59,10 +71,11 @@ public class KnowledgeType implements Serializable {
 		return knowledge;
 	}
 
+
 	@Override
 	public String toString() {
-		return "KnowledgeType [id=" + id + ", description=" + description + ", kname=" + kname + ", knowledges="
-				+ knowledges + "]";
+		return "KnowledgeType [id=" + id + ", description=" + description + ", kname=" + kname + ", thumbnailUrl="
+				+ thumbnailUrl + ", knowledges=" + knowledges + "]";
 	}
-
+	
 }

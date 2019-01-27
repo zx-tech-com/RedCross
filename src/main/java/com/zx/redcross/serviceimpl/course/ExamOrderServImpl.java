@@ -1,6 +1,7 @@
 package com.zx.redcross.serviceimpl.course;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +46,7 @@ public class ExamOrderServImpl implements IExamOrderServ {
 	}
 
 	@Override
-	public List<ExamOrder> listExamOrder( Page page) {
+	public List<Map<String, Object>> listExamOrder( Page page) {
 		return mapper.listExamOrder(page);
 	}
 

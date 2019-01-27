@@ -10,8 +10,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!--返回一个TopicType集合  -->
 	<select id="findAllTopicType" resultType="TopicType">
-	 select id,tname,thumbnail_url from topic_type	
+	 SELECT id,tname,description,thumbnail_url FROM topic_type;
 	</select>
+	
 	<!--返回一个int类型数据和  -->
 	<select id="findAllTopicCount" resultType="int">
 	 select count(id) from topic	
@@ -351,7 +352,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="flag" property="flag"/>
 	</resultMap>
 	
+	<insert id="addTopicType" parameterType="topicType">
+	INSERT INTO 
+	topic_type(
+	tname
+	,description
+	,thumbnail_url) 
+	VALUES(
+	#{tname}
+	,#{description}
+	,#{thumbnailUrl})
+	</insert>
 	
+	<select id="findTopicTypeById" parameterType="int" resultType="String">
+	select  
+	thumbnail_url 
+	from topic_type 
+	where id=#{topeTypeId}
+	</select>
+	
+	<delete id="adminDeleteTopicType" parameterType="int">
+		DELETE 
+		FROM 
+		topic_type 
+		WHERE id=#{topicTypeId}
+	</delete>
+	
+	<update id="adminUpdateTopicType" parameterType="topicType">
+	update topic_type 
+	set 
+	tname=#{tname}
+	,description=#{description}
+	,thumbnail_url=#{thumbnailUrl} 
+	where id=#{id}
+	</update>
 	
 	
 	

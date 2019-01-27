@@ -96,20 +96,28 @@ public class VideoServImpl implements IVideoServ {
 	}
 
 	@Override
-	public Boolean adminSaveVideo(Video video,MultipartFile file) {
+	public Boolean adminSaveVideo(Video video,MultipartFile file,MultipartFile imgUrl) {
+		String imgAbsoluteBasePath=Constant.IMG_ABSOLUTE_BASE_PATH+Constant.PAYVIDEO;
 		String videoAbsoluteBasePath = Constant.VIDEO_ABSOLUTE_BASE_PATH + Constant.PAYVIDEO;
+		//存储图片
+		if(imgUrl != null) {
+			video.setThumbnailUrl(FileUtils.saveFile(imgAbsoluteBasePath, imgUrl));
+		}
 		//存储视频
 		if(file != null) {
 			video.setVideoUrl(FileUtils.saveFile(videoAbsoluteBasePath, file));
 		}
 		//插入video
 		if(!videoMapper.adminSaveVideo(video)) {
+			FileUtils.removeFile(video.getThumbnailUrl());
 			FileUtils.removeFile(video.getVideoUrl());
 			return false;
 		}
 		return true;
 	}
 
+	
+	
 	@Override
 	public Boolean adminDeleteVideo(Integer videoId) {
 		Video video=videoMapper.getVideoById(videoId);
@@ -117,15 +125,41 @@ public class VideoServImpl implements IVideoServ {
 			return false;
 		}
 		String videoUrl =video.getVideoUrl();
+		String imgUrl=video.getThumbnailUrl();
 		if(null != videoUrl && videoUrl.length() >0) {
 			FileUtils.removeFile(videoUrl);
+		}
+		if(null != imgUrl && imgUrl.length() >0) {
+			FileUtils.removeFile(imgUrl);
 		}
 		return true;
 	}
 
 	@Override
-	public Boolean adminUpdateVideo(Video video) {
-		return videoMapper.adminUpdateVideo(video);
+	public Boolean adminUpdateVideo(Video video,MultipartFile file,MultipartFile imgUrl) {
+		Video videoSub=videoMapper.getVideoById(video.getId());
+		String imgAbsoluteBasePath=Constant.IMG_ABSOLUTE_BASE_PATH+Constant.PAYVIDEO;
+		String videoAbsoluteBasePath = Constant.VIDEO_ABSOLUTE_BASE_PATH + Constant.PAYVIDEO;
+		//存储图片
+		if(imgUrl != null) {
+			video.setThumbnailUrl(FileUtils.saveFile(imgAbsoluteBasePath, imgUrl));
+		}
+		//存储视频
+		if(file != null) {
+			video.setVideoUrl(FileUtils.saveFile(videoAbsoluteBasePath, file));
+		}
+		if(!videoMapper.adminUpdateVideo(video)) {
+			return false;
+		}
+		String videoUrl =videoSub.getVideoUrl();
+		String imgUrlOld=videoSub.getThumbnailUrl();
+		if(null != videoUrl && videoUrl.length() >0) {
+			FileUtils.removeFile(videoUrl);
+		}
+		if(null != imgUrlOld && imgUrlOld.length() >0) {
+			FileUtils.removeFile(imgUrlOld);
+		}
+		return true;
 	}
 
 	@Override

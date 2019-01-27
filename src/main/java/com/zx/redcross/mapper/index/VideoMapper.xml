@@ -49,6 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			v.vindex,
 			v.vname,
 			v.description,
+			v.thumbnail_url,
 			v.video_url,
 			v.price
 		FROM
@@ -103,14 +104,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!--后台查询所有付费视频  -->
 	<select id="adminListVideo" resultType="Video">
-	SELECT id,vindex,vname,description,video_url,price
+	SELECT 
+	id
+	,vindex
+	,vname
+	,description
+	,video_url
+	,price
+	,thumbnail_url
      FROM video	ORDER BY id DESC
 	</select>
 	
 	<!--后台添加付费视频  -->
 	<insert id="adminSaveVideo" parameterType="video">
-	INSERT INTO video(vindex,vname,description,video_url,price) 
-	VALUES(#{vindex},#{vname},#{description},#{videoUrl},#{price})
+	INSERT 
+	INTO video
+	(vindex
+	,vname
+	,description
+	,video_url
+	,price
+	,thumbnail_url) 
+	VALUES(
+	#{vindex}
+	,#{vname}
+	,#{description}
+	,#{videoUrl}
+	,#{price}
+	,#{thumbnailUrl})
 	</insert>
 	
 	
@@ -126,6 +147,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	vname=#{vname},
 	description=#{description},
 	video_url=#{videoUrl},
+	thumbnail_url=#{thumbnailUrl},
 	price=#{price}
 	WHERE id=#{id}
 	</update>

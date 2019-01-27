@@ -18,7 +18,7 @@ public interface ICourseServ {
 	
 	Map<String, Object> getCourseById(Integer id);
 	
-	Boolean addCourse(Course course);
+	Boolean addCourse(Course course, MultipartFile file);
 	
 	Boolean addCourseSubject(CourseSubject courseSubject,MultipartFile imgUrl,MultipartFile ccieUrl);
 	//通过subjectId查找到科目类型

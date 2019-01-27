@@ -62,6 +62,14 @@ public interface SocialMapper {
 
 	public Boolean updateTopicSetShareAdd1(@Param("topicId")Integer topicId);
 
+	public boolean addTopicType(TopicType topicType);
+
+	public boolean adminUpdateTopicType(TopicType topicType);
+
+	public String findTopicTypeById(Integer topicTypeId);
+
+	public boolean adminDeleteTopicType(Integer topicTypeId);
+
 
 	
 }

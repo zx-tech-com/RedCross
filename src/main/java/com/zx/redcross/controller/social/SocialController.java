@@ -3,12 +3,14 @@ package com.zx.redcross.controller.social;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.zx.redcross.annotation.BackEnd;
 import com.zx.redcross.annotation.Open;
 import com.zx.redcross.entity.Concern;
 import com.zx.redcross.entity.Page;
@@ -263,5 +265,48 @@ public class SocialController {
 		map.put(Constant.STATUS, flag?Constant.STATUS_SUCCESS:Constant.STATUS_FAILURE);
 		return map;	
 	}
+	/**
+	 * 添加发帖类型
+	 * @return
+	 */
+	@BackEnd
+	@RequestMapping("/adminAddTopicType")
+	@Open
+	public Map<String,Object> adminAddTopicType(TopicType topicType,
+					@Param(value = "imgUrl")MultipartFile imgUrl) {		
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		Boolean flag = socialService.addTopicType(topicType,imgUrl);
+		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
+		return map; 
+	}
+	/**
+	 * 删除发帖类型
+	 * @return
+	 */
+	@BackEnd
+	@RequestMapping("/adminDeleteTopicType")
+	@Open
+	public Map<String,Object> adminDeleteTopicType(Integer topicTypeId) {
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		Boolean flag = socialService.adminDeleteTopicType(topicTypeId);
+		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
+		return map; 
+	}
+	
+	/**
+	 * 修改发帖类型
+	 * @return
+	 */
+	@BackEnd
+	@RequestMapping("/adminUpdateTopicType")
+	@Open
+	public Map<String,Object> adminUpdateTopicType(TopicType topicType,
+			@Param(value = "imgUrl")MultipartFile imgUrl) {
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		Boolean flag=socialService.adminUpdateTopicType(topicType,imgUrl);
+		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
+		return map; 
+	}
+	
 		
 }

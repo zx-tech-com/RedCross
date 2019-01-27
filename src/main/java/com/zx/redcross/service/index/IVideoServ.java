@@ -33,11 +33,11 @@ public interface IVideoServ {
 	//后台查询所有付费视频
 	List<Video> adminListVideo();
 	//添加付费视频
-	Boolean adminSaveVideo(Video video, MultipartFile file);
+	Boolean adminSaveVideo(Video video, MultipartFile file, MultipartFile imgUrl);
 	//删除付费视频
 	Boolean adminDeleteVideo(Integer videoId);
 	//修改付费视频
-	Boolean adminUpdateVideo(Video video);
+	Boolean adminUpdateVideo(Video video, MultipartFile file, MultipartFile imgUrl);
     //后台查询付费视频订单
 	List<VideoBuyRecord> adminListVideoBuyRecord();
 	

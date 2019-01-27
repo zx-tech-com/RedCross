@@ -1,6 +1,7 @@
 package com.zx.redcross.dao.course;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -16,7 +17,7 @@ public interface IExamOrderMapper {
 	List<ExamOrder> listExamOrderByOsDistrictId (
 			Integer districtId,@Param("page") Page page);
 	
-	List<ExamOrder> listExamOrder (@Param("page") Page page);
+	List<Map<String, Object>> listExamOrder (@Param("page") Page page);
 	
 	Boolean addExamOrder(@Param("examOrder") ExamOrder examOrder);
 	

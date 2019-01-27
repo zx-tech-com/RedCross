@@ -47,11 +47,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		CALL listAllExamOrderByDistrictId(#{districtId},#{page.start},#{page.pageSize});
 	</select>
 	
-	<select id="listExamOrder" resultType="ExamOrder">
-		SELECT *
-		FROM exam_order
+	<select id="listExamOrder" resultMap="ExamOrderMap">
+		SELECT 
+		eo.`real_name` AS realName
+		,eo.`detail_address` AS detailAddress
+		,eo.`order_number` AS orderNumber
+		,eo.`submit_time`  AS submitTime
+		,eo.`method` AS method
+		,eo.`status`	AS	status
+		,eo.`coment` 	AS  coment
+		,cs.`sname`		AS 	sname
+		FROM 
+		exam_order eo
+		LEFT JOIN course_subject cs
+		ON eo.`course_subject_id`=cs.`id`
 		limit ${page.start},${page.pageSize}
 	</select>
+	<resultMap type="HashMap" id="ExamOrderMap">
+		<result property="realName" column="realName"/>
+		<result property="detailAddress" column="detailAddress"/>
+		<result property="orderNumber" column="orderNumber"/>
+		<result property="submitTime" column="submitTime"/>
+		<result property="method" column="method"/>
+		<result property="status" column="status"/>
+		<result property="coment" column="coment"/>
+		<result property="sname" column="sname"/>
+	</resultMap>
 	
 	<insert id="addExamOrder" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO exam_order(

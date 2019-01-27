@@ -104,7 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="saveCourse" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO course(subject_id,cname,description,cindex,is_video,video_url,thumbnail_url)
 		VALUES (
-			#{course.courseSubject.id},
+			#{course.subjectId},
 			#{course.cname},
 			#{course.description},
 			#{course.cindex},
@@ -116,7 +116,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<update id="adminUpdateCourse">
 		update course set
-		subject_id=#{course.courseSubject.id},
 		cindex=#{course.cindex},
 		cname=#{course.cname},
 		description=#{course.cname}

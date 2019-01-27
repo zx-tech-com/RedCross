@@ -65,5 +65,8 @@ public interface SocialService {
 	public Boolean adminDeleteTopic(Integer topicId);
 	//管理员删除评论
 	public Boolean adminDeleteTopicComent(Integer topicComentId);
+	public Boolean addTopicType(TopicType topicType, MultipartFile imgUrl);
+	public Boolean adminDeleteTopicType(Integer topicTypeId);
+	public Boolean adminUpdateTopicType(TopicType topicType, MultipartFile imgUrl);
 
 }

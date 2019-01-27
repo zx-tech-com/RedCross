@@ -185,6 +185,46 @@ public class SocialServiceImpl implements SocialService{
 	public Boolean adminDeleteTopicComent(Integer topicComentId) {
 		return socialMapper.adminDeleteTopicComent(topicComentId);
 	}
+
+	@Override
+	public Boolean addTopicType(TopicType topicType, MultipartFile imgUrl) {
+		String imgAbsoluteBasePath = Constant.IMG_ABSOLUTE_BASE_PATH + Constant.TOPIC;
+		//存储图片
+		if(imgUrl!=null) {
+			topicType.setThumbnailUrl(FileUtils.saveFile(imgAbsoluteBasePath, imgUrl));
+		}
+		if(!socialMapper.addTopicType(topicType)) {
+			FileUtils.removeFile(topicType.getThumbnailUrl());
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public Boolean adminDeleteTopicType(Integer topicTypeId) {
+		String thumbnailUrl= socialMapper.findTopicTypeById(topicTypeId);
+		if(!socialMapper.adminDeleteTopicType(topicTypeId)) {
+			return false;
+		}
+		FileUtils.removeFile(thumbnailUrl);
+		return true;
+	}
+
+	@Override
+	public Boolean adminUpdateTopicType(TopicType topicType, MultipartFile imgUrl) {
+		String imgAbsoluteBasePath = Constant.IMG_ABSOLUTE_BASE_PATH + Constant.TOPIC;
+		String thumbnailUrl= socialMapper.findTopicTypeById(topicType.getId());
+		//存储图片
+		if(imgUrl!=null) {
+			topicType.setThumbnailUrl(FileUtils.saveFile(imgAbsoluteBasePath, imgUrl));
+		}
+		if(!socialMapper.adminUpdateTopicType(topicType)) {
+			FileUtils.removeFile(topicType.getThumbnailUrl());
+			return false;
+		}
+		FileUtils.removeFile(thumbnailUrl);
+		return true;
+	}
 	
 
 

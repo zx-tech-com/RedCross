@@ -1,6 +1,7 @@
 package com.zx.redcross.service.course;
 
 import java.util.List;
+import java.util.Map;
 
 import com.zx.redcross.entity.ExamOrder;
 import com.zx.redcross.entity.Page;
@@ -13,7 +14,7 @@ public interface IExamOrderServ {
 	
 	List<ExamOrder> listExamOrderByOsDistrictId (Integer districtId,Page page);
 	
-	List<ExamOrder> listExamOrder (Page page);
+	List<Map<String, Object>> listExamOrder (Page page);
 	
 	Boolean addExamOrder(ExamOrder examOrder);
 	

@@ -38,8 +38,17 @@ public class CourseServImpl implements ICourseServ{
 	}
 
 	@Override
-	public Boolean addCourse(Course course) {
-		return courseMapper.saveCourse(course);
+	public Boolean addCourse(Course course,MultipartFile file) {
+		String videoAbsoluteBasePath = Constant.VIDEO_ABSOLUTE_BASE_PATH + Constant.COURSE_SUBJECT;
+		if(file != null) {
+			course.setIsVideo(true);
+			course.setVideoUrl(FileUtils.saveFile(videoAbsoluteBasePath, file));
+		}
+		if(!courseMapper.saveCourse(course)) {
+			FileUtils.removeFile(course.getVideoUrl());
+			return false;
+		}
+		return true;
 	}
 
 	@Override

@@ -255,9 +255,9 @@ public class CourseCtrl {
 	@BackEnd
 	@RequestMapping("/addCourse")
 	@Open
-	public Map<String,Object> addCourse(Course course) {
+	public Map<String,Object> addCourse(Course course,MultipartFile file) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		Boolean flag = courseServImpl.addCourse(course);
+		Boolean flag = courseServImpl.addCourse(course,file);
 		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
 		return map;
 	}
@@ -280,7 +280,7 @@ public class CourseCtrl {
 	@BackEnd
 	@RequestMapping("/adminUpdateCourse")
 	@Open
-	public Map<String,Object> adminUpdateCourse( Course course) {
+	public Map<String,Object> adminUpdateCourse(Course course) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Boolean flag = courseServImpl.adminUpdateCourse(course);
 		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
