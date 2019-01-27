@@ -23,6 +23,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		LIMIT #{page.start},#{page.pageSize}
 	</select>
 	
+	<select id="listVideoByIds" resultType="Video">
+		SELECT
+			v.id,
+			v.vindex,
+			v.vname,
+			v.description,
+			v.video_url,
+			v.price
+		FROM
+			video v
+		WHERE
+			v.id in (${ids});
+	</select>
+	
 	
 	
 	<!--查询一个付费视频 -->
@@ -103,8 +117,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!--后台查询所有付费视频  -->
 	<select id="adminListVideo" resultType="Video">
-	SELECT id,vindex,vname,description,video_url,price
-     FROM video	ORDER BY id DESC
+		SELECT
+			id,
+			vindex,
+			vname,
+			description,
+			video_url,
+			price 
+		FROM
+			video
+		<if test="page.query!=null and page.query.length!=0">
+			WHERE vname LIKE #{page.finalQuery}
+		</if>
+		ORDER BY id DESC
+		LIMIT #{page.start},#{page.pageSize}
 	</select>
 	
 	<!--后台添加付费视频  -->
@@ -117,6 +143,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 删除付费视频 -->
 	<delete id="adminDeleteVideo" parameterType="int">
 	 DELETE FROM video WHERE id=#{video}
+	</delete>
+	
+	
+	<!-- 批量删除付费视频 -->
+	<delete id="adminDeleteBatchVideo">
+	 DELETE FROM video WHERE id in (${ids});
 	</delete>
 	
 	<!-- 修改付费视频 -->
@@ -132,21 +164,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 后台查询一条付费视频订单记录 -->
 	<select id="adminListVideoBuyRecord" resultMap="videoBuyRecordMap">
-	SELECT vb.*,v.`price`,v.id AS video_id,
-	v.`vname`,c.id AS customer_id,c.`nickname` FROM 
- 	video_buy_record vb LEFT JOIN 
- 	video v ON vb.video_id=v.id
- 	LEFT JOIN customer c
- 	ON vb.`customer_id`=c.`id`
- 	WHERE vb.status=1
+		SELECT
+			vb.*,
+			v.`price`,
+			v.`vname`,
+			v.video_url,
+			c.`nickname` 
+		FROM
+			video_buy_record vb
+			LEFT JOIN video v ON vb.video_id = v.id
+			LEFT JOIN customer c ON vb.`customer_id` = c.`id` 
+		<where>
+			<if test="record.status !=0">
+				vb.`status` = #{record.status}
+			</if>
+			<if test="record.submitTime != null">
+				AND submit_time &lt;  #{record.submitTime}
+			</if>
+			<if test="record.coment != null and record.coment.length > 0">
+				AND submit_time &gt; #{record.coment}
+			</if>
+			<if test="record.video != null and record.video.vname !=null and record.video.vname.length >0">
+				<bind name="name" value="'%'+ record.video.vname +'%'" />
+				AND v.vname LIKE  #{name}
+			</if>
+		</where>
 	</select>
+	
 	<resultMap type="VideoBuyRecord" id="videoBuyRecordMap" autoMapping="true">
 		<id column="id" property="id"/>
 		<association property="video" javaType="Video" autoMapping="true">
-		<id column="video_id" property="id"/>
+			<id column="video_id" property="id"/>
 		</association>
 		<association property="customer" javaType="Customer" autoMapping="true">
-		<id column="customer_id" property="id"/>
+			<id column="customer_id" property="id"/>
 		</association>
 	</resultMap>
 	

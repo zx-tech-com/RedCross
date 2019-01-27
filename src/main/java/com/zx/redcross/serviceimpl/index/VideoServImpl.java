@@ -91,8 +91,8 @@ public class VideoServImpl implements IVideoServ {
 	
 
 	@Override
-	public List<Video> adminListVideo() {
-		return videoMapper.adminListVideo();
+	public List<Video> adminListVideo(Page page) {
+		return videoMapper.adminListVideo(page);
 	}
 
 	@Override
@@ -133,24 +133,46 @@ public class VideoServImpl implements IVideoServ {
 		if(oldVideo == null)
 			BusinessExceptionUtils.throwNewBusinessException("该视频不存在");
 		String oldVideoUrl = (String) oldVideo.get("videoUrl");
-		//先保存视频
-		String newVideoUrl = FileUtils.saveFile(Constant.VIDEO_ABSOLUTE_BASE_PATH + Constant.PAYVIDEO, file);
 		
-		//修改记录
-		video.setVideoUrl(newVideoUrl);
-		boolean flag = videoMapper.adminUpdateVideo(video);
-		
-		if(flag)
-			FileUtils.removeFile(oldVideoUrl);//修改成功，移除旧视频
-		else
-			FileUtils.removeFile(newVideoUrl);//修改失败，移除新视频
-		
+		boolean flag = false;
+		if(file == null) {//用户没有重新上传视频，比如：只是修改价格或视频描述
+			video.setVideoUrl(oldVideoUrl);
+			flag = videoMapper.adminUpdateVideo(video);
+		}else {//用户重新上传视频
+			//先保存视频
+			String newVideoUrl = FileUtils.saveFile(Constant.VIDEO_ABSOLUTE_BASE_PATH + Constant.PAYVIDEO, file);
+			
+			//修改记录
+			video.setVideoUrl(newVideoUrl);
+			flag = videoMapper.adminUpdateVideo(video);
+			
+			if(flag)
+				FileUtils.removeFile(oldVideoUrl);//修改成功，移除旧视频
+			else
+				FileUtils.removeFile(newVideoUrl);//修改失败，移除新视频
+		}
 		return flag;
 	}
 
 	@Override
-	public List<VideoBuyRecord> adminListVideoBuyRecord() {
-		return videoMapper.adminListVideoBuyRecord();
+	public List<VideoBuyRecord> adminListVideoBuyRecord(VideoBuyRecord record) {
+		return videoMapper.adminListVideoBuyRecord(record);
+	}
+
+	
+	@Override
+	public Boolean adminDeleteBatchVideo(String ids) {
+		if(ids == null || ids.trim().length() == 0)
+			return true;
+		//1 首先获取ids对应的videoURL
+		List<Video> list = videoMapper.listVideoByIds(ids);
+		//2尝试删除ids记录
+		Boolean flag = videoMapper.adminDeleteBatchVideo(ids);
+		//3尝试删除相应的video
+		if(flag)
+			for(Video video : list) 
+				FileUtils.removeFile(video.getVideoUrl());
+		return flag;
 	}
 	
 	

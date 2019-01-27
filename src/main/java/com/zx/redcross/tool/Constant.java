@@ -10,16 +10,16 @@ public class Constant {
 
 	public static final String ID = "id";
 	
-	/*public static final String ABSOLUTE_BASE_PATH = "H:" + File.separator + "Tomcat" + File.separator
-			 + "8.0" + File.separator + "webapps" + File.separator + "red-cross-file" + File.separator;*/
+	public static final String ABSOLUTE_BASE_PATH = "H:" + File.separator + "Tomcat" + File.separator
+			 + "8.0" + File.separator + "webapps" + File.separator + "red-cross-file" + File.separator;
 	
 	/*public static final String ABSOLUTE_BASE_PATH = File.separator + 
 			"data" + File.separator + "apache-tomcat-8.5.37" + File.separator + "webapps"
 			+ File.separator + "red-cross-file" + File.separator;*/
-	public static final String ABSOLUTE_BASE_PATH = "D:\\git\\git\\redcross-back\\imgs\\courseSubject" + File.separator;
-	//D:\git\git\redcross-back\imgs\courseSubject
-//	public static final String ACCESS_BASE_PATH = "http://192.168.1.177:9090/red-cross-file/";
-	public static final String ACCESS_BASE_PATH = "http://39.98.204.123:8080/red-cross-file/";
+	//public static final String ABSOLUTE_BASE_PATH = "D:\\git\\git\\redcross-back\\imgs\\courseSubject" + File.separator;
+	
+	public static final String ACCESS_BASE_PATH = "http://192.168.1.177:9090/red-cross-file/";
+//	public static final String ACCESS_BASE_PATH = "http://39.98.204.123:8080/red-cross-file/";
 	
 	// 所有视频均存储在该路径下
 	public static final String VIDEO_ABSOLUTE_BASE_PATH = ABSOLUTE_BASE_PATH + "videos" + File.separator;
