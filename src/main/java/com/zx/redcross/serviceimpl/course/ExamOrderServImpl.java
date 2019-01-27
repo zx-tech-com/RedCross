@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.zx.redcross.dao.course.IExamOrderMapper;
 import com.zx.redcross.dao.my.CustomerMapper;
+import com.zx.redcross.dao.my.OsDistrictMapper;
 import com.zx.redcross.entity.Customer;
 import com.zx.redcross.entity.ExamOrder;
 import com.zx.redcross.entity.OrderNumber;
@@ -29,6 +30,9 @@ public class ExamOrderServImpl implements IExamOrderServ {
 	
 	@Autowired
 	private CustomerMapper customerMapper;
+	
+	@Autowired
+	private OsDistrictMapper	osDistrictMapper;
 	
 	@Override
 	public ExamOrder getExamOrderById(Integer id) {
@@ -65,6 +69,7 @@ public class ExamOrderServImpl implements IExamOrderServ {
 				}
 			}
 		}
+		examOrder.setDetailAddress(getDetailAddress(examOrder));//组装完整的地址路径
 		examOrder.setOrderNumber(getExamOrderNumber(examOrder.getCustomer().getId()));
 		return mapper.addExamOrder(examOrder);
 	}
@@ -89,6 +94,26 @@ public class ExamOrderServImpl implements IExamOrderServ {
 		orderNumber.setTel(tel.substring(tel.length() - Constant.TEL_LENGTH, tel.length()));
 		orderNumber.setTimeStamp(Utils.newTimeStamp());
 		return orderNumber.getOrderNumber();
+	}
+	
+	
+	public String getDetailAddress(ExamOrder order) {
+		Map<String, Object> osDistrict=osDistrictMapper.findOsdistrictById(order.getOsDistrict().getId());
+		Integer level=(int) osDistrict.get("level");
+		String path=(String) osDistrict.get("name");
+		Boolean flage=true;
+		while(flage){
+			if(level!=1){
+				 osDistrict=osDistrictMapper.findOsdistrictById((Integer) osDistrict.get("upid"));
+				path=(String) osDistrict.get("name") + path;
+				level--;
+			}else {
+				flage=false;
+			}
+		}
+		String detailAddress = order.getDetailAddress();
+		detailAddress = detailAddress==null?"" : detailAddress;
+		return path + detailAddress;
 	}
 	
 }

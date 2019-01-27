@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -151,7 +152,7 @@ public class KnowledgeCtrl {
 	 * 添加知识
 	 */
 	@RequestMapping("/saveKnowledge")
-	public Map<String,Object> saveKnowledge(@RequestParam(required=true) Knowledge knowledge) {
+	public Map<String,Object> saveKnowledge(@RequestBody Knowledge knowledge) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Boolean flag = knowledgeServImpl.saveKnowledge(knowledge);
 		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
