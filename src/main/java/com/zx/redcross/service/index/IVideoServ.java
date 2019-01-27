@@ -31,15 +31,19 @@ public interface IVideoServ {
 	
 	//===========================后台管理接口========================
 	//后台查询所有付费视频
-	List<Video> adminListVideo();
+	List<Video> adminListVideo(Page page);
 	//添加付费视频
 	Boolean adminSaveVideo(Video video, MultipartFile file, MultipartFile imgUrl);
 	//删除付费视频
 	Boolean adminDeleteVideo(Integer videoId);
+	
+	//批量删除付费视频
+	Boolean adminDeleteBatchVideo(String ids);
+	
 	//修改付费视频
 	Boolean adminUpdateVideo(Video video, MultipartFile file, MultipartFile imgUrl);
     //后台查询付费视频订单
-	List<VideoBuyRecord> adminListVideoBuyRecord();
+	List<VideoBuyRecord> adminListVideoBuyRecord(VideoBuyRecord record);
 	
 	
 }

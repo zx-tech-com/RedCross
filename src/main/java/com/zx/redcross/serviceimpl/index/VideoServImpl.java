@@ -91,8 +91,8 @@ public class VideoServImpl implements IVideoServ {
 	
 
 	@Override
-	public List<Video> adminListVideo() {
-		return videoMapper.adminListVideo();
+	public List<Video> adminListVideo(Page page) {
+		return videoMapper.adminListVideo(page);
 	}
 
 	@Override
@@ -135,6 +135,9 @@ public class VideoServImpl implements IVideoServ {
 		return true;
 	}
 
+	/**
+	 * 记得先保存视频，然后修改记录，最后删除旧视频
+	 */
 	@Override
 	public Boolean adminUpdateVideo(Video video,MultipartFile file,MultipartFile imgUrl) {
 		Video videoSub=videoMapper.getVideoById(video.getId());
@@ -163,8 +166,24 @@ public class VideoServImpl implements IVideoServ {
 	}
 
 	@Override
-	public List<VideoBuyRecord> adminListVideoBuyRecord() {
-		return videoMapper.adminListVideoBuyRecord();
+	public List<VideoBuyRecord> adminListVideoBuyRecord(VideoBuyRecord record) {
+		return videoMapper.adminListVideoBuyRecord(record);
+	}
+
+	
+	@Override
+	public Boolean adminDeleteBatchVideo(String ids) {
+		if(ids == null || ids.trim().length() == 0)
+			return true;
+		//1 首先获取ids对应的videoURL
+		List<Video> list = videoMapper.listVideoByIds(ids);
+		//2尝试删除ids记录
+		Boolean flag = videoMapper.adminDeleteBatchVideo(ids);
+		//3尝试删除相应的video
+		if(flag)
+			for(Video video : list) 
+				FileUtils.removeFile(video.getVideoUrl());
+		return flag;
 	}
 	
 	

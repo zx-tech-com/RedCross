@@ -26,19 +26,24 @@ public interface IVideoMapper {
 	
 	VideoBuyRecord getVideoBuyRecordByCustomerAndVideoId(@Param("customerId")Integer customerId, @Param("videoId")Integer videoId);
 	
+	List<Video> listVideoByIds(@Param("ids")String ids);
 	
 	// =================================付费视频后台管理==============================
 	
 	//后台查询所有付费视频
-	List<Video> adminListVideo();
+	List<Video> adminListVideo(@Param("page") Page page);
 	//后台添加付费视频
 	Boolean adminSaveVideo(Video video);
 	//后台删除付费视频
 	Boolean adminDeleteVideo(Integer videoId);
+	
+	//后台批量删除付费视频
+	Boolean adminDeleteBatchVideo(@Param("ids")String ids);
+	
 	//修改付费视频
 	Boolean adminUpdateVideo(Video video);
 	//后台查询付费视频订单
-	List<VideoBuyRecord> adminListVideoBuyRecord();
+	List<VideoBuyRecord> adminListVideoBuyRecord(@Param("record")VideoBuyRecord record);
 
 	Video getVideoById(Integer videoId);
 	

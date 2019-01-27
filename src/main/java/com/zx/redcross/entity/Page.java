@@ -16,6 +16,11 @@ public class Page {
 	private Integer pageNo=1;
 	private Integer start;
 	
+	private String query = null;
+	@SuppressWarnings("unused")
+	private String finalQuery = null;
+	
+	
 	public Integer getPageSize() {
 		return pageSize;
 	}
@@ -28,9 +33,24 @@ public class Page {
 	public void setPageNo(Integer pageNo) {
 		this.pageNo = pageNo;	
 	}
+
 	public Integer getStart() {
 		this.start = (pageNo-1) * pageSize;
 		return this.start;
+	}
+	
+	public String getQuery() {
+		return query;
+	}
+	
+	public void setQuery(String query) {
+		this.query = query;
+	}
+	
+	public String getFinalQuery() {
+		if(this.query == null || this.query.length() == 0)
+			return null;
+		return "%" + this.query + "%";
 	}
 	
 	

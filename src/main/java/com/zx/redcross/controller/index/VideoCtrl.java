@@ -6,10 +6,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.fastjson.JSON;
 import com.zx.redcross.annotation.BackEnd;
 import com.zx.redcross.annotation.FrontEnd;
 import com.zx.redcross.annotation.Open;
@@ -20,6 +22,7 @@ import com.zx.redcross.service.index.IVideoServ;
 import com.zx.redcross.tool.BusinessExceptionUtils;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.MapUtils;
+import com.zx.redcross.tool.StringUtils;
 
 /**
  * 付费视频模块
@@ -104,9 +107,9 @@ public class VideoCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminListVideo")
-	public Map<String, Object> adminListVideo() {
+	public Map<String, Object> adminListVideo(Page page) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
-		List<Video> videos = videoServImpl.adminListVideo();
+		List<Video> videos = videoServImpl.adminListVideo(page);
 		if (null != videos) {
 			map.put(Constant.DATA, videos);
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
@@ -140,6 +143,23 @@ public class VideoCtrl {
 		map.put(Constant.STATUS, flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
 		return map;
 	}
+	
+	
+	/**
+	 * 批量删除付费视频
+	 */
+	@BackEnd
+	@RequestMapping("/adminDeleteBatchVideo")
+	public Map<String, Object> adminDeleteBatchVideo(Integer[] ids) {
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		if(ids == null || ids.length == 0)
+			BusinessExceptionUtils.throwNewBusinessException("未传递参数！");
+		
+		Boolean flag = videoServImpl.adminDeleteBatchVideo(StringUtils.convertArrayToString(ids));
+		map.put(Constant.STATUS, flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
+		return map;
+	}
+	
 
 	/**
 	 * 修改付费视频
@@ -159,11 +179,13 @@ public class VideoCtrl {
 	 * @return
 	 */
 	@BackEnd
-	@RequestMapping("/adminListVideoBuyRecord")
-	public Map<String, Object> adminListVideoBuyRecord() {
+	@RequestMapping(value="/adminListVideoBuyRecord",method=RequestMethod.POST)
+	public Map<String, Object> adminListVideoBuyRecord(@RequestBody VideoBuyRecord record) {
+		System.err.println(JSON.toJSONString(record));
 		Map<String, Object> map = MapUtils.getHashMapInstance();
-		List<VideoBuyRecord> videoBuyRecords = videoServImpl.adminListVideoBuyRecord();
+		List<VideoBuyRecord> videoBuyRecords = videoServImpl.adminListVideoBuyRecord(record);
 		map.put(Constant.DATA, videoBuyRecords);
+		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 		return map;
 	}
 
