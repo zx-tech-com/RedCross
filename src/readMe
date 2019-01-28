@@ -1,0 +1,5 @@
+注意修改的地方：
+1.applicationContext数据库连接文件.
+2.constant修改ip,port,context.
+
+3.config.json修改basePath,imageUrlPrefix
