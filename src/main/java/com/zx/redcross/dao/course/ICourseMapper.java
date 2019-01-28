@@ -45,4 +45,14 @@ public interface ICourseMapper {
 	//后台修改考试科目的课程
 	Boolean adminUpdateCourse(@Param("course")Course course);
 
+	List<CourseSubject> listCourseSubjectByIds(@Param("ids")String ids);
+
+	Boolean adminDeleteBatchCourseSubject(@Param("ids")String ids);
+
+	List<Course> listCourseVideoByIds(@Param("ids")String ids);
+
+	Boolean adminDeleteBatchCourseVideo(@Param("ids")String ids);
+
+	List<Course> listCourseBySubjectSub(@Param("course")Course course);
+
 }

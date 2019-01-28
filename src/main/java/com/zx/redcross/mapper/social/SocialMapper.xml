@@ -292,8 +292,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 							* 
 						FROM 
 							topic_coment
-						ORDER BY topic_coment.coment_time DESC
-						LIMIT #{page.start},#{page.pageSize}
+						WHERE topic_coment.`topcoment_id`=#{topicComentId}
 					)active_coment
 			LEFT JOIN customer active_customer ON active_coment.customer_id = active_customer.id
 			WHERE active_coment.is_topcoment = 0 AND active_coment.coment_id IS NULL -- 二级评论
@@ -323,8 +322,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 							* 
 						FROM 
 							topic_coment
-						ORDER BY topic_coment.coment_time DESC
-						LIMIT #{page.start},#{page.pageSize}
+						WHERE topic_coment.`topcoment_id`=#{topicComentId}
 					)active_coment
 			LEFT JOIN customer active_customer ON active_coment.customer_id = active_customer.id
 			LEFT JOIN topic_coment passive_coment ON active_coment.coment_id = passive_coment.id
@@ -332,7 +330,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			WHERE active_coment.is_topcoment = 0 AND active_coment.coment_id IS NOT NULL -- 三级评论
 			
 		)tmp
-		ORDER BY tmp.active_coment_coment_time DESC;
+		ORDER BY tmp.active_coment_coment_time DESC
+		LIMIT #{page.start},#{page.pageSize}
 	</select>
 	
 	<!-- 非顶层评论 -->

@@ -173,9 +173,7 @@ public class SocialServiceImpl implements SocialService{
 		if((boolean) topic.get("hasVideo")) {
 			FileUtils.removeFile((String)topic.get("videoUrl"));
 		}else {
-			if(((List<Img>) topic.get("imgs")).size()>0) {
-				
-				
+			if(((List<Img>) topic.get("imgs")).size()>0) {	
 			}
 		}
 		return true;

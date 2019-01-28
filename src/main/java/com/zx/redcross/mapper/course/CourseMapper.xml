@@ -5,6 +5,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.zx.redcross.dao.course.ICourseMapper">
 
+	<select id="listCourseSubjectByIds" resultType="CourseSubject">
+		SELECT
+			cs.thumbnail_url,
+			cs.certificate_url			
+		FROM
+			course_subject cs
+		WHERE
+			cs.id in (${ids})
+	</select>
+	<delete id="adminDeleteBatchCourseSubject">
+	 DELETE FROM course_subject WHERE id in (${ids})
+	</delete>
+	
+	
+	<select id="listCourseVideoByIds" resultType="Course">
+		SELECT
+			c.video_url		
+		FROM
+			course c
+		WHERE
+			c.id in (${ids})
+	</select>
+	
+	<delete id="adminDeleteBatchCourseVideo">
+	 DELETE FROM course WHERE id in (${ids})
+	</delete>
+	
 	
 	<resultMap type="HashMap" id="courseSubject">
 		<result column="id" property="id"/>
@@ -77,6 +104,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="video_url" property="videoUrl"/>
 		<result column="video_duration" property="videoDuration"/>
 	</resultMap>
+	
+	
+	<select id="listCourseBySubjectSub" resultType="course">
+		SELECT 
+			course.id,cname,description,cindex,video_url,video_duration
+		FROM course
+		<where>
+			<if test="course.id !=null">
+				subject_id = #{course.id}
+			</if>
+			<if test="course.cname != null and course.cname.length >0 ">
+				AND cname=#{course.cname}
+			</if>
+		</where>
+	</select>
+	
 	
 	
 	<select id="listCourseBySubject" resultMap="course">

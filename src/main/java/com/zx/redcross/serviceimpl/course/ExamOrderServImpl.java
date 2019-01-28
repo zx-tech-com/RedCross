@@ -46,8 +46,8 @@ public class ExamOrderServImpl implements IExamOrderServ {
 	}
 
 	@Override
-	public List<Map<String, Object>> listExamOrder( Page page) {
-		return mapper.listExamOrder(page);
+	public List<Map<String, Object>> listExamOrder(ExamOrder examOrder) {
+		return mapper.listExamOrder(examOrder);
 	}
 
 	@Override

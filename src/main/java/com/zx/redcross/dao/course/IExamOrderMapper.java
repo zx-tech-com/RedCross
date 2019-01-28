@@ -17,7 +17,7 @@ public interface IExamOrderMapper {
 	List<ExamOrder> listExamOrderByOsDistrictId (
 			Integer districtId,@Param("page") Page page);
 	
-	List<Map<String, Object>> listExamOrder (@Param("page") Page page);
+	List<Map<String, Object>> listExamOrder (@Param("examOrder") ExamOrder examOrder);
 	
 	Boolean addExamOrder(@Param("examOrder") ExamOrder examOrder);
 	

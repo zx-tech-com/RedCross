@@ -28,7 +28,7 @@ public class CourseServImpl implements ICourseServ{
 	}
 
 	@Override
-	public List<Map<String, Object>> listCourseBySubject(Integer subjectId,Page page) {
+	public List<Map<String, Object>> listCourseBySubject(Integer subjectId, Page page) {
 		return courseMapper.listCourseBySubject(subjectId,page);
 	}
 
@@ -174,5 +174,51 @@ public class CourseServImpl implements ICourseServ{
 	@Override
 	public Map<String, Object> getCourseSubjectAndPayStatus(Integer subjectId, Integer customerId) {
 		return courseMapper.getCourseSubjectAndPayStatus(subjectId, customerId);
+	}
+
+	@Override
+	public Boolean adminDeleteBatchVideo(String ids) {
+		if(ids == null || ids.trim().length() == 0) {
+			return true;
+		}
+		//1 首先获取ids对应的videoURL
+		List<CourseSubject> list = courseMapper.listCourseSubjectByIds(ids);
+		//2尝试删除ids记录
+		Boolean flag = courseMapper.adminDeleteBatchCourseSubject(ids);
+		//3尝试删除相应的video
+		if(flag) {
+			for(CourseSubject courseSubject : list) {
+				FileUtils.removeFile(courseSubject.getThumbnailUrl());
+				FileUtils.removeFile(courseSubject.getCertificateUrl());
+				return flag;
+			}
+			
+		}
+		return flag;
+	}
+
+	@Override
+	public Boolean adminDeleteBatchCourseVideo(String ids) {
+		if(ids == null || ids.trim().length() == 0) {
+			return true;
+		}
+		//1 首先获取ids对应的videoURL
+		List<Course> list = courseMapper.listCourseVideoByIds(ids);
+		//2尝试删除ids记录
+		Boolean flag = courseMapper.adminDeleteBatchCourseVideo(ids);
+		//3尝试删除相应的video
+		if(flag) {
+			for(Course  course : list) {
+				FileUtils.removeFile(course.getVideoUrl());
+				return flag;
+			}
+			
+		}
+		return flag;
+	}
+
+	@Override
+	public List<Course> listCourseBySubjectSub(Course course) {
+		return courseMapper.listCourseBySubjectSub(course);
 	}
 }

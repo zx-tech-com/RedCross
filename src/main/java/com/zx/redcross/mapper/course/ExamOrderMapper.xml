@@ -47,7 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		CALL listAllExamOrderByDistrictId(#{districtId},#{page.start},#{page.pageSize});
 	</select>
 	
-	<select id="listExamOrder" resultMap="ExamOrderMap">
+	<select id="listExamOrder" resultMap="ExamOrderMap" >
 		SELECT 
 		eo.`real_name` AS realName
 		,eo.`detail_address` AS detailAddress
@@ -61,7 +61,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		exam_order eo
 		LEFT JOIN course_subject cs
 		ON eo.`course_subject_id`=cs.`id`
-		limit ${page.start},${page.pageSize}
+		<where>
+			<if test="examOrder.status !=0">
+				status = #{examOrder.status}
+			</if>
+			<if test="examOrder.submitTime != null and examOrder.submitTime.length > 0">
+				AND eo.`submit_time` &lt;  #{examOrder.submitTime}
+			</if>
+			<if test="examOrder.submitTimeMin!= null and examOrder.submitTimeMin.length > 0">
+				AND eo.`submit_time` &gt; #{examOrder.submitTimeMin}
+			</if>
+			<if test="examOrder.realName != null and examOrder.realName.length >0">
+				<bind name="name" value="'%'+ examOrder.realName +'%'" />
+				AND realName LIKE  #{name}
+			</if>
+		</where>
 	</select>
 	<resultMap type="HashMap" id="ExamOrderMap">
 		<result property="realName" column="realName"/>

@@ -63,11 +63,11 @@ public class ExamOrderCtrl {
 	}
 	
 	@RequestMapping("/listExamOrder")
-	public Map<String,Object> listExamOrder (Page page){
+	public Map<String,Object> listExamOrder (@RequestBody ExamOrder examOrder){
 		
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
-		List<Map<String, Object>> examOrderList = examOrderServImpl.listExamOrder(page);
+		List<Map<String, Object>> examOrderList = examOrderServImpl.listExamOrder(examOrder);
 		if(null != examOrderList) {
 			map.put(Constant.DATA, examOrderList);
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);

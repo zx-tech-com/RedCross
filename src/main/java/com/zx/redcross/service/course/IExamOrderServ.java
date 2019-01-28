@@ -14,7 +14,7 @@ public interface IExamOrderServ {
 	
 	List<ExamOrder> listExamOrderByOsDistrictId (Integer districtId,Page page);
 	
-	List<Map<String, Object>> listExamOrder (Page page);
+	List<Map<String, Object>> listExamOrder (ExamOrder examOrder);
 	
 	Boolean addExamOrder(ExamOrder examOrder);
 	

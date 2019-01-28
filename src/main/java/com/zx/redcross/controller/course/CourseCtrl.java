@@ -21,6 +21,7 @@ import com.zx.redcross.service.course.ICourseServ;
 import com.zx.redcross.tool.BusinessExceptionUtils;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.MapUtils;
+import com.zx.redcross.tool.StringUtils;
 
 @RestController
 @RequestMapping("/course")
@@ -42,6 +43,7 @@ public class CourseCtrl {
 		}
 		return map;
 	}
+	
 	@RequestMapping("/findCourseSubject")
 	@Open
 	public Map<String,Object> findCourseSubject(@RequestParam(required=true) Integer subjectId) {
@@ -54,6 +56,7 @@ public class CourseCtrl {
 		}
 		return map;
 	}
+	
 	
 	@RequestMapping("/getCourseSubject")
 	@Open
@@ -242,9 +245,9 @@ public class CourseCtrl {
 	@BackEnd
 	@RequestMapping("/adminListCourse")
 	@Open
-	public Map<String,Object> adminListCourse( Integer subjectId,Page page) {
+	public Map<String,Object> adminListCourse( Course course) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		List<Map<String, Object>> Courses = courseServImpl.listCourseBySubject(subjectId,page);
+		List<Course> Courses = courseServImpl.listCourseBySubjectSub(course);
 		map.put(Constant.DATA,Courses);
 		map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
 		return map; 
@@ -285,5 +288,40 @@ public class CourseCtrl {
 		Boolean flag = courseServImpl.adminUpdateCourse(course);
 		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
 		return map; 
+	}
+	
+	
+	/**
+	 * 批量删除科目
+	 * @param ids
+	 * @return
+	 */
+	@RequestMapping("/adminDeleteBatchCourseSubject")
+	public Map<String,Object> adminDeleteBatchCourseSubject(Integer[] ids){
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		if(ids == null || ids.length == 0) {
+			BusinessExceptionUtils.throwNewBusinessException("未传递参数！");
+		}
+		Boolean flag = courseServImpl.adminDeleteBatchVideo(StringUtils.convertArrayToString(ids));
+		map.put(Constant.STATUS, flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
+		return map;
+	}
+	
+	
+	/**
+	 * 批量删除课程
+	 * @param ids
+	 * @return
+	 */
+	@RequestMapping("/adminDeleteBatchCourseVideo")
+	public Map<String,Object> adminDeleteBatchCourseVideo(Integer[] ids){
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		if(ids == null || ids.length == 0) {
+			BusinessExceptionUtils.throwNewBusinessException("未传递参数！");
+		}
+		Boolean flag = courseServImpl.adminDeleteBatchCourseVideo(StringUtils.convertArrayToString(ids));
+		map.put(Constant.STATUS, flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
+		return map;
+		
 	}
 }

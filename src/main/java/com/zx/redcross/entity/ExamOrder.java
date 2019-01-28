@@ -16,12 +16,21 @@ public class ExamOrder implements Serializable {
 	private String payMethod;
 	private byte status;
 	private String submitTime;
+	private String submitTimeMin;
 	private CourseSubject courseSubject;
 	private Customer customer;
 	private OsDistrict osDistrict;
 	private List<ExamPayRecord> examPayRecords;
 
 	public ExamOrder() {
+	}
+	
+	public String getSubmitTimeMin() {
+		return submitTimeMin;
+	}
+
+	public void setSubmitTimeMin(String submitTimeMin) {
+		this.submitTimeMin = submitTimeMin;
 	}
 
 	public Integer getId() {
@@ -156,14 +165,8 @@ public class ExamOrder implements Serializable {
 	public String toString() {
 		return "ExamOrder [id=" + id + ", coment=" + coment + ", detailAddress=" + detailAddress + ", tel=" + tel
 				+ ", realName=" + realName + ", method=" + method + ", orderNumber=" + orderNumber + ", payMethod="
-				+ payMethod + ", status=" + status + ", submitTime=" + submitTime + ", courseSubject=" + courseSubject
-				+ ", customer=" + customer + ", osDistrict=" + osDistrict + ", examPayRecords=" + examPayRecords + "]";
+				+ payMethod + ", status=" + status + ", submitTime=" + submitTime + ", submitTimeMin=" + submitTimeMin
+				+ ", courseSubject=" + courseSubject + ", customer=" + customer + ", osDistrict=" + osDistrict
+				+ ", examPayRecords=" + examPayRecords + "]";
 	}
-
-	
-	
-	
-
-	
-
 }

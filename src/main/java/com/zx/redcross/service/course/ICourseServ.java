@@ -14,7 +14,8 @@ public interface ICourseServ {
 	
 	List<Map<String, Object>> listCourseSubject();
 	
-	List<Map<String, Object>> listCourseBySubject(Integer subjectId,Page page);
+
+	List<Map<String, Object>> listCourseBySubject(Integer subjectId, Page page);
 	
 	Map<String, Object> getCourseById(Integer id);
 	
@@ -49,6 +50,15 @@ public interface ICourseServ {
 			MultipartFile ccieUrl);
 	//后台修改科目下面的课程
 	Boolean adminUpdateCourse(Course course);
+	//批量删除科目
+	Boolean adminDeleteBatchVideo(String ids);
+	//批量删除课程
+	Boolean adminDeleteBatchCourseVideo(String ids);
+
+
+	List<Course> listCourseBySubjectSub(Course course);
+
+	
 
 
 

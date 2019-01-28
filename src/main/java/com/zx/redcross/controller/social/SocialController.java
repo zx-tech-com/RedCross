@@ -21,6 +21,7 @@ import com.zx.redcross.service.social.SocialService;
 import com.zx.redcross.tool.BusinessExceptionUtils;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.MapUtils;
+import com.zx.redcross.tool.StringUtils;
 
 /**
  * 社交模块
@@ -307,6 +308,5 @@ public class SocialController {
 		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
 		return map; 
 	}
-	
 		
 }
