@@ -173,7 +173,7 @@ public class KnowledgeCtrl {
 	 * 修改知识
 	 */
 	@RequestMapping("/adminUpdateKnowledge")
-	public Map<String,Object> adminUpdateKnowledge(Knowledge knowledge) {
+	public Map<String,Object> adminUpdateKnowledge(@RequestBody Knowledge knowledge) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Boolean flag=knowledgeServImpl.adminUpdateKnowledge(knowledge);
 		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);

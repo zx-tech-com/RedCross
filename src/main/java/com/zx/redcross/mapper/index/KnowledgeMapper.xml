@@ -37,6 +37,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="typeId != null">
 				type_id = #{typeId}
 			</if>
+			<if test="page.query!=null and page.query.length!=0">
+				AND title LIKE #{page.finalQuery}
+			</if>
 		</where>
 		LIMIT ${page.start},${page.pageSize};
 	</select>
@@ -56,10 +59,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="saveKnowledge" useGeneratedKeys="true" keyColumn="id">
 		INSERT INTO 
-			knowledge ( type_id, title, content, has_video, video_url )
+			knowledge ( type_id, title, content)
 		VALUES
-			(#{Knowledge.knowledgeType.id},#{Knowledge.title},
-			#{Knowledge.content},#{Knowledge.has_video},#{Knowledge.video_url});
+			(#{knowledge.knowledgeType.id},#{knowledge.title},
+			#{knowledge.content});
 	</insert>
 	
 	
@@ -86,12 +89,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 后台修改知识类型 -->
 	<update id="adminUpdateKnowledge" >
 	UPDATE knowledge SET 
-	type_id=#{Knowledge.knowledgeType.id},
-	title=#{Knowledge.title},
-	content=#{Knowledge.content},
-	has_video=#{Knowledge.has_video},
-	video_url=#{Knowledge.video_url}
-	WHERE id=#{Knowledge.id}
+	type_id=#{knowledge.knowledgeType.id},
+	title=#{knowledge.title},
+	content=#{knowledge.content}
+	WHERE id=#{knowledge.id}
 	</update>
 	
 	
