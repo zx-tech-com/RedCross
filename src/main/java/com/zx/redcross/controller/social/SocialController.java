@@ -21,7 +21,6 @@ import com.zx.redcross.service.social.SocialService;
 import com.zx.redcross.tool.BusinessExceptionUtils;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.MapUtils;
-import com.zx.redcross.tool.StringUtils;
 
 /**
  * 社交模块
@@ -38,6 +37,7 @@ public class SocialController {
 	/**
 	 * 社交主页面
 	 */
+	@BackEnd
 	@RequestMapping("/findAllTopic")
 	@Open
 	public Map<String, Object> listTopic(Page page,Integer customerId,Integer topicTypeId) {
@@ -108,6 +108,7 @@ public class SocialController {
 	 * @param customerId（登录用户信息，判断是点赞）
 	 * @return
 	 */
+	@BackEnd
 	@RequestMapping("/findOnceTopicComent")
 	@Open
 	public Map<String,Object> findOnceTopic(Page page,Integer topicId,Integer customerId){
@@ -130,6 +131,7 @@ public class SocialController {
 	 * @param customerId
 	 * @return
 	 */
+	@BackEnd
 	@RequestMapping("/findLowerComent")
 	@Open
 	public Map<String,Object> findLowerComent(Page page,Integer topicComentId
@@ -217,6 +219,7 @@ public class SocialController {
 	/**
 	 * 获取所有帖子类型
 	 */
+	@BackEnd
 	@RequestMapping("/findTopicType")
 	@Open
 	public Map<String,Object> findTopicType(){

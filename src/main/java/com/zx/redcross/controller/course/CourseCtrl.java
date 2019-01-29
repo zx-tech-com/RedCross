@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,10 +15,12 @@ import com.zx.redcross.annotation.BackEnd;
 import com.zx.redcross.annotation.FrontEnd;
 import com.zx.redcross.annotation.Open;
 import com.zx.redcross.entity.Course;
+import com.zx.redcross.entity.CourseRecord;
 import com.zx.redcross.entity.CourseSubject;
 import com.zx.redcross.entity.ExamOrder;
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.service.course.ICourseServ;
+import com.zx.redcross.service.my.ICourseRecordServ;
 import com.zx.redcross.tool.BusinessExceptionUtils;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.MapUtils;
@@ -29,6 +32,8 @@ public class CourseCtrl {
 
 	@Autowired
 	private ICourseServ courseServImpl;
+	@Autowired
+	private ICourseRecordServ courseRecordServImpl;
 	
 	@FrontEnd
 	@RequestMapping("/listCourseSubject")
@@ -58,6 +63,7 @@ public class CourseCtrl {
 	}
 	
 	
+	@BackEnd
 	@RequestMapping("/getCourseSubject")
 	@Open
 	public Map<String,Object> getdCourseSubject(
@@ -125,8 +131,16 @@ public class CourseCtrl {
 		page.setPageSize(Integer.MAX_VALUE);
 		int toalCount = courseServImpl.listCourseBySubject(courseSubjectId, page).size();
 		
+		//获取该用户该课程分类下的下一个应该播放的视频信息
+		CourseRecord record = new CourseRecord();
+		record.setCustomerId(customerId);
+		record.setCourseSubjectId(courseSubjectId);
+		CourseRecord cr = courseRecordServImpl.getNextCourseInfo(record);
+		
 		data.put(Constant.TOTAL_COUNT, toalCount);
 		data.put("watch", count);
+		data.put("videoUrl", cr.getCourse().getVideoUrl());
+		data.put("progress", cr.getCurrentMinute());
 		
 		map.put(Constant.DATA, data);
 		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
@@ -139,18 +153,14 @@ public class CourseCtrl {
 	 * @return
 	 */
 	@RequestMapping("/saveCourseRecord")
-	public Map<String,Object> saveCourseRecord(Integer customerId,Integer courseId) {
+	public Map<String,Object> saveCourseRecord(@RequestBody CourseRecord record) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		courseServImpl.saveCountRecord(customerId,courseId);
-		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		if(courseRecordServImpl.saveCourseRecord(record))
+			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		else
+			map.put(Constant.STATUS, Constant.STATUS_FAILURE);
 		return map;
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 	//===============================后台管理需要用到的接口===================================
@@ -181,7 +191,6 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminListCourseSubject")
-	@Open
 	public Map<String,Object> adminListCourseSubject() {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		List<Map<String, Object>> courseSubjectList=courseServImpl.listCourseSubject();
@@ -195,7 +204,6 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminAddCourseSubject")
-	@Open
 	public Map<String,Object> adminAddCourseSubject(CourseSubject courseSubject,
 					@Param(value = "imgUrl")MultipartFile imgUrl,@Param(value = "ccieUrl")MultipartFile ccieUrl ) {
 		
@@ -210,7 +218,6 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminDeleteCourseSubject")
-	@Open
 	public Map<String,Object> adminDeleteCourseSubject(Integer courseSubjectId) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Boolean flag = courseServImpl.adminDeleteCourseSubject(courseSubjectId);
@@ -224,7 +231,6 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminUpdateCourseSubject")
-	@Open
 	public Map<String,Object> adminUpdateCourseSubject(CourseSubject courseSubject,
 			@Param(value = "imgUrl")MultipartFile imgUrl,@Param(value = "ccieUrl")MultipartFile ccieUrl) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
@@ -244,7 +250,6 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminListCourse")
-	@Open
 	public Map<String,Object> adminListCourse( Course course) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		List<Course> Courses = courseServImpl.listCourseBySubjectSub(course);
@@ -257,7 +262,6 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/addCourse")
-	@Open
 	public Map<String,Object> addCourse(Course course,MultipartFile file) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Boolean flag = courseServImpl.addCourse(course,file);
@@ -269,7 +273,6 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminDeleteCourse")
-	@Open
 	public Map<String,Object> adminDeleteCourse( Integer courseId) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Boolean flag = courseServImpl.adminDeleteCourse(courseId);
@@ -282,7 +285,6 @@ public class CourseCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminUpdateCourse")
-	@Open
 	public Map<String,Object> adminUpdateCourse(Course course) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Boolean flag = courseServImpl.adminUpdateCourse(course);

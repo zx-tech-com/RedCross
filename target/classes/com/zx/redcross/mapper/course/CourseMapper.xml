@@ -131,10 +131,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 
-	<insert id="saveCountRecord">
+	<!-- <insert id="saveCountRecord">
 	INSERT INTO course_record(customer_id,course_id) 
 	VALUES(#{customerId},#{courseId})
-	</insert>
+	</insert> -->
 	
 
 	<select id="getCourseById" resultMap="course">

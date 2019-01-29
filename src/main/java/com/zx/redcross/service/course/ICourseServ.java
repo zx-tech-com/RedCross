@@ -26,8 +26,8 @@ public interface ICourseServ {
 	Map<String, Object> findCourseSubject(Integer subjectId);
 	//统计完成课时
 	Integer getCountRecord(Integer customerId, Integer courseSubjectId);
-	//保存观看结束的课程视频记录
-	void saveCountRecord(Integer customerId, Integer courseId);
+	//保存观看结束的课程视频记录,转移到ICourseRecordServ中。
+//	void saveCountRecord(Integer customerId, Integer courseId);
 	
 	/**
 	 * @param subjectId

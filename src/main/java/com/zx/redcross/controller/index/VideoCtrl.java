@@ -18,6 +18,7 @@ import com.zx.redcross.annotation.Open;
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.entity.Video;
 import com.zx.redcross.entity.VideoBuyRecord;
+import com.zx.redcross.entity.VideoRecord;
 import com.zx.redcross.service.index.IVideoServ;
 import com.zx.redcross.tool.BusinessExceptionUtils;
 import com.zx.redcross.tool.Constant;
@@ -35,6 +36,7 @@ public class VideoCtrl {
 
 	@Autowired
 	private IVideoServ videoServImpl;
+	
 
 	/**
 	 * 视频列表，查询所有视频，并判断用户是否购买了
@@ -100,7 +102,8 @@ public class VideoCtrl {
 		map.put(Constant.STATUS, flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
 		return map;
 	}
-
+	
+	
 	// =================================付费视频后台管理==============================
 	/**
 	 * 付费视频列表
