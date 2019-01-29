@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zx.redcross.annotation.BackEnd;
 import com.zx.redcross.annotation.FrontEnd;
 import com.zx.redcross.annotation.Open;
 import com.zx.redcross.entity.Knowledge;
@@ -26,8 +27,8 @@ public class KnowledgeCtrl {
 	@Autowired
 	private IKnowledgeServ knowledgeServImpl;
 	
-	
-	@FrontEnd
+
+	@BackEnd
 	@RequestMapping("/getKnowledge")
 	@Open
 	public Map<String,Object> getKnowledgeById(@RequestParam(required=true)Integer id) {
@@ -151,6 +152,7 @@ public class KnowledgeCtrl {
 	/**
 	 * 添加知识
 	 */
+	@BackEnd
 	@RequestMapping("/saveKnowledge")
 	public Map<String,Object> saveKnowledge(@RequestBody Knowledge knowledge) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();

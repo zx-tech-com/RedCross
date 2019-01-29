@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zx.redcross.dao.my.ICourseRecordMapper">
+	
+	<resultMap type="CourseRecord" id="courseRecord" autoMapping="true">
+		<id column="course_record_id" property="courseRecordId"/>
+		<association property="course" javaType="Course" autoMapping="true">
+			<id column="id" property="id"/>
+		</association>
+	</resultMap>
+	
+	<select id="listCourseRecordByCustomerAndSubjectId" resultMap="courseRecord">
+		SELECT
+			course_record.*,
+			course.*
+		FROM
+			course_record 
+			LEFT JOIN course ON course_record.course_id = course.id
+		WHERE
+			customer_id = #{record.customerId}
+			AND course_subject_id = #{record.courseSubjectId}
+	</select>
+	
+	
+	<select id="getFirstIndexCourse" resultType="Course">
+		SELECT
+			*
+		FROM course
+		WHERE course.subject_id = #{subjectId}
+		ORDER BY course.cindex ASC
+		LIMIT 0,1
+	</select>
+	
+	<insert id="saveCourseRecord">
+		INSERT INTO 
+			course_record(customer_id,course_id,course_subject_id,current_minute)
+		VALUES(
+			#{record.customerId},
+			#{record.courseId},
+			#{record.courseSubjectId},
+			#{record.currentMinute}
+		)
+	</insert>
+</mapper>

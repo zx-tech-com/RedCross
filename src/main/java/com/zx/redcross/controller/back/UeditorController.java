@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baidu.ueditor.ActionEnter;
-import com.zx.redcross.annotation.Open;
+import com.zx.redcross.annotation.BackEnd;
 
 @RestController
 @RequestMapping("/ueditor")
 public class UeditorController {
 	
     @RequestMapping(value="/config")
-    @Open
+    @BackEnd
     public void config(HttpServletRequest request, HttpServletResponse response) {
     	response.setHeader("Content-Type" , "text/html");
  

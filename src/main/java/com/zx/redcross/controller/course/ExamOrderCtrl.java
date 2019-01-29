@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zx.redcross.annotation.BackEnd;
 import com.zx.redcross.annotation.FrontEnd;
 import com.zx.redcross.entity.ExamOrder;
 import com.zx.redcross.entity.Page;
@@ -62,6 +63,7 @@ public class ExamOrderCtrl {
 		
 	}
 	
+	@BackEnd
 	@RequestMapping("/listExamOrder")
 	public Map<String,Object> listExamOrder (@RequestBody ExamOrder examOrder){
 		

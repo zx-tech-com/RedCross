@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zx.redcross.dao.my.IVideoRecordMapper">
+	
+	<resultMap type="HashMap" id="videoRecord">
+		<result column="id" property="id"/>
+		<result column="video_url" property="videoUrl"/>
+		<result column="current_minute" property="currentMinute"/>
+	</resultMap>
+	
+	<select id="getVideoRecordByCustomerAndVideoId" resultMap="videoRecord">
+		SELECT
+			video.id,
+			video.video_url,
+			video_record.current_minute
+		FROM
+			video_record
+		LEFT JOIN video ON video_id = video.id
+		WHERE
+			customer_id = #{record.customer.id}
+			AND video_id = #{record.video.id}
+	</select>
+	
+	<insert id="saveVideoRecord">
+		INSERT INTO 
+			video_record ( customer_id, video_id, current_minute )
+		VALUES
+			(#{record.customer.id},#{record.video.id},#{record.currentMinute});
+	</insert>
+	
+	
+	
+</mapper>

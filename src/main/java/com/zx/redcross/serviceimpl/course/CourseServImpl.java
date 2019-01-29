@@ -84,10 +84,10 @@ public class CourseServImpl implements ICourseServ{
 		return courseMapper.getCountRecord(customerId,courseSubjectId);
 	}
 
-	@Override
+/*	@Override
 	public void saveCountRecord(Integer customerId, Integer courseId) {
 		courseMapper.saveCountRecord(customerId,courseId);
-	}
+	}*/
 
 	@Override
 	public List<ExamOrder> adminListExamOrder() {

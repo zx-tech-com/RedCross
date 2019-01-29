@@ -32,7 +32,7 @@ public class InterfaceOpenInterceptor  extends HandlerInterceptorAdapter{
 			throws Exception {
 		if(handler instanceof HandlerMethod) {
 			HandlerMethod method = (HandlerMethod)handler;
-			if(null != method.getMethodAnnotation(Open.class))//未被@Open修饰直接返回true
+			if(null != method.getMethodAnnotation(Open.class))//被@Open修饰直接返回true
 				return true;
 			else {//验证token
 				response.setContentType("application/json;charset=UTF-8");
@@ -49,13 +49,9 @@ public class InterfaceOpenInterceptor  extends HandlerInterceptorAdapter{
 						return true;
 					case Constant.TOKEN_EXPIRED  :
 						addTokenExpiredInfo(response);
-//						response.setStatus(Constant.HTTP_STATUS_302);
-//						response.sendRedirect("/RedCross/authentication/1");
 						return false;
 					case Constant.TOKEN_INVALID  :
 						addTokenInvalidInfo(response);
-//						response.setStatus(Constant.HTTP_STATUS_302);
-//						response.sendRedirect("/RedCross/authentication/0");
 						return false;
 				}
 			}
