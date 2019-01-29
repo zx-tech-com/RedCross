@@ -123,6 +123,22 @@ public class CustomerController {
 	}
 	
 	
+	@RequestMapping("/getMyselfMessage")
+	public Map<String,Object> getMyselfMessage(Integer customerId){
+		Map<String,Object> map=MapUtils.getHashMapInstance();
+		Customer customer=customerService.getMyselfMessage(customerId);
+		if(customer!=null){
+			map.put(Constant.DATA, customer);
+			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		}else {
+			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		}	
+		return map;
+	}
+	
+	
+	
+	
 	
 	
 	/**

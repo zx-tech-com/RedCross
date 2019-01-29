@@ -101,7 +101,7 @@ public class CustomerServiceImpl implements CustomerService{
 		Boolean flage=true;
 		while(flage){
 			if(level!=1){
-				 osDistrict=osDistrictMapper.findOsdistrictById((Integer) osDistrict.get("upid"));
+				osDistrict=osDistrictMapper.findOsdistrictById((Integer) osDistrict.get("upid"));
 				path=(String) osDistrict.get("name") + path;
 				level--;
 			}else {
@@ -111,6 +111,11 @@ public class CustomerServiceImpl implements CustomerService{
 		String detailAddress = customer.getDetailAddress();
 		detailAddress = detailAddress==null?"" : detailAddress;
 		return path + detailAddress;
+	}
+
+	@Override
+	public Customer getMyselfMessage(Integer customerId) {
+		return customerMapper.getMyselfMessage(customerId);
 	}
 
 }

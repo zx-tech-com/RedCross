@@ -34,4 +34,7 @@ public interface CustomerService {
 	 * @return
 	 */
 	String getDetailAddress(Customer customer);
+	
+	
+	Customer getMyselfMessage(Integer customerId);
 }
