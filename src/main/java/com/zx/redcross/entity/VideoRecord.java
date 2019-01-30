@@ -26,11 +26,13 @@ public class VideoRecord {
 	public void setRecordTime(String recordTime) {
 		this.recordTime = recordTime;
 	}
-	public String getCurrentTime() {
+	
+	
+	public String getCurrentMinute() {
 		return currentMinute;
 	}
-	public void setCurrentTime(String currentTime) {
-		this.currentMinute = currentTime;
+	public void setCurrentMinute(String currentMinute) {
+		this.currentMinute = currentMinute;
 	}
 	@Override
 	public String toString() {

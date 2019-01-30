@@ -25,8 +25,12 @@ public class CourseRecordServImpl implements ICourseRecordServ {
 
 	@Override
 	public Boolean saveCourseRecord(CourseRecord record) {
-
-		return courseRecordmapper.saveCourseRecord(record);
+		Integer count=courseRecordmapper.findCourseRecordCount(record);
+		if(count==0) {
+			return courseRecordmapper.saveCourseRecord(record);
+		}else {
+			return courseRecordmapper.updateCourseRecord(record);
+		}
 	}
 
 	@Override
