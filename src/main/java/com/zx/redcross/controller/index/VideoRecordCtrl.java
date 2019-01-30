@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zx.redcross.annotation.Open;
 import com.zx.redcross.entity.VideoRecord;
 import com.zx.redcross.service.my.IVideoRecordServ;
 import com.zx.redcross.tool.Constant;
@@ -19,6 +20,7 @@ public class VideoRecordCtrl {
 	private IVideoRecordServ videoRecordServImpl;
 	
 	@RequestMapping("/saveVideoRecord")
+	@Open
 	public Map<String,Object> saveVideoRecord(@RequestBody VideoRecord record) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		if(videoRecordServImpl.saveVideoRecord(record))
@@ -29,6 +31,7 @@ public class VideoRecordCtrl {
 	}
 	
 	@RequestMapping("/getVideoProgress")
+	@Open
 	public Map<String,Object> getVideoProgress(@RequestBody VideoRecord record) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);

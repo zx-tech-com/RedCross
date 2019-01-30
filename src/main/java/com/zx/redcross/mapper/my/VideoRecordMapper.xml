@@ -31,6 +31,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			(#{record.customer.id},#{record.video.id},#{record.currentMinute});
 	</insert>
 	
+	<select id="findVideoRecordCount" resultType="int">
+		SELECT 
+		COUNT(id) 
+		FROM 
+		video_record 
+		WHERE
+		customer_id=#{record.customer.id}
+		AND
+		video_id=#{record.video.id}
+	</select>
 	
+	
+	<update id="updateVideoRecord">
+	update 
+	video_record
+	set
+	current_minute=#{record.currentMinute}
+	where 
+	customer_id=#{record.customer.id}
+		AND
+	video_id=#{record.video.id}
+
+	</update>
 	
 </mapper>

@@ -44,4 +44,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{record.currentMinute}
 		)
 	</insert>
+	
+	<select id="findCourseRecordCount" resultType="int">
+	select
+	count(course_record_id)
+	from 
+	course_record
+	where
+	customer_id=#{record.customerId}
+	and
+	course_id=#{record.courseId}
+	</select>
+	
+	
+	<update id="updateCourseRecord">
+	update
+	course_record
+	set
+	current_minute=#{record.currentMinute}
+	where
+	customer_id=#{record.customerId}
+	and
+	course_id=#{record.courseId}
+	</update>
 </mapper>

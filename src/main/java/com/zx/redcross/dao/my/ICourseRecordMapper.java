@@ -14,5 +14,9 @@ public interface ICourseRecordMapper {
 	Boolean saveCourseRecord(@Param("record") CourseRecord record);
 	
 	Course getFirstIndexCourse (Integer subjectId);
+
+	Integer findCourseRecordCount(@Param("record")CourseRecord record);
+
+	Boolean updateCourseRecord(@Param("record")CourseRecord record);
 	
 }

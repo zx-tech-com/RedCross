@@ -26,7 +26,12 @@ public class VideoRecordServImpl implements IVideoRecordServ{
 
 	@Override
 	public Boolean saveVideoRecord(VideoRecord record) {
-		return mapper.saveVideoRecord(record);
+		Integer count=mapper.findVideoRecordCount(record);
+		if(count==0) {
+			return mapper.saveVideoRecord(record);	
+		}else {
+			return mapper.updateVideoRecord(record);
+		}	
 	}
 	
 	
