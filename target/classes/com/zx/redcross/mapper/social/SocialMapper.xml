@@ -28,6 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	,topic.content As	topic_content
 	,topic.publish_time As	topic_publish_time
 	,topic.status As	topic_status
+	,topic.`total_share` AS total_share 
 	,customer.id AS	customer_id
 	,customer.nickname AS	customer_nickName
 	,customer.avatar_url AS customer_avatarUrl
@@ -65,6 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	,topic.content As	topic_content
 	,topic.publish_time As	topic_publish_time
 	,topic.status As	topic_status
+	,topic.`total_share` AS total_share 
 	,customer.id AS	customer_id
 	,customer.nickname AS	customer_nickName
 	,customer.avatar_url AS customer_avatarUrl
@@ -405,6 +407,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          <result property= "hasVideo" column="topic_has_video"/>
 		 <result property= "videoUrl" column="topic_video_url" />
 		 <result property= "status" column="topic_status" />
+		  <result property= "totalShare" column="total_share" />
 		 <result property= "totalThumbsup" column="totalThumbsup"/>
 		 <result property= "totalComment" column="totalComment" />
 		 <result property= "flag" column="flag" />

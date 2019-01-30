@@ -26,4 +26,6 @@ public interface CustomerMapper {
 	
 	Boolean updatePersonalInfo(@Param("customer")Customer customer);
 	
+	public Customer getMyselfMessage(Integer customerId);
+	
 }
