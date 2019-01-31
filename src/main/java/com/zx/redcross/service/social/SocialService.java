@@ -14,7 +14,7 @@ public interface SocialService {
 	//查询所有帖子的分类
 	public List<TopicType> findAllTopicType();
 	//查询帖子所有条数
-	public Integer findAllCountTopic();
+	public Integer findAllCountTopic(Integer topicTypeId);
 	
 	public List<Map<String, Object>> findAllTopic(Page page, Integer customerId, Integer topicTypeId);
 	//通过帖子id查找帖子全部信息
@@ -68,5 +68,9 @@ public interface SocialService {
 	public Boolean addTopicType(TopicType topicType, MultipartFile imgUrl);
 	public Boolean adminDeleteTopicType(Integer topicTypeId);
 	public Boolean adminUpdateTopicType(TopicType topicType, MultipartFile imgUrl);
+	//查找出一級評論的條數
+	public Integer findOnceTopicComentCount(Integer topicId);
+	//除一級以外評論條數
+	public Integer findLowerComentCount(Integer topicComentId);
 
 }

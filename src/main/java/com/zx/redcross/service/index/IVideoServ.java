@@ -44,6 +44,8 @@ public interface IVideoServ {
 	Boolean adminUpdateVideo(Video video, MultipartFile file, MultipartFile imgUrl);
     //后台查询付费视频订单
 	List<VideoBuyRecord> adminListVideoBuyRecord(VideoBuyRecord record);
+
+	Integer findVideoCount();
 	
 	
 }

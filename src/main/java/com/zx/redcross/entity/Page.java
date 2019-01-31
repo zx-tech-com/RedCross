@@ -20,7 +20,26 @@ public class Page {
 	@SuppressWarnings("unused")
 	private String finalQuery = null;
 	
+	private Integer pageCount;
+	private Integer totalPage;
 	
+	public Integer getTotalPage() {
+		if(pageCount%pageSize==0){
+            totalPage = pageCount/pageSize;
+		}else{
+			totalPage = pageCount/pageSize+1;
+		}
+		return totalPage;
+	}
+	public void setTotalPage(Integer totalPage) {
+		this.totalPage = totalPage;
+	}
+	public Integer getPageCount() {
+		return pageCount;
+	}
+	public void setPageCount(Integer pageCount) {
+		this.pageCount = pageCount;
+	}
 	public Integer getPageSize() {
 		return pageSize;
 	}

@@ -46,6 +46,8 @@ public interface IVideoMapper {
 	List<VideoBuyRecord> adminListVideoBuyRecord(@Param("record")VideoBuyRecord record);
 
 	Video getVideoById(Integer videoId);
+
+	Integer findVideoCount();
 	
 	
 }

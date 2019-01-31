@@ -18,7 +18,6 @@ import com.zx.redcross.annotation.Open;
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.entity.Video;
 import com.zx.redcross.entity.VideoBuyRecord;
-import com.zx.redcross.entity.VideoRecord;
 import com.zx.redcross.service.index.IVideoServ;
 import com.zx.redcross.tool.BusinessExceptionUtils;
 import com.zx.redcross.tool.Constant;
@@ -113,8 +112,11 @@ public class VideoCtrl {
 	public Map<String, Object> adminListVideo(Page page) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		List<Video> videos = videoServImpl.adminListVideo(page);
+		Integer pageCount=videoServImpl.findVideoCount();
+		page.setPageCount(pageCount);
 		if (null != videos) {
 			map.put(Constant.DATA, videos);
+			map.put(Constant.TOTAL_COUNT, page.getTotalPage());
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 		} else {
 			map.put(Constant.STATUS, Constant.STATUS_FAILURE);

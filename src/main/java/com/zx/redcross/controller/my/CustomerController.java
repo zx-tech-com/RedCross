@@ -137,6 +137,20 @@ public class CustomerController {
 	}
 	
 	
+	/**
+	 * 查询是否为自己的发帖
+	 */
+	@RequestMapping("/findMyTopic")
+	public Map<String,Object> findMyTopic(Integer topicId,Integer customerId){
+		Map<String,Object> map=MapUtils.getHashMapInstance();
+		Integer count=customerService.findMyTopic(topicId,customerId);
+		if(count==1) {
+			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		}else {
+			map.put(Constant.STATUS, Constant.STATUS_FAILURE);
+		}
+		return map;		
+	}
 	
 	
 	
@@ -147,10 +161,12 @@ public class CustomerController {
 	@RequestMapping("/deleteMyTopic")
 	public Map<String,Object> deleteMyTopic(Integer topicId,Integer customerId){
 		Map<String,Object> map=MapUtils.getHashMapInstance();
-		customerService.deleteMyTopic(topicId,customerId);
-		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
-		return map;		
+		Boolean flag=customerService.deleteMyTopic(topicId,customerId);
+		map.put(Constant.STATUS,flag?
+				Constant.STATUS_SUCCESS:Constant.STATUS_FAILURE);
+		return map;	
 	}
+	
 	/**
 	 * 查询是否为自己的评论
 	 */
@@ -170,10 +186,11 @@ public class CustomerController {
 	 * 删除自己的评论
 	 */
 	@RequestMapping("/deleteMyTopicComent")
-	public Map<String,Object> deleteMyTopicComent(Integer topicId,Integer customerId){
+	public Map<String,Object> deleteMyTopicComent(Integer topicComentId,Integer customerId){
 		Map<String,Object> map=MapUtils.getHashMapInstance();
-		customerService.deleteMyTopicComent(topicId,customerId);
-		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		Boolean flag=customerService.deleteMyTopicComent(topicComentId,customerId);
+		map.put(Constant.STATUS,flag?
+				Constant.STATUS_SUCCESS:Constant.STATUS_FAILURE);
 		return map;		
 	}
 }

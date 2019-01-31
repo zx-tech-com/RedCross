@@ -15,7 +15,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!--返回一个int类型数据和  -->
 	<select id="findAllTopicCount" resultType="int">
-	 select count(id) from topic	
+	 select count(id) from topic
+	 <where>
+		<if test="topicTypeId!=null">
+		type_id=#{topicTypeId}
+		</if>
+	</where>	
+	</select>
+	
+	<select id="findOnceTopicComentCount" resultType="int">
+	select count(id) from topic_coment
+	where 
+	is_topcoment=1
+	and
+	topic_id=#{topicId}
+	</select>
+	
+	<select id="findLowerComentCount" resultType="int">
+	select count(id) from topic_coment
+	where 
+	is_topcoment=0
+	and
+	topcoment_id=#{topicComentId}
 	</select>
 	
 	<!--查询所有发布帖子的信息，包括发帖人的信息 -->
@@ -410,8 +431,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  <result property= "totalShare" column="total_share" />
 		 <result property= "totalThumbsup" column="totalThumbsup"/>
 		 <result property= "totalComment" column="totalComment" />
-		 <result property= "flag" column="flag" />
-		<!-- <association property="customer" javaType="Customer" autoMapping="true"> -->		
+		 <result property= "flag" column="flag" />			
 		<association property="customer" javaType="HashMap" >		
 			<id column="customer_id" property="id"/>
 			<result property= "nickname" column="customer_nickName"/>

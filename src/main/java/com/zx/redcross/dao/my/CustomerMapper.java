@@ -18,14 +18,17 @@ public interface CustomerMapper {
 	
 	public Customer findCustomer(@Param("tel")String tel,@Param("password") String password);
 	//删除自己的发帖
-	public void deleteMyTopic(@Param("topicId")Integer topicId,@Param("customerId") Integer customerId);
+	public Boolean deleteMyTopic(@Param("topicId")Integer topicId,@Param("customerId") Integer customerId);
 	//删除自己的评论
-	public void deleteMyTopicComent(@Param("topicComentId")Integer topicComentId,@Param("customerId") Integer customerId);
+	public Boolean deleteMyTopicComent(@Param("topicComentId")Integer topicComentId,@Param("customerId") Integer customerId);
 	//判断是否是自己的评论
 	public Integer findMyTopicComent(@Param("topicComentId")Integer topicComentId,@Param("customerId") Integer customerId);
 	
 	Boolean updatePersonalInfo(@Param("customer")Customer customer);
 	
 	public Customer getMyselfMessage(Integer customerId);
+	//判断是否是自己的发帖
+	public Integer findMyTopic(@Param("topicId")Integer topicId,@Param("customerId") Integer customerId);
+	
 	
 }

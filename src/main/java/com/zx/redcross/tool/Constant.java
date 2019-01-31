@@ -74,6 +74,8 @@ public class Constant {
 	public static final Integer APP_PAGE_SIZE= 6;
 	public static final String PAGE_SIZE = "pageSize";
 	public static final String TOTAL_COUNT = "totalCount";
+	public static final String PAGE_COUNT = "pageCount";
+	
 	
 	
 	
