@@ -1,5 +1,5 @@
 {
-	"basePath" : "/data/apache-tomcat-8.5.37/webapps/red-cross-file/",
+	"basePath" : "H:/Tomcat/8.0/webapps/red-cross-file/",
     "imageActionName": "uploadimage", 
     "imageFieldName": "upfile",
     "imageMaxSize": 2048000, 

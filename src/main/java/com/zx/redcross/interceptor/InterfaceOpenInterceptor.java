@@ -13,6 +13,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.alibaba.fastjson.JSON;
 import com.nimbusds.jose.JOSEException;
+import com.zx.redcross.annotation.BackEnd;
 import com.zx.redcross.annotation.Open;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.JWTUtils;
@@ -28,11 +29,15 @@ public class InterfaceOpenInterceptor  extends HandlerInterceptorAdapter{
 	
 //	private Logger logger = LogManager.getLogger();
 
+	/**
+	 * 
+	 */
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		if(handler instanceof HandlerMethod) {
 			HandlerMethod method = (HandlerMethod)handler;
-			if(null != method.getMethodAnnotation(Open.class))//被@Open修饰直接返回true
+			if(null != method.getMethodAnnotation(Open.class)  //被@Open修饰直接返回true
+					|| isBackEndInterface(request, method))// 后台接口也直接返回true
 				return true;
 			else {//验证token
 				response.setContentType("application/json;charset=UTF-8");
@@ -91,6 +96,15 @@ public class InterfaceOpenInterceptor  extends HandlerInterceptorAdapter{
 			token = request.getParameter(Constant.TOKEN);
 		}
 		return token;
+	}
+	
+	private boolean isBackEndInterface(HttpServletRequest request,HandlerMethod method) {
+		boolean backEndAnnotation = false;//是否被@BackEnd修饰
+		boolean adminUrl = false;//路径中是否包括'admin'
+		backEndAnnotation = null != method.getMethodAnnotation(BackEnd.class);
+		adminUrl = request.getServletPath().contains("admin");
+		
+		return backEndAnnotation || adminUrl;
 	}
 	
 }
