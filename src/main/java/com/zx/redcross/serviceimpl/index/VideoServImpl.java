@@ -185,6 +185,11 @@ public class VideoServImpl implements IVideoServ {
 				FileUtils.removeFile(video.getVideoUrl());
 		return flag;
 	}
+
+	@Override
+	public Integer findVideoCount() {
+		return videoMapper.findVideoCount();
+	}
 	
 	
 

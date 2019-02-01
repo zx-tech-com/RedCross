@@ -47,12 +47,16 @@ public class SocialController {
 		 * 判断帖子的关注情况
 		 */	
 		List<Map<String, Object>> topics=socialService.findAllTopic(page,customerId,topicTypeId);
+		//查詢所有帖子的條數
+		Integer pageCount=socialService.findAllCountTopic(topicTypeId);
+		page.setPageCount(pageCount);
 		if(topics!=null) {
 			map.put(Constant.DATA,topics);
 			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
 		}else {
 			map.put(Constant.STATUS, Constant.STATUS_FAILURE);
 		}
+		map.put(Constant.TOTAL_COUNT, page.getTotalPage());
 		map.put(Constant.PAGE_SIZE, page.getPageSize());
 		return map;
 	}
@@ -115,12 +119,15 @@ public class SocialController {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		//通过帖子id获取评论信息（包含分页）(第一层评论)
 		List<Map<String, Object>> topicComents= socialService.findTopicComent(topicId,page,customerId);		
+		Integer pageCount=socialService.findOnceTopicComentCount(topicId);
+		page.setPageCount(pageCount);
 		if(topicComents!=null) {
 			map.put(Constant.DATA, topicComents);
 			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
 		}else {
 			map.put(Constant.STATUS, Constant.STATUS_FAILURE);
 		}
+		map.put(Constant.TOTAL_COUNT, page.getTotalPage());
 		map.put(Constant.PAGE_SIZE, page.getPageSize());
 		return map;
 	}
@@ -139,12 +146,15 @@ public class SocialController {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS,Constant.STATUS_FAILURE);
 		List<Map<String,Object>> comentList = socialService.findLowerComent(topicComentId, page, customerId);
+		Integer pageCount=socialService.findLowerComentCount(topicComentId);
+		page.setPageCount(pageCount);
 		if(comentList != null){
 			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
 			map.put(Constant.DATA, comentList);
 		}else {
 			map.put(Constant.STATUS, Constant.STATUS_FAILURE);
 		}
+		map.put(Constant.TOTAL_COUNT, page.getTotalPage());
 		map.put(Constant.PAGE_SIZE, page.getPageSize());
 		return map;
 	}

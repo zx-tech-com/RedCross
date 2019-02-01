@@ -45,6 +45,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="findMyTopicComent" resultType="int">
 	select count(id) from topic_coment	WHERE customer_id=#{customerId} AND id=#{topicComentId}
 	</select>
+	<!--查询结果返回判断是否是自己的帖子  -->
+	<select id="findMyTopic" resultType="int">
+	select count(id) from topic	WHERE customer_id=#{customerId} AND id=#{topicId}
+	</select>
 	
 	
 	<update id="updatePersonalInfo">
@@ -81,8 +85,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 ,register_time 
 	 from customer
 	 where id=#{customerId}
-	   
-	
 	</select>
 	
 </mapper>

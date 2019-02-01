@@ -18,9 +18,9 @@ public interface CustomerService {
 	//通过手机号码和密码查找用户
 	Customer findCustomer(String tel, String password);
 	//删除自己的发帖
-	void deleteMyTopic(Integer topicId, Integer customerId);
+	Boolean deleteMyTopic(Integer topicId, Integer customerId);
 	//删除自己的评论
-	void deleteMyTopicComent(Integer topicId, Integer customerId);
+	Boolean deleteMyTopicComent(Integer topicComentId, Integer customerId);
 	//查询是否是自己的评论
 	Integer findMyTopicComent(Integer topicComentId, Integer customerId);
 	
@@ -37,4 +37,6 @@ public interface CustomerService {
 	
 	
 	Customer getMyselfMessage(Integer customerId);
+	//查询是否是自己的发帖
+	Integer findMyTopic(Integer topicId, Integer customerId);
 }

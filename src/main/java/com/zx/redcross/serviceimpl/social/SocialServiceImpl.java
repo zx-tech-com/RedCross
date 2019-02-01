@@ -31,8 +31,8 @@ public class SocialServiceImpl implements SocialService{
 	}
 
 	@Override
-	public Integer findAllCountTopic() {
-		return socialMapper.findAllTopicCount();
+	public Integer findAllCountTopic(Integer topicTypeId) {
+		return socialMapper.findAllTopicCount(topicTypeId);
 	}
 
 	@Override
@@ -125,11 +125,12 @@ public class SocialServiceImpl implements SocialService{
 			topic.setStatus(Constant.POPIC_STATUS3);
 			topic.setHasVideo(true);
 			topic.setVideoUrl(FileUtils.saveFile(videoAbsoluteBasePath, video));
-		}
-		if(images.length == 1) {
+		}else if(images.length == 1) {
 			topic.setStatus(Constant.POPIC_STATUS1);
-		}else {
+		}else if(images.length >= 2){
 			topic.setStatus(Constant.POPIC_STATUS2);
+		}else {
+			topic.setStatus(Constant.POPIC_STATUS0);
 		}
 		
 		//插入topic
@@ -159,8 +160,7 @@ public class SocialServiceImpl implements SocialService{
 	@Override
 	public Boolean updateTopicSetShareAdd1(Integer topicId) {
 		return socialMapper.updateTopicSetShareAdd1(topicId);
-	}
-	
+	}	
 	
 	//===============================后台管理需要用到的接口===================================
 	@Override
@@ -173,7 +173,12 @@ public class SocialServiceImpl implements SocialService{
 		if((boolean) topic.get("hasVideo")) {
 			FileUtils.removeFile((String)topic.get("videoUrl"));
 		}else {
-			if(((List<Img>) topic.get("imgs")).size()>0) {	
+			@SuppressWarnings("unchecked")
+			List<Map<String,Object>> imgs=(List<Map<String,Object>>) topic.get("imgs");
+			if(imgs.size()>0) {
+				for(Map<String,Object> img:imgs) {
+					FileUtils.removeFile((String) img.get("imgUrl"));
+				}	
 			}
 		}
 		return true;
@@ -223,6 +228,18 @@ public class SocialServiceImpl implements SocialService{
 		FileUtils.removeFile(thumbnailUrl);
 		return true;
 	}
+
+	@Override
+	public Integer findOnceTopicComentCount(Integer topicId) {
+		return socialMapper.findOnceTopicComentCount(topicId);
+	}
+
+	@Override
+	public Integer findLowerComentCount(Integer topicComentId) {
+		return socialMapper.findLowerComentCount(topicComentId);
+	}
+
+
 	
 
 

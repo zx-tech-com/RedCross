@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.zx.redcross.dao.my.CustomerMapper;
 import com.zx.redcross.dao.my.OsDistrictMapper;
+import com.zx.redcross.dao.social.SocialMapper;
 import com.zx.redcross.entity.Customer;
 import com.zx.redcross.service.my.CustomerService;
 import com.zx.redcross.tool.BusinessExceptionUtils;
@@ -20,6 +21,8 @@ public class CustomerServiceImpl implements CustomerService{
 	private OsDistrictMapper	osDistrictMapper;
 	@Autowired
 	private CustomerMapper	customerMapper;
+	@Autowired
+	private SocialMapper 	socialMapper;
 	
 	@Override
 	public Map<String, Object> findOsdistrictById(Integer districtId) {
@@ -47,14 +50,29 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public void deleteMyTopic(Integer topicId, Integer customerId) {
-		customerMapper.deleteMyTopic(topicId,customerId);
-		
+	public Boolean deleteMyTopic(Integer topicId, Integer customerId) {
+		Map<String,Object> topic=socialMapper.findTopicById(topicId,customerId);
+		if(!customerMapper.deleteMyTopic(topicId,customerId)) {
+			return false;
+		}
+		if((boolean) topic.get("hasVideo")) {
+			FileUtils.removeFile((String)topic.get("videoUrl"));
+		}else {
+			@SuppressWarnings("unchecked")
+			List<Map<String,Object>> imgs=(List<Map<String,Object>>) topic.get("imgs");
+			if(imgs.size()>0) {
+				for(Map<String,Object> img:imgs) {
+					FileUtils.removeFile((String) img.get("imgUrl"));
+				}	
+			}
+		}
+		return true;
 	}
+	
 
 	@Override
-	public void deleteMyTopicComent(Integer topicComentId, Integer customerId) {
-		customerMapper.deleteMyTopicComent(topicComentId,customerId);
+	public Boolean deleteMyTopicComent(Integer topicComentId, Integer customerId) {
+		return customerMapper.deleteMyTopicComent(topicComentId,customerId);
 	}
 
 	@Override
@@ -116,6 +134,11 @@ public class CustomerServiceImpl implements CustomerService{
 	@Override
 	public Customer getMyselfMessage(Integer customerId) {
 		return customerMapper.getMyselfMessage(customerId);
+	}
+
+	@Override
+	public Integer findMyTopic(Integer topicId, Integer customerId) {
+		return customerMapper.findMyTopic(topicId,customerId);
 	}
 
 }

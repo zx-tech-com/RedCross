@@ -179,8 +179,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	<!--查询考试订单中所有会员  -->
 	<select id="adminListExamOrder" resultMap="ExamOrderMap">
-		SELECT e.id,e.order_number,e.tel,e.real_name,e.detail_address,e.coment
-		,e.submit_time,e.`status`,cs.id AS course_subject_id,cs.sname
+		SELECT 
+		e.id,
+		e.order_number,
+		e.tel,
+		e.real_name,
+		e.detail_address,
+		e.coment
+		,e.submit_time,e.`status`,
+		cs.id AS course_subject_id,
+		cs.sname
 	 	FROM exam_order e
 		LEFT JOIN course_subject cs
 		ON cs.id=e.`course_subject_id`

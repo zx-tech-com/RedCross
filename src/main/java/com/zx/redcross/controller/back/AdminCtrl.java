@@ -1,5 +1,6 @@
 package com.zx.redcross.controller.back;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,9 +38,11 @@ public class AdminCtrl {
 		System.err.println(session == request.getSession());
 		if(adminServImpl.login(admin)) {
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
-			request.getSession().setAttribute(Constant.ADMIN, admin.getUsername());
-		}else
+			session.setAttribute(Constant.ADMIN, admin.getUsername());
+		}else {
+			map.put(Constant.STATUS, Constant.STATUS_FAILURE);
 			BusinessExceptionUtils.throwNewBusinessException("账号密码不匹配");
+		}
 		return map;
 	}
 	
@@ -76,6 +79,25 @@ public class AdminCtrl {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 		map.put(Constant.DATA, adminServImpl.checkIfUsernameExist(username));
+		return map;
+	}
+	
+	@BackEnd
+	@RequestMapping("deleteAdmin")
+	public Map<String,Object> deleteAdmin(@RequestParam(required=true) Integer id){
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		map.put(Constant.DATA, adminServImpl.deleteAdmin(id));
+		return map;
+	}
+	
+	@BackEnd
+	@RequestMapping("findAllAdmin")
+	public Map<String,Object> findAllAdmin(){
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		List<Admin> admins=adminServImpl.findAllAdmin();
+		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		map.put(Constant.DATA, admins);
 		return map;
 	}
 	

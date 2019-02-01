@@ -24,6 +24,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		LIMIT #{page.start},#{page.pageSize}
 	</select>
 	
+	<!--查询付费视频数量  -->
+	<select id="findVideoCount" resultType="int">
+		select count(id) from video
+	</select>	
 	<select id="listVideoByIds" resultType="Video">
 		SELECT
 			v.id,

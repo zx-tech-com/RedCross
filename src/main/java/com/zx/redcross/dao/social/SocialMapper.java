@@ -13,7 +13,7 @@ import com.zx.redcross.entity.TopicType;
 
 public interface SocialMapper {
 	//查询帖子所有条数
-	public Integer findAllTopicCount();
+	public Integer findAllTopicCount(Integer topicTypeId);
 
 	//查询所有的帖子类型
 	public List<TopicType> findAllTopicType();
@@ -69,6 +69,10 @@ public interface SocialMapper {
 	public String findTopicTypeById(Integer topicTypeId);
 
 	public boolean adminDeleteTopicType(Integer topicTypeId);
+	//查詢頂層評論的條數
+	public Integer findOnceTopicComentCount(Integer topicId);
+
+	public Integer findLowerComentCount(Integer topicComentId);
 
 
 	
