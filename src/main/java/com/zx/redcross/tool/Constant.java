@@ -94,7 +94,7 @@ public class Constant {
 	public static final String TOKEN_INVALID = "invalid";
 	public static final String TOKEN_EXPIRED = "expired";
 	public static final String CUSTOMERID = "customerId";
-	public static final Integer NUMBER_8 = 8;
+	public static final Integer NUMBER_8 = 300;
 	public static final Integer HOUR_FIELD = 11;
 	
 	/**

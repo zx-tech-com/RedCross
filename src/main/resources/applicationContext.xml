@@ -105,6 +105,5 @@
          <property name="basePackage" value="com.zx.redcross.dao" />  
     </bean>
     
-<!--     <bean class="com.zx.redcross.tool.Swagger2Configure"></bean> -->
     
 </beans>
