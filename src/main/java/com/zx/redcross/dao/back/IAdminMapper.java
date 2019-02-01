@@ -13,7 +13,7 @@ public interface IAdminMapper {
 	@Select("SELECT * FROM admin WHERE username=#{admin.username} AND passwd = MD5(#{admin.passwd})")
 	Admin getAdminByUsernameAndPassword(@Param("admin") Admin admin);
 	
-	@Insert("INSERT INTO admin(username,passwd) VALUES(#{admin.username},MD5(#{admin.passwd})")
+	@Insert("INSERT INTO admin(username,passwd) VALUES(#{admin.username},MD5(#{admin.passwd}))")
 	@Options(useGeneratedKeys=true,keyProperty="id")
 	boolean addAdmin(@Param("admin") Admin admin);
 	

@@ -201,12 +201,14 @@
 		<version>2.6</version>
 	</dependency>     
   	
+  	<!-- 生成token相关 -->
   	<dependency>
 		<groupId>com.nimbusds</groupId>
 		<artifactId>nimbus-jose-jwt</artifactId>
 		<version>4.23</version>
   	</dependency>
   	
+  	<!-- swagger接口文档相关
   	<dependency>
         <groupId>io.springfox</groupId>
         <artifactId>springfox-swagger2</artifactId>
@@ -216,11 +218,12 @@
         <groupId>io.springfox</groupId>
         <artifactId>springfox-swagger-ui</artifactId>
         <version>2.6.1</version>
-	</dependency>
+	</dependency> 
+	-->
 	
 	
 	<!-- jackson用于将springfox返回的文档对象转换成JSON字符串 -->
-	<dependency>
+	<!-- <dependency>
 	    <groupId>com.fasterxml.jackson.core</groupId>
 	    <artifactId>jackson-annotations</artifactId>
 	    <version>${version.jackson}</version>
@@ -234,7 +237,7 @@
 	    <groupId>com.fasterxml.jackson.core</groupId>
 	    <artifactId>jackson-core</artifactId>
 	    <version>${version.jackson}</version>
-	</dependency>
+	</dependency> -->
 	
 	<dependency>
 	    <groupId>com.fasterxml</groupId>
