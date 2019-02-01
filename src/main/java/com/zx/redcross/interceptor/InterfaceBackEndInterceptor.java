@@ -23,9 +23,20 @@ import com.zx.redcross.tool.MapUtils;
 public class InterfaceBackEndInterceptor  extends HandlerInterceptorAdapter{
 
 	
+	/*@Override
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) throws Exception {
+		Collection<String> headerNames = response.getHeaderNames();
+		System.err.println("==============response===============");
+		for(String header : headerNames) {
+			System.out.println(header + " : " + response.getHeader(header));
+		}
+	}*/
+	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		
 		if(!(handler instanceof HandlerMethod)) {
 			return true;
 		}

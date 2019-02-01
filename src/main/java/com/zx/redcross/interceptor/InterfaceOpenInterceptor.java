@@ -49,7 +49,7 @@ public class InterfaceOpenInterceptor  extends HandlerInterceptorAdapter{
 					addTokenInvalidInfo(response);
 					return false;
 				}
-				switch((String)map.get(Constant.TOKEN_STATUS)) {
+				switch((int)map.get(Constant.TOKEN_STATUS)) {
 					case Constant.TOKEN_VALID :
 						return true;
 					case Constant.TOKEN_EXPIRED  :

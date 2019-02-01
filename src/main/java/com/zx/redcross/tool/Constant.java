@@ -84,13 +84,22 @@ public class Constant {
 	 * Token相关
 	 */
 	public static final String TOKEN= "token";
-	public static final String TOKEN_STATUS= "tokenStatus";
+//	public static final String TOKEN_STATUS= "tokenStatus";
+	public static final String TOKEN_STATUS= "token";
+	
 	public static final String PAY_LOAD= "payLoad";
 	public static final String SECRET = "fb63cf7d-385c-4b2c-b89d-3d4c8a9f";
 	public static final String EXPIRES = "expires";
-	public static final String TOKEN_VALID = "valid";
+
+/*	public static final String TOKEN_VALID = "valid";
 	public static final String TOKEN_INVALID = "invalid";
-	public static final String TOKEN_EXPIRED = "expired";
+	public static final String TOKEN_EXPIRED = "expired";*/
+	
+	public static final int TOKEN_INVALID = 1;
+	public static final int TOKEN_VALID = 2;
+	public static final int TOKEN_EXPIRED = 3;
+	
+	
 	public static final String CUSTOMERID = "customerId";
 	public static final Integer NUMBER_8 = 300;
 	public static final Integer HOUR_FIELD = 11;
