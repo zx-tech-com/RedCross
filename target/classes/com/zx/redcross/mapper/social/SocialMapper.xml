@@ -242,7 +242,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="saveTopic" useGeneratedKeys="true" keyProperty="topic.id">
 	 	insert into topic
 	 	(customer_id
-	 	,type_id,title
+	 	,type_id
+	 	,title
 	 	,content
 	 	,has_video
 	 	,video_url
