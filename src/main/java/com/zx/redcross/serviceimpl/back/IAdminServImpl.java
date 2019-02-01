@@ -1,5 +1,7 @@
 package com.zx.redcross.serviceimpl.back;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +47,18 @@ public class IAdminServImpl implements IAdminServ{
 	@Override
 	public boolean checkIfUsernameExist(String username) {
 		return mapper.getAdminByUsername(username) == null;
+	}
+
+
+	@Override
+	public Boolean deleteAdmin(Integer id) {
+		return mapper.deleteAdmin(id);
+	}
+
+
+	@Override
+	public List<Admin> findAllAdmin() {
+		return mapper.findAllAdmin();
 	}
 
 }

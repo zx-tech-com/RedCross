@@ -22,14 +22,14 @@
 	<context:property-placeholder file-encoding="utf-8" location="classpath:daryl.database.properties"/>
 	<context:property-placeholder file-encoding="utf-8" location="classpath:server.local.database.properties"/>
 	<context:property-placeholder file-encoding="utf-8" location="classpath:ly.database.properties"/>
+	<context:property-placeholder file-encoding="utf-8" location="classpath:server.database.properties"/>	
 	--> 
 	
-<<<<<<< HEAD
+
 	<context:property-placeholder file-encoding="utf-8" location="classpath:ly.database.properties"/>		
-=======
->>>>>>> f72076e0ec6e2c77e083bbb3b94c731230138eb3
+
 	
-	<context:property-placeholder file-encoding="utf-8" location="classpath:server.database.properties"/>		
+		
 	
 	
 	

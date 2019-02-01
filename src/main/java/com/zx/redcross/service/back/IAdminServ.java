@@ -1,5 +1,7 @@
 package com.zx.redcross.service.back;
 
+import java.util.List;
+
 import com.zx.redcross.entity.Admin;
 
 public interface IAdminServ {
@@ -15,5 +17,9 @@ public interface IAdminServ {
 	Admin getAdminByUsername(String username);
 	
 	boolean checkIfUsernameExist(String username);
+
+	Boolean deleteAdmin(Integer id);
+
+	List<Admin> findAllAdmin();
 	
 }

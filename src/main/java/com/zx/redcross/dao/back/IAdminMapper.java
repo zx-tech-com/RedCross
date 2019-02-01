@@ -1,5 +1,8 @@
 package com.zx.redcross.dao.back;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
@@ -22,4 +25,10 @@ public interface IAdminMapper {
 
 	@Select("SELECT * FROM admin WHERE username=#{username}")
 	Admin getAdminByUsername(String username);
+	
+	@Delete("delete from admin where id=#{id}")
+	Boolean deleteAdmin(Integer id);
+	
+	@Select("SELECT * FROM admin")
+	List<Admin> findAllAdmin();
 }
