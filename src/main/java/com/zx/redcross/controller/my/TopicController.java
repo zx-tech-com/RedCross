@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zx.redcross.annotation.Open;
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.service.my.ITopicServ;
 import com.zx.redcross.tool.Constant;
@@ -19,7 +20,7 @@ public class TopicController {
 	
 	@Autowired
 	private ITopicServ topicServImpl;
-	
+	@Open
 	@RequestMapping("/listTopic")
 	public Map<String,Object> listComentByCustomerId(@RequestParam(required=true)Integer customerId, Page page) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
