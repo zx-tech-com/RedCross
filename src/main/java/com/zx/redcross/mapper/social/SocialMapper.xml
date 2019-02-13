@@ -53,6 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	,customer.id AS	customer_id
 	,customer.nickname AS	customer_nickName
 	,customer.avatar_url AS customer_avatarUrl
+	,topic_type.`tname` AS type_name
 	,img.id AS img_id
 	,img.`img_url` AS img_url
 	,(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id=topic.`id`) AS totalComment
@@ -66,6 +67,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	FROM topic
 	LEFT JOIN customer
 	ON customer.`id`=topic.`customer_id`
+	LEFT JOIN topic_type
+	ON topic_type.`id`=topic.`type_id`
 	LEFT JOIN img 
 	ON img.`foreign_id`=topic.id AND img.`img_type`='1'
 	<where>
@@ -91,6 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	,customer.id AS	customer_id
 	,customer.nickname AS	customer_nickName
 	,customer.avatar_url AS customer_avatarUrl
+	,topic_type.`tname` AS type_name
 	,img.id AS img_id
 	,img.`img_url` AS img_url
 	,(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id=topic.`id`) AS totalComment
@@ -104,6 +108,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  FROM topic
  	LEFT JOIN customer
 	ON customer.`id`=topic.`customer_id`
+	LEFT JOIN topic_type
+	ON topic_type.`id`=topic.`type_id`
 	LEFT JOIN img 
 	ON img.`foreign_id`=topic.id AND img.`img_type`='1'	
 	where topic.id=#{topicId} ORDER BY	img.`id` ASC
@@ -194,7 +200,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!--插入评论  -->
 	<insert id="saveTopicComent">
 	INSERT INTO 
-	topic_coment(topic_id,customer_id,content,is_topcoment,coment_id,topcoment_id) 
+	topic_coment
+	(topic_id
+	,customer_id
+	,content
+	,is_topcoment
+	,coment_id
+	,topcoment_id) 
 	VALUES(
 	#{topicId},
 	#{id},
@@ -429,7 +441,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          <result property= "hasVideo" column="topic_has_video"/>
 		 <result property= "videoUrl" column="topic_video_url" />
 		 <result property= "status" column="topic_status" />
-		  <result property= "totalShare" column="total_share" />
+		 <result property= "typeName" column="type_name" />
+		 <result property= "totalShare" column="total_share" />
 		 <result property= "totalThumbsup" column="totalThumbsup"/>
 		 <result property= "totalComment" column="totalComment" />
 		 <result property= "flag" column="flag" />			
