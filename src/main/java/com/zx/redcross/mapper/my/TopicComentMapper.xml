@@ -16,6 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="topic_id" property="topicId"/>
 		<result column="topic_content" property="topicContent"/>
 		<result column="topic_title" property="topicTitle"/>
+		<result column="topic_publish_time" property="topicPublishTime"/>
 		<result column="topic_total_share" property="topicTotalShare"/>
 		<result column="topic_totalThumbsup" property="topicTotalThumbsup"/>
 		<result column="topic_totalComment" property="topicTotalComment"/>
@@ -65,6 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				topic.id AS topic_id,
 				topic.title AS topic_title,
 				topic.content AS topic_content,
+				topic.publish_time AS topic_publish_time,
 				(SELECT COUNT(id) FROM topic_thumbsup WHERE topic_thumbsup.topic_id = topic.id)AS topic_totalThumbsup,
 				(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id = topic.id)AS topic_totalComment,
 				topic.total_share AS topic_total_share,
@@ -113,6 +115,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				topic.id AS topic_id,
 				topic.title AS topic_title,
 				topic.content AS topic_content,
+				topic.publish_time AS topic_publish_time,
 				(SELECT COUNT(id) FROM topic_thumbsup WHERE topic_thumbsup.topic_id = topic.id)AS topic_totalThumbsup,
 				(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id = topic.id)AS topic_totalComment,
 				topic.total_share AS topic_total_share,
@@ -162,6 +165,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				topic.id AS topic_id,
 				topic.title AS topic_title,
 				topic.content AS topic_content,
+				topic.publish_time AS topic_publish_time,
 				(SELECT COUNT(id) FROM topic_thumbsup WHERE topic_thumbsup.topic_id = topic.id)AS topic_totalThumbsup,
 				(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id = topic.id)AS topic_totalComment,
 				topic.total_share AS topic_total_share,

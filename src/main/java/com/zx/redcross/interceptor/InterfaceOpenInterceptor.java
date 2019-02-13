@@ -51,6 +51,8 @@ public class InterfaceOpenInterceptor  extends HandlerInterceptorAdapter{
 				}
 				switch((int)map.get(Constant.TOKEN_STATUS)) {
 					case Constant.TOKEN_VALID :
+						//放入userId
+						request.setAttribute(Constant.CUSTOMERID, map.get(Constant.CUSTOMERID));
 						return true;
 					case Constant.TOKEN_EXPIRED  :
 						addTokenExpiredInfo(response);

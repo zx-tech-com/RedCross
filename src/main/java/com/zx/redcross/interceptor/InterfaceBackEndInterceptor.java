@@ -12,6 +12,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.alibaba.fastjson.JSON;
 import com.zx.redcross.annotation.BackEnd;
+import com.zx.redcross.annotation.Open;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.MapUtils;
 
@@ -42,12 +43,20 @@ public class InterfaceBackEndInterceptor  extends HandlerInterceptorAdapter{
 		}
 		
 		HandlerMethod method = (HandlerMethod)handler;
-		if(isBackEndInterface(request,method)) {//是后台接口
+		if(isOpenInterface(method))
+			return true;
+		else if(isBackEndInterface(request,method)) {//是后台接口
 			return adminCheck(request,response);
 		}
 		else
 			return true;
 	}
+	
+	
+	private boolean isOpenInterface(HandlerMethod method) {
+		return null != method.getMethodAnnotation(Open.class);
+	}
+	
 	
 	private boolean isBackEndInterface(HttpServletRequest request,HandlerMethod method) {
 		boolean backEndAnnotation = false;//是否被@BackEnd修饰
