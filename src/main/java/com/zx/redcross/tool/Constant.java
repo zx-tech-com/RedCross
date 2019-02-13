@@ -17,15 +17,15 @@ public class Constant {
 //	public static final String ACCESS_BASE_PATH = "http://192.168.1.177:9090/red-cross-file/";
 	
 
-	public static final String ABSOLUTE_BASE_PATH = "D:\\git\\git\\redcross-back" + File.separator;
-	public static final String ACCESS_BASE_PATH = "http://127.0.0.1:8020/redcross-back/";
+//	public static final String ABSOLUTE_BASE_PATH = "D:\\git\\git\\redcross-back" + File.separator;
+//	public static final String ACCESS_BASE_PATH = "http://127.0.0.1:8020/redcross-back/";
 
 	
-/*	public static final String ABSOLUTE_BASE_PATH = File.separator + 
+	public static final String ABSOLUTE_BASE_PATH = File.separator + 
 			"data" + File.separator + "apache-tomcat-8.5.37" + File.separator + "webapps"
-			+ File.separator + "red-cross-file" + File.separator;*/
+			+ File.separator + "red-cross-file" + File.separator;
 	
-//	public static final String ACCESS_BASE_PATH = "http://39.98.204.123:8080/red-cross-file/";
+	public static final String ACCESS_BASE_PATH = "http://39.98.204.123:8080/red-cross-file/";
 	
 	// 所有视频均存储在该路径下
 	public static final String VIDEO_ABSOLUTE_BASE_PATH = ABSOLUTE_BASE_PATH + "videos" + File.separator;
@@ -86,13 +86,22 @@ public class Constant {
 	 * Token相关
 	 */
 	public static final String TOKEN= "token";
-	public static final String TOKEN_STATUS= "tokenStatus";
+//	public static final String TOKEN_STATUS= "tokenStatus";
+	public static final String TOKEN_STATUS= "token";
+	
 	public static final String PAY_LOAD= "payLoad";
 	public static final String SECRET = "fb63cf7d-385c-4b2c-b89d-3d4c8a9f";
 	public static final String EXPIRES = "expires";
-	public static final String TOKEN_VALID = "valid";
+
+/*	public static final String TOKEN_VALID = "valid";
 	public static final String TOKEN_INVALID = "invalid";
-	public static final String TOKEN_EXPIRED = "expired";
+	public static final String TOKEN_EXPIRED = "expired";*/
+	
+	public static final int TOKEN_INVALID = 1;
+	public static final int TOKEN_VALID = 2;
+	public static final int TOKEN_EXPIRED = 3;
+	
+	
 	public static final String CUSTOMERID = "customerId";
 	public static final Integer NUMBER_8 = 300;
 	public static final Integer HOUR_FIELD = 11;

@@ -3,6 +3,8 @@ package com.zx.redcross.controller.back;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +29,13 @@ public class AdminCtrl {
 	
 	@Open
 	@RequestMapping("login")
-	public Map<String,Object> login(Admin admin,HttpSession session){
+	public Map<String,Object> login(Admin admin,HttpSession session,
+			HttpServletRequest request,HttpServletResponse response){
+		
 		if(admin.getUsername() == null || admin.getUsername().trim().length() == 0)
 			BusinessExceptionUtils.throwNewBusinessException("用户名必填");
 		Map<String, Object> map = MapUtils.getHashMapInstance();
+		System.err.println(session == request.getSession());
 		if(adminServImpl.login(admin)) {
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 			session.setAttribute(Constant.ADMIN, admin.getUsername());
