@@ -37,7 +37,7 @@ public class FileUtils {
 	 * 保存file到absoluteBasePath目录下
 	 * @param absoluteBasePath
 	 * @param file
-	 * @return 返回该文件的访问路径
+	 * @return 返回该文件的相对路径
 	 */
 	public static String saveFile(String absoluteBasePath,MultipartFile file) {
 		if(file == null)
@@ -82,4 +82,28 @@ public class FileUtils {
 			return Constant.ACCESS_BASE_PATH + url;*/
 		return url;
 	}	
+	
+	
+	/**
+	 * 从file(必须是视频)中截取一帧保存成照片，保存起来
+	 * @param absoluteBasePath
+	 * @param accessBasePath
+	 * @param file
+	 * @return 返回截取的照片的相对路径
+	 */
+	public static String fetchImgFromVideo(String absoluteBasePath,String accessBasePath,MultipartFile file) {
+		
+		if(file == null)
+			BusinessExceptionUtils.throwNewBusinessException("文件为空");
+		if(absoluteBasePath == null)
+			BusinessExceptionUtils.throwNewBusinessException("路径为空");
+		
+		String absouteVideoPath = absoluteBasePath + accessBasePath;
+		
+//		FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(absouteVideoPath);
+		
+		return null;
+	}
+	
+	
 }

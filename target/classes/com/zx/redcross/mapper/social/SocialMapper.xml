@@ -24,19 +24,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="findOnceTopicComentCount" resultType="int">
-	select count(id) from topic_coment
-	where 
-	is_topcoment=1
-	and
-	topic_id=#{topicId}
+		SELECT 
+			count(id) 
+		FROM 
+			topic_coment
+		WHERE 
+			is_topcoment=1 and topic_id=#{topicId}
 	</select>
 	
 	<select id="findLowerComentCount" resultType="int">
-	select count(id) from topic_coment
-	where 
-	is_topcoment=0
-	and
-	topcoment_id=#{topicComentId}
+		SELECT 
+			count(id) 
+		FROM 
+			topic_coment
+		WHERE 
+			is_topcoment=0
+		AND topcoment_id=#{topicComentId}
 	</select>
 	
 	<!--查询所有发布帖子的信息，包括发帖人的信息 -->
