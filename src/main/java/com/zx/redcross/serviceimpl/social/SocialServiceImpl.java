@@ -227,7 +227,9 @@ public class SocialServiceImpl implements SocialService{
 			FileUtils.removeFile(topicType.getThumbnailUrl());
 			return false;
 		}
-		FileUtils.removeFile(thumbnailUrl);
+		if(imgUrl!=null) {
+			FileUtils.removeFile(thumbnailUrl);
+		}
 		return true;
 	}
 

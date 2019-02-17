@@ -77,6 +77,7 @@ public class ExamOrderCtrl {
 		return map;
 	}
 	
+	@BackEnd
 	@FrontEnd
 	@RequestMapping("/addExamOrder")
 	public Map<String,Object> addExamOrder(@RequestBody ExamOrder examOrder){

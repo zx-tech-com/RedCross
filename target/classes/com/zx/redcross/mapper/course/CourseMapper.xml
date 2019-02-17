@@ -213,13 +213,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 修改科目 -->
 	<update id="adminUpdateCourseSubject" parameterType="courseSubject">
-	UPDATE course_subject SET 
-	sname=#{sname},
-	description=#{description},
-	price=#{price},
-	thumbnail_url=#{thumbnailUrl},
-	certificate_url=#{certificateUrl},
-	period=#{period} where id=#{id}
+	UPDATE 
+		course_subject SET 
+		sname=#{sname},
+		description=#{description},
+		price=#{price},
+		<if test="thumbnailUrl!=null">
+			thumbnail_url=#{thumbnailUrl},
+		</if>
+		<if test="certificateUrl!=null">
+			certificate_url=#{certificateUrl},
+		</if>
+		period=#{period}
+	WHERE 
+		id=#{id}
 	</update>
 	
 </mapper>

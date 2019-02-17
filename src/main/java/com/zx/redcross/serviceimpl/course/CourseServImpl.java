@@ -145,23 +145,32 @@ public class CourseServImpl implements ICourseServ{
 		Map<String, Object> courseSubjectSub=courseMapper.findCourseSubject(courseSubject.getId());
 		
 		if(!courseMapper.adminUpdateCourseSubject(courseSubject)) {
-			FileUtils.removeFile(courseSubject.getThumbnailUrl());
-			FileUtils.removeFile(courseSubject.getCertificateUrl());
+			
+				FileUtils.removeFile(courseSubject.getThumbnailUrl());
+			
+			
+				FileUtils.removeFile(courseSubject.getCertificateUrl());
+			
 			return false;
 		}
 		
-		String thumbnailUrl = (String) courseSubjectSub.get("thumbnailUrl");
-		System.out.println(thumbnailUrl);
+		
 		//删除之前的图片
-		if(thumbnailUrl!=null
-				&&thumbnailUrl.length()>0) {
-			FileUtils.removeFile(thumbnailUrl);	
+		if(imgUrl!=null) {
+			String thumbnailUrl = (String) courseSubjectSub.get("thumbnailUrl");
+			System.out.println(thumbnailUrl);
+			if(thumbnailUrl!=null
+					&&thumbnailUrl.length()>0) {
+				FileUtils.removeFile(thumbnailUrl);	
+			}
 		}
-		String certificateUrl = (String) courseSubjectSub.get("certificateUrl");
-		System.out.println(certificateUrl);
-		if(certificateUrl!=null
-				&&certificateUrl.length()>0) {
-			FileUtils.removeFile(certificateUrl);
+		if(ccieUrl!=null) {
+			String certificateUrl = (String) courseSubjectSub.get("certificateUrl");
+			System.out.println(certificateUrl);
+			if(certificateUrl!=null
+					&&certificateUrl.length()>0) {
+				FileUtils.removeFile(certificateUrl);
+			}
 		}
 		return true;
 	}

@@ -140,13 +140,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 <result property= "comentTime" column="coment_time" />
 		 <result property= "isTopcoment" column="is_topcoment"/>
 		<association property="customer" javaType="HashMap" >		
-
-
 	-->
 	<select id="findTopicComent" resultMap="topicComent">
 	SELECT 
 	topic_coment.id AS id
-	,topic_coment.coment_id AS coment_id
+	,topic_coment.topic_id AS topic_id
 	,topic_coment.content	AS content
 	,topic_coment.coment_time AS coment_time
 	,topic_coment.is_topcoment AS is_topcoment
@@ -424,7 +422,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	set 
 	tname=#{tname}
 	,description=#{description}
+	<if test="thumbnailUrl!=null">
 	,thumbnail_url=#{thumbnailUrl} 
+	</if>
 	where id=#{id}
 	</update>
 	
@@ -466,12 +466,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	<!--帖子评论表  -->
 	<resultMap type="HashMap" id="topicComent">
 		 <id property= "id" column="id"/>
-         <result property= "comentId" column= "coment_id"/>
+         <result property= "topicId" column= "topic_id"/>
          <result property= "content" column= "content"/>
          <result property= "topcomentId" column= "topcoment_id"  />
          <result property= "content" column="content"/>
 		 <result property= "comentTime" column="coment_time" />
 		 <result property= "isTopcoment" column="is_topcoment"/>
+		<result property="totalThumbsup" column="totalThumbsup"/>
+		<result property="totalThumbsNum" column="totalThumbsNum"/>
 		<association property="customer" javaType="HashMap" >		
 			<id column="customer_id" property="id"/>
 			<result property= "nickname" column="customer_nickName"/>
