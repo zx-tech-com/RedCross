@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zx.redcross.dao.index.SlideShowMapper">
+	<select id="listSlideShow" resultType="SlideShow">
+		SELECT 
+			id
+			,imgUrl
+			,description
+			,url 
+		FROM 
+			slideshow
+	</select>
+	
+	<insert id="addSlideShow" parameterType="SlideShow">
+		INSERT INTO 
+			slideshow
+			(
+				imgurl
+				,description
+				,url
+			) 
+		VALUES
+			(
+				#{imgUrl}
+				,#{description}
+				,#{url}	
+			)
+	</insert>
+	
+	<update id="updateSlideShow" parameterType="SlideShow">
+		UPDATE  
+			slideshow
+		SET 
+			<if test="imgUrl!=null">
+				imgUrl=#{imgUrl},
+			</if>
+			description=#{description}
+			,url=#{url}
+		WHERE 
+			id=#{id}
+	</update>
+	
+	<delete id="deleteSlideShow" parameterType="int">
+		DELETE FROM 
+			slideshow 
+		WHERE 
+			id=#{id}
+	</delete>
+	
+	<select id="getSlideShowById" parameterType="int" resultType="SlideShow">
+		SELECT 
+			id
+			,imgUrl
+			,description
+			,url 
+		FROM 
+			slideshow 
+		WHERE 
+		    id=#{id}
+	</select>
+	
+</mapper>
