@@ -75,6 +75,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				<bind name="name" value="'%'+ examOrder.realName +'%'" />
 				AND realName LIKE  #{name}
 			</if>
+			<if test="examOrder.courseSubject != null and examOrder.courseSubject.id != null">
+				AND cs.id = #{examOrder.courseSubject.id}
+			</if>
 		</where>
 	</select>
 	<resultMap type="HashMap" id="ExamOrderMap">

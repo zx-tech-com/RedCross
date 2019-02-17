@@ -14,7 +14,7 @@ public class Constant {
 	
 //	public static final String ABSOLUTE_BASE_PATH = "H:" + File.separator + "Tomcat" + File.separator
 //			 + "8.0" + File.separator + "webapps" + File.separator + "red-cross-file" + File.separator;
-//	public static final String ACCESS_BASE_PATH = "http://192.168.1.177:9090/red-cross-file/";
+//	public static final String ACCESS_BASE_PATH = "http://localhost:9090/red-cross-file/";
 	
 
 //	public static final String ABSOLUTE_BASE_PATH = "D:\\git\\git\\redcross-back" + File.separator;
