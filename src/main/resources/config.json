@@ -1,8 +1,8 @@
 {
-	"basePath" : "/data/apache-tomcat-8.5.37/webapps/red-cross-file/",
+	"basePath" : "H:\\Tomcat\\8.0\\webapps\\red-cross-file\\",
     "imageActionName": "uploadimage", 
     "imageFieldName": "upfile",
-    "imageMaxSize": 2048000, 
+    "imageMaxSize": 204800000, 
     "imageAllowFiles": [".png", ".jpg", ".jpeg", ".gif", ".bmp"], 
     "imageCompressEnable": true, 
     "imageCompressBorder": 1600, 
@@ -34,7 +34,7 @@
     "videoFieldName": "upfile", 
     "videoPathFormat": "ueditor/video/{yyyy}{mm}{dd}/{time}{rand:6}", 
     "videoUrlPrefix": "", 
-    "videoMaxSize": 102400000, 
+    "videoMaxSize": 10240000000, 
     "videoAllowFiles": [
         ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg", ".mpg",
         ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid"], 

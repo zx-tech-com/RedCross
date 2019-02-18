@@ -96,16 +96,16 @@ public class VideoServImpl implements IVideoServ {
 	}
 
 	@Override
-	public Boolean adminSaveVideo(Video video,MultipartFile file,MultipartFile imgUrl) {
-		String imgAbsoluteBasePath=Constant.IMG_ABSOLUTE_BASE_PATH+Constant.PAYVIDEO;
+	public Boolean adminSaveVideo(Video video,MultipartFile file/*,MultipartFile imgUrl*/) {
 		String videoAbsoluteBasePath = Constant.VIDEO_ABSOLUTE_BASE_PATH + Constant.PAYVIDEO;
-		//存储图片
+		/*//存储图片
 		if(imgUrl != null) {
 			video.setThumbnailUrl(FileUtils.saveFile(imgAbsoluteBasePath, imgUrl));
-		}
+		}*/
 		//存储视频
 		if(file != null) {
 			video.setVideoUrl(FileUtils.saveFile(videoAbsoluteBasePath, file));
+			video.setThumbnailUrl(FileUtils.fetchImgFromVideo(video.getVideoUrl()));
 		}
 		//插入video
 		if(!videoMapper.adminSaveVideo(video)) {

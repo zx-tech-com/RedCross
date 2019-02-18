@@ -13,7 +13,7 @@ import com.zx.redcross.entity.TopicType;
 
 public interface SocialMapper {
 	//查询帖子所有条数
-	public Integer findAllTopicCount(Integer topicTypeId);
+	public Integer findAllTopicCount(@Param("topicTypeId") Integer topicTypeId);
 
 	//查询所有的帖子类型
 	public List<TopicType> findAllTopicType();

@@ -5,83 +5,116 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- namespace指向mapper接口 -->
 <mapper namespace="com.zx.redcross.dao.my.IPraiseMapper">
-	
 	<resultMap type="HashMap" id="praiseByCustomerIdMap">
-		<result property= "thunbsupId" column="thunbsup_id"/>
-		<result column="content" property="content"/>
-		<result column="thunbsup_time" property="thunbsupTime"/>
-		<result column="topic_id" property="topicId"/>
-		<result column="topic_has_video" property="topicHasVideo"/>
-		<result column="topic_video_url" property="topicVideoUrl"/>		
-		<result column="topic_title" property="topicTitle"/>
-		<result column="topic_content" property="topicContent"/>
-		<result column="topic_status" property="topicStatus"/>
-		<association property="customer" javaType="HashMap" >		
-			<id column="customer_id" property="id"/>
+	
+		<!-- 点赞信息 -->
+		<id column="id" property="id"/>
+		<result property="isComentPraise" column="is_coment_praise"/>
+		
+		<!-- 发帖人信息 -->
+		<association property="topicCustomer" javaType="HashMap" columnPrefix="topic_customer_">		
+			<id column="id" property="id"/>
 			<result property= "nickname" column="nickname"/>
 			<result property= "avatarUrl" column="avatar_url"/>
 		</association>
-		<collection property="imgs" ofType="HashMap"  javaType="list">
-			<id column="img_id" property="id"/>
-			<result column="img_url" property="imgUrl"/>
-		</collection>
+	
+		<!-- 帖子信息 -->
+		<association property="topic" javaType="HashMap" columnPrefix="topic_">
+			<result column="id" property="id"/>
+			<result column="content" property="content"/>
+			<result column="publish_time" property="publishTime"/>
+			<result column="has_video" property="hasVideo"/>
+			<result column="video_url" property="videoUrl"/>		
+			<result column="img_url" property="imgUrl"/>		
+			<result column="title" property="title"/>
+			<result column="status" property="status"/>
+			<!-- 帖子照片 -->
+			<collection property="imgs" ofType="HashMap" columnPrefix="img_"  javaType="list">
+				<id column="id" property="id"/>
+				<result column="img_url" property="url"/>
+				<result column="index" property="index"/>
+			</collection>
+		</association>
+		
+		<!-- 评论人信息(如果有) -->
+		<association property="topicComentCustomer" javaType="HashMap" columnPrefix="topic_coment_customer_">		
+			<id column="id" property="id"/>
+			<result property= "nickname" column="nickname"/>
+			<result property= "avatarUrl" column="avatar_url"/>
+		</association>
+		<!-- 评论(如果有) -->
+		<association property="topicComent" javaType="HashMap" columnPrefix="topic_coment_">		
+			<id column="id" property="id"/>
+			<result column= "coment_time" property="comentTime"/>
+			<result column="content" property="content"/>
+		</association>
+		
 	</resultMap>
+	
 
 	<select id="listPraiseByCustomerId" resultMap="praiseByCustomerIdMap">
-		SELECT	
-         tc.id AS thunbsup_id
-	,tc.content AS content
-	,ch.thunbsup_time AS thunbsup_time
-	,c.id AS customer_id
-	,c.nickname AS nickname
-	,c.avatar_url AS  avatar_url
-	,t.id	AS	topic_id
-	,t.has_video AS topic_has_video
-	,t.video_url AS topic_video_url
-	,t.title AS	topic_title
-	,t.content AS	topic_content
-	,t.status AS	topic_status
-	,img.id AS  img_id
-	,img.`img_url` AS img_url
-	FROM 
-	coment_thumbsup ch 
-	LEFT JOIN topic_coment tc
-	ON ch.topic_coment_id=tc.id
-	LEFT JOIN customer c
-	ON tc.customer_id=c.id
-	LEFT JOIN topic t
-	ON tc.topic_id=t.id
-	LEFT JOIN img 
-	ON img.`foreign_id`=t.id
-	WHERE ch.customer_id=#{customerId}
-	UNION ALL
-	SELECT 
-	 tc.id AS thunbsup_id
-    ,tc.content AS content
-	,th.thunbsup_time AS thunbsup_time
-	,c.id AS customer_id
-	,c.nickname AS nickname
-	,c.avatar_url AS  avatar_url
-	,t.id	AS	topic_id
-	,t.has_video AS topic_has_video
-	,t.video_url AS topic_video_url
-	,t.title AS	topic_title
-	,t.content AS	topic_content
-	,t.status AS	topic_status
-	,img.id AS  img_id
-	,img.`img_url` AS img_url
-	FROM 
-	topic_thumbsup th
-	LEFT JOIN topic t
-	ON th.topic_id=t.id
-	LEFT JOIN customer c
-	ON th.customer_id=c.id
-	LEFT JOIN img 
-	ON img.`foreign_id`=t.id
-	LEFT JOIN topic_coment tc
-	ON tc.id=-1
-	WHERE  th.`customer_id`=#{customerId}
-	ORDER BY thunbsup_time DESC
-	LIMIT #{page.start},#{page.pageSize}
+		SELECT
+		
+			tmp.id,
+			tmp.is_coment_praise,
+		
+			tcus.id AS topic_customer_id,
+			tcus.nickname AS topic_customer_nickname,
+			tcus.avatar_url AS topic_customer_avatar_url,
+			
+			t.publish_time AS topic_publish_time,
+			t.title AS topic_title,
+			t.content AS topic_content,
+			t.`status` AS topic_status,
+			t.has_video AS topic_has_video,
+			t.video_url AS topic_video_url,
+			t.img_url AS topic_img_url,
+			t.id AS topic_id,
+			
+			img.foreign_id AS topic_img_id,
+			img.iindex AS topic_img_index,
+			img.img_url AS topic_img_img_url,
+			
+			tccus.id AS topic_coment_customer_id,
+			tccus.nickname AS topic_coment_customer_nickname,
+			tccus.avatar_url AS topic_coment_customer_avatar_url,
+			
+			tc.coment_time AS topic_coment_coment_time,
+			tc.id AS topic_coment_id,
+			tc.content AS topic_coment_content
+			
+		FROM
+			(
+				SELECT
+					coment_thumbsup_id AS id,
+					NULL AS topic_id, 
+					topic_coment_id,
+					customer_id,
+					thumbsup_time,
+					1 As is_coment_praise
+				FROM
+					coment_thumbsup
+				UNION ALL
+				SELECT
+					id,
+					topic_id,
+					NULL AS topic_coment_id,
+					customer_id,
+					thumbsup_time,
+					0 As is_coment_praise
+				FROM
+					topic_thumbsup
+				ORDER BY thumbsup_time
+				LIMIT #{page.start},#{page.pageSize}
+			)tmp
+		LEFT JOIN topic_coment tc ON tmp.topic_coment_id = tc.id
+		LEFT JOIN topic t ON tc.topic_id = t.id
+		LEFT JOIN img ON img.`foreign_id` = t.id
+		LEFT JOIN customer tcus ON t.customer_id = tcus.id	#发帖人信息
+		LEFT JOIN customer tccus ON tc.customer_id = tccus.id	#评论人信息
+		WHERE 
+			tmp.customer_id = #{customerId}
+		ORDER BY 
+			thumbsup_time,img.iindex
 	</select>
 </mapper>

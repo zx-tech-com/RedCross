@@ -17,7 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="findAllTopicCount" resultType="int">
 	 select count(id) from topic
 	 <where>
-		<if test="topicTypeId!=null">
+		<if test="topicTypeId != null">
 		type_id=#{topicTypeId}
 		</if>
 	</where>	

@@ -91,10 +91,8 @@ public class FileUtils {
 	
 	
 	/**
-	 * 从file(必须是视频)中截取一帧保存成照片，保存起来
-	 * @param absoluteBasePath
-	 * @param accessBasePath
-	 * @param file
+	 * 从视频中截取一帧保存成照片，保存起来
+	 * @param relativePath视频的相对路径
 	 * @return 返回截取的照片的相对路径
 	 */
 	public static String fetchImgFromVideo(String relativePath) {

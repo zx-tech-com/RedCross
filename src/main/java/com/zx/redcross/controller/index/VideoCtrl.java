@@ -129,10 +129,10 @@ public class VideoCtrl {
 	 */
 	@BackEnd
 	@RequestMapping("/adminSaveVideo")
-	public Map<String, Object> adminSaveVideo(Video video, MultipartFile file,MultipartFile imgUrl) {
+	public Map<String, Object> adminSaveVideo(Video video, MultipartFile file/*,MultipartFile imgUrl*/) {
 		// 未处理视频上传过程
 		Map<String, Object> map = MapUtils.getHashMapInstance();
-		Boolean flag = videoServImpl.adminSaveVideo(video, file,imgUrl);
+		Boolean flag = videoServImpl.adminSaveVideo(video, file/*,imgUrl*/);
 		map.put(Constant.STATUS, flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
 		return map;
 	}
