@@ -245,6 +245,13 @@
 	    <version>1.1.0</version>
 	</dependency>
 	
+	<!-- 截取视频中图片 所需包 -->
+	<dependency>
+         <groupId>org.bytedeco</groupId>
+         <artifactId>javacv-platform</artifactId>
+         <version>1.4.4</version>
+     </dependency>
+	
   </dependencies>
   
   

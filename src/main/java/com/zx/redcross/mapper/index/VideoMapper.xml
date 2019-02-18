@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			v.vname,
 			v.thumbnail_url,
 			v.description,
+			v.thumbnail_url,
 			v.video_url,
 			v.price,
 			vb.`status` 

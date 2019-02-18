@@ -102,6 +102,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="cname" property="cname"/>
 		<result column="description" property="description"/>
 		<result column="video_url" property="videoUrl"/>
+		<result column="thumbnail_url" property="thumbnailUrl"/>
 		<result column="video_duration" property="videoDuration"/>
 	</resultMap>
 	
@@ -124,7 +125,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="listCourseBySubject" resultMap="course">
 		SELECT 
-			course.id,cname,description,cindex,video_url,video_duration
+			course.id,cname,description,cindex,video_url,video_duration,thumbnailUrl
 		FROM course
 		WHERE subject_id = #{subjectId}
 		LIMIT ${page.start},${page.pageSize}

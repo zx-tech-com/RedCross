@@ -81,6 +81,7 @@ public class InterfaceBackEndInterceptor  extends HandlerInterceptorAdapter{
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		try {
 			PrintWriter writer = response.getWriter();
+			response.setStatus(401);
 			map.put(Constant.STATUS, Constant.STATUS_FAILURE);
 			map.put(Constant.ERROR_MESSAGE, "请先登录");
 			writer.println(JSON.toJSONString(map));

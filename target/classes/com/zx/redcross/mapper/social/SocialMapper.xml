@@ -17,26 +17,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="findAllTopicCount" resultType="int">
 	 select count(id) from topic
 	 <where>
-		<if test="topicTypeId!=null">
+		<if test="topicTypeId != null">
 		type_id=#{topicTypeId}
 		</if>
 	</where>	
 	</select>
 	
 	<select id="findOnceTopicComentCount" resultType="int">
-	select count(id) from topic_coment
-	where 
-	is_topcoment=1
-	and
-	topic_id=#{topicId}
+		SELECT 
+			count(id) 
+		FROM 
+			topic_coment
+		WHERE 
+			is_topcoment=1 and topic_id=#{topicId}
 	</select>
 	
 	<select id="findLowerComentCount" resultType="int">
-	select count(id) from topic_coment
-	where 
-	is_topcoment=0
-	and
-	topcoment_id=#{topicComentId}
+		SELECT 
+			count(id) 
+		FROM 
+			topic_coment
+		WHERE 
+			is_topcoment=0
+		AND topcoment_id=#{topicComentId}
 	</select>
 	
 	<!--查询所有发布帖子的信息，包括发帖人的信息 -->
@@ -45,6 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	topic.id	AS	topic_id
 	,topic.has_video AS topic_has_video
 	,topic.video_url AS topic_video_url
+	,topic.img_url AS topic_img_url
 	,topic.title AS	topic_title
 	,topic.content As	topic_content
 	,topic.publish_time As	topic_publish_time
@@ -275,6 +279,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	,content
 	 	,has_video
 	 	,video_url
+	 	,img_url
 	 	,status)
 		values(
 		#{topic.customerId}
@@ -283,6 +288,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		,#{topic.content}
 		,#{topic.hasVideo}
 		,#{topic.videoUrl}
+		,#{topic.imgUrl}
 		,#{topic.status})	
 	</insert>
 	
@@ -458,6 +464,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          <result property= "publishTime" column= "topic_publish_time"  />
          <result property= "hasVideo" column="topic_has_video"/>
 		 <result property= "videoUrl" column="topic_video_url" />
+		 <result property= "imgUrl" column="topic_img_url" />
 		 <result property= "status" column="topic_status" />
 		 <result property= "typeName" column="type_name" />
 		 <result property= "totalShare" column="total_share" />
