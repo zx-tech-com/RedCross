@@ -29,59 +29,78 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="listPraiseByCustomerId" resultMap="praiseByCustomerIdMap">
 		SELECT	
-         tc.id AS thunbsup_id
-	,tc.content AS content
-	,ch.thunbsup_time AS thunbsup_time
-	,c.id AS customer_id
-	,c.nickname AS nickname
-	,c.avatar_url AS  avatar_url
-	,t.id	AS	topic_id
-	,t.has_video AS topic_has_video
-	,t.video_url AS topic_video_url
-	,t.title AS	topic_title
-	,t.content AS	topic_content
-	,t.status AS	topic_status
-	,img.id AS  img_id
-	,img.`img_url` AS img_url
-	FROM 
-	coment_thumbsup ch 
-	LEFT JOIN topic_coment tc
-	ON ch.topic_coment_id=tc.id
-	LEFT JOIN customer c
-	ON tc.customer_id=c.id
-	LEFT JOIN topic t
-	ON tc.topic_id=t.id
-	LEFT JOIN img 
-	ON img.`foreign_id`=t.id
-	WHERE ch.customer_id=#{customerId}
-	UNION ALL
-	SELECT 
-	 tc.id AS thunbsup_id
-    ,tc.content AS content
-	,th.thunbsup_time AS thunbsup_time
-	,c.id AS customer_id
-	,c.nickname AS nickname
-	,c.avatar_url AS  avatar_url
-	,t.id	AS	topic_id
-	,t.has_video AS topic_has_video
-	,t.video_url AS topic_video_url
-	,t.title AS	topic_title
-	,t.content AS	topic_content
-	,t.status AS	topic_status
-	,img.id AS  img_id
-	,img.`img_url` AS img_url
-	FROM 
-	topic_thumbsup th
-	LEFT JOIN topic t
-	ON th.topic_id=t.id
-	LEFT JOIN customer c
-	ON th.customer_id=c.id
-	LEFT JOIN img 
-	ON img.`foreign_id`=t.id
-	LEFT JOIN topic_coment tc
-	ON tc.id=-1
-	WHERE  th.`customer_id`=#{customerId}
-	ORDER BY thunbsup_time DESC
-	LIMIT #{page.start},#{page.pageSize}
+         	tc.id AS thunbsup_id
+			,tc.content AS content
+			,ch.thunbsup_time AS thunbsup_time
+			,c.id AS customer_id
+			,c.nickname AS nickname
+			,c.avatar_url AS  avatar_url
+			,t.id	AS	topic_id
+			,t.has_video AS topic_has_video
+			,t.video_url AS topic_video_url
+			,t.title AS	topic_title
+			,t.content AS	topic_content
+			,t.status AS	topic_status
+			,img.id AS  img_id
+			,img.`img_url` AS img_url
+		FROM 
+			coment_thumbsup ch 
+		LEFT JOIN 
+			topic_coment tc
+		ON 
+			ch.topic_coment_id=tc.id
+		LEFT JOIN 
+			customer c
+		ON 
+			tc.customer_id=c.id
+		LEFT JOIN 
+			topic t
+		ON 
+			tc.topic_id=t.id
+		LEFT JOIN 
+			img 
+		ON 
+			img.`foreign_id`=t.id
+		WHERE 
+			ch.customer_id=#{customerId}
+		UNION ALL
+		SELECT 
+			 tc.id AS thunbsup_id
+		    ,tc.content AS content
+			,th.thunbsup_time AS thunbsup_time
+			,c.id AS customer_id
+			,c.nickname AS nickname
+			,c.avatar_url AS  avatar_url
+			,t.id	AS	topic_id
+			,t.has_video AS topic_has_video
+			,t.video_url AS topic_video_url
+			,t.title AS	topic_title
+			,t.content AS	topic_content
+			,t.status AS	topic_status
+			,img.id AS  img_id
+			,img.`img_url` AS img_url
+		FROM 
+			topic_thumbsup th
+		LEFT JOIN 
+			topic t
+		ON 
+			th.topic_id=t.id
+		LEFT JOIN 
+			customer c
+		ON 
+			th.customer_id=c.id
+		LEFT JOIN 
+			img 
+		ON 
+			img.`foreign_id`=t.id
+		LEFT JOIN 
+			topic_coment tc
+		ON 
+			tc.id=-1
+		WHERE  
+			th.`customer_id`=#{customerId}
+		ORDER BY 
+			thunbsup_time DESC
+		LIMIT #{page.start},#{page.pageSize}
 	</select>
 </mapper>

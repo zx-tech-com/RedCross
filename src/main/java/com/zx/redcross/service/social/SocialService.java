@@ -72,5 +72,11 @@ public interface SocialService {
 	public Integer findOnceTopicComentCount(Integer topicId);
 	//除一級以外評論條數
 	public Integer findLowerComentCount(Integer topicComentId);
+	//获取帖子总的点赞数
+	public Integer getTopicThumbsupCount(Integer topicId);
+	//获取评论的总点赞数
+	public Integer getThunsupCount(Integer topicComentId);
+	//获取帖子评论数量
+	public Integer getTopicComentCount(Integer id);
 
 }

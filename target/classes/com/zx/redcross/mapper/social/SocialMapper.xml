@@ -115,6 +115,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	where topic.id=#{topicId} ORDER BY	img.`id` ASC
 	</select>
 	
+	<select id="getTopicComentCount" parameterType="int" resultType="int">
+		SELECT 
+			COUNT(id) 
+		FROM 
+			topic_coment 
+		WHERE 
+			topic_coment.topic_id=#{id}
+	</select>
 	
 	
 	<select id="findTopicCustomerId"  resultType="int">
@@ -220,6 +228,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where topic_coment_id=#{topicComentId} and customer_id=#{coustomerId}
 	</select>
 	
+	<select id="getThunsupCount" resultType="int">
+		select count(coment_thumbsup_id) from	coment_thumbsup
+		where topic_coment_id=#{topicComentId} 
+	</select>
+	
 	<!--插入评论点赞  -->
 	<insert id="saveThunsup" >
 		insert into  coment_thumbsup(topic_coment_id,customer_id)  VALUES(#{topicComentId},#{coustomerId})
@@ -235,6 +248,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="findTopicThunsup" resultType="int">
 		select count(id) from	topic_thumbsup
 		where topic_id=#{topicId} and customer_id=#{coustomerId}
+	</select>
+	
+	<select id="getTopicThumbsupCount" resultType="int">
+		select count(id) from	topic_thumbsup
+		where topic_id=#{topicId} 
 	</select>
 	
 	<!--插入帖子点赞  -->

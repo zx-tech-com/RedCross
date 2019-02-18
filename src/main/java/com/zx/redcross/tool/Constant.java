@@ -21,9 +21,9 @@ public class Constant {
 	public static final String ACCESS_BASE_PATH = "http://127.0.0.1:8020/redcross-back/";
 
 	
-	//	public static final String ABSOLUTE_BASE_PATH = File.separator + 
-	//			"data" + File.separator + "apache-tomcat-8.5.37" + File.separator + "webapps"
-	//		+ File.separator + "red-cross-file" + File.separator;
+		//public static final String ABSOLUTE_BASE_PATH = File.separator + 
+			//	"data" + File.separator + "apache-tomcat-8.5.37" + File.separator + "webapps"
+			//+ File.separator + "red-cross-file" + File.separator;
 	
 	//public static final String ACCESS_BASE_PATH = "http://39.98.204.123:8080/red-cross-file/";
 	
@@ -63,6 +63,18 @@ public class Constant {
 	public static final String TIPS = "tips";
 	public static final String DATA = "data";
 	
+	/**
+	 * 返回点赞结果
+	 * 0 表示点赞成功
+	 * 1 表示取消点赞成功
+	 */
+    public static final String THUMB_SUCCESS = "0";
+    public static final String THUMB_FAILURE = "1";
+    
+    /**
+     * 点赞数量
+     */
+    public static final String COUNT = "count";
 	/**
 	 * 返回错误信息
 	 */
