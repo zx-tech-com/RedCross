@@ -122,15 +122,17 @@ public class SocialServiceImpl implements SocialService{
 		topic.setHasVideo(false);
 		//存储视频
 		if(video != null) {
-			topic.setStatus(Constant.POPIC_STATUS3);
+			topic.setStatus(Constant.POPIC_STATUS4);
 			topic.setHasVideo(true);
 			String relativePath = FileUtils.saveFile(videoAbsoluteBasePath, video);
 			topic.setVideoUrl(relativePath);
 			topic.setImgUrl(FileUtils.fetchImgFromVideo(relativePath));
 		}else if(images.length == 1) {
 			topic.setStatus(Constant.POPIC_STATUS1);
-		}else if(images.length >= 2){
+		}else if(images.length == 2){
 			topic.setStatus(Constant.POPIC_STATUS2);
+		}else if(images.length >= 3){
+			topic.setStatus(Constant.POPIC_STATUS3);
 		}else {
 			topic.setStatus(Constant.POPIC_STATUS0);
 		}

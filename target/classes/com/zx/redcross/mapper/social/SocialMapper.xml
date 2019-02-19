@@ -61,6 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	,img.id AS img_id
 	,img.`img_url` AS img_url
 	,(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id=topic.`id`) AS totalComment
+	,(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id=topic.`id` AND topic_coment.is_topcoment=1) AS OnceTopicComment
 	,(SELECT COUNT(id) FROM topic_thumbsup WHERE topic_thumbsup.topic_id=topic.`id`) AS totalThumbsup
 		<if test="customerId!=null">
 		,(SELECT COUNT(id) FROM topic_thumbsup  WHERE  topic_thumbsup.topic_id = topic.id AND topic_thumbsup.customer_id =#{customerId})AS flag
@@ -102,6 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	,img.id AS img_id
 	,img.`img_url` AS img_url
 	,(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id=topic.`id`) AS totalComment
+	,(SELECT COUNT(id) FROM topic_coment WHERE topic_coment.topic_id=topic.`id` AND topic_coment.is_topcoment=1) AS OnceTopicComment
 	,(SELECT COUNT(id) FROM topic_thumbsup WHERE topic_thumbsup.topic_id=topic.`id`) AS totalThumbsup
 	<if test="customerId!=null">
 		,(SELECT COUNT(id) FROM topic_thumbsup  WHERE  topic_thumbsup.topic_id = topic.id AND topic_thumbsup.customer_id =#{customerId})AS flag
@@ -159,6 +161,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	,customer.id AS	customer_id
 	,customer.nickname AS	customer_nickName
 	,customer.avatar_url AS customer_avatarUrl
+		,(SELECT COUNT(tc.id) FROM topic_coment tc WHERE tc.topcoment_id=topic_coment.`id`) AS nextCommentNum
 		,(SELECT COUNT(coment_thumbsup_id) FROM coment_thumbsup WHERE coment_thumbsup.`topic_coment_id`=topic_coment.id) AS totalThumbsup
 		<if test="customerId!=null" >
 		,(SELECT COUNT(coment_thumbsup_id) FROM coment_thumbsup WHERE coment_thumbsup.`topic_coment_id`=topic_coment.id AND coment_thumbsup.`customer_id`=#{customerId}) AS totalThumbsNum
@@ -470,6 +473,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 <result property= "totalShare" column="total_share" />
 		 <result property= "totalThumbsup" column="totalThumbsup"/>
 		 <result property= "totalComment" column="totalComment" />
+		 <result property= "OnceTopicComment" column="OnceTopicComment" />
 		 <result property= "flag" column="flag" />			
 		<association property="customer" javaType="HashMap" >		
 			<id column="customer_id" property="id"/>
@@ -491,6 +495,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 <result property= "comentTime" column="coment_time" />
 		 <result property= "isTopcoment" column="is_topcoment"/>
 		<result property="totalThumbsup" column="totalThumbsup"/>
+		<result property="nextCommentNum" column="nextCommentNum"/>
 		<result property="totalThumbsNum" column="totalThumbsNum"/>
 		<association property="customer" javaType="HashMap" >		
 			<id column="customer_id" property="id"/>

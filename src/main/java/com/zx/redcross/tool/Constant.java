@@ -158,12 +158,13 @@ public class Constant {
 
 	/**
 	 * 发帖的视频或图片或多张图片状态
-	 * 0啥都没有，1一张图片，2多张图片，3视频
+	 * 0啥都没有，1:1张图片，2:2张图片，3:3张图片,4:视频
 	 */
 	public static final String POPIC_STATUS0 = "0";
 	public static final String POPIC_STATUS1 = "1";
 	public static final String POPIC_STATUS2 = "2";
 	public static final String POPIC_STATUS3 = "3";
+	public static final String POPIC_STATUS4 = "4";
 
 	
 	/**
