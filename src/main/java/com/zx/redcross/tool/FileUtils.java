@@ -1,15 +1,9 @@
 package com.zx.redcross.tool;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-import javax.imageio.ImageIO;
-
-import org.bytedeco.javacv.FFmpegFrameGrabber;
-import org.bytedeco.javacv.FrameGrabber.Exception;
-import org.bytedeco.javacv.Java2DFrameConverter;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileUtils {
@@ -84,8 +78,6 @@ public class FileUtils {
 	}
 	
 	public static String getFullUrl(String url) {
-		/*if(url != null && url.length() > 0)
-			return Constant.ACCESS_BASE_PATH + url;*/
 		return url;
 	}	
 	
@@ -98,31 +90,20 @@ public class FileUtils {
 	public static String fetchImgFromVideo(String relativePath) {
 		
 		//先拿到视频的绝对路径. 路径分隔符Constant.ABSOLUTE_BASE_PATH用的是File.seperator,relativePath用的是 '/'
-		String absouteVideoPath = Constant.ABSOLUTE_BASE_PATH + relativePath;
+		String absoluteVideoPath = (Constant.ABSOLUTE_BASE_PATH + relativePath);
+		absoluteVideoPath = absoluteVideoPath.replace("/", File.separator).replace("\\", File.separator);
 		
-		File video = new File(absouteVideoPath);
+		File video = new File(absoluteVideoPath);
 		if(!video.isFile())
 			BusinessExceptionUtils.throwNewBusinessException("文件路径不正确");
 		
-		//开始视频截照片
-		String imgAbsolutePath = null;
-		FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(absouteVideoPath);
-		try {
-			grabber.start();
-			Java2DFrameConverter converter = new Java2DFrameConverter();
-	        BufferedImage img = converter.convert(grabber.grab());
-	        imgAbsolutePath = generateImgPathByVideoPath(absouteVideoPath);
-	        ImageIO.write(img, "jpg", new File(imgAbsolutePath));
-	        grabber.stop();
-	        grabber.close();
-		} catch (Exception e) {
-			//该Exception是org.bytedeco.javacv.FrameGrabber.Exception。并非java.lang.Exception
-			//因此可以放在第一个catch中来捕捉
-			BusinessExceptionUtils.throwNewBusinessException("视频截取图像失败");
-		} catch (IOException e) {
-			BusinessExceptionUtils.throwNewBusinessException("截取的图像保存失败");
-		}
+		String imgAbsolutePath = generateImgPathByVideoPath(absoluteVideoPath);
+		
+		FrameGrabberKit.fetchFrame(absoluteVideoPath, imgAbsolutePath);
+		System.err.println(absoluteVideoPath);
+		System.err.println(imgAbsolutePath);
 		return imgAbsolutePath.replace(Constant.ABSOLUTE_BASE_PATH, "").replace("\\", "/");
+		
 	}
 	
 	/**

@@ -127,6 +127,7 @@ public class VideoCtrl {
 	/**
 	 * 添加付费视频
 	 */
+
 	@Open
 	@RequestMapping("/adminSaveVideo")
 	public Map<String, Object> adminSaveVideo(Video video, MultipartFile file/*,MultipartFile imgUrl*/) {
