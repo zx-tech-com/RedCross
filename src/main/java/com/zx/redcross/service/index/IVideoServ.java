@@ -41,7 +41,7 @@ public interface IVideoServ {
 	Boolean adminDeleteBatchVideo(String ids);
 	
 	//修改付费视频
-	Boolean adminUpdateVideo(Video video, MultipartFile file, MultipartFile imgUrl);
+	Boolean adminUpdateVideo(Video video, MultipartFile file/*, MultipartFile imgUrl*/);
     //后台查询付费视频订单
 	List<VideoBuyRecord> adminListVideoBuyRecord(VideoBuyRecord record);
 

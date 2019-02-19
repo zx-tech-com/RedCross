@@ -127,7 +127,7 @@ public class VideoCtrl {
 	/**
 	 * 添加付费视频
 	 */
-	@BackEnd
+
 	@Open
 	@RequestMapping("/adminSaveVideo")
 	public Map<String, Object> adminSaveVideo(Video video, MultipartFile file/*,MultipartFile imgUrl*/) {
@@ -170,11 +170,11 @@ public class VideoCtrl {
 	/**
 	 * 修改付费视频
 	 */
-	@BackEnd
+	@Open
 	@RequestMapping("/adminUpdateVideo")
-	public Map<String, Object> adminUpdateVideo(Video video,MultipartFile file,MultipartFile imgUrl) {
+	public Map<String, Object> adminUpdateVideo(Video video,MultipartFile file/*,MultipartFile imgUrl*/) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
-		Boolean flag = videoServImpl.adminUpdateVideo(video,file,imgUrl);
+		Boolean flag = videoServImpl.adminUpdateVideo(video,file/*,imgUrl*/);
 		map.put(Constant.STATUS, flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
 		return map;
 	}
