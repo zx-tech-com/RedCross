@@ -17,16 +17,16 @@ public class Constant {
 //	public static final String ACCESS_BASE_PATH = "http://localhost:9090/red-cross-file/";
 	
 
-	public static final String ABSOLUTE_BASE_PATH = "D:\\git\\git\\redcross-back" + File.separator;
-	public static final String ACCESS_BASE_PATH = "http://localhost:9090/redcross-back/";
+//	public static final String ABSOLUTE_BASE_PATH = "D:\\git\\git\\redcross-back" + File.separator;
+//	public static final String ACCESS_BASE_PATH = "http://localhost:9090/redcross-back/";
 
 	
 
-//	public static final String ABSOLUTE_BASE_PATH = File.separator + 
-//				"data" + File.separator + "apache-tomcat-8.5.37" + File.separator + "webapps"
-//			+ File.separator + "red-cross-file" + File.separator;
-//	
-//	public static final String ACCESS_BASE_PATH = "http://39.98.204.123/red-cross-file/";
+	public static final String ABSOLUTE_BASE_PATH = File.separator + 
+				"data" + File.separator + "apache-tomcat-8.5.37" + File.separator + "webapps"
+			+ File.separator + "red-cross-file" + File.separator;
+	
+	public static final String ACCESS_BASE_PATH = "http://39.98.204.123/red-cross-file/";
 
 	
 	// 所有视频均存储在该路径下

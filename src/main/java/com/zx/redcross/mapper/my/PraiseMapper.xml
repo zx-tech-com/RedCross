@@ -54,7 +54,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="listPraiseByCustomerId" resultMap="praiseByCustomerIdMap">
 		SELECT
-		
 			tmp.id,
 			tmp.is_coment_praise,
 		
@@ -85,36 +84,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			
 		FROM
 			(
-				SELECT
-					coment_thumbsup_id AS id,
-					NULL AS topic_id, 
-					topic_coment_id,
-					customer_id,
-					thumbsup_time,
-					1 As is_coment_praise
-				FROM
-					coment_thumbsup
-				UNION ALL
-				SELECT
-					id,
-					topic_id,
-					NULL AS topic_coment_id,
-					customer_id,
-					thumbsup_time,
-					0 As is_coment_praise
-				FROM
-					topic_thumbsup
+				SELECT * FROM
+				(
+					SELECT
+						coment_thumbsup_id AS id,
+						topic_coment.topic_id,
+						topic_coment_id,
+						coment_thumbsup.customer_id,
+						thumbsup_time,
+						1 As is_coment_praise
+					FROM
+						coment_thumbsup
+					LEFT JOIN 
+						topic_coment ON coment_thumbsup.topic_coment_id = topic_coment.id
+					UNION ALL
+					SELECT
+						id,
+						topic_id,
+						NULL AS topic_coment_id,
+						customer_id,
+						thumbsup_time,
+						0 As is_coment_praise
+					FROM
+						topic_thumbsup
+				)praise
+				WHERE praise.customer_id = #{customerId}
 				ORDER BY thumbsup_time
 				LIMIT #{page.start},#{page.pageSize}
 			)tmp
 		LEFT JOIN topic_coment tc ON tmp.topic_coment_id = tc.id
-		LEFT JOIN topic t ON tc.topic_id = t.id
+		LEFT JOIN topic t ON tmp.topic_id = t.id
 		LEFT JOIN img ON img.`foreign_id` = t.id
 		LEFT JOIN customer tcus ON t.customer_id = tcus.id	#发帖人信息
 		LEFT JOIN customer tccus ON tc.customer_id = tccus.id	#评论人信息
-		WHERE 
-			tmp.customer_id = #{customerId}
 		ORDER BY 
-			thumbsup_time,img.iindex
+			thumbsup_time DESC,img.iindex
 	</select>
 </mapper>

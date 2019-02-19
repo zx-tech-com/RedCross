@@ -31,12 +31,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				SELECT 
 					* 
 				FROM favorite
+				WHERE favorite.customer_id = #{customerId}
 				LIMIT #{page.start},#{page.pageSize}
 			) favorite
 		LEFT JOIN topic ON topic_id = topic.id
 		LEFT JOIN customer ON topic.customer_id = customer.id
 		LEFT JOIN img ON img.img_type = '${@com.zx.redcross.tool.Constant@IMG_TYPE_TOPIC}' AND img.foreign_id = topic.id
-		WHERE favorite.customer_id = #{customerId};
+		ORDER BY favorite.favorite_time  DESC;
 	</select>
 	
 	

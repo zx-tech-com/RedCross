@@ -128,7 +128,7 @@ public class VideoCtrl {
 	 * 添加付费视频
 	 */
 
-	@Open
+	@BackEnd
 	@RequestMapping("/adminSaveVideo")
 	public Map<String, Object> adminSaveVideo(Video video, MultipartFile file/*,MultipartFile imgUrl*/) {
 		// 未处理视频上传过程

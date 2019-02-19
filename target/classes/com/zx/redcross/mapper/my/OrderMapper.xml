@@ -53,6 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="status != null and status.length > 0">
 			AND status = #{status}
 		</if>
+		ORDER BY submit_time DESC
 		LIMIT #{page.start},#{page.pageSize}
 	</select>
 </mapper>
