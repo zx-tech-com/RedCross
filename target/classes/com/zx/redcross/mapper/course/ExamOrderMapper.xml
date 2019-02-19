@@ -95,9 +95,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="addExamOrder" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO exam_order(
-			coment,detail_address,method,order_number,
-			pay_method,status,course_subject_id,
-			customer_id,district_id
+			coment
+			,detail_address
+			,method,order_number,
+			pay_method
+			,status
+			,course_subject_id
+			,customer_id
+			,district_id
+			,tel
+			,real_name
 		)
 		VALUES(
 			#{examOrder.coment},
@@ -108,7 +115,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{examOrder.status},
 			#{examOrder.courseSubject.id},
 			#{examOrder.customer.id},
-			#{examOrder.osDistrict.id}
+			#{examOrder.osDistrict.id},
+			#{examOrder.tel},
+			#{examOrder.realName}
 		);
 	</insert>
 	

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zx.redcross.annotation.BackEnd;
 import com.zx.redcross.annotation.FrontEnd;
+import com.zx.redcross.annotation.Open;
 import com.zx.redcross.entity.ExamOrder;
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.service.course.IExamOrderServ;
@@ -77,11 +78,9 @@ public class ExamOrderCtrl {
 		return map;
 	}
 	
-	@BackEnd
-	@FrontEnd
+	@Open
 	@RequestMapping("/addExamOrder")
 	public Map<String,Object> addExamOrder(@RequestBody ExamOrder examOrder){
-		
 		Map<String, Object> map = MapUtils.getHashMapInstance();
 		Map<String, Object> dataMap = MapUtils.getHashMapInstance();
 		

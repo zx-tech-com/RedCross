@@ -183,8 +183,10 @@ public class SocialController {
 	public Map<String,Object> saveTopicComent(TopicComent topicComent){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		Boolean flag=socialService.saveTopicComent(topicComent);
+		Integer count=socialService.getTopicComentCount(topicComent.getTopicId());
 		map.put(Constant.STATUS,flag?
 				Constant.STATUS_SUCCESS:Constant.STATUS_FAILURE);
+		map.put(Constant.COUNT,count);
 		return map;
 	}
 	
@@ -200,10 +202,14 @@ public class SocialController {
 		if(count==0) {
 			//说明没有点赞，那么添加点赞
 			socialService.saveThunsup(coustomerId,topicComentId);
+			map.put(Constant.DATA,Constant.THUMB_SUCCESS);
 		}else {
 			//删除点赞
 			socialService.deleteThunsup(coustomerId,topicComentId);
+			map.put(Constant.DATA,Constant.THUMB_FAILURE);
 		}
+		Integer comentThumbsupCount=socialService.getThunsupCount(topicComentId);
+		map.put(Constant.COUNT,comentThumbsupCount);
 		map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
 		return map;
 	}
@@ -219,10 +225,15 @@ public class SocialController {
 		if(count==0) {
 			//说明没有点赞，那么添加点赞
 			socialService.saveTopicThunsup(coustomerId,topicId);
+			map.put(Constant.DATA,Constant.THUMB_SUCCESS);
 		}else {
 			//删除点赞
 			socialService.deleteTopicThunsup(coustomerId,topicId);
+			map.put(Constant.DATA,Constant.THUMB_FAILURE);
 		}
+		//获取点赞数量
+		Integer topicThumbsupCount=socialService.getTopicThumbsupCount(topicId);
+		map.put(Constant.COUNT,topicThumbsupCount);
 		map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
 		return map;
 	}

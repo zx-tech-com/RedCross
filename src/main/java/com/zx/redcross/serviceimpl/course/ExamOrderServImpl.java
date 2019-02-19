@@ -1,5 +1,6 @@
 package com.zx.redcross.serviceimpl.course;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -56,8 +57,13 @@ public class ExamOrderServImpl implements IExamOrderServ {
 
 	@Override
 	public Boolean addExamOrder(ExamOrder examOrder) {
-		examOrder.setStatus(Constant.WAIT_TO_PAY);
-		List<ExamOrder> orderList = mapper.listExamOrderByCustomerId(examOrder.getCustomer().getId());
+		List<ExamOrder> orderList=new ArrayList<ExamOrder>();
+		if(examOrder.getCustomer()==null) {
+			orderList=null;
+		}else {
+			examOrder.setStatus(Constant.WAIT_TO_PAY);
+			orderList = mapper.listExamOrderByCustomerId(examOrder.getCustomer().getId());
+		}
 		if(orderList != null) {
 			for(ExamOrder preOrder : orderList) {
 				if(preOrder.getCourseSubject().getId() == examOrder.getId()
@@ -70,7 +76,12 @@ public class ExamOrderServImpl implements IExamOrderServ {
 			}
 		}
 		examOrder.setDetailAddress(getDetailAddress(examOrder));//组装完整的地址路径
-		examOrder.setOrderNumber(getExamOrderNumber(examOrder.getCustomer().getId()));
+		if(examOrder.getCustomer()==null) {
+			examOrder.setOrderNumber(getExamOrderNumberOffline(examOrder.getTel()));
+		}else {
+			examOrder.setOrderNumber(getExamOrderNumberOnline(examOrder.getCustomer().getId()));
+		}
+		
 		return mapper.addExamOrder(examOrder);
 	}
 
@@ -84,13 +95,22 @@ public class ExamOrderServImpl implements IExamOrderServ {
 		return mapper.updateExamOrderStatus(examOrder);
 	}
 	
-	private String getExamOrderNumber(Integer customerId) {
+	private String getExamOrderNumberOnline(Integer customerId) {
 		Customer customer = null;
 		if(customerId == null || (customer = customerMapper.findCustomerById(customerId)) == null)
 			BusinessExceptionUtils.throwNewBusinessException("下单失败，用户id不合法");
 		OrderNumber orderNumber = new OrderNumber();
 		orderNumber.setBusinessType(Constant.BUSINESS_TYPE_EXAM_ORDER);
 		String tel = customer.getTel();
+		orderNumber.setTel(tel.substring(tel.length() - Constant.TEL_LENGTH, tel.length()));
+		orderNumber.setTimeStamp(Utils.newTimeStamp());
+		return orderNumber.getOrderNumber();
+	}
+	
+	
+	private String getExamOrderNumberOffline(String tel) {
+		OrderNumber orderNumber = new OrderNumber();
+		orderNumber.setBusinessType(Constant.BUSINESS_TYPE_EXAM_ORDER);
 		orderNumber.setTel(tel.substring(tel.length() - Constant.TEL_LENGTH, tel.length()));
 		orderNumber.setTimeStamp(Utils.newTimeStamp());
 		return orderNumber.getOrderNumber();

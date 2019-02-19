@@ -243,6 +243,21 @@ public class SocialServiceImpl implements SocialService{
 		return socialMapper.findLowerComentCount(topicComentId);
 	}
 
+	@Override
+	public Integer getTopicThumbsupCount(Integer topicId) {
+		return socialMapper.getTopicThumbsupCount(topicId);
+	}
+
+	@Override
+	public Integer getThunsupCount(Integer topicComentId) {
+		return socialMapper.getThunsupCount(topicComentId);
+	}
+
+	@Override
+	public Integer getTopicComentCount(Integer id) {
+		return socialMapper.getTopicComentCount(id);
+	}
+
 
 	
 

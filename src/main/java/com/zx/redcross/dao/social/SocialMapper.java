@@ -74,6 +74,12 @@ public interface SocialMapper {
 
 	public Integer findLowerComentCount(Integer topicComentId);
 
+	public Integer getTopicThumbsupCount(Integer topicId);
+
+	public Integer getThunsupCount(Integer topicComentId);
+
+	public Integer getTopicComentCount(Integer id);
+
 
 	
 }
