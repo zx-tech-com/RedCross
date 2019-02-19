@@ -35,6 +35,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.0"/>
-	<classpathentry kind="lib" path="D:/git/git/redcross-back/lib/ueditor/1.4.3/jsp/lib/json.jar"/>
+	<classpathentry kind="lib" path="H:/模板插件/H-ui.admin_A5/red-cross-back/lib/ueditor/1.4.3/jsp/lib/json.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
