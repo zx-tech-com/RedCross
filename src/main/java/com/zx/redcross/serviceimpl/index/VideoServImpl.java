@@ -139,28 +139,30 @@ public class VideoServImpl implements IVideoServ {
 	 * 记得先保存视频，然后修改记录，最后删除旧视频
 	 */
 	@Override
-	public Boolean adminUpdateVideo(Video video,MultipartFile file,MultipartFile imgUrl) {
+	public Boolean adminUpdateVideo(Video video,MultipartFile file/*,MultipartFile imgUrl*/) {
 		Video videoSub=videoMapper.getVideoById(video.getId());
-		String imgAbsoluteBasePath=Constant.IMG_ABSOLUTE_BASE_PATH+Constant.PAYVIDEO;
 		String videoAbsoluteBasePath = Constant.VIDEO_ABSOLUTE_BASE_PATH + Constant.PAYVIDEO;
 		//存储图片
-		if(imgUrl != null) {
+		/*if(imgUrl != null) {
 			video.setThumbnailUrl(FileUtils.saveFile(imgAbsoluteBasePath, imgUrl));
-		}
+		}*/
 		//存储视频
 		if(file != null) {
 			video.setVideoUrl(FileUtils.saveFile(videoAbsoluteBasePath, file));
+			video.setThumbnailUrl(FileUtils.fetchImgFromVideo(video.getVideoUrl()));
 		}
 		if(!videoMapper.adminUpdateVideo(video)) {
 			return false;
 		}
 		String videoUrl =videoSub.getVideoUrl();
 		String imgUrlOld=videoSub.getThumbnailUrl();
-		if(null != videoUrl && videoUrl.length() >0) {
-			FileUtils.removeFile(videoUrl);
-		}
-		if(null != imgUrlOld && imgUrlOld.length() >0) {
-			FileUtils.removeFile(imgUrlOld);
+		if(file != null) {
+			if(null != videoUrl && videoUrl.length() >0) {
+				FileUtils.removeFile(videoUrl);
+			}
+			if(null != imgUrlOld && imgUrlOld.length() >0) {
+				FileUtils.removeFile(imgUrlOld);
+			}
 		}
 		return true;
 	}

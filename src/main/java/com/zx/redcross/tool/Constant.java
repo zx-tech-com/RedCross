@@ -12,13 +12,13 @@ public class Constant {
 	
 	public static final String ID = "id";
 	
-	public static final String ABSOLUTE_BASE_PATH = "H:" + File.separator + "Tomcat" + File.separator
-			 + "8.0" + File.separator + "webapps" + File.separator + "red-cross-file" + File.separator;
-	public static final String ACCESS_BASE_PATH = "http://localhost:9090/red-cross-file/";
+//	public static final String ABSOLUTE_BASE_PATH = "H:" + File.separator + "Tomcat" + File.separator
+//			 + "8.0" + File.separator + "webapps" + File.separator + "red-cross-file" + File.separator;
+//	public static final String ACCESS_BASE_PATH = "http://localhost:9090/red-cross-file/";
 	
 
-//	public static final String ABSOLUTE_BASE_PATH = "D:\\git\\git\\redcross-back" + File.separator;
-//	public static final String ACCESS_BASE_PATH = "http://127.0.0.1:8020/redcross-back/";
+	public static final String ABSOLUTE_BASE_PATH = "D:\\git\\git\\redcross-back" + File.separator;
+	public static final String ACCESS_BASE_PATH = "http://localhost:9090/redcross-back/";
 
 	
 
