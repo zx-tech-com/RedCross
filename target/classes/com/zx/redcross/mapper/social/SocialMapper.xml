@@ -69,19 +69,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="customerId == null" >
 		,0 AS flag
 		</if>
-	FROM topic
+	FROM 
+		(
+		SELECT * FROM topic
+		<where>
+			<if test="topicTypeId!=null">
+			topic.type_id=#{topicTypeId}
+			</if>
+		</where>
+		LIMIT ${page.start},${page.pageSize}
+		) as topic
+		
 	LEFT JOIN customer
 	ON customer.`id`=topic.`customer_id`
 	LEFT JOIN topic_type
 	ON topic_type.`id`=topic.`type_id`
 	LEFT JOIN img 
 	ON img.`foreign_id`=topic.id AND img.`img_type`='1'
-	<where>
-		<if test="topicTypeId!=null">
-		topic.type_id=#{topicTypeId}
-		</if>
-	</where>
-	ORDER BY topic.`id` DESC,img.`id` ASC  LIMIT ${page.start},${page.pageSize}
+	ORDER BY topic.`id` DESC,img.`id` ASC  
 	</select>
 	
 	
