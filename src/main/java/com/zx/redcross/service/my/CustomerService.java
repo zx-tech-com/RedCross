@@ -39,4 +39,8 @@ public interface CustomerService {
 	Customer getMyselfMessage(Integer customerId);
 	//查询是否是自己的发帖
 	Integer findMyTopic(Integer topicId, Integer customerId);
+	
+	String findDistrictPath(Customer customer);
+	//修改座右铭
+	Boolean updateMotto(Integer customerId, String motto);
 }

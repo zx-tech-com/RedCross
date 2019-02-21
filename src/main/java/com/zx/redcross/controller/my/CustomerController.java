@@ -148,10 +148,32 @@ public class CustomerController {
 		Map<String,Object> map=MapUtils.getHashMapInstance();
 		Customer customer=customerService.getMyselfMessage(customerId);
 		if(customer!=null){
+			String path=customerService.findDistrictPath(customer);
 			map.put(Constant.DATA, customer);
+			map.put(Constant.DISTRICT, path);
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 		}else {
-			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+			BusinessExceptionUtils.throwNewBusinessException("用户不存在");;
+		}	
+		return map;
+	}
+	
+	
+	@RequestMapping("/updateMotto")
+	public Map<String,Object> updateMotto(Integer customerId,String motto){
+		Map<String,Object> map=MapUtils.getHashMapInstance();
+		if(customerId!=null){
+			if(motto.length()>20) {
+				BusinessExceptionUtils.throwNewBusinessException("输入内容不能超过20位字符");
+			}else {
+				Boolean flag=customerService.updateMotto(customerId,motto);
+				String updateMotto=customerService.getMyselfMessage(customerId).getMotto();
+				map.put(Constant.DATA,updateMotto);
+				map.put(Constant.STATUS,flag?
+						Constant.STATUS_SUCCESS:Constant.STATUS_FAILURE);
+			}
+		}else {
+			BusinessExceptionUtils.throwNewBusinessException("用户不存在，请登录");
 		}	
 		return map;
 	}
@@ -171,9 +193,6 @@ public class CustomerController {
 		}
 		return map;		
 	}
-	
-	
-	
 	
 	/**
 	 * 删除自己的发帖

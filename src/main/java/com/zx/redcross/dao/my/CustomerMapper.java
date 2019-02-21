@@ -29,6 +29,8 @@ public interface CustomerMapper {
 	public Customer getMyselfMessage(Integer customerId);
 	//判断是否是自己的发帖
 	public Integer findMyTopic(@Param("topicId")Integer topicId,@Param("customerId") Integer customerId);
+	//修改座右铭
+	public Boolean updateMotto(@Param("customerId")Integer customerId,@Param("motto") String motto);
 	
 	
 }
