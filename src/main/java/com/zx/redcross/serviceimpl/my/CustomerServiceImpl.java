@@ -130,6 +130,26 @@ public class CustomerServiceImpl implements CustomerService{
 		detailAddress = detailAddress==null?"" : detailAddress;
 		return path + detailAddress;
 	}
+	@Override
+	public String findDistrictPath(Customer customer) {
+		if(customer.getDistrictId()==null){
+			return "";
+		}
+		Map<String, Object> osDistrict=osDistrictMapper.findOsdistrictById(customer.getDistrictId());
+		Integer level=(int) osDistrict.get("level");
+		String path=(String) osDistrict.get("name");
+		Boolean flage=true;
+		while(flage){
+			if(level!=1){
+				osDistrict=osDistrictMapper.findOsdistrictById((Integer) osDistrict.get("upid"));
+				path=(String) osDistrict.get("name") + path;
+				level--;
+			}else {
+				flage=false;
+			}
+		}
+		return path;
+	}
 
 	@Override
 	public Customer getMyselfMessage(Integer customerId) {
@@ -140,5 +160,12 @@ public class CustomerServiceImpl implements CustomerService{
 	public Integer findMyTopic(Integer topicId, Integer customerId) {
 		return customerMapper.findMyTopic(topicId,customerId);
 	}
+
+	@Override
+	public Boolean updateMotto(Integer customerId, String motto) {
+		return customerMapper.updateMotto(customerId,motto);
+	}
+
+	
 
 }

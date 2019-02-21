@@ -17,10 +17,21 @@ public class Customer implements Serializable {
 	private String password;
 	private String registerTime;
 	private String tel;
+	private String motto;
 	private OsDistrict osDistrict;
 
 
 	public Customer() {
+	}
+
+
+	public String getMotto() {
+		return motto;
+	}
+
+
+	public void setMotto(String motto) {
+		this.motto = motto;
 	}
 
 
@@ -138,9 +149,12 @@ public class Customer implements Serializable {
 	public String toString() {
 		return "Customer [id=" + id + ", DistrictId=" + DistrictId + ", avatarUrl=" + avatarUrl + ", detailAddress="
 				+ detailAddress + ", gender=" + gender + ", isVisitor=" + isVisitor + ", nickname=" + nickname
-				+ ", password=" + password + ", registerTime=" + registerTime + ", tel=" + tel + ", osDistrict="
-				+ osDistrict + "]";
+				+ ", password=" + password + ", registerTime=" + registerTime + ", tel=" + tel + ", motto=" + motto
+				+ ", osDistrict=" + osDistrict + "]";
 	}
+
+
+	
 
 
 	

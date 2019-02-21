@@ -64,6 +64,7 @@ public class Constant {
 	public static final String ERROR_MESSAGE = "message";
 	public static final String TIPS = "tips";
 	public static final String DATA = "data";
+	public static final String DISTRICT = "district";
 	
 	/**
 	 * 返回点赞结果

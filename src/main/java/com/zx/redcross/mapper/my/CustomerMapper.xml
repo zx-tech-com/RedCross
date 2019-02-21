@@ -73,18 +73,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			gender = gender
 		WHERE customer.id = #{customer.id}
 	</update>
+	
+	<update id="updateMotto">
+		UPDATE 
+			customer 
+		SET 
+			motto=#{motto}
+		WHERE 
+			id=#{customerId}
+	
+	</update>
+	
 	<!--获取自己详细信息  -->
 	<select id="getMyselfMessage" parameterType="int" resultType="Customer">
-	 select 
-	 id
-	 ,nickname
-	 ,gender
-	 ,avatar_url
-	 ,detail_address
-	 ,tel
-	 ,register_time 
-	 from customer
-	 where id=#{customerId}
+	 SELECT 
+		  id
+		 ,district_id
+		 ,motto
+		 ,nickname
+		 ,gender
+		 ,avatar_url
+		 ,detail_address
+		 ,tel
+		 ,register_time 
+	 FROM 
+	 	customer
+	 WHERE 
+	 	id=#{customerId}
 	</select>
 	
 </mapper>
