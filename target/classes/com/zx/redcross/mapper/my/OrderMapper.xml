@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="order_type" property="orderType"/>
 		<result column="id" property="id"/>
 		<result column="order_number" property="orderNumber"/>
+		<result column="video_or_course_id" property="videoOrCourseId"/>
 		<result column="status" property="status"/>
 		<result column="title" property="title"/>
 		<result column="description" property="description"/>
@@ -25,6 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				video_buy_record.id,
 				order_number,
 				`status`,
+				video.id AS video_or_course_id,
 				CONCAT(${@com.zx.redcross.tool.Constant@VIDEO_ORDER_TITLE},vname) AS title,
 				CONCAT(${@com.zx.redcross.tool.Constant@VIDEO_ORDER_DESCRIPTION},vname) AS description,
 				price,
@@ -39,6 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				course_subject.id,
 				order_number,
 				`status`,
+				course_subject.id AS video_or_course_id,
 				CONCAT(${@com.zx.redcross.tool.Constant@EXAM_ORDER_TITLE},sname) AS title,
 				description,
 					price,
