@@ -121,11 +121,14 @@ public class Constant {
 	public static final String CUSTOMERID = "customerId";
 	public static final Integer NUMBER_8 = 300;
 	public static final Integer HOUR_FIELD = 11;
+//	public static final Integer NUMBER_8 = 1;
+//	public static final Integer HOUR_FIELD = 12;
 	
 	/**
-	 * HTTP重定向
+	 * HTTP状态码
 	 */
 	public static final Integer HTTP_STATUS_302 = 302;
+	public static final Integer HTTP_STATUS_401 = 401;
 	
 	
 	

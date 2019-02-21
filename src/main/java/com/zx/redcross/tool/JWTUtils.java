@@ -1,7 +1,5 @@
 package com.zx.redcross.tool;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Map;
 
 import com.nimbusds.jose.JOSEException;
@@ -14,6 +12,7 @@ import com.nimbusds.jose.KeyLengthException;
 import com.nimbusds.jose.Payload;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
+import com.zx.redcross.entity.TokenInfo;
 
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.ParseException;
@@ -61,17 +60,18 @@ public class JWTUtils {
     public static Map<String,Object> validateToken(String token) throws ParseException, JOSEException, java.text.ParseException {
 
     	Map<String, Object> resultMap = MapUtils.getHashMapInstance();
-    	if(token == null) {//无token信息
+    	if(token == null || TokenManager.getToken(token) == null) {//无token信息
     		resultMap.put(Constant.TOKEN_STATUS, Constant.TOKEN_INVALID);
     		return resultMap;
     	}
-    	
+    	//tokenMap中存在该token
         JWSObject jwsObject = JWSObject.parse(token);
-        Payload payload=jwsObject.getPayload();
+        //Payload payLoad = jwsObject.getPayload();
         JWSVerifier jwsVerifier = new MACVerifier(SECRET);
 
         if (jwsObject.verify(jwsVerifier)) {//验证通过
-        	JWTUtils.checkIfTokenExpired(payload,resultMap);
+        	JWTUtils.checkIfTokenExpired(token,resultMap);
+        	//检查是否过期
         }else {
         	resultMap.put(Constant.TOKEN_STATUS, Constant.TOKEN_INVALID);
         }
@@ -79,26 +79,27 @@ public class JWTUtils {
 
     }
     
-    private static void checkIfTokenExpired(Payload payload,Map<String,Object> resultMap) {
-    	 JSONObject jsonObject = payload.toJSONObject();
-         if (jsonObject.containsKey(Constant.EXPIRES)) {//包括过期时间
-             Long expTime = Long.valueOf(jsonObject.get(Constant.EXPIRES).toString());
-             Long nowTime = new Date().getTime();
-             if (nowTime > expTime) {//已过期
-                 resultMap.put(Constant.TOKEN_STATUS,Constant.TOKEN_EXPIRED);
-             }else {//未过期
-            	 resultMap.put(Constant.TOKEN_STATUS,Constant.TOKEN_VALID);
-            	 resultMap.put(Constant.PAY_LOAD, jsonObject);
-             }
-            	 
-         }else {//不包含过期时间
-         	resultMap.put(Constant.TOKEN_STATUS,Constant.TOKEN_VALID);
-         	resultMap.put(Constant.PAY_LOAD, jsonObject);
+    private static void checkIfTokenExpired(String token,Map<String,Object> resultMap) {
+    	
+         if (TokenManager.isExpired(token)) {//已过期
+             resultMap.put(Constant.TOKEN_STATUS,Constant.TOKEN_EXPIRED);
+         }else {//未过期
+        	 resultMap.put(Constant.TOKEN_STATUS,Constant.TOKEN_VALID);
+//        	 resultMap.put(Constant.PAY_LOAD, jsonObject);
          }
     }
 
 	
-    public static Map<String,Object> prepareTokenParams(Integer customerId) {
+    public static Map<String,Object> prepareTokenParams(TokenInfo tokenInfo) {
+    	
+    	if(tokenInfo.getCustomerId() == null)
+    		BusinessExceptionUtils.throwNewBusinessException("用户登录错误");
+		
+    	return tokenInfo.toMap();
+    	
+    }
+    
+    /*public static Map<String,Object> prepareTokenParams(Integer customerId) {
     	
     	if(customerId == null)
     		BusinessExceptionUtils.throwNewBusinessException("用户登录错误");
@@ -108,8 +109,9 @@ public class JWTUtils {
     	Calendar date = Calendar.getInstance();
 		date.add(Constant.HOUR_FIELD, Constant.NUMBER_8);
 		map.put(Constant.EXPIRES, date.getTime().getTime());
+		
     	return map;
     	
-    }
+    }*/
     
 }

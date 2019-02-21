@@ -13,6 +13,32 @@
     </Properties>
 
   	<Appenders>
+  	
+  		<RollingFile name="loginout" fileName="${logPath}/loginout.log" immediateFlush="true"
+			filePattern="logs/$${date:yyyy-MM-dd}/loginout-%d{MM-dd-yyyy}.log.zip">
+			<PatternLayout>
+				<Pattern>%d{HH:mm:ss} %p %c{1.} %t %m%n</Pattern>
+			</PatternLayout>
+			<ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="50 MB" />
+			</Policies>
+		</RollingFile>
+  	
+  	
+  		<RollingFile name="fetchImgFromVideo" fileName="${logPath}/fetchImgFromVideo.log" immediateFlush="true"
+			filePattern="logs/$${date:yyyy-MM-dd}/fetchImgFromVideo-%d{MM-dd-yyyy}.log.zip">
+			<PatternLayout>
+				<Pattern>%d{HH:mm:ss} %p %c{1.} %t %m%n</Pattern>
+			</PatternLayout>
+			<ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="50 MB" />
+			</Policies>
+		</RollingFile>
+  	
 		<RollingFile name="errorInfo" fileName="${logPath}/error.log" immediateFlush="true"
 			filePattern="logs/$${date:yyyy-MM-dd}/error-%d{MM-dd-yyyy}.log.zip">
 			<PatternLayout>
@@ -28,6 +54,12 @@
 	 <Loggers>
 	   <Logger level="ALL" name="com.zx.redcross.exception.handler.GloblalExceptionHandler">
 	  		<AppenderRef ref="errorInfo"/>
+	   </Logger>
+	   <Logger level="ALL" name="com.zx.redcross.tool.FrameGrabberKit">
+	  		<AppenderRef ref="fetchImgFromVideo"/>
+	   </Logger>
+	   <Logger level="ALL" name="com.zx.redcross.tool.TokenManager">
+	  		<AppenderRef ref="loginout"/>
 	   </Logger>
 	 </Loggers>
 </Configuration>

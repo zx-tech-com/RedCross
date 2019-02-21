@@ -3,6 +3,8 @@ package com.zx.redcross.controller.my;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,11 +16,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.zx.redcross.annotation.FrontEnd;
 import com.zx.redcross.annotation.Open;
 import com.zx.redcross.entity.Customer;
+import com.zx.redcross.entity.TokenInfo;
 import com.zx.redcross.service.my.CustomerService;
 import com.zx.redcross.tool.BusinessExceptionUtils;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.JWTUtils;
 import com.zx.redcross.tool.MapUtils;
+import com.zx.redcross.tool.TokenManager;
 
 @RestController("")
 @RequestMapping("/customer")
@@ -46,6 +50,16 @@ public class CustomerController {
 		return map;
 	}
 	
+	
+	@RequestMapping("logout")
+	public Map<String,Object> logout(HttpServletRequest request){
+		TokenManager.removeToken(getToken(request));
+		Map<String, Object> map = MapUtils.getHashMapInstance();
+		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		return map;
+	}
+	
+	
 	/**
 	 * 已知选择的省份是安徽省，获取下一级的市/县
 	 */
@@ -71,9 +85,15 @@ public class CustomerController {
 		if(customer==null){
 			BusinessExceptionUtils.throwNewBusinessException("账号密码不匹配");
 		}else{
+			
+			//构造新的tokenInfo
+			TokenInfo token = new TokenInfo(customer.getId());
+			
 			map.put(Constant.DATA, customer);
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
-			map.put(Constant.TOKEN, JWTUtils.creatToken(JWTUtils.prepareTokenParams(customer.getId())));
+			map.put(Constant.TOKEN, JWTUtils.creatToken(JWTUtils.prepareTokenParams(token)));
+			//token加入管理
+			TokenManager.addNewToken((String)map.get(Constant.TOKEN), token);
 		}
 		return map;	
 	}
@@ -192,5 +212,16 @@ public class CustomerController {
 		map.put(Constant.STATUS,flag?
 				Constant.STATUS_SUCCESS:Constant.STATUS_FAILURE);
 		return map;		
+	}
+	
+	
+	private String getToken(HttpServletRequest request) {
+		//尝试从header中获取token
+		String token = request.getHeader(Constant.TOKEN);
+		if(token == null) {
+			//从url中获取
+			token = request.getParameter(Constant.TOKEN);
+		}
+		return token;
 	}
 }

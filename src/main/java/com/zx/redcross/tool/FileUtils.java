@@ -100,8 +100,6 @@ public class FileUtils {
 		String imgAbsolutePath = generateImgPathByVideoPath(absoluteVideoPath);
 		
 		FrameGrabberKit.fetchFrame(absoluteVideoPath, imgAbsolutePath);
-		System.err.println(absoluteVideoPath);
-		System.err.println(imgAbsolutePath);
 		return imgAbsolutePath.replace(Constant.ABSOLUTE_BASE_PATH, "").replace("\\", "/");
 		
 	}

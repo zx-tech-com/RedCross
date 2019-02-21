@@ -6,6 +6,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bytedeco.javacpp.opencv_core;
 import org.bytedeco.javacpp.opencv_core.IplImage;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
@@ -22,6 +24,7 @@ import org.bytedeco.javacv.OpenCVFrameConverter;
  */
 public class FrameGrabberKit {
 
+	private static Logger logger = LogManager.getLogger(FrameGrabberKit.class);
 	/**
 	 * 获取指定视频的帧并保存为图片至指定目录
 	 * 
@@ -34,12 +37,13 @@ public class FrameGrabberKit {
 	 */
 	public static void fetchFrame(String videofile, String framefile) {
 		
+		long begin = System.currentTimeMillis();
+		int i = 0;
 		try (FFmpegFrameGrabber ff = new FFmpegFrameGrabber(videofile);) {
 			ff.start();
 			ff.getAudioChannels();
 			String rotate = ff.getVideoMetadata("rotate");// 视频的旋转角度
 			int maxGrabTimes = 500;//限制最大遍历次数
-			int i = 0;
 			Frame f = null;
 			while (i <= maxGrabTimes) {
 				f = ff.grabFrame();
@@ -60,6 +64,9 @@ public class FrameGrabberKit {
 		} catch (Exception e) {
 			BusinessExceptionUtils.throwNewBusinessException("视频截取缩略图失败");
 		}
+		long totalCost = System.currentTimeMillis() - begin;
+		logger.debug(videofile + " 视频截取成功,总耗时：" + totalCost + " ms; 总共 grab " + i + " 次.");
+		
 	}
 
 	public static IplImage rotate(IplImage src, int angle) {

@@ -24,15 +24,6 @@ import com.zx.redcross.tool.MapUtils;
 public class InterfaceBackEndInterceptor  extends HandlerInterceptorAdapter{
 
 	
-	/*@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-			ModelAndView modelAndView) throws Exception {
-		Collection<String> headerNames = response.getHeaderNames();
-		System.err.println("==============response===============");
-		for(String header : headerNames) {
-			System.out.println(header + " : " + response.getHeader(header));
-		}
-	}*/
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -81,7 +72,7 @@ public class InterfaceBackEndInterceptor  extends HandlerInterceptorAdapter{
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		try {
 			PrintWriter writer = response.getWriter();
-			response.setStatus(401);
+			response.setStatus(Constant.HTTP_STATUS_401);
 			map.put(Constant.STATUS, Constant.STATUS_FAILURE);
 			map.put(Constant.ERROR_MESSAGE, "请先登录");
 			writer.println(JSON.toJSONString(map));

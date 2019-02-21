@@ -18,6 +18,7 @@ import com.zx.redcross.annotation.Open;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.JWTUtils;
 import com.zx.redcross.tool.MapUtils;
+import com.zx.redcross.tool.TokenManager;
 
 import net.minidev.json.parser.ParseException;
 
@@ -51,8 +52,8 @@ public class InterfaceOpenInterceptor  extends HandlerInterceptorAdapter{
 				}
 				switch((int)map.get(Constant.TOKEN_STATUS)) {
 					case Constant.TOKEN_VALID :
-						//放入userId
-						request.setAttribute(Constant.CUSTOMERID, map.get(Constant.CUSTOMERID));
+						//刷新token过期时间
+						TokenManager.refreshValidTime(token);
 						return true;
 					case Constant.TOKEN_EXPIRED  :
 						addTokenExpiredInfo(response);

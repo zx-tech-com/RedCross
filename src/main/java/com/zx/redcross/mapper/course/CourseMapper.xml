@@ -125,7 +125,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="listCourseBySubject" resultMap="course">
 		SELECT 
-			course.id,cname,description,cindex,video_url,video_duration,thumbnailUrl
+			course.id,cname,description,cindex,video_url,video_duration,thumbnail_url
 		FROM course
 		WHERE subject_id = #{subjectId}
 		LIMIT ${page.start},${page.pageSize}

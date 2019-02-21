@@ -77,7 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			topic.type_id=#{topicTypeId}
 			</if>
 		</where>
-		LIMIT ${page.start},${page.pageSize}
+		LIMIT #{page.start},#{page.pageSize}
 		) as topic
 		
 	LEFT JOIN customer
@@ -96,6 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	topic.id	AS	topic_id
 	,topic.has_video AS topic_has_video
 	,topic.video_url AS topic_video_url
+	,topic.img_url AS topic_img_url
 	,topic.title AS	topic_title
 	,topic.content As	topic_content
 	,topic.publish_time As	topic_publish_time
