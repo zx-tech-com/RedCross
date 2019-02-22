@@ -28,7 +28,7 @@ public class ExamOrderCtrl {
 	public Map<String,Object> getExamOrderById (Integer id) {
 		
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		ExamOrder examOrder = examOrderServImpl.getExamOrderById(id);
+		Map<String, Object> examOrder = examOrderServImpl.getExamOrderById(id);
 		map.put(Constant.STATUS,Constant.STATUS_FAILURE);
 		if(null != examOrder) {
 			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);

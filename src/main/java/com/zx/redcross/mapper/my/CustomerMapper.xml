@@ -58,6 +58,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="customer.osDistrict != null and customer.osDistrict.id != null">
 			district_id =  #{customer.osDistrict.id},
 		</if>
+		<if test="customer.realname != null">
+			realname =  #{customer.realName},
+		</if>
 		<if test="customer.nickname != null">
 			nickname =  #{customer.nickname},
 		</if>
@@ -91,6 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 ,district_id
 		 ,motto
 		 ,nickname
+		 ,realname
 		 ,gender
 		 ,avatar_url
 		 ,detail_address

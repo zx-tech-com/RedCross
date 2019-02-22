@@ -56,11 +56,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			v.thumbnail_url,
 			v.video_url,
 			v.price,
-			vb.`status` 
+			vb.`status`,
+			IFNULL(vr.current_minute,"0:00") AS current_minute 
 		FROM
 			video v
 			LEFT JOIN video_buy_record vb ON v.`id` = vb.`video_id` 
 			AND vb.customer_id = #{customerId}
+			LEFT JOIN video_record  vr ON  v.`id`=vr.`video_id` 
+			AND vr.`customer_id`=#{customerId}
 		WHERE
 			v.id = #{videoId}
 	</select>
@@ -119,6 +122,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="thumbnail_url" property="thumbnailUrl" />
 		<result column="video_url" property="videoUrl" />
 		<result column="price" property="price" />
+		<result column="current_minute" property="currentMinute" />
 		<result column="status" property="status" />
 	</resultMap>
 	

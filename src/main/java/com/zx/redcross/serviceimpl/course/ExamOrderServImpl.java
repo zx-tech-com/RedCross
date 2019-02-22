@@ -36,7 +36,7 @@ public class ExamOrderServImpl implements IExamOrderServ {
 	private OsDistrictMapper	osDistrictMapper;
 	
 	@Override
-	public ExamOrder getExamOrderById(Integer id) {
+	public Map<String, Object> getExamOrderById(Integer id) {
 		return mapper.getExamOrderById(id);
 	}
 

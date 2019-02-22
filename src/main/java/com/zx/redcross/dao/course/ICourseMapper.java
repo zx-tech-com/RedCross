@@ -14,9 +14,9 @@ public interface ICourseMapper {
 	
 	List<Map<String,Object>> listCourseSubject();
 	
-	List<Map<String,Object>> listCourseBySubject(@Param("subjectId") Integer subjectId,@Param("page") Page page);
+	List<Map<String,Object>> listCourseBySubject(@Param("customerId") Integer customerId,@Param("subjectId") Integer subjectId,@Param("page") Page page);
 	
-	Map<String,Object> getCourseById(@Param("id") Integer id);
+	Map<String,Object> getCourseById(@Param("id") Integer id,@Param("customerId") Integer customerId);
 	
 	Boolean saveCourse(@Param("course") Course course);
 	

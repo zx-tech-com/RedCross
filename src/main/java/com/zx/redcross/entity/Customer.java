@@ -14,6 +14,7 @@ public class Customer implements Serializable {
 	private String gender;
 	private Boolean isVisitor;
 	private String nickname;
+	private String realName;
 	private String password;
 	private String registerTime;
 	private String tel;
@@ -23,6 +24,19 @@ public class Customer implements Serializable {
 
 	public Customer() {
 	}
+	
+
+
+	public String getRealName() {
+		return realName;
+	}
+
+
+
+	public void setRealName(String realName) {
+		this.realName = realName;
+	}
+
 
 
 	public String getMotto() {
@@ -145,13 +159,20 @@ public class Customer implements Serializable {
 	}
 
 
+
 	@Override
 	public String toString() {
 		return "Customer [id=" + id + ", DistrictId=" + DistrictId + ", avatarUrl=" + avatarUrl + ", detailAddress="
 				+ detailAddress + ", gender=" + gender + ", isVisitor=" + isVisitor + ", nickname=" + nickname
-				+ ", password=" + password + ", registerTime=" + registerTime + ", tel=" + tel + ", motto=" + motto
-				+ ", osDistrict=" + osDistrict + "]";
+				+ ", realName=" + realName + ", password=" + password + ", registerTime=" + registerTime + ", tel="
+				+ tel + ", motto=" + motto + ", osDistrict=" + osDistrict + "]";
 	}
+
+
+	
+
+
+	
 
 
 	
