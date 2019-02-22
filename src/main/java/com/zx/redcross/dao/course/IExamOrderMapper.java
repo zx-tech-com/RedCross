@@ -10,7 +10,7 @@ import com.zx.redcross.entity.Page;
 
 public interface IExamOrderMapper {
 	
-	ExamOrder getExamOrderById (Integer id);
+	Map<String, Object> getExamOrderById (Integer id);
 	
 	List<ExamOrder> listExamOrderByCustomerId (Integer customerId);
 	

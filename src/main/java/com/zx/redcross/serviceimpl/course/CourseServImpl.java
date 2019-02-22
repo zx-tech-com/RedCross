@@ -28,13 +28,13 @@ public class CourseServImpl implements ICourseServ{
 	}
 
 	@Override
-	public List<Map<String, Object>> listCourseBySubject(Integer subjectId, Page page) {
-		return courseMapper.listCourseBySubject(subjectId,page);
+	public List<Map<String, Object>> listCourseBySubject(Integer customerId,Integer subjectId, Page page) {
+		return courseMapper.listCourseBySubject(customerId,subjectId,page);
 	}
 
 	@Override
-	public Map<String, Object> getCourseById(Integer id) {
-		return courseMapper.getCourseById(id);
+	public Map<String, Object> getCourseById(Integer id,Integer customerId) {
+		return courseMapper.getCourseById(id,customerId);
 	}
 
 	@Override
@@ -121,7 +121,7 @@ public class CourseServImpl implements ICourseServ{
 
 	@Override
 	public Boolean adminDeleteCourse(Integer courseId) {
-		Map<String, Object> course=courseMapper.getCourseById(courseId);
+		Map<String, Object> course=courseMapper.getCourseById(null,courseId);
 		if(!courseMapper.adminDeleteCourse(courseId)) {
 			return false;
 		};

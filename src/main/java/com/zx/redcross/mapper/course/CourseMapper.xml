@@ -100,6 +100,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="cindex" property="cindex"/>
 		<result column="cname" property="cname"/>
 		<result column="description" property="description"/>
+		<result column="current_minute" property="currentMinute"/>
 		<result column="video_url" property="videoUrl"/>
 		<result column="thumbnail_url" property="thumbnailUrl"/>
 		<result column="video_duration" property="videoDuration"/>
@@ -125,8 +126,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="listCourseBySubject" resultMap="course">
 		SELECT 
-			course.id,cname,description,cindex,video_url,video_duration,thumbnail_url
-		FROM course
+			course.id
+			,cname
+			,description
+			,cindex
+			,video_url
+			,video_duration
+			,thumbnail_url
+			,ifnull((SELECT current_minute  FROM course_record WHERE course_record.`customer_id`=#{customerId} AND course_record.`course_id` = course.`id`),'0:00') as current_minute
+		FROM 
+		course
 		WHERE subject_id = #{subjectId}
 		ORDER BY cindex ASC
 		LIMIT ${page.start},${page.pageSize}
@@ -141,9 +150,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="getCourseById" resultMap="course">
 		SELECT 
-			course.id,cname,description,cindex,video_url,video_duration
-		FROM course
-		WHERE id = #{id}
+			course.id
+			,cname
+			,description
+			,cindex
+			,video_url
+			,video_duration
+			,ifnull((SELECT current_minute  FROM course_record WHERE course_record.`customer_id`=#{customerId} AND course_record.`course_id` = course.`id`),'0:00') as current_minute
+		FROM 
+			course
+		WHERE 
+			id = #{id}
 	</select>
 	
 	<insert id="saveCourse" useGeneratedKeys="true" keyProperty="id">

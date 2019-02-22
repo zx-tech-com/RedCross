@@ -83,10 +83,10 @@ public class CourseCtrl {
 	@FrontEnd
 	@RequestMapping("/listCourse")
 	@Open
-	public Map<String,Object> listCourseBySubject(@RequestParam(required=true) Integer subjectId,Page page) {
+	public Map<String,Object> listCourseBySubject(Integer customerId,@RequestParam(required=true) Integer subjectId,Page page) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
-		List<Map<String, Object>> courseList = courseServImpl.listCourseBySubject(subjectId,page);
+		List<Map<String, Object>> courseList = courseServImpl.listCourseBySubject(customerId,subjectId,page);
 		if(null != courseList) {
 			map.put(Constant.DATA, courseList);
 			map.put(Constant.PAGE_SIZE, page.getPageSize());
@@ -98,9 +98,9 @@ public class CourseCtrl {
 	@FrontEnd
 	@RequestMapping("/getCourse")
 	@Open
-	public Map<String,Object> getCourseById(@RequestParam Integer id) {
+	public Map<String,Object> getCourseById(@RequestParam Integer id,Integer customerId) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		Map<String, Object> course = courseServImpl.getCourseById(id);
+		Map<String, Object> course = courseServImpl.getCourseById(id,customerId);
 		map.put(Constant.STATUS,Constant.STATUS_FAILURE);
 		if(null != course) {
 			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
@@ -129,7 +129,7 @@ public class CourseCtrl {
 		Page page = new Page();
 		page.setPageNo(1);
 		page.setPageSize(Integer.MAX_VALUE);
-		int toalCount = courseServImpl.listCourseBySubject(courseSubjectId, page).size();
+		int toalCount = courseServImpl.listCourseBySubject(customerId,courseSubjectId, page).size();
 		
 		//获取该用户该课程分类下的下一个应该播放的视频信息
 		CourseRecord record = new CourseRecord();

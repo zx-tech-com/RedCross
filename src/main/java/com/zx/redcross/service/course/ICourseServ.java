@@ -15,9 +15,9 @@ public interface ICourseServ {
 	List<Map<String, Object>> listCourseSubject();
 	
 
-	List<Map<String, Object>> listCourseBySubject(Integer subjectId, Page page);
+	List<Map<String, Object>> listCourseBySubject(Integer subjectId, Integer customerId, Page page);
 	
-	Map<String, Object> getCourseById(Integer id);
+	Map<String, Object> getCourseById(Integer id, Integer customerId);
 	
 	Boolean addCourse(Course course, MultipartFile file);
 	

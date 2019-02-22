@@ -22,18 +22,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap type="ExamOrder" id="examOrder2" autoMapping="true">
 		<id column="id" property="id"/>
 		<association property="courseSubject" javaType="CourseSubject" columnPrefix="course_subject_">
-			<id column="id" property="id"/>
+			<id column="course_subject_id" property="id"/>
 		</association>
 	</resultMap>
 	
 	
-	<select id="getExamOrderById" resultType="ExamOrder">
-		SELECT * 
-		FROM exam_order
-		WHERE id = #{id};
+	<select id="getExamOrderById" resultMap="ExamOrderMap">
+		SELECT 
+		 eo.`real_name` AS realName
+		,eo.`detail_address` AS detailAddress
+		,eo.`order_number` AS orderNumber
+		,eo.`submit_time`  AS submitTime
+		,eo.`method` AS method
+		,eo.`status`	AS	status
+		,eo.`coment` 	AS  coment
+		,eo.`tel` 	AS  tel
+		,cs.`sname`		AS 	sname
+		FROM 
+		exam_order eo
+		LEFT JOIN course_subject cs
+		ON eo.`course_subject_id`=cs.`id`
+		WHERE eo.id = #{id}
 	</select>
 	
-	<select id="listExamOrderByCustomerId" resultMap="examOrder2">
+	<select id="listExamOrderByCustomerId" resultMap="ExamOrderMap">
 		SELECT 
 			exam_order.*,
 			course_subject.id AS course_subject_id,

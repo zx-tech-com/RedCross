@@ -31,7 +31,6 @@ public class VideoRecordCtrl {
 	}
 	
 	@RequestMapping("/getVideoProgress")
-	@Open
 	public Map<String,Object> getVideoProgress(@RequestBody VideoRecord record) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
