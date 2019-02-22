@@ -118,6 +118,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				AND cname=#{course.cname}
 			</if>
 		</where>
+		ORDER BY cindex ASC;
 	</select>
 	
 	
@@ -127,6 +128,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			course.id,cname,description,cindex,video_url,video_duration,thumbnail_url
 		FROM course
 		WHERE subject_id = #{subjectId}
+		ORDER BY cindex ASC
 		LIMIT ${page.start},${page.pageSize}
 	</select>
 	
