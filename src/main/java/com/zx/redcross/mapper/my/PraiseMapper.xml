@@ -8,7 +8,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap type="HashMap" id="praiseByCustomerIdMap">
 	
 		<!-- 点赞信息 -->
+		
 		<id column="id" property="id"/>
+		<result column="praise_type" property="praiseType"/>
 		<result property="isComentPraise" column="is_coment_praise"/>
 		
 		<!-- 发帖人信息 -->
@@ -54,6 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="listPraiseByCustomerId" resultMap="praiseByCustomerIdMap">
 		SELECT
+			tmp.praise_type,
 			tmp.id,
 			tmp.is_coment_praise,
 		
@@ -88,6 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				(
 					SELECT
 						coment_thumbsup_id AS id,
+						0 AS praise_type,
 						topic_coment.topic_id,
 						topic_coment_id,
 						coment_thumbsup.customer_id,
@@ -100,6 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					UNION ALL
 					SELECT
 						id,
+						1 AS praise_type,
 						topic_id,
 						NULL AS topic_coment_id,
 						customer_id,
