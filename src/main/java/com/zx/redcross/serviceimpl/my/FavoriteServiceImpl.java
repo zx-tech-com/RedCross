@@ -36,10 +36,10 @@ public class FavoriteServiceImpl implements IFavoriteService {
 
 	@Override
 	public Boolean removeFavorite(Favorite favorite) {
-		if(favoriteMapper.getFavoriteByCustomerIdAndTopicId(favorite) == null)
-			BusinessExceptionUtils.throwNewBusinessException("尚未收藏该动态");
 		if(topicMapper.findTopicById(favorite.getTopic().getId(), null) == null)
 			BusinessExceptionUtils.throwNewBusinessException("帖子不存在");
+		if(favoriteMapper.getFavoriteByCustomerIdAndTopicId(favorite) == null)
+			BusinessExceptionUtils.throwNewBusinessException("尚未收藏该动态");
 		return favoriteMapper.removeFavorite(favorite);
 	}
 

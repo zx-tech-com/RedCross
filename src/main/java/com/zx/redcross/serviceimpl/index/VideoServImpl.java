@@ -141,6 +141,8 @@ public class VideoServImpl implements IVideoServ {
 	@Override
 	public Boolean adminUpdateVideo(Video video,MultipartFile file/*,MultipartFile imgUrl*/) {
 		Video videoSub=videoMapper.getVideoById(video.getId());
+		String videoUrl =videoSub.getVideoUrl();
+		String imgUrlOld=videoSub.getThumbnailUrl();
 		String videoAbsoluteBasePath = Constant.VIDEO_ABSOLUTE_BASE_PATH + Constant.PAYVIDEO;
 		//存储图片
 		/*if(imgUrl != null) {
@@ -150,17 +152,18 @@ public class VideoServImpl implements IVideoServ {
 		if(file != null) {
 			video.setVideoUrl(FileUtils.saveFile(videoAbsoluteBasePath, file));
 			video.setThumbnailUrl(FileUtils.fetchImgFromVideo(video.getVideoUrl()));
+		}else {
+			video.setVideoUrl(videoUrl);
+			video.setThumbnailUrl(imgUrlOld);
 		}
 		if(!videoMapper.adminUpdateVideo(video)) {
 			return false;
 		}
-		String videoUrl =videoSub.getVideoUrl();
-		String imgUrlOld=videoSub.getThumbnailUrl();
 		if(file != null) {
-			if(null != videoUrl && videoUrl.length() >0) {
+			if(null != videoUrl && videoUrl.trim().length() >0) {
 				FileUtils.removeFile(videoUrl);
 			}
-			if(null != imgUrlOld && imgUrlOld.length() >0) {
+			if(null != imgUrlOld && imgUrlOld.trim().length() >0) {
 				FileUtils.removeFile(imgUrlOld);
 			}
 		}
@@ -187,7 +190,6 @@ public class VideoServImpl implements IVideoServ {
 				FileUtils.removeFile(video.getVideoUrl());
 		return flag;
 	}
-
 	@Override
 	public Integer findVideoCount() {
 		return videoMapper.findVideoCount();
