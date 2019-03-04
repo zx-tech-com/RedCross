@@ -148,6 +148,9 @@ public class ExamOrderServImpl implements IExamOrderServ {
 			BusinessExceptionUtils.throwNewBusinessException("考试报名状态不合法");
 		//更新报名订单的状态
 		boolean flag = mapper.updateExamOrderStatus(examOrder);
+		System.err.println(examOrder);
+		Map<String,Object> map = mapper.getExamOrderById(examOrder.getId());
+		examOrder.setOrderNumber((String)map.get("orderNumber"));
 		if(!flag)
 			BusinessExceptionUtils.throwNewBusinessException("考试报名状态更新失败");
 		
