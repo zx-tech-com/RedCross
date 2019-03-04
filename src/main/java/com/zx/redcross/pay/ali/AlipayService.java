@@ -24,7 +24,7 @@ public class AlipayService {
 	public static String generateAndSignOrderInfo(AlipayBizContent bizContent) {
 		Map<String, String> map = MapUtils.getStringHashMapInstance();
 		assembleBizParams(map,bizContent);
-		assembleCommonParams(map,true);
+		assembleCommonParams(map,false);
 		return getFinalParamsString(map);
 	}
 	

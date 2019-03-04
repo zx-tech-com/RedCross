@@ -127,6 +127,8 @@ public class SocialServiceImpl implements SocialService{
 			String relativePath = FileUtils.saveFile(videoAbsoluteBasePath, video);
 			topic.setVideoUrl(relativePath);
 			topic.setImgUrl(FileUtils.fetchImgFromVideo(relativePath));
+		}else if(images == null) {
+			topic.setStatus(Constant.POPIC_STATUS0);
 		}else if(images.length == 1) {
 			topic.setStatus(Constant.POPIC_STATUS1);
 		}else if(images.length == 2){
