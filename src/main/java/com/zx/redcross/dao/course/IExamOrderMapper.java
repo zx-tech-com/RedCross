@@ -12,7 +12,7 @@ public interface IExamOrderMapper {
 	
 	Map<String, Object> getExamOrderById (Integer id);
 	
-	List<ExamOrder> listExamOrderByCustomerId (Integer customerId);
+	List<ExamOrder> listExamOrderByCustomerId (@Param("customerId") Integer customerId);
 	
 	List<ExamOrder> listExamOrderByOsDistrictId (
 			Integer districtId,@Param("page") Page page);

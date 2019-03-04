@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zx.redcross.dao.course.IExamPayRecordMapper">
+	
+	<insert id="saveExamPayRecord">
+		INSERT INTO exam_pay_record
+			( 
+				exam_order_id, 
+				customer_id, 
+				pay_method, 
+				amount, 
+				order_number, 
+				`status` 
+			)
+		VALUES
+			(
+				#{record.examOrder.id},
+				#{record.customer.id},
+				#{record.payMethod},
+				#{record.amount},
+				#{record.orderNumber},
+				#{record.status}
+			)
+	</insert>
+	
+	<update id="updateExamPayRecord">
+		UPDATE exam_pay_record SET `status` = #{record.status}
+	</update>
+	
+	
+	<select id="getExamPayRecordByOrderNumber" resultMap="examPayRecord">
+		SELECT
+			*
+		FROM
+			exam_pay_record
+		WHERE
+			order_number = #{orderNumber}
+	</select>
+	
+	<resultMap type="ExamPayRecord" id="examPayRecord" autoMapping="true">
+		<id column="id" property="id"/>
+		<association property="examOrder" javaType="ExamOrder">
+			<id column="exam_order_id" property="id"/>
+		</association>
+		<association property="customer" javaType="Customer">
+			<id column="customer_id" property="id"/>
+		</association>
+	</resultMap>
+	
+</mapper>

@@ -1,0 +1,24 @@
+package com.zx.redcross.pay.ali;
+
+/**
+ * 阿里支付，一些不会改变的字段/参数
+ * @author Daryl
+ *
+ */
+public class AlipayConfig {
+
+	public final static String GATEWAY_URL = "https://openapi.alipay.com/gateway.do";
+	public final static String GATEWAY_URL_SANDBOX = "https://openapi.alipaydev.com/gateway.do";
+	public final static String APP_ID = "";
+	public final static String APP_ID_SANDBOX = "2016092700609655";
+	public final static String APP_PRIVATE_KEY = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCbcbrsvwJWtOdyDnmsMoaObAu9cbdgP2bEwPMMqmcpNXvBOVK0nyBzjDVSdo5WxG23ezXSyd9rY9h3d3tTPECIr4g0XVCuL19VNJfC6KOkvCi6ScBnnSnxUPw7YFOP8PWy3ucE2PvUr3gltyik3JkjvLylsZwBrLvoUH/SfZ7EAYyOAbgu92zLfkS3jMVna20b9JIRvxC78B87UpQ8BrPviiql9azy4fYiS9WnBzLtUAn5M/KsKFIQgcd80t7BwL0uZ06rP2QUexuBA/VzKS4QNVHGSG8NpSdhN8ByWvg+1s+gnM4Kv6q+i/MQyYJBo9Jul+SYaUpv4mCWYiUc7nfbAgMBAAECggEAKXGEFdTDSdzHjEhBtmBuMZCq/KJR8s5UlwaehnT0Ni91REoFO/TlEQmDue2z+3w5iF7INd/uulIPh6KKdeGtjwPFu7hZZ2dn8m6oO6YM40HrVeeN7dIgOZ+O8EG5Zbont73oOAml8smprdyMcJAEIFwUq9STtHqaStETk0o8xyL7pd+JoBGtl3Ez9/4sHsAj6nYHstwjjFFVKbEiBtdjgZc1A3k+s0NkAnuruuM9x4bbrewZ/xEU9y9AGtVTlI8CpdekuTIQUv2JcEwPCcLEUAz/snD4TGiTXFh2tnnF8/IWKnZPmOdpgUYo47IipPjobeWxwVDlcwYaEwn9s+cFQQKBgQDdRmLLa6txMax7SUvIP6gJxCiYc7xWpYKl+H7bU9QI0MBg4ootVV+PGPUPw5YMZB+sx2wo9z0465ZXnEcwbK7+59cZQHXwhk6YjgwtkDcDkBOqqQtCLUSARF0cH4ft420TQLdwYqWHID4a/4v2BVjGqu3SOjwH7TlC5Srzvj3fIQKBgQCz1qDSfAOvKfX0XtL4t5cLONMyHSBrOnEk4nKAT1YLwn1yWC8l006iySvmiaj2NH7rriwPz2RSUugT4ZRc8lsOAm5bLPKKUo9uEtdw1PT6XAMBl+sLbBuPrAcmvArAqnDejDky8gCj3V4ee6bL/vDJ8H7A2Ty0oSvCU1C0TxrjewKBgQDG4u8F3F8avQVFQxpEgULulEvQy6YrU1TdDUAor25UBh4Ed1qvaJ8dpdcPNkN2G8CEsjK7l46FzOszEBrEocug/o3N+qyHZpDaekLj6U4pe6TRrmOaNcnuaIQwNP8eiV6PAYpgD6qsjASGi88ncKLc3uIoJYOztDvVrtouf35pQQKBgAk6c0g5yuqbKZ7fms3eheayhMvmiLpX5mRxJlUFPTIfSdarRcgYHsnlrtYGrF/t87FeX650Av7ieDxE8BsQ6LFAWK9fEBcfA3MvjlSg6O1L+W+EfzA33PYzaq6HKboXRPF2mpzNpFDEVEcWK0n+jBagu7BjtWTDfH5dTh/ii0uvAoGAGvxHffXsYLFpQQTW4Re26m3jkCH4bNLxVsWw01rnc7xnkEkezi3lwDAucrhJPx/7x+wxXbMow2BhoqHzoMwK7yZ257UUTRIt8klNtAncYI5y3mnEw8wXB69bhJxD2HU/eCjY2O+iaZUt3ComqpWW4KRiTczr8tesIeYk1bkjo6Q=";
+	public final static String FORMAT = "json";
+	public final static String CHARSET = "UTF-8";
+	public final static String ALIPAY_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7HDYpQp6XRuhVOWTKnzdi/Y23+zEyQ7kvzfT3MxssqVhMb1eHNWhU2QMDZmn6eIgpbNgOZXfqjWihlISirHMj1U7xQFKizv//8TMdp+1yKa9GLvXc5X3/tDGy03zRxw8jtjxyngSx/sjv91EpSE6gJxDTtjhfKcJH50DALEMzFhK0ojDFV8ch7ySr1OyxWJIoMguR2Lt9s3TJO8C4W1Hf4G7srMTN5BgR4DZdg27/icCd1TnoRXKvrL/QTQzWNTODXjb1SwSzXmDtPTWfTdLAsWNVbq4BiK2Sxgz+SgnOVNuWNm++x3+MLUxfyYQB1CP7opmmSFAHnW/wrNSaBWdqQIDAQAB";
+	public final static String SIGN_TYPE = "RSA2";
+	public final static String VERSION = "1.0";
+	public final static String NOTIFY_URL = "http://39.98.204.123/RedCross/alipay/authResult";
+	
+	public final static String METHOD = "alipay.trade.app.pay";
+
+}

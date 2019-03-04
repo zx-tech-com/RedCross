@@ -119,7 +119,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				AND cname=#{course.cname}
 			</if>
 		</where>
-		ORDER BY cindex ASC
+		ORDER BY cindex ASC;
 	</select>
 	
 	
@@ -133,7 +133,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			,video_url
 			,video_duration
 			,thumbnail_url
+			<if test="customerId!=0 and customerId!=null">
 			,ifnull((SELECT current_minute  FROM course_record WHERE course_record.`customer_id`=#{customerId} AND course_record.`course_id` = course.`id`),'0') as current_minute
+			</if>
 		FROM 
 		course
 		WHERE subject_id = #{subjectId}

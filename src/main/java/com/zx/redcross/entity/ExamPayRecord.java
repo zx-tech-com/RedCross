@@ -8,6 +8,7 @@ public class ExamPayRecord implements Serializable {
 	private Integer id;
 	private BigDecimal amount;
 	private String payMethod;
+	private String orderNumber;
 	private byte status;
 	private ExamOrder examOrder;
 	private Customer customer;
@@ -63,10 +64,19 @@ public class ExamPayRecord implements Serializable {
 		this.customer = customer;
 	}
 
+
 	@Override
 	public String toString() {
-		return "ExamPayRecord [id=" + id + ", amount=" + amount + ", payMethod=" + payMethod + ", status=" + status
-				+ ", examOrder=" + examOrder + ", customer=" + customer + "]";
+		return "ExamPayRecord [id=" + id + ", amount=" + amount + ", payMethod=" + payMethod + ", orderNumber="
+				+ orderNumber + ", status=" + status + ", examOrder=" + examOrder + ", customer=" + customer + "]";
+	}
+
+	public String getOrderNumber() {
+		return orderNumber;
+	}
+
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
 	}
 
 	

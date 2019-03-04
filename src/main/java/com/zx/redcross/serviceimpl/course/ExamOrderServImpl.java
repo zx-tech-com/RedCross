@@ -1,5 +1,6 @@
 package com.zx.redcross.serviceimpl.course;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -7,11 +8,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.zx.redcross.dao.course.ICourseMapper;
 import com.zx.redcross.dao.course.IExamOrderMapper;
+import com.zx.redcross.dao.course.IExamPayRecordMapper;
 import com.zx.redcross.dao.my.CustomerMapper;
 import com.zx.redcross.dao.my.OsDistrictMapper;
 import com.zx.redcross.entity.Customer;
 import com.zx.redcross.entity.ExamOrder;
+import com.zx.redcross.entity.ExamPayRecord;
 import com.zx.redcross.entity.OrderNumber;
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.service.course.IExamOrderServ;
@@ -31,6 +35,12 @@ public class ExamOrderServImpl implements IExamOrderServ {
 	
 	@Autowired
 	private CustomerMapper customerMapper;
+	
+	@Autowired
+	private IExamPayRecordMapper recordMapper;
+	
+	@Autowired
+	private ICourseMapper courseMapper;
 	
 	@Autowired
 	private OsDistrictMapper	osDistrictMapper;
@@ -57,32 +67,76 @@ public class ExamOrderServImpl implements IExamOrderServ {
 
 	@Override
 	public Boolean addExamOrder(ExamOrder examOrder) {
+		
+		if(examOrder.getCustomer()==null)//线下报名
+			return addExamOrderOffLine(examOrder);
+		else 
+			return addExamOrderOnLine(examOrder);
+		
+	}
+	
+	/**
+	 * 添加考试订单的同时也添加支付记录.二者同时插入，状态同时更新
+	 */
+	private Boolean addExamOrderOnLine(ExamOrder examOrder) {
 		List<ExamOrder> orderList=new ArrayList<ExamOrder>();
-		if(examOrder.getCustomer()==null) {
-			orderList=null;
-		}else {
-			examOrder.setStatus(Constant.WAIT_TO_PAY);
-			orderList = mapper.listExamOrderByCustomerId(examOrder.getCustomer().getId());
-		}
-		if(orderList != null) {
+		examOrder.setStatus(Constant.WAIT_TO_PAY);
+		orderList = mapper.listExamOrderByCustomerId(examOrder.getCustomer().getId());
+		
+		if(orderList != null) {//检测是否重复提交
 			for(ExamOrder preOrder : orderList) {
 				if(preOrder.getCourseSubject().getId() == examOrder.getId()
 						&& preOrder.getStatus() == Constant.PAY_COMPLETE)
-					BusinessExceptionUtils.throwNewBusinessException("已成功报名，不可重复报名");
+					BusinessExceptionUtils.throwNewBusinessException("已成功报名，无需重复报名");
 				else if(preOrder.getCourseSubject().getId() == examOrder.getCourseSubject().getId()) {
 					examOrder.setId(preOrder.getId());
 					return updateExamOrderStatus(examOrder);
 				}
 			}
 		}
-		examOrder.setDetailAddress(getDetailAddress(examOrder));//组装完整的地址路径
-		if(examOrder.getCustomer()==null) {
-			examOrder.setOrderNumber(getExamOrderNumberOffline(examOrder.getTel()));
-		}else {
-			examOrder.setOrderNumber(getExamOrderNumberOnline(examOrder.getCustomer().getId()));
-		}
 		
+		examOrder.setDetailAddress(getDetailAddress(examOrder));//组装完整的地址路径
+		examOrder.setOrderNumber(getExamOrderNumberOnline(examOrder.getCustomer().getId()));
+		boolean flag = mapper.addExamOrder(examOrder);
+		if(!flag)
+			BusinessExceptionUtils.throwNewBusinessException("培训报名失败");
+		
+		ExamPayRecord record = getExamPayRecord(examOrder);//必须放在 addExamOrder之后执行,因为需要生成的id
+		return recordMapper.saveExamPayRecord(record);
+	}
+	
+	/**
+	 * 线下报名无支付记录,不添加支付记录
+	 * @param examOrder
+	 * @return
+	 */
+	private Boolean addExamOrderOffLine(ExamOrder examOrder) {
+		examOrder.setDetailAddress(getDetailAddress(examOrder));//组装完整的地址路径
+		examOrder.setOrderNumber(getExamOrderNumberOffline(examOrder.getTel()));
 		return mapper.addExamOrder(examOrder);
+	}
+	
+	
+	
+	
+	
+	/**
+	 * 根据examOrder生成ExamPayRecord
+	 * @param examOrder
+	 * @return
+	 */
+	private ExamPayRecord getExamPayRecord(ExamOrder examOrder) {
+		ExamPayRecord record = new ExamPayRecord();
+		record.setExamOrder(examOrder);
+		Customer cus = new Customer();
+		cus.setId(examOrder.getCustomer().getId());
+		record.setCustomer(cus);
+		record.setPayMethod(examOrder.getPayMethod());
+		Map<String, Object> courseSubject = courseMapper.findCourseSubject(examOrder.getCourseSubject().getId());
+		record.setAmount((BigDecimal)courseSubject.get("price"));
+		record.setStatus(Constant.WAIT_TO_PAY);
+		record.setOrderNumber(examOrder.getOrderNumber());
+		return record;
 	}
 
 	@Override
@@ -91,8 +145,18 @@ public class ExamOrderServImpl implements IExamOrderServ {
 				&& examOrder.getStatus() != Constant.PAY_COMPLETE
 				&& examOrder.getStatus() != Constant.WAIT_TO_PAY
 				)
-			BusinessExceptionUtils.throwNewBusinessException("状态不合法");
-		return mapper.updateExamOrderStatus(examOrder);
+			BusinessExceptionUtils.throwNewBusinessException("考试报名状态不合法");
+		//更新报名订单的状态
+		boolean flag = mapper.updateExamOrderStatus(examOrder);
+		System.err.println(examOrder);
+		Map<String,Object> map = mapper.getExamOrderById(examOrder.getId());
+		examOrder.setOrderNumber((String)map.get("orderNumber"));
+		if(!flag)
+			BusinessExceptionUtils.throwNewBusinessException("考试报名状态更新失败");
+		
+		//更新支付记录的状态
+		ExamPayRecord record = recordMapper.getExamPayRecordByOrderNumber(examOrder.getOrderNumber());
+		return recordMapper.updateExamPayRecord(record);
 	}
 	
 	private String getExamOrderNumberOnline(Integer customerId) {
