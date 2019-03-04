@@ -87,8 +87,11 @@ public class ExamOrderCtrl {
 		map.put(Constant.STATUS,Constant.STATUS_FAILURE);
 		
 		Boolean flag = examOrderServImpl.addExamOrder(examOrder);
+		
 		if(flag) {
+			String orderNumber=(String) examOrderServImpl.getExamOrderById(examOrder.getId()).get("orderNumber");
 			dataMap.put(Constant.ID, examOrder.getId());
+			dataMap.put(Constant.ORDER_NUMBER, orderNumber);
 			map.put(Constant.DATA, dataMap);
 			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
 		}

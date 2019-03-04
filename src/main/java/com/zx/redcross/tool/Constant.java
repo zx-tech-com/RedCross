@@ -17,7 +17,7 @@ public class Constant {
 //	public static final String ACCESS_BASE_PATH = "http://localhost:9090/red-cross-file/";
 	
 
-//	public static final String ABSOLUTE_BASE_PATH = "D:\\git\\git\\redcross-back" + File.separator;
+//	public static final String ABSOLUTE_BASE_PATH = "D:\git\git\red-cross-back" + File.separator;
 //	public static final String ACCESS_BASE_PATH = "http://localhost:9090/redcross-back/";
 
 	
@@ -65,6 +65,7 @@ public class Constant {
 	public static final String TIPS = "tips";
 	public static final String DATA = "data";
 	public static final String DISTRICT = "district";
+	
 	
 	/**
 	 * 返回点赞结果
@@ -157,7 +158,7 @@ public class Constant {
 	/**
 	 * 用户默认头像的地址
 	 */
-	public static final String CUSTOMER_DEFAULT_AVATAR_URL = "";
+	public static final String CUSTOMER_DEFAULT_AVATAR_URL = AVATAR_URL + "avatarUrl.png";
 	
 
 	/**
@@ -174,8 +175,10 @@ public class Constant {
 	/**
 	 * 生成的订单号相关 
 	 */
+	
 	public static final int STAMP_LENGTH = 6;
 	public static final int TEL_LENGTH = 4;
+	public static final String ORDER_NUMBER = "orderNumber";
 	public static final String BUSINESS_TYPE_EXAM_ORDER = "01";
 	public static final String BUSINESS_TYPE_VIDEO_ORDER = "10";
 	public static final String PAY_TYPE_WECHAT = "01";

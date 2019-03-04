@@ -134,9 +134,11 @@ public class CustomerController {
 	public Map<String,Object> updatePersonalAvatarUrl(
 			@RequestParam Integer customerId,@RequestParam MultipartFile avatar){
 		Map<String,Object> map=MapUtils.getHashMapInstance();
-		if(customerService.updatePersonalAvatarUrl(customerId, avatar))
+		if(customerService.updatePersonalAvatarUrl(customerId, avatar)) {
+			String avatarUrl=customerService.getMyselfMessage(customerId).getAvatarUrl();
+			map.put(Constant.DATA, avatarUrl);
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
-		else
+		}else
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 			
 		return map;

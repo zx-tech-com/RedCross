@@ -121,12 +121,12 @@ public class CourseServImpl implements ICourseServ{
 
 	@Override
 	public Boolean adminDeleteCourse(Integer courseId) {
-		Map<String, Object> course=courseMapper.getCourseById(null,courseId);
+		Map<String, Object> course=courseMapper.getCourseById(courseId,0);
 		if(!courseMapper.adminDeleteCourse(courseId)) {
 			return false;
 		};
 		String videoUrl =(String) course.get("videoUrl");
-		if(null != videoUrl && videoUrl.length() >0) {
+		if(null != videoUrl && videoUrl.trim().length() >0) {
 			FileUtils.removeFile(videoUrl);
 		}
 		return true;
