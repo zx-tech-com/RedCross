@@ -24,6 +24,7 @@ public class ExamOrderCtrl {
 	@Autowired
 	private IExamOrderServ examOrderServImpl;
 	
+	
 	@RequestMapping("/getExamOrderById")
 	public Map<String,Object> getExamOrderById (Integer id) {
 		
@@ -89,6 +90,7 @@ public class ExamOrderCtrl {
 		Boolean flag = examOrderServImpl.addExamOrder(examOrder);
 		if(flag) {
 			dataMap.put(Constant.ID, examOrder.getId());
+			dataMap.put("orderNumber", examOrder.getOrderNumber());
 			map.put(Constant.DATA, dataMap);
 			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
 		}
@@ -105,7 +107,5 @@ public class ExamOrderCtrl {
 		map.put(Constant.STATUS,flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
 		return map;
 	}
-	
-	
 	
 }

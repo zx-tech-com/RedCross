@@ -45,14 +45,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE eo.id = #{id}
 	</select>
 	
-	<select id="listExamOrderByCustomerId" resultMap="ExamOrderMap">
+	<select id="listExamOrderByCustomerId" resultMap="examOrderEntity">
 		SELECT 
 			exam_order.*,
-			course_subject.id AS course_subject_id,
 			course_subject.sname AS course_subject_sname
 		FROM exam_order
 		LEFT JOIN course_subject ON course_subject_id = course_subject.id
-		WHERE customer_id = #{id};
+		WHERE customer_id = #{customerId};
 	</select>
 	
 	<select id="listExamOrderByOsDistrictId" resultType="ExamOrder" statementType="CALLABLE">
@@ -105,7 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="sname" column="sname"/>
 	</resultMap>
 	
-	<insert id="addExamOrder" useGeneratedKeys="true" keyProperty="id">
+	<insert id="addExamOrder" useGeneratedKeys="true" keyProperty="examOrder.id">
 		INSERT INTO exam_order(
 			coment
 			,detail_address
@@ -144,6 +143,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND customer_id = #{examOrder.customer.id}
 	</update>
 	
-	
+	<resultMap type="ExamOrder" id="examOrderEntity" autoMapping="true">
+		<id column="id" property="id"/>
+		<association property="courseSubject" javaType="CourseSubject" columnPrefix="course_subject_">
+			<id column="id" property="id"/>
+		</association>
+	</resultMap>
 	
 </mapper>
