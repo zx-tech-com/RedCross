@@ -25,5 +25,11 @@ public class ExamPayRecordCtrl {
 		return map;
 	}
 	
+	@RequestMapping("ali/front/result")
+	public void resolveResult(String result){
+		System.err.println(result);
+	}
+	
+	
 	
 }
