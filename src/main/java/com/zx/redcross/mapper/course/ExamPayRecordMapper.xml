@@ -27,9 +27,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<update id="updateExamPayRecord">
-		UPDATE exam_pay_record SET `status` = #{record.status}
+		UPDATE 
+			exam_pay_record 
+		SET 
+			`status` = #{record.status}
+		WHERE id = #{record.id}
 	</update>
-	
 	
 	<select id="getExamPayRecordByOrderNumber" resultMap="examPayRecord">
 		SELECT

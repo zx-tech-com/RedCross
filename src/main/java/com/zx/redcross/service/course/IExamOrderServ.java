@@ -19,4 +19,6 @@ public interface IExamOrderServ {
 	Boolean addExamOrder(ExamOrder examOrder);
 	
 	Boolean updateExamOrderStatus(ExamOrder examOrder);
+	
+	Boolean updateExamOrderPayMethod(String orderNumber,String payMethod);
 }

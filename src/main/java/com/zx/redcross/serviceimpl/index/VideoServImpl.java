@@ -8,12 +8,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.zx.redcross.dao.index.IVideoMapper;
+import com.zx.redcross.dao.index.IVideoPayRecordMapper;
 import com.zx.redcross.dao.my.CustomerMapper;
 import com.zx.redcross.entity.Customer;
 import com.zx.redcross.entity.OrderNumber;
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.entity.Video;
 import com.zx.redcross.entity.VideoBuyRecord;
+import com.zx.redcross.entity.VideoPayRecord;
 import com.zx.redcross.service.index.IVideoServ;
 import com.zx.redcross.tool.BusinessExceptionUtils;
 import com.zx.redcross.tool.Constant;
@@ -28,6 +30,10 @@ public class VideoServImpl implements IVideoServ {
 	private IVideoMapper videoMapper;
 	@Autowired
 	private CustomerMapper customerMapper;
+	@Autowired
+	private IVideoPayRecordMapper payRecordMapper;
+	
+	
 	
 	@Override
 	public List<Map<String,Object>> listVideo(Integer customerId,Page page) {
@@ -38,7 +44,10 @@ public class VideoServImpl implements IVideoServ {
 	public Map<String,Object> getVideo(Integer customerId, Integer videoId) {
 		return videoMapper.getVideo(customerId, videoId);
 	}
-
+	
+	/**
+	 * 用户下单
+	 */
 	@Override
 	public Boolean saveVideoBuyRecord(VideoBuyRecord videoBuyRecord) {
 		
@@ -46,31 +55,66 @@ public class VideoServImpl implements IVideoServ {
 			BusinessExceptionUtils.throwNewBusinessException("所购买的视频不存在");
 		videoBuyRecord.setStatus(Constant.WAIT_TO_PAY);
 		VideoBuyRecord oldRecord = videoMapper.getVideoBuyRecordByCustomerAndVideoId(videoBuyRecord.getCustomer().getId(), videoBuyRecord.getVideo().getId());
-		if(oldRecord != null ) {//已完成订单
-			if(oldRecord.getStatus() == Constant.PAY_COMPLETE) {
-				BusinessExceptionUtils.throwNewBusinessException("已购买此视频，不可重复购买");
-				return true;
-			}
-			else {
-				videoBuyRecord.setId(oldRecord.getId());
-				return updateVideoBuyRecord(videoBuyRecord);
-			}
-		}else {
-			videoBuyRecord.setOrderNumber(
-					getVideoOrderNumber(videoBuyRecord.getCustomer().getId())
-					);
-			return videoMapper.saveVideoBuyRecord(videoBuyRecord);
+		if(oldRecord != null && oldRecord.getStatus() == Constant.PAY_COMPLETE ) {//订单已支付,无需重复支付
+			BusinessExceptionUtils.throwNewBusinessException("已购买此视频，不可重复购买");
+			return false;
 		}
+		else if(oldRecord != null){//已下订单,但未支付或支付已取消
+			videoBuyRecord.setId(oldRecord.getId());
+			//updateVideoBuyRecord该方法只更新status,因此给下面的orderNumber赋值可有可无,数据库都不会更新该字段
+			//这里依然赋值是为了在上层controller中能够获取到订单号
+			videoBuyRecord.setOrderNumber(oldRecord.getOrderNumber());
+			return updateVideoBuyRecordStatus(videoBuyRecord);
+		}
+		else{//新订单,生成订单号后存入数据库
+			videoBuyRecord.setOrderNumber(getVideoOrderNumber(videoBuyRecord.getCustomer().getId()));
+			boolean flag = videoMapper.saveVideoBuyRecord(videoBuyRecord);
+			if(!flag)
+				BusinessExceptionUtils.throwNewBusinessException("视频教学购买失败");
+			return payRecordMapper.addVideoPayRecord(getVideoPayRecord(videoBuyRecord));
+		}	
 	}
-
+	
+	/**
+	 * 只更新status
+	 */
 	@Override
-	public Boolean updateVideoBuyRecord(VideoBuyRecord videoBuyRecord) {
+	public Boolean updateVideoBuyRecordStatus(VideoBuyRecord videoBuyRecord) {
 		if(videoBuyRecord.getStatus() != Constant.PAY_CANCEL 
 				&& videoBuyRecord.getStatus() != Constant.PAY_COMPLETE
 				&& videoBuyRecord.getStatus() != Constant.WAIT_TO_PAY
 				)
-			BusinessExceptionUtils.throwNewBusinessException("状态不合法");
-		return videoMapper.updateVideoBuyRecord(videoBuyRecord);
+			BusinessExceptionUtils.throwNewBusinessException("视频购买状态不合法");
+		boolean flag = videoMapper.updateVideoBuyRecord(videoBuyRecord);
+		if(!flag)
+			BusinessExceptionUtils.throwNewBusinessException("视频购买状态更新失败");
+		//先查询orderNumber
+		VideoBuyRecord videoBuyRecord2 = videoMapper.getVideoBuyRecordByCustomerAndVideoId(
+				videoBuyRecord.getCustomer().getId(), videoBuyRecord.getVideo().getId());
+		VideoPayRecord payRecord = payRecordMapper.getVideoPayRecordByOrderNumber(videoBuyRecord2.getOrderNumber());
+		payRecord.setStatus(videoBuyRecord.getStatus());
+		return payRecordMapper.updateVideoPayRecordStatus(payRecord);
+	}
+	
+	
+	/**
+	 * 根据videoBuyRecord生成VideoPayRecord
+	 * @param videoBuyRecord
+	 * @return
+	 */
+	private VideoPayRecord getVideoPayRecord(VideoBuyRecord videoBuyRecord) {
+		VideoPayRecord record = new VideoPayRecord();
+		record.setVideoBuyRecord(videoBuyRecord);
+		Customer cus = new Customer();
+		cus.setId(videoBuyRecord.getCustomer().getId());
+		record.setCustomer(cus);
+		record.setPayMethod(videoBuyRecord.getPayMethod());
+		//设置金额
+		Video video = videoMapper.getVideoById(videoBuyRecord.getVideo().getId());
+		record.setAmount(video.getPrice());
+		record.setStatus(Constant.WAIT_TO_PAY);
+		record.setOrderNumber(videoBuyRecord.getOrderNumber());
+		return record;
 	}
 	
 	

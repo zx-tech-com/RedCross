@@ -23,4 +23,8 @@ public interface IExamOrderMapper {
 	
 	Boolean updateExamOrderStatus(@Param("examOrder") ExamOrder examOrder);
 	
+	Boolean updateExamOrder(@Param("examOrder") ExamOrder examOrder);
+
+	Boolean updateExamOrderPayMethod(@Param("payMethod") String payMethod,
+			@Param("orderNumber") String orderNumber);
 }

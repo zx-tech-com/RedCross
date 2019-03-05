@@ -148,6 +148,7 @@ public class Constant {
 	public static final String IMG_TYPE_TOPIC = "1";
 	public static final String IMG_TYPE_KNOWLEDGE = "0";
 	
+	
 	/**
 	 * 购买记录的三种状态
 	 */

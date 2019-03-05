@@ -132,6 +132,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		);
 	</insert>
 	
+	
+	<update id="updateExamOrder">
+		UPDATE 
+			exam_order 
+		SET 
+			coment = #{examOrder.coment},
+			detail_address = #{examOrder.detailAddress},
+			method = #{examOrder.method},
+			order_number = #{examOrder.orderNumber},
+			pay_method = #{examOrder.payMethod},
+			`status` = #{examOrder.status},
+			course_subject_id = #{examOrder.courseSubject.id},
+			customer_id = #{examOrder.customer.id},
+			district_id = #{examOrder.osDistrict.id},
+			tel = #{examOrder.tel},
+			real_name = #{examOrder.realName}
+		WHERE
+			exam_order.id = #{examOrder.id}
+	</update>
+	
+	
 	<update id="updateExamOrderStatus">
 		UPDATE 
 			exam_order 
@@ -141,6 +162,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 			exam_order.id = #{examOrder.id}
 			AND customer_id = #{examOrder.customer.id}
+	</update>
+	
+	<update id="updateExamOrderPayMethod">
+		UPDATE 
+			exam_order 
+		SET 
+			exam_order.pay_method = #{payMethod}
+		WHERE
+			exam_order.order_number = #{orderNumber}
 	</update>
 	
 	<resultMap type="ExamOrder" id="examOrderEntity" autoMapping="true">

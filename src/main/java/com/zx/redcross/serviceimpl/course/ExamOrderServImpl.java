@@ -90,6 +90,8 @@ public class ExamOrderServImpl implements IExamOrderServ {
 					BusinessExceptionUtils.throwNewBusinessException("已成功报名，无需重复报名");
 				else if(preOrder.getCourseSubject().getId() == examOrder.getCourseSubject().getId()) {
 					examOrder.setId(preOrder.getId());
+					examOrder.setDetailAddress(getDetailAddress(examOrder));//组装完整的地址路径
+					examOrder.setOrderNumber(preOrder.getOrderNumber());
 					return updateExamOrderStatus(examOrder);
 				}
 			}
@@ -146,16 +148,16 @@ public class ExamOrderServImpl implements IExamOrderServ {
 				&& examOrder.getStatus() != Constant.WAIT_TO_PAY
 				)
 			BusinessExceptionUtils.throwNewBusinessException("考试报名状态不合法");
-		//更新报名订单的状态
-		boolean flag = mapper.updateExamOrderStatus(examOrder);
-		System.err.println(examOrder);
-		Map<String,Object> map = mapper.getExamOrderById(examOrder.getId());
-		examOrder.setOrderNumber((String)map.get("orderNumber"));
+		//更新报名订单信息
+		boolean flag = mapper.updateExamOrder(examOrder);
 		if(!flag)
 			BusinessExceptionUtils.throwNewBusinessException("考试报名状态更新失败");
 		
+		Map<String,Object> map = mapper.getExamOrderById(examOrder.getId());
+		examOrder.setOrderNumber((String)map.get("orderNumber"));
 		//更新支付记录的状态
 		ExamPayRecord record = recordMapper.getExamPayRecordByOrderNumber(examOrder.getOrderNumber());
+		record.setStatus(examOrder.getStatus());
 		return recordMapper.updateExamPayRecord(record);
 	}
 	
@@ -198,6 +200,11 @@ public class ExamOrderServImpl implements IExamOrderServ {
 		String detailAddress = order.getDetailAddress();
 		detailAddress = detailAddress==null?"" : detailAddress;
 		return path + detailAddress;
+	}
+
+	@Override
+	public Boolean updateExamOrderPayMethod(String orderNumber, String payMethod) {
+		return mapper.updateExamOrderPayMethod(payMethod, orderNumber);
 	}
 	
 }

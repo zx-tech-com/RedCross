@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zx.redcross.dao.index.IVideoPayRecordMapper">
+	
+	<insert id="addVideoPayRecord" useGeneratedKeys="true" keyProperty="payRecord.id">
+		INSERT INTO 
+			video_pay_record 
+			( 
+				video_buy_record_id, 
+				customer_id,
+				amount, 
+				`status`, 
+				order_number 
+			)
+		VALUES
+			(
+				#{payRecord.videoBuyRecord.id},
+				#{payRecord.customer.id},
+				#{payRecord.amount},
+				#{payRecord.status},
+				#{payRecord.orderNumber}
+			 );
+	</insert>
+	
+	<update id="updateVideoPayRecordStatus" >
+		UPDATE
+			video_pay_record
+		SET
+			`status` = #{payRecord.status}
+		WHERE 
+			id = #{payRecord.id}
+	</update>
+	
+	<update id="updatePayMethod" >
+		UPDATE
+			video_pay_record
+		SET
+			pay_method = #{payRecord.status}
+		WHERE 
+			id = #{payRecord.id}
+	</update>
+	
+	<select id="getVideoPayRecordByOrderNumber" resultMap="videoPayRecord">
+		SELECT 
+			*
+		FROM
+			video_pay_record
+		WHERE 
+			order_number = #{orderNumber}
+	</select>
+	
+	
+	<resultMap type="VideoPayRecord" id="videoPayRecord" autoMapping="true">
+		<id column="id" property="id"/>
+		<association property="customer" javaType="Customer" columnPrefix="customer_">
+			<id column="id" property="id"/>	
+		</association>
+		<association property="videoBuyRecord" javaType="VideoBuyRecord" columnPrefix="video_buy_record_">
+			<id column="id" property="id"/>	
+		</association>
+	</resultMap>
+</mapper>

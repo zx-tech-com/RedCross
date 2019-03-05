@@ -13,6 +13,7 @@ public class VideoBuyRecord implements Serializable {
 	private String orderNumber;
 	private byte status;
 	private Timestamp submitTime;
+	private String payMethod;
 	private VideoSubject videoSubject;
 	private Video video;
 	private Customer customer;
@@ -107,12 +108,19 @@ public class VideoBuyRecord implements Serializable {
 		this.video = video;
 	}
 
+	public String getPayMethod() {
+		return payMethod;
+	}
+
+	public void setPayMethod(String payMethod) {
+		this.payMethod = payMethod;
+	}
+
 	@Override
 	public String toString() {
 		return "VideoBuyRecord [id=" + id + ", coment=" + coment + ", orderNumber=" + orderNumber + ", status=" + status
-				+ ", submitTime=" + submitTime + ", videoSubject=" + videoSubject + ", video=" + video + ", customer="
-				+ customer + ", videoPayRecords=" + videoPayRecords + "]";
+				+ ", submitTime=" + submitTime + ", payMethod=" + payMethod + ", videoSubject=" + videoSubject
+				+ ", video=" + video + ", customer=" + customer + ", videoPayRecords=" + videoPayRecords + "]";
 	}
-
 
 }

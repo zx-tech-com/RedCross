@@ -21,7 +21,7 @@ public interface IVideoServ {
 	Boolean saveVideoBuyRecord(VideoBuyRecord videoBuyRecord);
 	
 	//会员点击支付后会生成一条支付成功记录
-	Boolean updateVideoBuyRecord(VideoBuyRecord videoBuyRecord);
+	Boolean updateVideoBuyRecordStatus(VideoBuyRecord videoBuyRecord);
 	
 	
 	
