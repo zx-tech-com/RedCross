@@ -38,10 +38,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE
 			video_pay_record
 		SET
-			pay_method = #{payRecord.status}
+			pay_method = #{payMethod}
 		WHERE 
-			id = #{payRecord.id}
+			order_number = #{orderNumber}
 	</update>
+	
+	<update id="updateStatusByOrderNumber" statementType="CALLABLE">
+		call updateExamOrderStatus(#{orderNumber},${@com.zx.redcross.tool.Constant@PAY_COMPLETE});	
+	</update>
+	
 	
 	<select id="getVideoPayRecordByOrderNumber" resultMap="videoPayRecord">
 		SELECT 

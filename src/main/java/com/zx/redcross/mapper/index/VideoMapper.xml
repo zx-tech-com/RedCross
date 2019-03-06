@@ -45,6 +45,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
+	<!--查询一个付费视频 -->
+	<select id="getVideoByVideoBuyOrderNumber" resultType="Video">
+		SELECT
+			v.id,
+			v.vindex,
+			v.vname,
+			v.description,
+			v.thumbnail_url,
+			v.video_url,
+			v.price
+		FROM
+			video v
+			LEFT JOIN video_buy_record vb ON v.`id` = vb.`video_id` 
+		WHERE
+			vb.order_number = #{orderNumber}
+	</select>
+	
 	
 	<!--查询一个付费视频 -->
 	<select id="getVideo" resultMap="videoMap">
@@ -113,6 +130,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 			customer_id = #{videoBuyRecord.customer.id} AND id = #{videoBuyRecord.id}
 	</update>
+	
+	<update id="updateVideoBuyRecordPayMethod">
+		UPDATE 
+			video_buy_record 
+		SET pay_method = #{payMethod}
+		WHERE
+			order_number = #{orderNumber}
+	</update>
+	
+	
 	
 	
 	<resultMap type="HashMap" id="videoMap" autoMapping="true">

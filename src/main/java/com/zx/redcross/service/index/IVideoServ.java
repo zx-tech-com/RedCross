@@ -23,11 +23,20 @@ public interface IVideoServ {
 	//会员点击支付后会生成一条支付成功记录
 	Boolean updateVideoBuyRecordStatus(VideoBuyRecord videoBuyRecord);
 	
+	/**
+	 * 
+	 * @param orderNumber	订单号
+	 * @param payMethod		支付方式
+	 * @return
+	 */
+	Boolean updatePayMethod(String payMethod,String orderNumber);
 	
-	
-	
-	
-	
+	/**
+	 * 根据付费视频的订单号,查找付费视频
+	 * @param orderNumber
+	 * @return
+	 */
+	Video getVideoByVideoBuyOrderNumber(String orderNumber);
 	
 	//===========================后台管理接口========================
 	//后台查询所有付费视频

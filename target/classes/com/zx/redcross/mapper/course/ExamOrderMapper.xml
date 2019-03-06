@@ -26,6 +26,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</association>
 	</resultMap>
 	
+	<select id="getCourseSubjectByExamOrderOrderNumber" resultType="CourseSubject">
+		SELECT 
+			course_subject.*
+		FROM 
+			exam_order
+		LEFT JOIN course_subject
+			ON course_subject_id = course_subject.`id`
+		WHERE exam_order.order_number = #{orderNumber}
+	</select>
+	
 	
 	<select id="getExamOrderById" resultMap="ExamOrderMap">
 		SELECT 

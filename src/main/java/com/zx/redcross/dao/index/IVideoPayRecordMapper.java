@@ -17,6 +17,20 @@ public interface IVideoPayRecordMapper {
 	
 	VideoPayRecord getVideoPayRecordByOrderNumber(@Param("orderNumber")String orderNumber);
 	
-	boolean updatePayMethod(@Param("orderNumber")String orderNumber, 
-			@Param("payMethod")String payMethod);
+	/**
+	 * 只更新payMethod字段
+	 * @param orderNumber
+	 * @param payMethod
+	 * @return
+	 */
+	boolean updatePayMethod(@Param("payMethod")String payMethod,
+			@Param("orderNumber")String orderNumber);
+	
+	/**
+	 * 同时更新video_buy_record和video_pay_record两张表的status字段
+	 * @param examOrder
+	 * @return
+	 */
+	boolean updateStatusByOrderNumber(@Param("orderNumber") String orderNumber);
+
 }

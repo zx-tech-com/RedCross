@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.zx.redcross.entity.CourseSubject;
 import com.zx.redcross.entity.ExamOrder;
 import com.zx.redcross.entity.Page;
 
@@ -27,4 +28,6 @@ public interface IExamOrderMapper {
 
 	Boolean updateExamOrderPayMethod(@Param("payMethod") String payMethod,
 			@Param("orderNumber") String orderNumber);
+
+	CourseSubject getCourseSubjectByExamOrderOrderNumber(@Param("orderNumber")String orderNumber);
 }

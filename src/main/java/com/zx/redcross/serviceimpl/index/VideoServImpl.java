@@ -131,6 +131,16 @@ public class VideoServImpl implements IVideoServ {
 	}
 	
 	
+	/**
+	 * 设置支付方式
+	 */
+	@Override
+	public Boolean updatePayMethod(String payMethod,String orderNumber) {
+		return payRecordMapper.updatePayMethod(payMethod,orderNumber) 
+				&& videoMapper.updateVideoBuyRecordPayMethod(payMethod,orderNumber);
+	}
+	
+	
 	//=========================后台管理接口================
 	
 
@@ -238,7 +248,11 @@ public class VideoServImpl implements IVideoServ {
 	public Integer findVideoCount() {
 		return videoMapper.findVideoCount();
 	}
-	
-	
+
+	@Override
+	public Video getVideoByVideoBuyOrderNumber(String orderNumber) {
+		return videoMapper.getVideoByVideoBuyOrderNumber(orderNumber);
+	}
+
 
 }

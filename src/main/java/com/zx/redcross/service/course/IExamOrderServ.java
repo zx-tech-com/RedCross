@@ -3,6 +3,7 @@ package com.zx.redcross.service.course;
 import java.util.List;
 import java.util.Map;
 
+import com.zx.redcross.entity.CourseSubject;
 import com.zx.redcross.entity.ExamOrder;
 import com.zx.redcross.entity.Page;
 
@@ -20,5 +21,7 @@ public interface IExamOrderServ {
 	
 	Boolean updateExamOrderStatus(ExamOrder examOrder);
 	
-	Boolean updateExamOrderPayMethod(String orderNumber,String payMethod);
+	Boolean updateExamOrderPayMethod(String payMethod,String orderNumber);
+
+	CourseSubject getCourseSubjectByExamOrderOrderNumber(String orderNumber);
 }

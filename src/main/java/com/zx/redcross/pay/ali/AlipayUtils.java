@@ -29,7 +29,12 @@ public class AlipayUtils {
         return AlipaySignature.rsaCheckV1(params, AlipayConfig.ALIPAY_PUBLIC_KEY, AlipayConfig.CHARSET, AlipayConfig.SIGN_TYPE);
     }
 
-    
+    /**
+     * 
+     *<p>方法说明: 把需要发送的参数对按照顺序组装成 &key=value格式
+     *<p>参数说明: @param params 需要发送的参数
+     *<p>参数说明: @throws AlipayApiException
+     */
     public static String getSignContent(Map<String, String> params) throws AlipayApiException {
     	return AlipaySignature.getSignContent(params);
     }
@@ -52,9 +57,9 @@ public class AlipayUtils {
      *<p>参数说明: @throws AlipayApiException
      *<p>返回说明: String 解密字符串
      **/
-/*    public static String rsaDecrypt(Map<String, String> params) throws AlipayApiException{
-        return AlipaySignature.checkSignAndDecrypt(params, AlipayConfig.ALIPAY_PUBLIC_KEY, AlipayConfig.PRIVATE_KEY, true, true, AlipayConfig.SIGN_TYPE);
-    }*/
+	public static String rsaDecrypt(Map<String, String> params) throws AlipayApiException{
+	    return AlipaySignature.checkSignAndDecrypt(params, AlipayConfig.ALIPAY_PUBLIC_KEY, AlipayConfig.APP_PRIVATE_KEY, true, true, AlipayConfig.SIGN_TYPE);
+	}
     /**
      * 获取远程服务器ATN结果,验证返回URL
      *
@@ -62,18 +67,20 @@ public class AlipayUtils {
      * @return 服务器ATN结果 验证结果集： invalid命令参数不对 出现这个错误，请检测返回处理中partner和key是否为空 true
      *         返回正确信息 false 请检查防火墙或者是服务器阻止端口问题以及验证时间是否超过一分钟
      */
-/*    public static String verifyResponse(String notifyId) {
+    public static String verifyResponse(String notifyId) {
         // 获取远程服务器ATN结果，验证是否是支付宝服务器发来的请求
         String urlValue = HTTPS_VERIFY_URL + "partner=" + AlipayConfig.SELLER_ID + "&notify_id=" + notifyId;
         return checkUrl(urlValue);
-    }*/
+    }
 
     /**
      * 获取远程服务器ATN结果
      *
      * @param urlValue 指定URL路径地址
-     * @return 服务器ATN结果 验证结果集： invalid命令参数不对 出现这个错误，请检测返回处理中partner和key是否为空 true
-     *         返回正确信息 false 请检查防火墙或者是服务器阻止端口问题以及验证时间是否超过一分钟
+     * @return 服务器ATN结果 验证结果集： <br>
+     * 			invalid命令参数不对 ,请检测返回处理中partner和key是否为空 <br>
+     * 			true返回正确信息 <br>
+     * 			false检查防火墙或者是服务器阻止端口问题以及验证时间是否超过一分钟
      */
     private static String checkUrl(String urlValue) {
         String inputLine = "";
@@ -82,6 +89,7 @@ public class AlipayUtils {
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
             inputLine = in.readLine().toString();
+            in.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -13,6 +13,7 @@ import com.zx.redcross.dao.course.IExamOrderMapper;
 import com.zx.redcross.dao.course.IExamPayRecordMapper;
 import com.zx.redcross.dao.my.CustomerMapper;
 import com.zx.redcross.dao.my.OsDistrictMapper;
+import com.zx.redcross.entity.CourseSubject;
 import com.zx.redcross.entity.Customer;
 import com.zx.redcross.entity.ExamOrder;
 import com.zx.redcross.entity.ExamPayRecord;
@@ -203,8 +204,14 @@ public class ExamOrderServImpl implements IExamOrderServ {
 	}
 
 	@Override
-	public Boolean updateExamOrderPayMethod(String orderNumber, String payMethod) {
-		return mapper.updateExamOrderPayMethod(payMethod, orderNumber);
+	public Boolean updateExamOrderPayMethod(String payMethod,String orderNumber) {
+		return mapper.updateExamOrderPayMethod(payMethod, orderNumber)
+				&& recordMapper.updatePayMethod(payMethod, orderNumber);
+	}
+
+	@Override
+	public CourseSubject getCourseSubjectByExamOrderOrderNumber(String orderNumber) {
+		return mapper.getCourseSubjectByExamOrderOrderNumber(orderNumber);
 	}
 	
 }
