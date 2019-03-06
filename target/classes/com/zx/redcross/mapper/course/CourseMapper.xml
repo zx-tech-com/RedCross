@@ -133,7 +133,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			,video_url
 			,video_duration
 			,thumbnail_url
+			<if test="customerId!=0 and customerId!=null">
 			,ifnull((SELECT current_minute  FROM course_record WHERE course_record.`customer_id`=#{customerId} AND course_record.`course_id` = course.`id`),'0') as current_minute
+			</if>
 		FROM 
 		course
 		WHERE subject_id = #{subjectId}
@@ -156,13 +158,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			,cindex
 			,video_url
 			,video_duration
-<<<<<<< HEAD
 			<if test="customerId!=0 and customerId!=null"> 
 			,ifnull((SELECT current_minute  FROM course_record WHERE course_record.`customer_id`=#{customerId} AND course_record.`course_id` = course.`id`),'0') as current_minute	
 			</if>
-=======
-			,ifnull((SELECT current_minute  FROM course_record WHERE course_record.`customer_id`=#{customerId} AND course_record.`course_id` = course.`id`),'0') as current_minute
->>>>>>> 7c78249bf49555288b15526f678b2d7d68327d0f
 		FROM 
 			course
 		where
