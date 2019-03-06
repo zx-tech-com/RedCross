@@ -1,31 +1,31 @@
-package com.zx.redcross.serviceimpl.course;
+package com.zx.redcross.serviceimpl.index;
 
 import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.zx.redcross.dao.course.IExamPayRecordMapper;
-import com.zx.redcross.entity.ExamPayRecord;
+import com.zx.redcross.dao.index.IVideoPayRecordMapper;
+import com.zx.redcross.entity.VideoPayRecord;
 import com.zx.redcross.exception.BusinessException;
 import com.zx.redcross.pay.PayBizType;
 import com.zx.redcross.pay.ali.AlipayBizContent;
 import com.zx.redcross.pay.ali.AlipayService;
-import com.zx.redcross.service.course.IExamPayRecordServ;
+import com.zx.redcross.service.index.IVideoPayRecordServ;
 import com.zx.redcross.tool.BusinessExceptionUtils;
 import com.zx.redcross.tool.Constant;
 
 @Service
-public class ExamPayRecordServImpl implements IExamPayRecordServ {
+public class VideoPayRecordServImpl implements IVideoPayRecordServ {
 
 	@Autowired
-	private IExamPayRecordMapper payMapper;
+	private IVideoPayRecordMapper payMapper;
 	
 	@Override
-	public String getSignedParams(String orderNumber) {
+	public String getSignedParams(String examOrder) {
 
 		String signedParams = null;
-		AlipayBizContent businessType = assembleAlipayBizContent(orderNumber);
+		AlipayBizContent businessType = assembleAlipayBizContent(examOrder);
 		signedParams = AlipayService.generateAndSignOrderInfo(businessType);
 		return signedParams;
 	}
@@ -37,8 +37,8 @@ public class ExamPayRecordServImpl implements IExamPayRecordServ {
 	private AlipayBizContent assembleAlipayBizContent(String orderNumber) {
 		AlipayBizContent bizContent = null;
 		try {
-			bizContent = new AlipayBizContent(PayBizType.EXAMORDER);
-			ExamPayRecord record = payMapper.getExamPayRecordByOrderNumber(orderNumber);
+			bizContent = new AlipayBizContent(PayBizType.PAYFULVIDEO);
+			VideoPayRecord record = payMapper.getVideoPayRecordByOrderNumber(orderNumber);
 			if(record == null)
 				BusinessExceptionUtils.throwNewBusinessException("订单号不存在");
 			if(record.getStatus() == Constant.PAY_COMPLETE)
@@ -54,9 +54,10 @@ public class ExamPayRecordServImpl implements IExamPayRecordServ {
 		}
 		return bizContent;
 	}
+	
 	@Override
 	public boolean updateStatusByOrderNumber(String orderNumber) {
-		if(payMapper.getExamPayRecordByOrderNumber(orderNumber) == null)
+		if(payMapper.getVideoPayRecordByOrderNumber(orderNumber) == null)
 			BusinessExceptionUtils.throwNewBusinessException("订单号不存在");
 		return payMapper.updateStatusByOrderNumber(orderNumber);
 	}

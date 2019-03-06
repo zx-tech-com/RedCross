@@ -27,9 +27,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<update id="updateExamPayRecord">
-		UPDATE exam_pay_record SET `status` = #{record.status}
+		UPDATE 
+			exam_pay_record 
+		SET 
+			`status` = #{record.status}
+		WHERE id = #{record.id}
 	</update>
 	
+	<update id="updatePayMethod" >
+		UPDATE
+			exam_pay_record
+		SET
+			pay_method = #{payMethod}
+		WHERE 
+			order_number = #{orderNumber}
+	</update>
+	
+	<update id="updateStatusByOrderNumber" statementType="CALLABLE">
+		call updateExamOrderStatus(#{orderNumber},${@com.zx.redcross.tool.Constant@PAY_COMPLETE});	
+	</update>
 	
 	<select id="getExamPayRecordByOrderNumber" resultMap="examPayRecord">
 		SELECT

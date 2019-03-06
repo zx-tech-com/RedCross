@@ -1,5 +1,7 @@
 package com.zx.redcross.pay.ali;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
@@ -24,10 +26,9 @@ public class AlipayService {
 	public static String generateAndSignOrderInfo(AlipayBizContent bizContent) {
 		Map<String, String> map = MapUtils.getStringHashMapInstance();
 		assembleBizParams(map,bizContent);
-		assembleCommonParams(map,false);
+		assembleCommonParams(map);
 		return getFinalParamsString(map);
 	}
-	
 	
 
 	/**
@@ -49,53 +50,46 @@ public class AlipayService {
 	/**
 	 * 组装公共参数
 	 * @param map	
-	 * @param isSandBox	是否是沙箱环境测试
 	 */
-	private static void assembleCommonParams(Map<String, String> map,boolean isSandBox) {
-		
-		map.put("app_id", isSandBox ? AlipayConfig.APP_ID_SANDBOX : AlipayConfig.APP_ID);
+	private static void assembleCommonParams(Map<String, String> map) {
+		map.put("app_id", AlipayConfig.APP_ID);
 		map.put("method", AlipayConfig.METHOD);
 		map.put("format", AlipayConfig.FORMAT);
 		map.put("charset", AlipayConfig.CHARSET);
 		map.put("sign_type", AlipayConfig.SIGN_TYPE);
-		map.put("timestamp", Utils.getNowFormatedTime("yyyy-MM-dd HH:mm:ss"));
 		map.put("version", AlipayConfig.VERSION);
+		map.put("timestamp", Utils.getNowFormatedTime("yyyy-MM-dd HH:mm:ss"));
 		map.put("notify_url", AlipayConfig.NOTIFY_URL);
+	}
+
+	private static String getFinalParamsString(Map<String, String> map) {
 		
+		String sign = null;
 		try {
-			map.put("sign", AlipayUtils.rsaSign(map));
+			sign = AlipayUtils.rsaSign(map);
 		} catch (AlipayApiException e) {
 			System.err.println(e.getErrCode()+e.getErrMsg());
 			BusinessExceptionUtils.throwNewBusinessException("签名出现异常");
 		}
 		
-	}
-
-	private static String getFinalParamsString(Map<String, String> map) {
 		String finalStr = "";
 		try {
 			finalStr = AlipayUtils.getSignContent(map);
+			finalStr += "&sign=" + URLEncoder.encode(sign, "UTF-8");
 		} catch (AlipayApiException e) {
-			// TODO Auto-generated catch block
+			BusinessExceptionUtils.throwNewBusinessException("组装返回参数出现异常");
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		return finalStr;
 	}
 
 	
-	public static AlipayClient getAlipayClient(boolean isSandBox) {
+	public static AlipayClient getAlipayClient() {
 		
 		AlipayClient alipayClient = 
-				isSandBox 
-				? new DefaultAlipayClient(
-						AlipayConfig.GATEWAY_URL_SANDBOX,
-						AlipayConfig.APP_ID_SANDBOX,
-						AlipayConfig.APP_PRIVATE_KEY,
-						AlipayConfig.FORMAT,
-						AlipayConfig.CHARSET,
-						AlipayConfig.ALIPAY_PUBLIC_KEY,
-						AlipayConfig.SIGN_TYPE) 
-				: new DefaultAlipayClient(
+				new DefaultAlipayClient(
 						AlipayConfig.GATEWAY_URL,
 						AlipayConfig.APP_ID,
 						AlipayConfig.APP_PRIVATE_KEY,

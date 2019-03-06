@@ -13,6 +13,9 @@ import com.zx.redcross.service.my.IVideoRecordServ;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.MapUtils;
 
+/**
+ * 视频观看记录相关
+ */
 @RestController
 public class VideoRecordCtrl {
 

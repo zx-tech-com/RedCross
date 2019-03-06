@@ -75,7 +75,7 @@ public class VideoCtrl {
 		return map;
 	}
 
-	@FrontEnd
+	@Open
 	@RequestMapping("/saveVideoBuyRecord")
 	public Map<String, Object> saveVideoBuyRecord(@RequestBody VideoBuyRecord videoBuyRecord) {
 		// 保存购买记录（实际保存的是正在购买状态为1）
@@ -87,6 +87,7 @@ public class VideoCtrl {
 		Boolean flag = videoServImpl.saveVideoBuyRecord(videoBuyRecord);
 		if (flag) {
 			dataMap.put(Constant.ID, videoBuyRecord.getId());
+			dataMap.put(Constant.ORDER_NUMBER, videoBuyRecord.getOrderNumber());
 			map.put(Constant.DATA, dataMap);
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 		}
@@ -97,7 +98,7 @@ public class VideoCtrl {
 	@RequestMapping("/updateVideoBuyRecord")
 	public Map<String, Object> updateVideoBuyRecord(@RequestBody VideoBuyRecord videoBuyRecord) {
 		Map<String, Object> map = MapUtils.getHashMapInstance();
-		Boolean flag = videoServImpl.updateVideoBuyRecord(videoBuyRecord);
+		Boolean flag = videoServImpl.updateVideoBuyRecordStatus(videoBuyRecord);
 		map.put(Constant.STATUS, flag ? Constant.STATUS_SUCCESS : Constant.STATUS_FAILURE);
 		return map;
 	}

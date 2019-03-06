@@ -10,6 +10,8 @@ public class VideoPayRecord implements Serializable {
 	private BigDecimal amount;
 	private String payMethod;
 	private byte status;
+	private String orderNumber;
+	private Customer customer;
 	private VideoBuyRecord videoBuyRecord;
 
 	public VideoPayRecord() {
@@ -55,10 +57,29 @@ public class VideoPayRecord implements Serializable {
 		this.videoBuyRecord = videoBuyRecord;
 	}
 
+	public String getOrderNumber() {
+		return orderNumber;
+	}
+
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
 	@Override
 	public String toString() {
 		return "VideoPayRecord [id=" + id + ", amount=" + amount + ", payMethod=" + payMethod + ", status=" + status
-				+ ", videoBuyRecord=" + videoBuyRecord + "]";
+				+ ", orderNumber=" + orderNumber + ", customer=" + customer + ", videoBuyRecord=" + videoBuyRecord
+				+ "]";
 	}
+
+
 
 }

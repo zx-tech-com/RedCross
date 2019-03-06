@@ -24,7 +24,15 @@ public interface IVideoMapper {
 	//会员点击支付后会生成一条支付成功记录
 	Boolean updateVideoBuyRecord(@Param("videoBuyRecord") VideoBuyRecord videoBuyRecord);
 	
+	/**
+	 * 更新付费视频购买方式
+	 * @return
+	 */
+	Boolean updateVideoBuyRecordPayMethod(@Param("payMethod")String payMethod,
+			@Param("orderNumber")String orderNumber);
+	
 	VideoBuyRecord getVideoBuyRecordByCustomerAndVideoId(@Param("customerId")Integer customerId, @Param("videoId")Integer videoId);
+	
 	
 	List<Video> listVideoByIds(@Param("ids")String ids);
 	
@@ -48,6 +56,8 @@ public interface IVideoMapper {
 	Video getVideoById(Integer videoId);
 
 	Integer findVideoCount();
+
+	Video getVideoByVideoBuyOrderNumber(@Param("orderNumber") String orderNumber);
 	
 	
 }

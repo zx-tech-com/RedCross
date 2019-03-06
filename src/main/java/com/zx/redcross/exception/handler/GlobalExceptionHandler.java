@@ -21,9 +21,9 @@ import com.zx.redcross.tool.MapUtils;
  *
  */
 @ControllerAdvice
-public class GloblalExceptionHandler {
+public class GlobalExceptionHandler {
 	
-	private Logger logger = LogManager.getLogger(GloblalExceptionHandler.class);
+	private Logger logger = LogManager.getLogger(GlobalExceptionHandler.class);
 	
 	@ExceptionHandler(BusinessException.class)
 	@ResponseBody
