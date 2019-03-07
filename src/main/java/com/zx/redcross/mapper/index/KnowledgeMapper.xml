@@ -25,13 +25,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="kname" property="kname"/>
 		<result column="summary" property="summary"/>
 		<result column="publish_time" property="publishTime"/>
+		<result column="key_word" property="keyWord"/>
 	</resultMap>
 	
 	<select id="listKnowledgeByType" resultMap="knowledge">
 		SELECT 
-			knowledge.id,content,title,type_id,kname,publish_time,summary
-		FROM knowledge
-		LEFT JOIN knowledge_type ON knowledge.type_id = knowledge_type.id	
+			knowledge.id
+			,content
+			,title
+			,type_id
+			,kname
+			,publish_time
+			,summary
+			,key_word
+		FROM 
+			knowledge
+		LEFT JOIN 
+			knowledge_type ON knowledge.type_id = knowledge_type.id	
 		<where>
 			<if test="typeId != null">
 				type_id = #{typeId}
@@ -46,7 +56,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="getKnowledgeById" resultMap="knowledge">
 		SELECT 
-			knowledge.id,content,title,type_id,kname,publish_time,summary
+			knowledge.id
+			,content
+			,title
+			,type_id
+			,kname
+			,publish_time
+			,summary
+			,key_word
 		FROM knowledge
 		LEFT JOIN knowledge_type ON knowledge.type_id = knowledge_type.id
 		WHERE knowledge.id = #{id};
@@ -54,10 +71,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="saveKnowledge" useGeneratedKeys="true" keyColumn="id">
 		INSERT INTO 
-			knowledge ( type_id, title, content ,summary)
+			knowledge ( type_id, title, content ,summary,key_word)
 		VALUES
 			(#{knowledge.knowledgeType.id},#{knowledge.title},
-			#{knowledge.content}, #{knowledge.summary});
+			#{knowledge.content}, #{knowledge.summary},#{knowledge.keyWord});
 	</insert>
 	
 	
@@ -73,7 +90,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 后台修改知识类型 -->
 	<update id="adminUpdateKnowledgeType" parameterType="knowledgeType">
-	UPDATE knowledge_type SET kname=#{kname},description=#{description} WHERE id=#{id}
+	UPDATE 
+		knowledge_type 
+	SET 
+		kname=#{kname}
+		,description=#{description} 
+	WHERE 
+		id=#{id}
 	</update>
 	
 	<!-- 后台删除知识 -->
@@ -89,7 +112,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			type_id=#{knowledge.knowledgeType.id},
 			title=#{knowledge.title},
 			content=#{knowledge.content},
-			summary = #{knowledge.summary}
+			summary = #{knowledge.summary},
+			key_word=#{knowledge.keyWord}
 		WHERE id=#{knowledge.id}
 	</update>
 	

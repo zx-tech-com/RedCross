@@ -17,6 +17,7 @@ public class ExamOrder implements Serializable {
 	private byte status;
 	private String submitTime;
 	private String submitTimeMin;
+	private String invoice;
 	private CourseSubject courseSubject;
 	private Customer customer;
 	private OsDistrict osDistrict;
@@ -25,6 +26,14 @@ public class ExamOrder implements Serializable {
 	public ExamOrder() {
 	}
 	
+	public String getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(String invoice) {
+		this.invoice = invoice;
+	}
+
 	public String getSubmitTimeMin() {
 		return submitTimeMin;
 	}
@@ -166,7 +175,7 @@ public class ExamOrder implements Serializable {
 		return "ExamOrder [id=" + id + ", coment=" + coment + ", detailAddress=" + detailAddress + ", tel=" + tel
 				+ ", realName=" + realName + ", method=" + method + ", orderNumber=" + orderNumber + ", payMethod="
 				+ payMethod + ", status=" + status + ", submitTime=" + submitTime + ", submitTimeMin=" + submitTimeMin
-				+ ", courseSubject=" + courseSubject + ", customer=" + customer + ", osDistrict=" + osDistrict
-				+ ", examPayRecords=" + examPayRecords + "]";
+				+ ", invoice=" + invoice + ", courseSubject=" + courseSubject + ", customer=" + customer
+				+ ", osDistrict=" + osDistrict + ", examPayRecords=" + examPayRecords + "]";
 	}
 }

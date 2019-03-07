@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.zx.redcross.annotation.BackEnd;
+import com.zx.redcross.annotation.ListAttribute;
 import com.zx.redcross.annotation.Open;
 import com.zx.redcross.entity.Concern;
 import com.zx.redcross.entity.Page;
@@ -261,7 +262,7 @@ public class SocialController {
 	 */
 	@RequestMapping("/pushTopic")
 	public Map<String,Object> pushTopic(MultipartFile[] images,MultipartFile video,
-			Topic topic,@RequestParam(required=true) Integer topicTypeId){
+		@ListAttribute	Topic topic,@RequestParam(required=true) Integer topicTypeId){
 		TopicType type = new TopicType();
 		type.setId(topicTypeId);
 		topic.setTopicType(type);		

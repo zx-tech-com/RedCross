@@ -47,6 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		,eo.`status`	AS	status
 		,eo.`coment` 	AS  coment
 		,eo.`tel` 	AS  tel
+		,eo.`invoice` 	AS  invoice
 		,cs.`sname`		AS 	sname
 		FROM 
 		exam_order eo
@@ -78,6 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		,eo.`status`	AS	status
 		,eo.`coment` 	AS  coment
 		,eo.`tel` 	AS  tel
+		,eo.`invoice` 	AS  invoice
 		,cs.`sname`		AS 	sname
 		FROM 
 		exam_order eo
@@ -112,6 +114,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="coment" column="coment"/>
 		<result property="tel" column="tel"/>
 		<result property="sname" column="sname"/>
+		<result property="invoice" column="invoice"/>
 	</resultMap>
 	
 	<insert id="addExamOrder" useGeneratedKeys="true" keyProperty="examOrder.id">
@@ -126,6 +129,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			,district_id
 			,tel
 			,real_name
+			,invoice
 		)
 		VALUES(
 			#{examOrder.coment},
@@ -138,7 +142,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{examOrder.customer.id},
 			#{examOrder.osDistrict.id},
 			#{examOrder.tel},
-			#{examOrder.realName}
+			#{examOrder.realName},
+			#{examOrder.invoice}
 		);
 	</insert>
 	

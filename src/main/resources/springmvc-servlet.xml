@@ -14,11 +14,12 @@
 	
 	<!-- json支持 -->
 	<mvc:annotation-driven validator="validator" >
-	
-	 	<!-- <mvc:argument-resolvers>  
-            <bean class="com.zx.redcross.resolver.argument.CustomerMethodArgumentResolver" />
-        </mvc:argument-resolvers> -->
-	
+		
+		<mvc:argument-resolvers>
+        	<bean class="com.zx.redcross.resolver.argument.CustomerMethodArgumentResolver"/>
+    	</mvc:argument-resolvers>
+    	
+    	
         <mvc:message-converters register-defaults="true">
             <!-- 配置Fastjson支持 -->
             <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">

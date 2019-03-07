@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.zx.redcross.dao.my.CustomerMapper;
 import com.zx.redcross.dao.my.OsDistrictMapper;
 import com.zx.redcross.entity.Customer;
+import com.zx.redcross.entity.Topic;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:applicationContext.xml"})
@@ -36,4 +37,14 @@ public class TestCase {
 			System.out.println(customer);
 		}
 	}
+	
+	@Test
+	public void test1(){
+		Topic topic=new Topic();
+		Customer customer=new Customer();
+		customer.setId(123);
+		topic.setCustomer(customer);
+		
+		System.out.println(topic);
+		}
 }
