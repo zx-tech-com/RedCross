@@ -11,6 +11,7 @@ public class Knowledge implements Serializable {
 	private String publishTime;
 	private String title;
 	private String summary;
+	private String keyWord;
 	private Integer totalShare;
 	private Customer customer;
 	private KnowledgeType knowledgeType;
@@ -24,6 +25,14 @@ public class Knowledge implements Serializable {
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	
+	public String getKeyWord() {
+		return keyWord;
+	}
+	public void setKeyWord(String keyWord) {
+		this.keyWord = keyWord;
 	}
 	public String getContent() {
 		return content;
@@ -100,8 +109,8 @@ public class Knowledge implements Serializable {
 	@Override
 	public String toString() {
 		return "Knowledge [id=" + id + ", content=" + content + ", hasVideo=" + hasVideo + ", publishTime="
-				+ publishTime + ", title=" + title + ", summary=" + summary + ", totalShare=" + totalShare
-				+ ", customer=" + customer + ", knowledgeType=" + knowledgeType + ", knowledgeThumbsups="
+				+ publishTime + ", title=" + title + ", summary=" + summary + ", keyWord=" + keyWord + ", totalShare="
+				+ totalShare + ", customer=" + customer + ", knowledgeType=" + knowledgeType + ", knowledgeThumbsups="
 				+ knowledgeThumbsups + ", imgs=" + imgs + ", totalThumbsup=" + totalThumbsup + ", totalComent="
 				+ totalComent + "]";
 	}

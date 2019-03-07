@@ -26,7 +26,7 @@ public class CustomerMethodArgumentResolver implements HandlerMethodArgumentReso
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		 return true;
+		 return false;
 	}
 
 	@Override
@@ -34,17 +34,12 @@ public class CustomerMethodArgumentResolver implements HandlerMethodArgumentReso
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {		
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
                 .getRequestAttributes()).getRequest();
-		Integer id=123;
-//		Admin admin=new Admin();
-//		admin.setId(id);
-		
-		
+		Integer id=123;	
 		 HttpServletRequest requestsub = webRequest.getNativeRequest(HttpServletRequest.class);
 	        // content-type不是json的不处理
 	        if (!requestsub.getContentType().contains("application/json")) {
 	            return null;
 	        }
-
 	        // 把reqeust的body读取到StringBuilder
 	        BufferedReader reader = requestsub.getReader();
 	        StringBuilder sb = new StringBuilder();
@@ -60,11 +55,6 @@ public class CustomerMethodArgumentResolver implements HandlerMethodArgumentReso
 	        		"        \"id\": 186\n" + 
 	        		"    },";
 	        sb.insert(1, osDistrictId);
-//	        HashMap map=new HashMap();
-//	        HashMap mapSub=new HashMap();
-//	        mapSub.put("id", 123);
-//	        map.put("osDistrict", mapSub);
-//	        sb.append(new StringBuffer("STRINGBUFFER"), 6, 12);
 	        System.out.println("11111="+sb);
 	        System.out.println("222="+JSON.parseObject(sb.toString(), parameter.getParameterType()));
 	        
