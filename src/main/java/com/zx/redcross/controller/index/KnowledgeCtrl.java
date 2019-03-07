@@ -18,6 +18,7 @@ import com.zx.redcross.entity.Page;
 import com.zx.redcross.service.index.IKnowledgeServ;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.MapUtils;
+import com.zx.redcross.tool.Utils;
 
 @RestController
 @RequestMapping("/knowledge")
@@ -51,6 +52,7 @@ public class KnowledgeCtrl {
 		List<Map<String, Object>> knowledgeList = knowledgeServImpl.listKnowledgeByType(typeId, page);
 		map.put(Constant.STATUS,Constant.STATUS_FAILURE);
 		if(null != knowledgeList) {
+			matchImgFromH5(knowledgeList);
 			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
 			map.put(Constant.PAGE_SIZE,page.getPageSize());
 			map.put(Constant.DATA, knowledgeList);
@@ -58,7 +60,18 @@ public class KnowledgeCtrl {
 		return map;
 	}
 	
-	
+	/**
+	 * 把img从H5中抓取出来
+	 * @param knowledgeList
+	 */
+	private void matchImgFromH5(List<Map<String, Object>> knowledgeList) {
+		if(knowledgeList == null) return;
+		for(Map<String, Object> map : knowledgeList) {
+			String content = (String) map.get("content");
+			map.put("imgUrl", Utils.matchImgFromH5(content));
+		}
+	}
+
 	@FrontEnd
 	@RequestMapping("/listKnowledgeType")
 	@Open

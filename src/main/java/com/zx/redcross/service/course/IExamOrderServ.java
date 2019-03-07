@@ -11,6 +11,8 @@ public interface IExamOrderServ {
 	
 	Map<String, Object> getExamOrderById (Integer id);
 	
+//	ExamOrder getExamOrderByOrderNumber (String orderNumber);
+
 	List<ExamOrder> listExamOrderByCustomerId (Integer customerId);
 	
 	List<ExamOrder> listExamOrderByOsDistrictId (Integer districtId,Page page);
