@@ -15,9 +15,9 @@
 	<!-- json支持 -->
 	<mvc:annotation-driven validator="validator" >
 		
-		<mvc:argument-resolvers>
+		<!-- <mvc:argument-resolvers>
         	<bean class="com.zx.redcross.resolver.argument.CustomerMethodArgumentResolver"/>
-    	</mvc:argument-resolvers>
+    	</mvc:argument-resolvers> -->
     	
     	
         <mvc:message-converters register-defaults="true">

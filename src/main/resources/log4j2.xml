@@ -67,7 +67,7 @@
 	   <Logger level="ALL" name="com.zx.redcross.controller.back.NotifyCtrl">
 	  		<AppenderRef ref="notify"/>
 	   </Logger>
-	   <Logger level="ALL" name="com.zx.redcross.exception.handler.GloblalExceptionHandler">
+	   <Logger level="ALL" name="com.zx.redcross.exception.handler.GlobalExceptionHandler">
 	  		<AppenderRef ref="errorInfo"/>
 	   </Logger>
 	   <Logger level="ALL" name="com.zx.redcross.tool.FrameGrabberKit">

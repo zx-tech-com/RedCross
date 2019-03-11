@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<update id="updateStatusByOrderNumber" statementType="CALLABLE">
-		call updateExamOrderStatus(#{orderNumber},${@com.zx.redcross.tool.Constant@PAY_COMPLETE});	
+		call updateVideoStatus(#{orderNumber},${@com.zx.redcross.tool.Constant@PAY_COMPLETE});	
 	</update>
 	
 	

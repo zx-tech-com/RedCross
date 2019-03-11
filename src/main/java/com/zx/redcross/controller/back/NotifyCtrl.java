@@ -102,7 +102,7 @@ public class NotifyCtrl {
 		}
 		return result;
 	}
-
+	
 	private void updateOrderStatus(String orderNumber) {
 		if(!StringUtils.isNotBlank(orderNumber))
 			BusinessExceptionUtils.throwNewBusinessException("订单号为空");
