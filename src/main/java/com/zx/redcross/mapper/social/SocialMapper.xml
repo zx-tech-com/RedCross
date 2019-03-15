@@ -77,6 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			topic.type_id=#{topicTypeId}
 			</if>
 		</where>
+		ORDER BY id DESC
 		LIMIT #{page.start},#{page.pageSize}
 		) as topic
 		
@@ -147,15 +148,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteConcert">
 	DELETE FROM concerns WHERE customer1_id=#{aCustomerId} AND customer0_id=#{pCustomerId};
 	</delete>	
-	<!--获取一级评论的全部信息 
-<id property= "id" column="id"/>
-         <result property= "comentId" column= "coment_id"/>
-         <result property= "content" column= "content"/>
-         <result property= "topcomentId" column= "topcoment_id"  />
-         <result property= "content" column="content"/>
-		 <result property= "comentTime" column="coment_time" />
-		 <result property= "isTopcoment" column="is_topcoment"/>
-		<association property="customer" javaType="HashMap" >		
+	<!--获取一级评论的全部信息 	
 	-->
 	<select id="findTopicComent" resultMap="topicComent">
 	SELECT 
@@ -178,7 +171,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM 
 		topic_coment LEFT JOIN  customer
 		ON topic_coment.`customer_id`=customer.`id`
-	WHERE topic_coment.is_topcoment=1 AND  topic_coment.topic_id=#{topicId}  LIMIT #{page.start},#{page.pageSize}
+	WHERE 
+		topic_coment.is_topcoment=1 AND  topic_coment.topic_id=#{topicId} 
+	ORDER BY  topic_coment.coment_time DESC 
+	LIMIT #{page.start},#{page.pageSize}
 	</select> 
 	
 	<!--获取二级评论的全部信息  -->

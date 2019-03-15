@@ -102,7 +102,7 @@ public class CustomerServiceImpl implements CustomerService{
 		customer.setAvatarUrl(newAvatarUrl);
 		boolean flag = customerMapper.updatePersonalInfo(customer);
 		
-		if(oldAvatarUrl != Constant.CUSTOMER_DEFAULT_AVATAR_URL)
+		if(!Constant.CUSTOMER_DEFAULT_AVATAR_URL.equalsIgnoreCase(oldAvatarUrl))
 			FileUtils.removeFile(oldAvatarUrl);
 		return flag;
 	}

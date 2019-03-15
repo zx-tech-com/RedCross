@@ -12,9 +12,9 @@ public class Constant {
 	
 	public static final String ID = "id";
 	
-//	public static final String ABSOLUTE_BASE_PATH = "H:" + File.separator + "Tomcat" + File.separator
-//			 + "8.0" + File.separator + "webapps" + File.separator + "red-cross-file" + File.separator;
-//	public static final String ACCESS_BASE_PATH = "http://localhost:9090/red-cross-file/";
+//	public static final String ABSOLUTE_BASE_PATH = "H:" + File.separator + "Apache Tomcat" + File.separator
+//			 + "v8.5" + File.separator + "webapps" + File.separator + "red-cross-file" + File.separator;
+//	public static final String ACCESS_BASE_PATH = "http://192.168.1.177:9090/red-cross-file/";
 	
 
 //	public static final String ABSOLUTE_BASE_PATH = "D:\git\git\red-cross-back" + File.separator;
@@ -187,5 +187,17 @@ public class Constant {
 	public static final String PAY_TYPE_OTHERS = "00";
 
 	
-
+	/**
+	 * 1预约成功，2预约取消，3当前时间>预约时间且未取消
+	 */
+	public static final String APPOINTMENT_SUCCESS = "1";
+	public static final String APPOINTMENT_CANCEL = "2";
+	public static final String APPOINTMENT_EXPIRED = "3";
+	
+	/**
+	 * 
+	 */
+	public static final String KNOWLEDGE_ACCESS_BASE_PATH = ACCESS_BASE_PATH + "knowledge.html?id=";
+	public static final String NEWS_ACCESS_BASE_PATH = ACCESS_BASE_PATH + "news.html?id=";
+	
 }

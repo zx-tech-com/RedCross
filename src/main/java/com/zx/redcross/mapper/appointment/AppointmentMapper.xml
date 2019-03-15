@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zx.redcross.dao.appointment.IAppointmentMapper">
+	
+	<!-- pattern相关 
+	-->
+	
+	<resultMap type="AppointmentPattern" id="appointmentPattern" autoMapping="true">
+		<id column="id" property="id"/>
+		<collection property="appointmentDate" ofType="AppointmentDate" columnPrefix="ad." autoMapping="true">
+			<id column="id" property="id"/>
+		</collection>
+	</resultMap>
+	
+	<insert id="addAppointmentPattern" useGeneratedKeys="true" keyProperty="pattern.id">
+		INSERT INTO 
+			appointment_pattern 
+			( 
+				on_use,
+				pattern, 
+				description 
+			)
+		VALUES
+			( 
+				#{pattern.onUse},
+				#{pattern.pattern},
+				#{pattern.description}
+			)
+	</insert>
+	
+	<select id="getAppointmentPattern" resultMap="appointmentPattern">
+		SELECT
+			ap.id,
+			ap.on_use,
+			ap.pattern, 
+			ap.description,
+			ad.id AS 'ad.id',
+			ad.dvalue AS 'ad.dvalue'
+		FROM
+			appointment_pattern ap
+		LEFT JOIN 
+			appointment_date ad ON ap.id = ad.appointment_pattern_id 
+		WHERE
+			ap.id = #{id}
+	</select>
+	
+	<select id="listAppointmentPattern" resultMap="appointmentPattern">
+		SELECT
+			ap.id,
+			ap.on_use,
+			ap.pattern, 
+			ap.description,
+			ad.id AS 'ad.id',
+			ad.dvalue AS 'ad.dvalue'
+		FROM
+			appointment_pattern ap
+		LEFT JOIN 
+			appointment_date ad ON ap.id = ad.appointment_pattern_id 
+		ORDER BY
+			ap.id DESC
+	</select>
+	
+	<update id="updateOnUseAppointmentPattern" statementType="CALLABLE">
+		CALL updateOnUseAppointmentPattern(#{id})
+	</update>
+
+	<delete id="removeAppointmentPattern">
+		DELETE FROM appointment_pattern WHERE id = #{id}
+	</delete>
+
+
+	<!-- date相关
+	Boolean addAppointmentDate(@Param("date") AppointmentDate date);
+	Boolean removeAppointmentDate(@Param("id") Integer id);
+	AppointmentDate getAppointmentDate(@Param("id") Integer id);
+	List<AppointmentDate> listAppointmentDateByPattern(@Param("patternId") Integer patternId);
+	 -->
+	<insert id="addAppointmentDate" useGeneratedKeys="true" keyProperty="date.id">
+		INSERT INTO 
+			appointment_date(dvalue,appointment_pattern_id)
+		VALUES
+			(#{date.dvalue},#{date.pattern.id});
+	</insert>
+	
+	<delete id="removeAppointmentDate">
+		DELETE 
+		FROM
+			appointment_date 
+		WHERE
+			id = #{id}
+	</delete>
+
+	<select id="getAppointmentDate" resultType="AppointmentDate">
+		SELECT
+			*
+		FROM
+			appointment_date
+		WHERE
+			id = #{id}
+	</select>
+
+	<select id="listAppointmentDateByPattern" resultType="AppointmentDate">
+		SELECT
+			*
+		FROM
+			appointment_date
+		<where>
+			<if test="patternId != null">
+				appointment_pattern_id = #{patternId}
+			</if>
+		</where>
+		LIMIT #{page.start},#{page.pageSize}
+	</select>
+	
+	<select id="listAvaliableAppointmentDate" resultType="AppointmentDate">
+		SELECT
+			*
+		FROM
+			appointment_date
+		WHERE
+			dvalue &gt; #{date}
+	</select>
+	
+	
+	
+
+	<!-- time相关
+	Boolean addAppointmentTime(@Param("time") AppointmentTime time);
+	Boolean removeAppointmentTime(@Param("id") Integer id);
+	AppointmentTime getAppointmentTime(@Param("id") Integer id);
+	List<AppointmentTime> listAppointmentTime();
+	 -->
+	<!-- <insert id="addAppointmentTime" useGeneratedKeys="true" keyProperty="time.id">
+		INSERT INTO 
+			appointment_time(period,appointment_pattern_id) 
+		VALUES(#{time.period},#{time.pattern.id})
+	</insert>
+
+	<delete id="removeAppointmentTime">
+		DELETE
+		FROM
+			appointment_time
+		WHERE
+			id = #{id}
+	</delete>	 
+	
+	<select id="getAppointmentTime" resultType="AppointmentTime">
+		SELECT
+			*
+		FROM
+			appointment_time
+		WHERE
+			id = #{id}
+	</select>
+	
+	<select id="listAppointmentTimeByPattern" resultType="AppointmentTime">
+		SELECT
+			*
+		FROM
+			appointment_time
+		<where>
+			<if test="patternId != null">
+				appointment_pattern_id = #{patternId}
+			</if>
+		</where>
+	</select> -->
+</mapper>
