@@ -15,7 +15,7 @@ import com.zx.redcross.entity.Page;
  */
 public interface IKnowledgeMapper {
 	
-	Map<String,Object> getKnowledgeById(@Param("id")Integer id);
+	Map<String,Object> getKnowledgeById(@Param("id")Integer id,@Param("customerId")Integer customerId);
 	
 	List<Map<String,Object>> listKnowledgeByType(@Param("typeId") Integer typeId,@Param("page")Page page);
 	

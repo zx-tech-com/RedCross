@@ -37,12 +37,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		LEFT JOIN topic ON topic_id = topic.id
 		LEFT JOIN customer ON topic.customer_id = customer.id
 		LEFT JOIN img ON img.img_type = '${@com.zx.redcross.tool.Constant@IMG_TYPE_TOPIC}' AND img.foreign_id = topic.id
-		ORDER BY favorite.favorite_time  DESC;
+		ORDER BY favorite.favorite_time  DESC
 	</select>
 	
 	
 	<resultMap type="HashMap" id="favorite">
-		<result column="customer_id" property="customer_id"/>
+		<result column="customer_id" property="customerId"/>
 		<result column="avatar_url" property="avatarUrl"/>
 		<result column="nickname" property="nickname"/>
 		
@@ -62,4 +62,58 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<result column="imgUrl" property="imgUrl"/>
 		</collection>
 	</resultMap>
+	
+	<select id="listFavoriteKnowledge" resultMap="favoriteSub">
+		SELECT 
+				knowledge.id,
+				knowledge.content,
+				knowledge.title,
+				knowledge.publish_time,
+				knowledge.total_share,
+				knowledge.summary,
+				knowledge.key_word,
+				(SELECT COUNT(id) FROM knowledge_thumbsup WHERE knowledge_thumbsup.knowledge_id = knowledge.id)AS totalThumbsup,
+				(SELECT COUNT(id) FROM knowledge_coment WHERE knowledge_coment.knowledge_id = knowledge.id)AS totalComment,
+			
+				favorite.id AS favorite_id,
+				favorite.favorite_time			
+			FROM
+				(
+					SELECT 
+						* 
+					FROM favorite_knowledge
+					WHERE favorite_knowledge.customer_id = #{customerId}
+					LIMIT #{page.start},#{page.pageSize}
+				) favorite
+			LEFT JOIN knowledge ON knowledge_id = knowledge.id
+			ORDER BY favorite.favorite_time  DESC
+	</select>
+	
+	
+	
+	<resultMap type="HashMap" id="favoriteSub">
+		<result column="id" property="id"/>
+		<result column="content" property="content"/>
+		<result column="title" property="title"/>
+		<result column="publish_time" property="publishTime"/>
+		
+		<result column="summary" property="summary"/>
+		<result column="key_word" property="keyWord"/>
+		
+		<result column="total_share" property="totalShare"/>
+		<result column="totalThumbsup" property="totalThumbsup"/>
+		<result column="totalComment" property="totalComment"/>
+		<result column="favorite_id" property="favoriteId"/>
+		<result column="favorite_time" property="favoriteTime"/>
+	</resultMap>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

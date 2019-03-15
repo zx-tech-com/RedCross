@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace指向mapper接口 -->
+<mapper namespace="com.zx.redcross.dao.address.AddressMapper">
+	<update id="updateAddress">
+		UPDATE 
+			address 
+		SET 
+			flag=0 
+		WHERE 
+			flag=1
+	</update>
+	
+	
+	<insert id="saveAddress" parameterType="address">
+		INSERT INTO 
+			address(district_id,customer_id,tel,detail_address,flag,description,nickname) 
+		VALUES
+			(#{districtId},#{customerId},#{tel},#{detailAddress},#{flag},#{description},#{nickname})	
+	</insert>
+	
+	<update id="updateAddressAll" parameterType="address">
+		UPDATE 
+			address 
+		SET 
+			district_id={districtId},
+			tel={tel},
+			detail_address={detailAddress},
+			description={description},
+			nickname={nickname},
+			flag=#{flag} 
+		WHERE 
+			id=#{id}
+	</update>
+	
+	
+	<select id="findAllAddressByCustomerId" resultType="address" parameterType="int"> 
+		SELECT 
+			id,district_id,tel,detail_address,flag,description,nickname 
+		FROM 
+			address 
+		WHERE customer_id=#{customerId}
+	</select>
+	
+	
+	<select id="getAddressByAddressId" resultType="address" parameterType="int"> 
+		SELECT 
+			id,district_id,tel,detail_address,flag,description,nickname 
+		FROM 
+			address 
+		WHERE id=#{addressId}
+	</select>
+	
+	
+	
+	
+	
+	
+</mapper>

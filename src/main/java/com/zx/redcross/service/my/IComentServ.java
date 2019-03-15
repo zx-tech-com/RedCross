@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.zx.redcross.entity.Page;
 
-public interface ITopicComentServ {
+public interface IComentServ {
 	
 	/**
 	 * 根据用户id查找社交评论
@@ -14,5 +14,9 @@ public interface ITopicComentServ {
 	 * @return
 	 */
 	List<Map<String, Object>> listTopicComentByCustomerId(Integer customerId,Page page);
+	
+	
+	//根据用户id查找知识评论
+	List<Map<String, Object>> listKnowledgeComentByCustomerId(Integer customerId, Page page);
 	
 }

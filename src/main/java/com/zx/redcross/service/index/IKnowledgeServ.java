@@ -9,7 +9,7 @@ import com.zx.redcross.entity.Page;
 
 public interface IKnowledgeServ {
 	
-	Map<String, Object> getKnowledgeById(Integer id);
+	Map<String, Object> getKnowledgeById(Integer id, Integer customerId);
 	
 	List<Map<String, Object>> listKnowledgeByType(Integer typeId,Page page);
 	

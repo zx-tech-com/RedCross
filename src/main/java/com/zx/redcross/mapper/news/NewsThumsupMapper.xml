@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zx.redcross.dao.news.NewsThumbsupMapper">
+	
+	<insert id="saveNewsThumbsup">
+		INSERT INTO 
+			news_thumbsup(news_id,customer_id) 
+		VALUES(
+				#{newsId},
+				#{customerId}
+			)
+	</insert>
+	
+	
+	
+	<delete id="deleteNewsThumbsup">
+		DELETE FROM 
+			news_thumbsup 
+		WHERE 
+			news_id=#{newsId}
+		AND 
+		    customer_id=#{customerId}
+	</delete>
+	
+	<select id="findCountThumbsupByNewsIdAndCustomerId" resultType="int">
+		SELECT 
+			COUNT(id) 
+		FROM  
+			news_thumbsup 
+		WHERE 
+			news_id=#{newsId} 
+		AND 
+			customer_id=#{customerId}
+	</select>
+	
+
+</mapper>
