@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- namespace指向mapper接口 -->
-<mapper namespace="com.zx.redcross.dao.my.ITopicComentMapper">
+<mapper namespace="com.zx.redcross.dao.my.IComentMapper">
 
 	<resultMap type="HashMap" id="topicComent">
 		<!-- 帖子发布人信息 -->
@@ -207,6 +207,171 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		LEFT JOIN customer ON tmp.customer_id = customer.id
 		ORDER BY coment_time DESC,topic_img_iindex ASC;
 	</select>
+	<select id="listKnowledgeComentByCustomerId" resultMap="knowledgeComent">
+	SELECT 
+			tmp.*,
+			customer.id AS customer_id,
+			customer.avatar_url,
+			customer.nickname
+		FROM(
+			SELECT 
+					knowledge.id AS knowledge_id,
+					knowledge.title AS knowledge_title,
+					knowledge.content AS knowledge_content,
+					knowledge.publish_time AS knowledge_publish_time,
+					(SELECT COUNT(id) FROM knowledge_thumbsup WHERE knowledge_thumbsup.knowledge_id = knowledge.id)AS knowledge_totalThumbsup,
+					(SELECT COUNT(id) FROM knowledge_coment WHERE knowledge_coment.knowledge_id = knowledge.id)AS knowledge_totalComment,
+					knowledge.total_share AS knowledge_total_share,
+					knowledge.`key_word` AS knowledge_key_word,
+					knowledge.`summary`  AS knowledge_summary,
+					
 	
+					
+					
+					knowledge_coment.id,
+					knowledge_coment.content,
+					knowledge_coment.coment_time,
+					knowledge_coment.customer_id,
+					
+					NULL AS last_level_coment_customer_id,
+					NULL AS last_level_coment_customer_nickname,
+					
+					NULL AS last_level_coment_id,
+					NULL AS last_level_coment_content
+					
+				FROM 
+					(
+						SELECT 
+							* 
+						FROM 
+							knowledge_coment
+						WHERE customer_id = #{customerId}
+						ORDER BY knowledge_coment.coment_time DESC
+						LIMIT #{page.start},#{page.pageSize}
+					)knowledge_coment
+				LEFT JOIN knowledge ON knowledge_coment.knowledge_id = knowledge.id
+				WHERE knowledge_coment.is_topcoment = 1
+				UNION ALL
+				
+				SELECT 
+					knowledge.id AS knowledge_id,
+					knowledge.title AS knowledge_title,
+					knowledge.content AS knowledge_content,
+					knowledge.publish_time AS knowledge_publish_time,
+					(SELECT COUNT(id) FROM knowledge_thumbsup WHERE knowledge_thumbsup.knowledge_id = knowledge.id)AS knowledge_totalThumbsup,
+					(SELECT COUNT(id) FROM knowledge_coment WHERE knowledge_coment.knowledge_id = knowledge.id)AS knowledge_totalComment,
+					knowledge.total_share AS knowledge_total_share,
+					knowledge.`key_word` AS knowledge_key_word,
+					knowledge.`summary`  AS knowledge_summary,
+					
+	
+					
+					
+					knowledge_coment.id,
+					knowledge_coment.content,
+					knowledge_coment.coment_time,
+					knowledge_coment.customer_id,
+					
+					customer2.id AS last_level_coment_customer_id,
+					customer2.nickname AS last_level_coment_customer_nickname,
+					
+					top_coment.id AS last_level_coment_id,
+					top_coment.content AS last_level_coment_content
+					
+				FROM 
+					(
+						SELECT 
+							* 
+						FROM 
+							knowledge_coment
+						WHERE customer_id = #{customerId}
+						ORDER BY knowledge_coment.coment_time DESC
+						LIMIT #{page.start},#{page.pageSize}
+					)knowledge_coment
+				LEFT JOIN knowledge ON knowledge_coment.knowledge_id = knowledge.id
+				LEFT JOIN knowledge_coment top_coment ON knowledge_coment.topcoment_id = top_coment.id
+				LEFT JOIN customer customer2 ON top_coment.customer_id = customer2.id
+				WHERE knowledge_coment.is_topcoment = 0 AND knowledge_coment.coment_id IS NULL
+				
+				UNION ALL
+				
+				SELECT 
+					
+					
+					
+					knowledge.id AS knowledge_id,
+					knowledge.title AS knowledge_title,
+					knowledge.content AS knowledge_content,
+					knowledge.publish_time AS knowledge_publish_time,
+					(SELECT COUNT(id) FROM knowledge_thumbsup WHERE knowledge_thumbsup.knowledge_id = knowledge.id)AS knowledge_totalThumbsup,
+					(SELECT COUNT(id) FROM knowledge_coment WHERE knowledge_coment.knowledge_id = knowledge.id)AS knowledge_totalComment,
+					knowledge.total_share AS knowledge_total_share,
+					knowledge.`key_word` AS knowledge_key_word,
+					knowledge.`summary`  AS knowledge_summary,
+					
+					knowledge_coment.id,
+					knowledge_coment.content,
+					knowledge_coment.coment_time,
+					knowledge_coment.customer_id,
+					
+					customer2.id AS last_level_coment_customer_id,
+					customer2.nickname AS last_level_coment_customer_nickname,
+					
+					second_coment.id AS last_level_coment_id,
+					second_coment.content AS last_level_coment_content2
+					
+				FROM 
+					(
+						SELECT 
+							* 
+						FROM 
+							knowledge_coment
+						WHERE customer_id = #{customerId}
+						ORDER BY knowledge_coment.coment_time DESC
+						LIMIT #{page.start},#{page.pageSize}
+					)knowledge_coment
+				LEFT JOIN knowledge ON knowledge_coment.knowledge_id = knowledge.id
+				LEFT JOIN knowledge_coment second_coment ON knowledge_coment.coment_id = second_coment.id
+				LEFT JOIN customer customer2 ON second_coment.customer_id = customer2.id
+				WHERE knowledge_coment.is_topcoment = 0 AND knowledge_coment.coment_id IS NOT NULL			
+				)tmp
+		LEFT JOIN customer ON tmp.customer_id = customer.id
+		ORDER BY coment_time DESC
+	</select>
+	
+	
+	<resultMap type="HashMap" id="knowledgeComent">
+
+		<!-- 帖子信息 -->
+		<result column="knowledge_id" property="knowledgeId"/>
+		<result column="knowledge_content" property="knowledgeContent"/>
+		<result column="knowledge_title" property="knowledgeTitle"/>
+		<result column="knowledge_publish_time" property="knowledgePublishTime"/>
+		<result column="knowledge_total_share" property="knowledgeTotalShare"/>
+		<result column="knowledge_totalThumbsup" property="knowledgeTotalThumbsup"/>
+		<result column="knowledge_totalComment" property="knowledgeTotalComment"/>
+		<result column="knowledge_key_word" property="knowledgeKeyWord"/>
+		<result column="knowledge_summary" property="knowledgeSummary"/>
+		
+		<!-- 评论人信息 -->
+		<result column="customer_id" property="customerId"/>
+		<result column="avatar_url" property="avatarUrl"/>
+		<result column="nickname" property="nickname"/>
+		
+		<!-- 评论信息 -->
+		<result column="id" property="id"/>
+		<result column="content" property="content"/>
+		<result column="coment_time" property="comentTime"/>
+
+		<!-- 被评论人信息 -->
+		<result column="last_level_coment_customer_id" property="lastLevelComentCustomerId"/>
+		<result column="last_level_coment_customer_nickname" property="lastLevelComentCustomerNickname"/>
+		
+		<!-- 被评论信息 -->
+		<result column="last_level_coment_id" property="lastLevelComentId"/>
+		<result column="last_level_coment_content" property="lastLevelComentContent"/>
+		
+		
+	</resultMap>
 	
 </mapper>

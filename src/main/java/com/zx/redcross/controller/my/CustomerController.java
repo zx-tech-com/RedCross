@@ -23,7 +23,7 @@ import com.zx.redcross.tool.JWTUtils;
 import com.zx.redcross.tool.MapUtils;
 import com.zx.redcross.tool.TokenManager;
 
-@RestController("")
+@RestController
 @RequestMapping("/customer")
 public class CustomerController {
 	@Autowired

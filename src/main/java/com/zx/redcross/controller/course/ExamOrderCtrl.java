@@ -79,7 +79,7 @@ public class ExamOrderCtrl {
 		return map;
 	}
 	
-	@Open
+	@FrontEnd
 	@RequestMapping("/addExamOrder")
 	public Map<String,Object> addExamOrder(@RequestBody ExamOrder examOrder){
 		Map<String, Object> map = MapUtils.getHashMapInstance();

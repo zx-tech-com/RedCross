@@ -185,6 +185,13 @@ public class Constant {
 	public static final String PAY_TYPE_WECHAT = "01";
 	public static final String PAY_TYPE_ZFB = "10";
 	public static final String PAY_TYPE_OTHERS = "00";
+	
+	
+	
+	/**
+	 * VR参观地址
+	 */
+	public static final String VR_ADDRESS ="https://720yun.com/t/39cj57ta5v9?from=singlemessage&isappinstalled=0";
 
 	
 

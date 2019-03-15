@@ -1,6 +1,7 @@
 package com.zx.redcross.dao.my;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -18,7 +19,7 @@ public interface IFavoriteMapper {
 			+ "values(#{favorite.customer.id},#{favorite.topic.id})")
 	@Options(useGeneratedKeys=true,keyProperty="id")
 	Boolean saveFavorite(@Param("favorite") Favorite favorite);
-	
+	//我的收藏 社交
 	List<Favorite> listFavoriteByCustomerId(
 			@Param("customerId") Integer customerId,@Param("page") Page page);
 	
@@ -29,5 +30,8 @@ public interface IFavoriteMapper {
 	@Select("select * FROM favorite where customer_id "
 			+ "= #{favorite.customer.id} AND topic_id = #{favorite.topic.id}")
 	Favorite getFavoriteByCustomerIdAndTopicId(@Param("favorite") Favorite favorite);
+	//我的收藏 知识
+	List<Map<String, Object>> listFavoriteKnowledge(
+			@Param("customerId")Integer customerId,@Param("page")Page page);
 	
 }

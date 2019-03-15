@@ -34,9 +34,9 @@ public class KnowledgeCtrl {
 	@BackEnd
 	@RequestMapping("/getKnowledge")
 	@Open
-	public Map<String,Object> getKnowledgeById(@RequestParam(required=true)Integer id) {
+	public Map<String,Object> getKnowledgeById(@RequestParam(required=true)Integer id,Integer customerId) {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
-		Map<String, Object> knowledge = knowledgeServImpl.getKnowledgeById(id);
+		Map<String, Object> knowledge = knowledgeServImpl.getKnowledgeById(id,customerId);
 		map.put(Constant.STATUS,Constant.STATUS_FAILURE);
 		if(null != knowledge) {
 			map.put(Constant.STATUS,Constant.STATUS_SUCCESS);
@@ -107,7 +107,7 @@ public class KnowledgeCtrl {
 		return map;
 		
 	}
-	
+
 	//===============================后台管理需要用到的接口===================================
 	/**
 	 * 后台管理（管理知识类型）

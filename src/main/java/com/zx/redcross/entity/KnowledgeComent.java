@@ -12,8 +12,12 @@ public class KnowledgeComent implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String comentTime;
-	private String content;
+	private Integer KnowledgeId;
+	private Integer customerId;
+	private String  content;
 	private Boolean isTopcoment;
+	private Integer comentId;
+	private Integer topcomentId;
 	private Knowledge knowledge;
 	private Customer customer;
 	private KnowledgeComent knowledgeComent1;
@@ -134,14 +138,48 @@ public class KnowledgeComent implements Serializable {
 	public void setKnowledge(Knowledge knowledge) {
 		this.knowledge = knowledge;
 	}
+	
+	public Integer getKnowledgeId() {
+		return KnowledgeId;
+	}
+
+	public void setKnowledgeId(Integer knowledgeId) {
+		KnowledgeId = knowledgeId;
+	}
+
+	public Integer getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
+	}
+
+	public Integer getComentId() {
+		return comentId;
+	}
+
+	public void setComentId(Integer comentId) {
+		this.comentId = comentId;
+	}
+
+	public Integer getTopcomentId() {
+		return topcomentId;
+	}
+
+	public void setTopcomentId(Integer topcomentId) {
+		this.topcomentId = topcomentId;
+	}
 
 	@Override
 	public String toString() {
-		return "KnowledgeComent [id=" + id + ", comentTime=" + comentTime + ", content=" + content + ", isTopcoment="
-				+ isTopcoment + ", knowledge=" + knowledge + ", customer=" + customer + ", knowledgeComent1="
-				+ knowledgeComent1 + ", knowledgeComents1=" + knowledgeComents1 + ", knowledgeComent2="
-				+ knowledgeComent2 + ", knowledgeComents2=" + knowledgeComents2 + "]";
+		return "KnowledgeComent [id=" + id + ", comentTime=" + comentTime + ", KnowledgeId=" + KnowledgeId
+				+ ", customerId=" + customerId + ", content=" + content + ", isTopcoment=" + isTopcoment + ", comentId="
+				+ comentId + ", topcomentId=" + topcomentId + ", knowledge=" + knowledge + ", customer=" + customer
+				+ ", knowledgeComent1=" + knowledgeComent1 + ", knowledgeComents1=" + knowledgeComents1
+				+ ", knowledgeComent2=" + knowledgeComent2 + ", knowledgeComents2=" + knowledgeComents2 + "]";
 	}
 
+	
 	
 }

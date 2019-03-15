@@ -26,6 +26,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="summary" property="summary"/>
 		<result column="publish_time" property="publishTime"/>
 		<result column="key_word" property="keyWord"/>
+		
+		<result column="topComentNum" property="topComentNum"/>
+		<result column="allComentNum" property="allComentNum"/>
+		<result column="totalThumbsup" property="totalThumbsup"/>
+		
+		<result column="flag" property="flag"/>
+		<result column="favoriteFlag" property="favoriteFlag"/>
 	</resultMap>
 	
 	<select id="listKnowledgeByType" resultMap="knowledge">
@@ -64,6 +71,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			,publish_time
 			,summary
 			,key_word
+			
+			,(SELECT COUNT(id) FROM knowledge_coment WHERE knowledge_coment.`knowledge_id`=#{id} AND knowledge_coment.`is_topcoment`=1) AS topComentNum
+			,(SELECT COUNT(id) FROM knowledge_coment WHERE knowledge_coment.`knowledge_id`=#{id}) AS allComentNum
+			,(SELECT COUNT(id) FROM knowledge_thumbsup WHERE knowledge_thumbsup.knowledge_id=knowledge.`id`) AS totalThumbsup		
+			<if test="customerId!=null">
+				,(SELECT COUNT(id) FROM knowledge_thumbsup  WHERE  knowledge_thumbsup.knowledge_id = knowledge.id AND knowledge_thumbsup.customer_id =#{customerId})AS flag
+				,(SELECT COUNT(id) FROM favorite_knowledge  WHERE  favorite_knowledge.knowledge_id = knowledge.id AND favorite_knowledge.customer_id =#{customerId})AS favoriteFlag
+			</if>
+			<if test="customerId == null" >
+				,0 AS flag
+				,0 AS favoriteFlag
+			</if>
+		
 		FROM knowledge
 		LEFT JOIN knowledge_type ON knowledge.type_id = knowledge_type.id
 		WHERE knowledge.id = #{id};

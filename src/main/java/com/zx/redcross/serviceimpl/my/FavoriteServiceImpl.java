@@ -1,6 +1,7 @@
 package com.zx.redcross.serviceimpl.my;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,11 @@ public class FavoriteServiceImpl implements IFavoriteService {
 		if(favoriteMapper.getFavoriteByCustomerIdAndTopicId(favorite) == null)
 			BusinessExceptionUtils.throwNewBusinessException("尚未收藏该动态");
 		return favoriteMapper.removeFavorite(favorite);
+	}
+
+	@Override
+	public List<Map<String, Object>> listFavoriteKnowledge(Integer customerId, Page page) {
+		return favoriteMapper.listFavoriteKnowledge(customerId, page);
 	}
 
 }

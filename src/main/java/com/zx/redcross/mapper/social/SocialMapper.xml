@@ -65,9 +65,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	,(SELECT COUNT(id) FROM topic_thumbsup WHERE topic_thumbsup.topic_id=topic.`id`) AS totalThumbsup
 		<if test="customerId!=null">
 		,(SELECT COUNT(id) FROM topic_thumbsup  WHERE  topic_thumbsup.topic_id = topic.id AND topic_thumbsup.customer_id =#{customerId})AS flag
+		,(SELECT COUNT(id) FROM favorite  WHERE  favorite.topic_id = topic.id AND favorite.customer_id =#{customerId})AS favoriteFlag
 		</if>
 		<if test="customerId == null" >
 		,0 AS flag
+		,0 AS favoriteFlag
 		</if>
 	FROM 
 		(
@@ -113,9 +115,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	,(SELECT COUNT(id) FROM topic_thumbsup WHERE topic_thumbsup.topic_id=topic.`id`) AS totalThumbsup
 	<if test="customerId!=null">
 		,(SELECT COUNT(id) FROM topic_thumbsup  WHERE  topic_thumbsup.topic_id = topic.id AND topic_thumbsup.customer_id =#{customerId})AS flag
-		</if>
-		<if test="customerId == null" >
+		,(SELECT COUNT(id) FROM favorite  WHERE  favorite.topic_id = topic.id AND favorite.customer_id =#{customerId})AS favoriteFlag
+	</if>
+	<if test="customerId == null" >
 		,0 AS flag
+		,0 AS favoriteFlag
 	</if>
 	  FROM topic
  	LEFT JOIN customer
@@ -480,7 +484,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 <result property= "totalThumbsup" column="totalThumbsup"/>
 		 <result property= "totalComment" column="totalComment" />
 		 <result property= "OnceTopicComment" column="OnceTopicComment" />
-		 <result property= "flag" column="flag" />			
+		 <result property= "flag" column="flag" />	
+		 <result property= "favoriteFlag" column="favoriteFlag" />		
 		<association property="customer" javaType="HashMap" >		
 			<id column="customer_id" property="id"/>
 			<result property= "nickname" column="customer_nickName"/>

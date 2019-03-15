@@ -19,8 +19,8 @@ public class KnowledgeServImpl implements IKnowledgeServ{
 	private IKnowledgeMapper mapper;
 	
 	@Override
-	public Map<String, Object> getKnowledgeById(Integer id) {
-		return mapper.getKnowledgeById(id);
+	public Map<String, Object> getKnowledgeById(Integer id,Integer customerId) {
+		return mapper.getKnowledgeById(id,customerId);
 	}
 
 	@Override

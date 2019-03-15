@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zx.redcross.dao.news.NewsFavoriteMapper">
+	
+	<insert id="saveNewsFavorite">
+		INSERT INTO 
+			favorite_news(news_id,customer_id) 
+		VALUES(
+				#{newsId},
+				#{customerId}
+			)
+	</insert>
+	<delete id="deleteNewsFavorite">
+		DELETE FROM 
+			favorite_news
+		WHERE 
+			news_id=#{newsId}
+		AND 
+		    customer_id=#{customerId}
+	</delete>
+	
+	<select id="findFavoriteCountByNewsIdAndCustomerId" resultType="int">
+		SELECT 
+			COUNT(id) 
+		FROM  
+			favorite_news
+		WHERE 
+			news_id=#{newsId}
+		AND 
+			customer_id=#{customerId}
+	</select>
+	
+
+</mapper>
