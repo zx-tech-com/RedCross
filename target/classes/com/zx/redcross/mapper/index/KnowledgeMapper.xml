@@ -26,17 +26,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="summary" property="summary"/>
 		<result column="publish_time" property="publishTime"/>
 		<result column="key_word" property="keyWord"/>
-<<<<<<< HEAD
-		
 		<result column="topComentNum" property="topComentNum"/>
 		<result column="allComentNum" property="allComentNum"/>
 		<result column="totalThumbsup" property="totalThumbsup"/>
 		
 		<result column="flag" property="flag"/>
 		<result column="favoriteFlag" property="favoriteFlag"/>
-=======
 		<result column="webviewURL" property="webviewURL"/>
->>>>>>> 785ec65a38cfa3a1b7b79e8451514444a7c36041
+
 	</resultMap>
 	
 	<select id="listKnowledgeByType" resultMap="knowledge">
@@ -49,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			,publish_time
 			,summary
 			,key_word
-			,CONCAT(${@com.zx.redcross.tool.Constant@KNOWLEDGE_ACCESS_BASE_PATH},knowledge.id) AS webviewURL
+			,CONCAT('${@com.zx.redcross.tool.Constant@KNOWLEDGE_ACCESS_BASE_PATH}',knowledge.id) AS webviewURL
 		FROM 
 			knowledge
 		LEFT JOIN 

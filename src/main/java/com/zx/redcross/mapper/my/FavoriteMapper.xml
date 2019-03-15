@@ -72,6 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				knowledge.total_share,
 				knowledge.summary,
 				knowledge.key_word,
+				CONCAT('${@com.zx.redcross.tool.Constant@KNOWLEDGE_ACCESS_BASE_PATH}',knowledge.id) AS webviewURL,
 				(SELECT COUNT(id) FROM knowledge_thumbsup WHERE knowledge_thumbsup.knowledge_id = knowledge.id)AS totalThumbsup,
 				(SELECT COUNT(id) FROM knowledge_coment WHERE knowledge_coment.knowledge_id = knowledge.id)AS totalComment,
 			
@@ -99,12 +100,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 		<result column="summary" property="summary"/>
 		<result column="key_word" property="keyWord"/>
+		<result column="webviewURL" property="webviewURL"/>
 		
 		<result column="total_share" property="totalShare"/>
 		<result column="totalThumbsup" property="totalThumbsup"/>
 		<result column="totalComment" property="totalComment"/>
 		<result column="favorite_id" property="favoriteId"/>
 		<result column="favorite_time" property="favoriteTime"/>
+		
 	</resultMap>
 	
 	
