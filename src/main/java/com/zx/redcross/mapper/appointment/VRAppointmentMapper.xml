@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.zx.redcross.dao.appointment.IVRAppointmentMapper">
+	
+	
+	<!-- <result cloumn="tel" property="tel"/>
+		<result cloumn="submit_time" property="submitTime"/>
+		<result cloumn="coment" property="coment"/>
+		<result cloumn="flag" property="flag"/>
+		<result cloumn="appointment_date" property="appointmentDate"/>
+		<result cloumn="appointment_time" property="appointmentTime"/> -->
+	
+	<resultMap type="VRAppointment" id="vrAppointment" autoMapping="true">
+		<id column="id" property="id"/>
+		<association property="customer" javaType="Customer">
+			<id column="customer.id" property="id"/>
+			<result column="nickname" property="nickname"/>
+		</association>
+	</resultMap>
+	
+	<!-- 
+	Boolean addVRAppointment(VRAppointment vr);
+	Boolean updateVRAppointmentFlag(@Param("vr") VRAppointment vr);
+	List<VRAppointment> listVRAppointment(@Param("vrAppointment")VRAppointment vrAppointment,
+@Param("page") Page page);
+	VRAppointment getVRAppointment(@Param("id") Integer id);
+	 -->
+	<insert id="addVRAppointment" useGeneratedKeys="true" keyProperty="vr.id">
+		INSERT  INTO 
+			vr_appointment
+			(
+				customer_id,
+				realname,
+				tel,
+				submit_time,
+				appointment_date_id,
+				coment,
+				flag,
+				appointment_date
+			)
+		VAlUES
+			(
+				#{vr.customer.id},
+				#{vr.realname},
+				#{vr.tel},
+				NOW(),
+				#{vr.date.id},
+				#{vr.coment},
+				#{vr.flag},
+				#{vr.appointmentDate}
+			)
+	</insert>
+	
+	<update id="updateVRAppointmentFlag">
+		UPDATE 
+			vr_appointment
+		SET
+			flag = #{vr.flag}
+		WHERE
+			id = #{vr.id}
+	</update>
+	
+	<select id="getVRAppointmentByCustomerId" resultMap="vrAppointment">
+		SELECT
+			vr_appointment.*,
+			customer.id AS 'customer.id',
+			customer.nickname
+		FROM
+			vr_appointment
+		LEFT JOIN customer ON vr_appointment.customer_id = customer.id
+		WHERE
+			customer.id = #{customerID}
+	</select>
+
+	<select id="listVRAppointment" resultMap="vrAppointment">
+		SELECT
+			vr_appointment.*,
+			customer.id AS 'customer.id',
+			customer.nickname
+		FROM
+			vr_appointment
+		LEFT JOIN customer ON vr_appointment.customer_id = customer.id
+		<where> <!-- 下面的是搜索条件,字段名并不代表本身含义。 -->
+			<if test="vrAppointment.appointmentDate != null and vrAppointment.appointmentDate.length > 0">
+				vr_appointment.appointment_date &gt; #{vrAppointment.appointmentDate}
+			</if>
+			<if test="vrAppointment.submitTime != null and vrAppointment.submitTime.length > 0">
+				AND vr_appointment.appointment_date &lt; #{vrAppointment.submitTime}
+			</if>
+			<if test="vrAppointment.realname != null and vrAppointment.realname.length > 0">
+				AND vr_appointment.realname &lt; #{vrAppointment.realname}
+			</if>
+			<if test="vrAppointment.id != null">
+				AND vr_appointment.appointment_date_id = #{vrAppointment.id}
+			</if>
+		</where>
+		LIMIT #{page.start},#{page.pageSize}
+	</select>
+
+	<select id="getVRAppointmentCounts" resultType="Integer">
+		SELECT
+			COUNT(vr_appointment.id)
+		FROM
+			vr_appointment
+		<where> <!-- 下面的是搜索条件,字段名并不代表本身含义。 -->
+			<if test="vrAppointment.appointmentDate != null and vrAppointment.appointmentDate.length > 0">
+				vr_appointment.appointment_date &gt; #{vrAppointment.appointmentDate}
+			</if>
+			<if test="vrAppointment.submitTime != null and vrAppointment.submitTime.length > 0">
+				AND vr_appointment.appointment_date &lt; #{vrAppointment.submitTime}
+			</if>
+			<if test="vrAppointment.realname != null and vrAppointment.realname.length > 0">
+				AND vr_appointment.realname &lt; #{vrAppointment.realname}
+			</if>
+			<if test="vrAppointment.id != null">
+				AND vr_appointment.appointment_date_id = #{vrAppointment.id}
+			</if>
+		</where>
+	</select>
+
+</mapper>

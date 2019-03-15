@@ -29,19 +29,14 @@ public class InterfaceBackEndInterceptor  extends HandlerInterceptorAdapter{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		
-		if(!(handler instanceof HandlerMethod)) {
-			return true;
-		}
-		
-		HandlerMethod method = (HandlerMethod)handler;
-		if(isOpenInterface(method))
-			return true;
-		else if(isBackEndInterface(request,method)) {//是后台接口
-			return adminCheck(request,response);
-		}
-		else
-			return true;
+		return true;
+		/*
+		 * if(!(handler instanceof HandlerMethod)) { return true; }
+		 * 
+		 * HandlerMethod method = (HandlerMethod)handler; if(isOpenInterface(method))
+		 * return true; else if(isBackEndInterface(request,method)) {//是后台接口 return
+		 * adminCheck(request,response); } else return true;
+		 */
 	}
 	
 	
