@@ -34,7 +34,7 @@ public class Utils {
 	
 	
 	private static  boolean isUeditorUrl(String url) {
-		return StringUtils.isNotBlank(url) && url.contains("ueditor/image");
+		return true;//StringUtils.isNotBlank(url) && url.contains("ueditor/image");
 	}
 	
 }

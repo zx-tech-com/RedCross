@@ -22,6 +22,7 @@ public class CourseServImpl implements ICourseServ{
 	@Autowired
 	private ICourseMapper courseMapper;
 	
+	
 	@Override
 	public List<Map<String, Object>> listCourseSubject() {
 		return courseMapper.listCourseSubject();
@@ -231,5 +232,10 @@ public class CourseServImpl implements ICourseServ{
 	@Override
 	public List<Course> listCourseBySubjectSub(Course course) {
 		return courseMapper.listCourseBySubjectSub(course);
+	}
+
+	@Override
+	public List<Map<String, Object>> getCourseSubjectNnroll() {
+		return courseMapper.getCourseSubjectNnroll();
 	}
 }

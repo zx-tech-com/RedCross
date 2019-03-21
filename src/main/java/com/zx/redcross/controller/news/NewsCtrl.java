@@ -68,7 +68,6 @@ public class NewsCtrl {
 		for(Map<String, Object> map : newsList) {
 			String content = (String) map.get("content");
 			map.put("imgUrl", Utils.matchImgFromH5(content));
-			map.remove("content");
 		}
 	}
 	

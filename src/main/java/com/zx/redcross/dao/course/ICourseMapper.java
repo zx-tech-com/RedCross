@@ -55,4 +55,6 @@ public interface ICourseMapper {
 
 	List<Course> listCourseBySubjectSub(@Param("course")Course course);
 
+	List<Map<String, Object>> getCourseSubjectNnroll();
+
 }
