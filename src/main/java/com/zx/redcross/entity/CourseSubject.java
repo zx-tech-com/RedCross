@@ -16,12 +16,20 @@ public class CourseSubject implements Serializable {
 	private String sname;
 	private String thumbnailUrl;
 	private String certificateUrl;
+	private String statusSub;
 	private Course course;	
 	private List<CourseSubjectPrice> prices;
 	private List<Course> courses;
 	private List<ExamOrder> examOrders;
 	
 	
+	
+	public String getStatusSub() {
+		return statusSub;
+	}
+	public void setStatusSub(String statusSub) {
+		this.statusSub = statusSub;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -95,13 +103,10 @@ public class CourseSubject implements Serializable {
 	public String toString() {
 		return "CourseSubject [id=" + id + ", description=" + description + ", period=" + period + ", price=" + price
 				+ ", sname=" + sname + ", thumbnailUrl=" + thumbnailUrl + ", certificateUrl=" + certificateUrl
-				+ ", course=" + course + ", prices=" + prices + ", courses=" + courses + ", examOrders=" + examOrders
-				+ "]";
+				+ ", statusSub=" + statusSub + ", course=" + course + ", prices=" + prices + ", courses=" + courses
+				+ ", examOrders=" + examOrders + "]";
 	}
 	
-
-	
-
 	
 	
 }

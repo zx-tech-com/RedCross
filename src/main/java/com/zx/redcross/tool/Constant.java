@@ -205,7 +205,7 @@ public class Constant {
 	/**
 	 * 
 	 */
-	public static final String KNOWLEDGE_ACCESS_BASE_PATH = ACCESS_BASE_PATH + "knowledge.html?id=";
-	public static final String NEWS_ACCESS_BASE_PATH = ACCESS_BASE_PATH + "news.html?id=";
+	public static final String KNOWLEDGE_ACCESS_BASE_PATH = "http://39.98.204.123/red-cross-back/knowledge.html?id=";
+	public static final String NEWS_ACCESS_BASE_PATH = "http://39.98.204.123/red-cross-back/news.html?id=";
 	
 }

@@ -39,7 +39,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="price" property="price"/>
 		<result column="thumbnail_url" property="thumbnailUrl"/>
 		<result column="certificate_url" property="certificateUrl"/>
+		<result column="statusSub" property="statusSub"/>
 		<result column="period" property="period"/>
+		<collection property="prices" ofType="HashMap"  javaType="list">
+			<id column="course_subject_price_id" property="id"/>
+			<result column="max_threshold" property="maxThreshold"/>
+			<result column="min_threshold" property="minThreshold"/>
+			<result column="pricem" property="pricem"/>
+		</collection>
+		
+		
 	</resultMap>
 	
 	<!-- 添加当前用户是否购买状态信息 -->
@@ -50,8 +59,52 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="listCourseSubject" resultMap="courseSubject">
 		SELECT 
-			id,sname,description,price,thumbnail_url,period,certificate_url
-		FROM course_subject
+			cs.id AS id,
+			cs.sname AS sname,
+			cs.description AS description,
+			cs.price AS price,
+			cs.thumbnail_url AS thumbnail_url,
+			cs.period AS period,
+			cs.certificate_url AS certificate_url,
+			cs.statusSub AS statusSub,
+			
+			csp.`id` AS course_subject_price_id,
+			csp.`max_threshold`	AS max_threshold,
+			csp.`min_threshold` AS min_threshold,
+			csp.`price` AS pricem
+			
+		FROM 
+			course_subject cs
+			 
+			LEFT JOIN course_subject_price csp
+			ON  cs.`id`=csp.`course_subject_id`
+	</select>
+	
+	
+	
+	
+	<select id="getCourseSubjectNnroll" resultMap="courseSubject">
+		SELECT 
+			cs.id AS id,
+			cs.sname AS sname,
+			cs.description AS description,
+			cs.price AS price,
+			cs.thumbnail_url AS thumbnail_url,
+			cs.period AS period,
+			cs.certificate_url AS certificate_url,
+			cs.statusSub AS statusSub,
+			
+			csp.`id` AS course_subject_price_id,
+			csp.`max_threshold`	AS max_threshold,
+			csp.`min_threshold` AS min_threshold,
+			csp.`price` AS pricem
+			
+		FROM 
+			course_subject cs
+			 
+			LEFT JOIN course_subject_price csp
+			ON  cs.`id`=csp.`course_subject_id`
+		WHERE cs.statusSub='0'
 	</select>
 	
 	
@@ -64,6 +117,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			thumbnail_url,
 			period,
 			certificate_url,
+			statusSub AS statusSub,
 			( 
 				SELECT 
 					`status` 
@@ -82,7 +136,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="findCourseSubject" parameterType="int" resultMap="courseSubject">
 		SELECT 
-			id,sname,description,price,thumbnail_url,period,certificate_url
+			id,sname,description,price,thumbnail_url,period,certificate_url,statusSub
 		FROM course_subject where id=#{subjectId}
 	</select>
 	
@@ -192,14 +246,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<insert id="saveCourseSubject" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO course_subject(sname,description,price,thumbnail_url,period,certificate_url)
+		INSERT INTO 
+			course_subject(
+				sname,
+				description,
+				price,
+				thumbnail_url,
+				period,
+				certificate_url,
+				statusSub
+				)
 		VALUES(
 			#{courseSubject.sname},
 			#{courseSubject.description},
 			#{courseSubject.price},
 			#{courseSubject.thumbnailUrl},
 			#{courseSubject.period},
-			#{courseSubject.certificateUrl}
+			#{courseSubject.certificateUrl},
+			#{courseSubject.statusSub}
 		)
 	</insert>
 	<!--查询考试订单中所有会员  -->
@@ -243,6 +307,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		sname=#{sname},
 		description=#{description},
 		price=#{price},
+		statusSub=#{statusSub},
 		<if test="thumbnailUrl!=null">
 			thumbnail_url=#{thumbnailUrl},
 		</if>

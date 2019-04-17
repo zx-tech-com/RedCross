@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.zx.redcross.annotation.FrontEnd;
 import com.zx.redcross.annotation.Open;
 import com.zx.redcross.entity.Customer;
@@ -145,6 +147,7 @@ public class CustomerController {
 	
 	
 	@RequestMapping("/getMyselfMessage")
+	@Open
 	public Map<String,Object> getMyselfMessage(Integer customerId){
 		Map<String,Object> map=MapUtils.getHashMapInstance();
 		Customer customer=customerService.getMyselfMessage(customerId);

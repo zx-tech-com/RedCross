@@ -58,6 +58,9 @@ public interface ICourseServ {
 
 	List<Course> listCourseBySubjectSub(Course course);
 
+
+	List<Map<String, Object>> getCourseSubjectNnroll();
+
 	
 
 

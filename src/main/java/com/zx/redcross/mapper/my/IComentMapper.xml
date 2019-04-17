@@ -224,6 +224,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					knowledge.total_share AS knowledge_total_share,
 					knowledge.`key_word` AS knowledge_key_word,
 					knowledge.`summary`  AS knowledge_summary,
+					CONCAT('${@com.zx.redcross.tool.Constant@KNOWLEDGE_ACCESS_BASE_PATH}',knowledge.id) AS knowledge_webviewURL,
 					
 	
 					
@@ -263,6 +264,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					knowledge.total_share AS knowledge_total_share,
 					knowledge.`key_word` AS knowledge_key_word,
 					knowledge.`summary`  AS knowledge_summary,
+					CONCAT('${@com.zx.redcross.tool.Constant@KNOWLEDGE_ACCESS_BASE_PATH}',knowledge.id) AS knowledge_webviewURL,
 					
 	
 					
@@ -308,6 +310,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					knowledge.total_share AS knowledge_total_share,
 					knowledge.`key_word` AS knowledge_key_word,
 					knowledge.`summary`  AS knowledge_summary,
+					CONCAT('${@com.zx.redcross.tool.Constant@KNOWLEDGE_ACCESS_BASE_PATH}',knowledge.id) AS knowledge_webviewURL,
 					
 					knowledge_coment.id,
 					knowledge_coment.content,

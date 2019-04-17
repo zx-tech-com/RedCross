@@ -3,13 +3,18 @@ package com.zx.redcross.interceptor;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 import com.alibaba.fastjson.JSON;
 import com.nimbusds.jose.JOSEException;
@@ -29,12 +34,21 @@ import net.minidev.json.parser.ParseException;
 public class InterfaceOpenInterceptor  extends HandlerInterceptorAdapter{
 	
 //	private Logger logger = LogManager.getLogger();
+//	 @Autowired
+//     private RequestMappingHandlerAdapter adapter;
 
 	/**
 	 * 
 	 */
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+//		List<HandlerMethodArgumentResolver> argumentResolvers = new ArrayList<>();
+//        argumentResolvers.add(new CustomerMethodArgumentResolver());
+//        argumentResolvers.addAll(adapter.getArgumentResolvers());
+//        adapter.setArgumentResolvers(argumentResolvers);
+		
+		
+		
 		if(handler instanceof HandlerMethod) {
 			HandlerMethod method = (HandlerMethod)handler;
 			if(null != method.getMethodAnnotation(Open.class)  //被@Open修饰直接返回true

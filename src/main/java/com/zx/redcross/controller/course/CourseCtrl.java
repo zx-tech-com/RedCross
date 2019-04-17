@@ -41,7 +41,7 @@ public class CourseCtrl {
 	public Map<String,Object> listCourseSubject() {
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
-		List<Map<String, Object>> courseSubjectList = courseServImpl.listCourseSubject();
+		List<Map<String, Object>> courseSubjectList = courseServImpl.listCourseSubject();		
 		if(null != courseSubjectList) {
 			map.put(Constant.DATA, courseSubjectList);
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
@@ -73,6 +73,21 @@ public class CourseCtrl {
 		Map<String, Object> coSubject = courseServImpl.getCourseSubjectAndPayStatus(subjectId, customerId);
 		if(null != coSubject) {
 			map.put(Constant.DATA, coSubject);
+			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
+		}
+		return map;
+	}
+	
+	
+	@FrontEnd
+	@RequestMapping("/getCourseSubjectNnroll")
+	@Open
+	public Map<String,Object> getCourseSubjectNnroll() {
+		Map<String,Object> map = MapUtils.getHashMapInstance();
+		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
+		List<Map<String, Object>> courseList = courseServImpl.getCourseSubjectNnroll();
+		if(null != courseList) {
+			map.put(Constant.DATA, courseList);
 			map.put(Constant.STATUS, Constant.STATUS_SUCCESS);
 		}
 		return map;
