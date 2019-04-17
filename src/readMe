@@ -3,3 +3,9 @@
 2.constant修改ip,port,context,path
 
 3.config.json修改basePath
+
+
+
+2019年3月15日：
+团购目前只做了, 插入团购，支付宝获取签名字段.并且只是在service和dao层实现。controller层未实现。
+另外GroupOrderServImpl的assembleGroupPayRecord方法还没有设置价格.价格那边还没写好

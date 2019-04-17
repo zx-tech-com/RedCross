@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zx.redcross.annotation.BackEnd;
-import com.zx.redcross.annotation.Open;
 import com.zx.redcross.entity.Page;
 import com.zx.redcross.entity.VRAppointment;
 import com.zx.redcross.service.appointment.IVRAppointmentService;
@@ -24,7 +23,6 @@ public class VRAppointmentCtrl {
 	private IVRAppointmentService vrImpl;
 	
 	@RequestMapping("vr/add")
-	@Open
 	public Map<String,Object> addVRAppointment(@RequestBody VRAppointment vr){
 		Map<String,Object> map = MapUtils.getHashMapInstance();
 		map.put(Constant.STATUS, Constant.STATUS_FAILURE);
@@ -33,6 +31,11 @@ public class VRAppointmentCtrl {
 		return map;
 	}
 	
+	/**
+	 * 	暂时不用
+	 * @param vr
+	 * @return
+	 */
 	@RequestMapping("vr/updateflag")
 	public Map<String,Object> updateVRAppointmentFlag(VRAppointment vr){
 		Map<String,Object> map = MapUtils.getHashMapInstance();

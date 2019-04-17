@@ -52,12 +52,13 @@ public class VRAppointmentServImpl implements IVRAppointmentService {
 		return vrAppointmentMapper.listVRAppointment(vrAppointment, page);
 	}
 	
-	
-	
-	
 
 	@Override
 	public List<VRAppointment> getVRAppointmentByCustomerId(Integer customerID) {
+		if(customerID == null)
+			BusinessExceptionUtils.throwNewBusinessException("用户id必传");
+		if(customerMapper.getMyselfMessage(customerID) == null)
+			BusinessExceptionUtils.throwNewBusinessException("用户id不存在");
 		return vrAppointmentMapper.getVRAppointmentByCustomerId(customerID);
 	}
 	

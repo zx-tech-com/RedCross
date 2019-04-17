@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.zx.redcross.dao.group.IGroupPayRecordMapper">
+
+	<insert id="addGroupPayRecord" useGeneratedKeys="true" keyProperty="record.id">
+		INSERT INTO group_pay_record
+		(
+			group_order_id,
+			customer_id,
+			amount,
+			`status`,
+			order_number
+		)
+		VALUES
+		(
+			#{record.groupOrder.id},
+			#{record.customer.id},
+			#{record.amount},
+			#{record.status},
+			#{record.orderNumber}
+		)
+	</insert>
+
+    <update id="updatePayMethod">
+        UPDATE
+            group_pay_record
+        SET
+            pay_method = #{payMethod}
+        WHERE
+            order_number = #{orderNumber}
+    </update>
+
+    <select id="getGroupPayRecordByOrderNumber" resultType="GroupPayRecord">
+        SELECT
+            *
+        FROM
+            group_pay_record
+        WHERE
+            order_number = #{orderNumber}
+    </select>
+
+    <update id="updateStatusByOrderNumber" statementType="CALLABLE">
+        CALL XXXX(#{orderNumber})
+    </update>
+</mapper>

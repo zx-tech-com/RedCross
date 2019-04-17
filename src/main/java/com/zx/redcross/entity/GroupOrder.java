@@ -24,6 +24,7 @@ public class GroupOrder implements Serializable{
 	private String realName;
 	private String method;
 	private OsDistrict osDistrict;
+	private String detailAddress;
 	
 	private List<GroupPayRecord> groupPayRecords;
 	
@@ -172,6 +173,16 @@ public class GroupOrder implements Serializable{
 	}
 
 
+	public String getDetailAddress() {
+		return detailAddress;
+	}
+
+
+	public void setDetailAddress(String detailAddress) {
+		this.detailAddress = detailAddress;
+	}
+
+
 	public List<GroupPayRecord> getGroupPayRecords() {
 		return groupPayRecords;
 	}
@@ -190,10 +201,16 @@ public class GroupOrder implements Serializable{
 	public void setSubmitTimeMin(String submitTimeMin) {
 		this.submitTimeMin = submitTimeMin;
 	}
-	
-	
-	
-	
-	
+
+
+	@Override
+	public String toString() {
+		return "GroupOrder [id=" + id + ", customer=" + customer + ", courseSubject=" + courseSubject
+				+ ", courseSubjectPrice=" + courseSubjectPrice + ", orderNumber=" + orderNumber + ", payMethod="
+				+ payMethod + ", coment=" + coment + ", submitTime=" + submitTime + ", status=" + status + ", invoice="
+				+ invoice + ", tel=" + tel + ", realName=" + realName + ", method=" + method + ", osDistrict="
+				+ osDistrict + ", detailAddress=" + detailAddress + ", groupPayRecords=" + groupPayRecords
+				+ ", submitTimeMin=" + submitTimeMin + "]";
+	}
 	
 }

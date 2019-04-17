@@ -181,6 +181,7 @@ public class Constant {
 	public static final int TEL_LENGTH = 4;
 	public static final String ORDER_NUMBER = "orderNumber";
 	public static final String BUSINESS_TYPE_EXAM_ORDER = "01";
+	public static final String BUSINESS_TYPE_GROUP_ORDER = "11";
 	public static final String BUSINESS_TYPE_VIDEO_ORDER = "10";
 	public static final String PAY_TYPE_WECHAT = "01";
 	public static final String PAY_TYPE_ZFB = "10";

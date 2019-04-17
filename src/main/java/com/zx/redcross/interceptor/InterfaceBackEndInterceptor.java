@@ -13,49 +13,48 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.alibaba.fastjson.JSON;
 import com.zx.redcross.annotation.BackEnd;
 import com.zx.redcross.annotation.Open;
-import com.zx.redcross.tool.BusinessExceptionUtils;
 import com.zx.redcross.tool.Constant;
 import com.zx.redcross.tool.MapUtils;
 
-
 /**
  * 后台管理的拦截器.
+ * 
  * @author Daryl
  */
-public class InterfaceBackEndInterceptor  extends HandlerInterceptorAdapter{
+public class InterfaceBackEndInterceptor extends HandlerInterceptorAdapter {
 
-	
-	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		return true;
-		/*
-		 * if(!(handler instanceof HandlerMethod)) { return true; }
-		 * 
-		 * HandlerMethod method = (HandlerMethod)handler; if(isOpenInterface(method))
-		 * return true; else if(isBackEndInterface(request,method)) {//是后台接口 return
-		 * adminCheck(request,response); } else return true;
-		 */
+		if (!(handler instanceof HandlerMethod)) {
+			return true;
+		}
+
+		HandlerMethod method = (HandlerMethod) handler;
+		if (isOpenInterface(method))
+			return true;
+		else if (isBackEndInterface(request, method)) {// 是后台接口
+			return adminCheck(request, response);
+		} else
+			return true;
+
 	}
-	
-	
+
 	private boolean isOpenInterface(HandlerMethod method) {
 		return null != method.getMethodAnnotation(Open.class);
 	}
-	
-	
-	private boolean isBackEndInterface(HttpServletRequest request,HandlerMethod method) {
-		boolean backEndAnnotation = false;//是否被@BackEnd修饰
-		boolean adminUrl = false;//路径中是否包括'admin'
+
+	private boolean isBackEndInterface(HttpServletRequest request, HandlerMethod method) {
+		boolean backEndAnnotation = false;// 是否被@BackEnd修饰
+		boolean adminUrl = false;// 路径中是否包括'admin'
 		backEndAnnotation = null != method.getMethodAnnotation(BackEnd.class);
 		adminUrl = request.getServletPath().contains("admin");
-		
+
 		return backEndAnnotation || adminUrl;
 	}
-	
-	private boolean adminCheck(HttpServletRequest request,HttpServletResponse response) {
-		if(request.getSession().getAttribute(Constant.ADMIN) != null)//已经登录
+
+	private boolean adminCheck(HttpServletRequest request, HttpServletResponse response) {
+		if (request.getSession().getAttribute(Constant.ADMIN) != null)// 已经登录
 			return true;
 		else {
 			response.setContentType("application/json;charset=UTF-8");
@@ -63,9 +62,9 @@ public class InterfaceBackEndInterceptor  extends HandlerInterceptorAdapter{
 			return false;
 		}
 	}
-	
+
 	private void addLoginInfo(HttpServletResponse response) {
-		Map<String,Object> map = MapUtils.getHashMapInstance();
+		Map<String, Object> map = MapUtils.getHashMapInstance();
 		try {
 			PrintWriter writer = response.getWriter();
 			response.setStatus(Constant.HTTP_STATUS_401);
@@ -76,5 +75,5 @@ public class InterfaceBackEndInterceptor  extends HandlerInterceptorAdapter{
 			e.printStackTrace();
 		}
 	}
-	
+
 }

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.zx.redcross.dao.group.IGroupOrderMapper">
+
+	<insert id="addGroupOrder" useGeneratedKeys="true" keyProperty="order.id">
+		INSERT INTO group_order
+		(
+			customer_id,
+			course_subject_id,
+			course_subject_price_id,
+			order_number,
+			coment,
+			submit_time,
+			`status`,
+			invoice,
+			total_quantity,
+			rest_quantity,
+			key_code,
+			tel,
+			real_name,
+			method,
+			district_id,
+			detail_address
+		)
+		VALUES
+		(
+		    #{order.customer.id},
+		    #{order.courseSubject.id},
+		    #{order.courseSubjectPrice.id},
+		    #{order.orderNumber},
+		    #{order.coment},
+		    #{order.submitTime},
+		    #{order.status},
+		    #{order.invoice},
+		    #{order.totalQuantity},
+		    #{order.restQuantity},
+		    #{order.keyCode},
+		    #{order.tel},
+		    #{order.realName},
+		    #{order.method},
+		    #{order.osDistrict.id},
+		    #{order.detailAddress}
+		)
+	</insert>
+	
+	<update id="updatePayMethod">
+	   UPDATE
+	       group_order
+	   SET
+	       pay_method = #{payMethod}
+        WHERE
+           order_number = #{orderNumber}
+	</update>
+
+</mapper>

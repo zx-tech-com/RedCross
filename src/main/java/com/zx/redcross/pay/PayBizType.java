@@ -8,6 +8,7 @@ package com.zx.redcross.pay;
 public enum PayBizType {
 	
 	EXAMORDER("救护培训-培训课程购买"),
+	GROUPORDER("救护培训-培训课程团购"),
 	PAYFULVIDEO("救护培训-视频教学购买");
 	
 	private String bizType;
